@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/banana/banapp/datev">
+       <file>ch.banana.filter.export.datev.buchungsstapel.dialog.ui</file>
+       <file>ch.banana.filter.export.datev.buchungsstapel.js</file>
+       <file>ch.banana.filter.export.datev.debitorenkreditoren.dialog.ui</file>
+       <file>ch.banana.filter.export.datev.debitorenkreditoren.js</file>
+    </qresource>
+</RCC>
