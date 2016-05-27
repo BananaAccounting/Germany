@@ -46,8 +46,10 @@ function exec() {
 
   // Cancel if user did not enter a Periode.
   if (!period) {
+    Banana.application.showMessages(true);
     Banana.document.addMessage('Bitte wählen Sie einen Zeitbereich.');
-    return;
+    return '@Cancel';
+  }
   }
 
   // TODO: Make sure we get a known State from the AccountingDataBase.
@@ -144,7 +146,7 @@ function exec() {
   var validationResult = ustva.validate();
   if(validationResult !== true) {
     Banana.document.addMessage('Fehler bei der Validierung der Daten.');
-    return;
+    return '@Cancel';
   }
 
   return ustva.toXml(false);
