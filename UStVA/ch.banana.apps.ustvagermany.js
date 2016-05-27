@@ -50,9 +50,22 @@ function exec() {
     Banana.document.addMessage('Bitte wählen Sie einen Zeitbereich.');
     return '@Cancel';
   }
+
+  // Get year from period.
+  var year = getYearFromPeriod(period);
+
+  // Get "zeitraum".
+  var zeitraum = getZeitraumFromPeriod(period);
+
+  // Cancel if chosen period is not valid for German UStVA.
+  // Only monthly or quarterly is allowed.
+  if (!zeitraum) {
+    Banana.application.showMessages(true);
+    Banana.document.addMessage('Der gewählten Zeitbereich ist für die UStVA nicht gültig. Bitte wählen Sie einen monatlichen oder einen quartalsweisen Zeitraum.');
+    return '@Cancel';
   }
 
-  // TODO: Make sure we get a known State from the AccountingDataBase.
+  // TODO: Error handling - make sure we get a known State from the AccountingDataBase.
   var land = getLandIdByName(Banana.document.info('AccountingDataBase','State'));
 
   // Get data from AccountingDataBase.
@@ -64,16 +77,16 @@ function exec() {
     ort: Banana.document.info('AccountingDataBase','City'),
     telefon: Banana.document.info('AccountingDataBase','Phone'),
     email: Banana.document.info('AccountingDataBase','Email'),
-    land: '13',
+    land: land,
     steuernummer: Banana.document.info('AccountingDataBase','FiscalNumber'),
-    jahr: '2016',
-    zeitraum: '4'
+    jahr: year,
+    zeitraum: zeitraum
   };
 
   var vatTableValues = getValuesfromVatTable();
 
   // Get VAT balance for every VAT code separately and do not group by
-  // Gr2 (Kennzahl) which normally would be possible because depending on
+  // Gr2 (Kennzahl) - which seems logical - because depending on
   // IsDue and AmountType the meaning of the values returned by vatCurrentBalance()
   // can be different.
   var noTransactionsInPeriod = true;
@@ -106,11 +119,16 @@ function exec() {
     }
   }
 
-  // Get added Vorsteuer.
-  var vatV = Banana.document.vatCurrentBalance('V*', period.start, period.end);
+  // Cancel if no transactions in the chosen period.
+  if (noTransactionsInPeriod) {
+    Banana.document.addMessage('Im gewählten Zeitbereich gibt es keine Buchungen.');
+    return '@Cancel';
+  }
 
+  // Debugging only.
   Banana.application.showMessages(false);
   Banana.document.addMessage(JSON.stringify(data, null, 4));
+  Banana.application.showMessages(true);
 
   // Create Geierlein object. See https://github.com/stesie/geierlein.
   var ustva = new geierlein.UStVA();
@@ -310,6 +328,56 @@ function getValuesfromVatTable() {
 
   return vatTableValues;
 }
+
+/**
+ * Calculate "zeitraum" between start and end of period.
+ *
+ * @param  {[type]} period [description]
+ * @return {[type]}        [description]
+ */
+function getZeitraumFromPeriod(period) {
+  // Unfortunately V8 Javascript engine used by Banana does not support
+  // the "YYYY-MM-DD" format in Date.parse(). So just use split() to get
+  // the parts of a date.
+  var start = period.start.split('-');
+  var end = period.end.split('-');
+
+  var startMonth = start[1];
+  var endMonth = end[1];
+
+  // 1 month period.
+  if (startMonth == endMonth) {
+    return startMonth;
+  }
+
+  // Quarter period - 3 months.
+  if (endMonth - startMonth == 2) {
+    switch (startMonth) {
+      case '01':
+        return '41';
+      case '04':
+        return '42';
+      case '07':
+        return '43';
+      case '10':
+        return '44';
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Get year part from start period.
+ *
+ * @param  {[type]} period [description]
+ * @return {[type]}        [description]
+ */
+function getYearFromPeriod(period) {
+  var start = period.start.split('-');
+  return start[0];
+}
+
 /**
  * Unused functions - left for later reference.
  */
