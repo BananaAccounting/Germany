@@ -68,20 +68,39 @@ function exec() {
     zeitraum: '4'
   };
 
-  var kennziffern = getGermanKennziffernFromVatTable();
-  for (var i in kennziffern) {
-    var kz = kennziffern[i];
-    var vatCodes = getVatCodesByGr2(kz);
-    var vat = Banana.document.vatCurrentBalance(vatCodes, period.start, period.end);
-    if (vat.rowCount) {
-      var taxable = vat.vatTaxable * -1;
-      data['kz'+kz] = parseInt(taxable, 10);
+  var vatTableValues = getValuesfromVatTable();
 
-      var pair = getPairwiseKennziffer(kz);
-      if (pair) {
-        var vatAmount = vat.vatAmount * -1;
-        data['kz'+pair] = parseInt(vatAmount, 10);
-      }
+  // Get VAT balance for every VAT code separately and do not group by
+  // Gr2 (Kennzahl) which normally would be possible because depending on
+  // IsDue and AmountType the meaning of the values returned by vatCurrentBalance()
+  // can be different.
+  var noTransactionsInPeriod = true;
+  for (var i in vatTableValues) {
+    var kz = vatTableValues[i].Gr2;
+    var vatCode = vatTableValues[i].VatCode;
+    var amountType = vatTableValues[i].AmountType;
+    var isDue = vatTableValues[i].IsDue;
+    var vat = Banana.document.vatCurrentBalance(vatCode, period.start, period.end);
+
+    // No VAT for this VAT code.
+    if (!vat.rowCount) {
+      continue;
+    }
+
+    // Got at least one transaction.
+    noTransactionsInPeriod = false;
+
+    // Taxable values always are Integers. German tax office is not interested
+    // in your cents.
+    var taxable = parseInt(vat.vatTaxable, 10);
+    taxable = isDue ? taxable * -1 : taxable;
+    data['kz'+kz] = data['kz'+kz] ? data['kz'+kz] + taxable : taxable;
+
+    var pair = getPairwiseKennzahl(kz);
+    if (pair) {
+      // Pairs are VAT amounts which must not be Integer. Cents are important here.
+      vatAmount = isDue ? vat.vatAmount * -1 : vat.vatAmount;
+      data['kz'+pair] = data['kz'+pair] ? data['kz'+pair] + vatAmount : vatAmount;
     }
   }
 
@@ -212,13 +231,93 @@ function getPeriodSettings() {
   return scriptform;
 }
 
+
+/**
+ * Get pair value to some special case Kennzahlen has to appear pairwise.
+ *
+ * Example: Kz35 contains taxable amount, Kz36 contains VAT amount which is
+ * not defined by a fixed tax rate. Therefor it got be entered manually by
+ * using a split entry in the booking table: first entry for taxable amount,
+ * second entry for VAT amount with AmountType = 2.
+ *
+ * @param  {int} kz UStVA Kennzahl.
+ * @return {int}    UStVA Kennzahl.
+ */
+function getPairwiseKennzahl(kz) {
+  var pairs = {
+    35: 36,
+    76: 80,
+    95: 98,
+    94: 96,
+    46: 47,
+    52: 53,
+    73: 74,
+    78: 79,
+    84: 85
+  }
+
+  // No pair value found.
+  if (pairs[kz] === undefined) {
+    return false;
+  }
+
+  // Return pair value.
+  return pairs[kz];
+}
+
+/**
+ * Get all necessary values from the VatTable to calculate VAT values.
+ *
+ * @return {array} List of VAT codes together with some additional information.
+ */
+function getValuesfromVatTable() {
+  // Get VAT table and its rows.
+  var tableVatCodes = Banana.document.table("VatCodes");
+  if (!tableVatCodes) {
+    return '';
+  }
+
+  var rows = tableVatCodes.rows;
+  if (!rows) {
+    return '';
+  }
+
+  // Loop through the rows and extract some necessary fields.
+  var vatTableValues = [];
+  for (var i in rows) {
+    var gr2 = rows[i].value("Gr2");
+    var vatCode = rows[i].value("VatCode");
+    var isDue = rows[i].value("IsDue");
+    var amountType = rows[i].value("AmountType");
+
+    // For german UStVA the Gr2 (Kennzahl) needs to be available.
+    // Also without VAT code there is no VAT code anyway.
+    if (!gr2 || !vatCode) {
+      continue;
+    }
+
+    // Append information as array to the return value.
+    vatTableValues.push({
+      Gr2: gr2,
+      VatCode: vatCode,
+      IsDue: isDue,
+      AmountType: amountType
+    });
+  }
+
+  return vatTableValues;
+}
+/**
+ * Unused functions - left for later reference.
+ */
+
 /**
  * Get VAT Codes from the VAT table by value of the Gr2 column.
  *
- * The Gr2 value usually is a german UStVA Kennziffer.
+ * The Gr2 value usually is a german UStVA Kennzahl.
  *
- * @param  {int}    gr2 Value of Gr2 column in the VAT table.
- * @return {string}     One VAT code or many VAT codes devided by "|" (pipe).
+ * @param  {int}    gr2  Value of Gr2 column in the VAT table.
+ * @return {string}      One VAT code or many VAT codes devided by "|" (pipe).
  */
 function getVatCodesByGr2(gr2) {
   var tableVatCodes = Banana.document.table("VatCodes");
@@ -247,7 +346,7 @@ function getVatCodesByGr2(gr2) {
 /**
  * Call back for findRows() to filter VAT table for a value in the Gr2 column.
  *
- * @param  {int}    gr2   Value of Gr2 column in the VAT table.
+ * @param  {int}     gr2  Value of Gr2 column in the VAT table.
  * @return {boolean}      True if Gr2 column of row matches, false if not.
  */
 function filterVatTableRowsByGr2(row, index, table, gr2) {
@@ -264,7 +363,12 @@ function filterVatTableRowsByGr2(row, index, table, gr2) {
   return false;
 }
 
-function getGermanKennziffernFromVatTable() {
+/**
+ * Get the UStVA Kennzahlen used inside the VAT table, in column Gr2.
+ *
+ * @return {array} List of Kennzahlen.
+ */
+function getGermanKennzahlenFromVatTable() {
   var tableVatCodes = Banana.document.table("VatCodes");
   if (!tableVatCodes) {
     return '';
@@ -278,39 +382,13 @@ function getGermanKennziffernFromVatTable() {
     return '';
   }
 
-  var kennziffern = new Array();
+  var kennzahlen = new Array();
   for (var i in rows) {
     var value = rows[i].value("Gr2");
-    if (value.length > 0 && kennziffern.indexOf(value) < 0) {
-      kennziffern.push(value);
+    if (value.length > 0 && kennzahlen.indexOf(value) < 0) {
+      kennzahlen.push(value);
     }
   }
 
-  return kennziffern;
-}
-
-/**
- * Get pair
- *
- * @param  {[type]} kz [description]
- * @return {[type]}    [description]
- */
-function getPairwiseKennziffer(kz) {
-  var pairs = {
-    35: 36,
-    76: 80,
-    95: 98,
-    94: 96,
-    46: 47,
-    52: 53,
-    73: 74,
-    78: 79,
-    84: 85
-  }
-
-  if (pairs[kz]) {
-    return pairs[kz];
-  }
-
-  return false;
+  return kennzahlen;
 }
