@@ -110,31 +110,32 @@ function exec() {
   Banana.application.showMessages(false);
   Banana.document.addMessage(JSON.stringify(data, null, 4));
 
+  // Create Geierlein object. See https://github.com/stesie/geierlein.
   var ustva = new geierlein.UStVA();
 
+  // This for-loop copied from geierlein-0.9.3/bin/geierlein.
+
   // Format data.
-  for(var key in data) {
-    if(data[key] === '') {
-      /* Skip empty fields, especially the GUI version simply adds them
-         all to explicitly state that the field was left empty. */
+  for (var key in data) {
+    if (data[key] === '') {
+      // Skip empty fields.
       continue;
     }
-    if(key.substr(0, 2) === 'kz'
-       || key === 'land') {
-        /* Information belongs to the UStVA document and is numeric. */
-        ustva[key] = +data[key] // .replace(',', '.');
-    } else if(key === 'steuernummer'
-       || key === 'jahr'
-       || key === 'zeitraum') {
-        /* Information belongs to the UStVA document and is a string. */
-        ustva[key] = data[key];
-    } else {
-        ustva.datenlieferant[key] = data[key];
+    if (key.substr(0, 2) === 'kz' || key === 'land') {
+      // Information belongs to the UStVA document and is numeric.
+      ustva[key] = +data[key];
+    }
+    else if (key === 'steuernummer' || key === 'jahr' || key === 'zeitraum') {
+      // Information belongs to the UStVA document and is a string.
+      ustva[key] = data[key];
+    }
+    else {
+      ustva.datenlieferant[key] = data[key];
     }
   }
 
   // Calculate resulting value for UStVA.
-  if(ustva.kz83 === undefined) {
+  if (ustva.kz83 === undefined) {
     ustva.kz83 = +ustva.calculateKz83().toFixed(2);
   }
 
