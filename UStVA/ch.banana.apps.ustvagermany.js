@@ -14,7 +14,7 @@
 //
 // @api = 1.0
 // @id = ch.banana.apps.ustvagermany
-// @description = Elster UStVA (COALA XML)
+// @description = Elster UStVA XML-Export
 // @task = export.file
 // @doctype = 100.110;100.130;110.110;110.130
 // @publisher = Banana.ch SA
@@ -86,14 +86,13 @@ function exec() {
   var vatTableValues = getValuesfromVatTable();
 
   // Get VAT balance for every VAT code separately and do not group by
-  // Gr2 (Kennzahl) - which seems logical - because depending on
-  // IsDue and AmountType the meaning of the values returned by vatCurrentBalance()
+  // Gr2 (Kennzahl) - which seems logical - because depending on IsDue and
+  // AmountType the meaning of the values returned by vatCurrentBalance()
   // can be different.
   var noTransactionsInPeriod = true;
   for (var i in vatTableValues) {
-    var kz = vatTableValues[i].Gr2;
+    var kennzahl = 'kz' + vatTableValues[i].Gr2;
     var vatCode = vatTableValues[i].VatCode;
-    var amountType = vatTableValues[i].AmountType;
     var isDue = vatTableValues[i].IsDue;
     var vat = Banana.document.vatCurrentBalance(vatCode, period.start, period.end);
 
@@ -105,17 +104,30 @@ function exec() {
     // Got at least one transaction.
     noTransactionsInPeriod = false;
 
-    // Taxable values always are Integers. German tax office is not interested
-    // in your cents.
-    var taxable = parseInt(vat.vatTaxable, 10);
-    taxable = isDue ? taxable * -1 : taxable;
-    data['kz'+kz] = data['kz'+kz] ? data['kz'+kz] + taxable : taxable;
+    // Dependend on IsDue flag use different values:
+    // - IsDue = true, means Umsatzsteuer (due): use vatTaxable.
+    // - IsDue = false, means Vorsteuer: use vatAmount.
+    if (isDue) {
+      var value = vat.vatTaxable;
+      // Following the accounting convention the sign of vatAmount/vatTaxable is
+      // negative (debit) if the VAT is due. Invert it for use in the UStVA.
+      value = value * -1;
+      // Taxable values always are Integers. German tax office is not interested
+      // in your cents.
+      value = parseInt(value, 10);
+    }
+    else {
+      var value = vat.vatAmount;
+    }
 
-    var pair = getPairwiseKennzahl(kz);
-    if (pair) {
+    // Add this VAT code sum to other VAT codes with same Kennzahl.
+    data[kennzahl] = data[kennzahl] ? Banana.SDecimal.add(data[kennzahl], value) : value;
+
+    var pairKennzahl = getPairwiseKennzahl(kennzahl);
+    if (pairKennzahl) {
       // Pairs are VAT amounts which must not be Integer. Cents are important here.
       vatAmount = isDue ? vat.vatAmount * -1 : vat.vatAmount;
-      data['kz'+pair] = data['kz'+pair] ? data['kz'+pair] + vatAmount : vatAmount;
+      data[pairKennzahl] = data[pairKennzahl] ? Banana.SDecimal.add(data[pairKennzahl], vatAmount) : vatAmount;
     }
   }
 
@@ -125,10 +137,10 @@ function exec() {
     return '@Cancel';
   }
 
-  // Debugging only.
-  Banana.application.showMessages(false);
-  Banana.document.addMessage(JSON.stringify(data, null, 4));
-  Banana.application.showMessages(true);
+  // For debugging only.
+  // Banana.application.showMessages(false);
+  // Banana.document.addMessage(JSON.stringify(data, null, 4));
+  // Banana.application.showMessages(true);
 
   // Create Geierlein object. See https://github.com/stesie/geierlein.
   var ustva = new geierlein.UStVA();
@@ -266,15 +278,15 @@ function getPeriodSettings() {
  */
 function getPairwiseKennzahl(kz) {
   var pairs = {
-    35: 36,
-    76: 80,
-    95: 98,
-    94: 96,
-    46: 47,
-    52: 53,
-    73: 74,
-    78: 79,
-    84: 85
+    kz35: 'kz36',
+    kz76: 'kz80',
+    kz95: 'kz98',
+    kz94: 'kz96',
+    kz46: 'kz47',
+    kz52: 'kz53',
+    kz73: 'kz74',
+    kz78: 'kz79',
+    kz84: 'kz85'
   }
 
   // No pair value found.
