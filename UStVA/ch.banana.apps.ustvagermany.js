@@ -171,6 +171,9 @@ function exec() {
     ustva.kz83 = +ustva.calculateKz83().toFixed(2);
   }
 
+  var validationResult = ustva.validate();
+  Banana.Ui.showText(controlDialogText(ustva, period, validationResult));
+
   // Validate data.
   // TODO: User friendly error handling for missing Stammdaten or wrong Kennzahlen.
   var validationResult = ustva.validate();
@@ -388,6 +391,111 @@ function getZeitraumFromPeriod(period) {
 function getYearFromPeriod(period) {
   var start = period.start.split('-');
   return start[0];
+}
+
+/**
+ * Create HTML text from data calculated by Geierlein as well as static data like the address.
+ *
+ * @param  {[type]} ustva            [description]
+ * @param  {[type]} period           [description]
+ * @param  {[type]} validationResult [description]
+ * @return {[type]}                  [description]
+ */
+function controlDialogText(ustva, period, validationResult) {
+  var html = '\
+  <html>\
+    <head>\
+      <title>{0}</title>\
+    </head>\
+    <body>\
+      <h3>{0}</h3>\
+      <p></p>\
+      <table border="1">\
+        <tr>\
+          <td>Zeitraum:</td>\
+          <td colspan="2">{1} bis {2}</td>\
+        </tr>\
+        <tr>\
+          <td>Name:</td>\
+          <td colspan="2">{3}</td>\
+        </tr>\
+        <tr>\
+          <td>Adresse:</td>\
+          <td colspan="2">{4}</td>\
+        </tr>\
+        <tr>\
+          <td>PLZ/Ort:</td>\
+          <td colspan="2">{5} {6}</td>\
+        </tr>\
+        <tr>\
+          <td>Telefon:</td>\
+          <td colspan="2">{7}</td>\
+        </tr>\
+        <tr>\
+          <td>Emailadresse:</td>\
+          <td colspan="2">{8}</td>\
+        </tr>\
+        <tr>\
+          <td>Steuernummer:</td>\
+          <td colspan="2">{9}</td>\
+        </tr>\
+        <tr>\
+          <td>Bundesland:</td>\
+          <td colspan="2">{10}</td>\
+        </tr>\
+        <tr>\
+          <td>Daten konsistent:</td>\
+          <td colspan="2">{11}</td>\
+        </tr>\
+        {12}\
+      </table>\
+    </body>\
+  </html>';
+
+  // Add calculated Kennzahlen.
+  var kennzahlen = '';
+  for (var i in ustva) {
+    if (typeof(i) != 'string' || i.slice(0,2) != 'kz') {
+      continue;
+    }
+
+    kennzahlen = kennzahlen + sprintf('<tr><td>{0}:</td><td align="right">{1} EUR</td><td>&nbsp;</td></tr>',
+      Banana.Converter.stringToTitleCase(i),
+      Banana.Converter.toLocaleNumberFormat(ustva[i]));
+  }
+
+  var datenKonsistent = validationResult ? 'ja' : 'nein';
+
+  return sprintf(html,
+    'Kontrollansicht UStVA (Deutschland)',
+    period.start,
+    period.end,
+    ustva.datenlieferant.name,
+    ustva.datenlieferant.strasse,
+    ustva.datenlieferant.plz,
+    ustva.datenlieferant.ort,
+    ustva.datenlieferant.telefon,
+    ustva.datenlieferant.email,
+    ustva.steuernummer,
+    Banana.document.info('AccountingDataBase','State'),
+    datenKonsistent,
+    kennzahlen);
+}
+
+/**
+ * sprintf-like function for replacing placeholders in a string.
+ *
+ * @param  {[type]} string [description]
+ * @return {[type]}        [description]
+ */
+function sprintf(string) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  return string.replace(/{(\d+)}/gm, function(match, number) {
+    return typeof args[number] != 'undefined'
+      ? args[number]
+      : match
+    ;
+  });
 }
 
 /**
