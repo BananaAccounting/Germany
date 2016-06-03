@@ -464,39 +464,51 @@ function controlDialogText(ustva, period, validationResult) {
     <body>\
       <h3>{0}</h3>\
       <p></p>\
+      <h4>Stammdaten:</h4>\
       <table>\
         <tr>\
           <td>Zeitraum:</td>\
-          <td colspan="2">{1} bis {2}</td>\
+          <td>&nbsp;</td>\
+          <td>{1} bis {2}</td>\
         </tr>\
         <tr>\
           <td>Name:</td>\
-          <td colspan="2">{3}</td>\
+          <td>&nbsp;</td>\
+          <td>{3}</td>\
         </tr>\
         <tr>\
           <td>Adresse:</td>\
-          <td colspan="2">{4}</td>\
+          <td>&nbsp;</td>\
+          <td>{4}</td>\
         </tr>\
         <tr>\
           <td>PLZ/Ort:</td>\
-          <td colspan="2">{5} {6}</td>\
+          <td>&nbsp;</td>\
+          <td>{5} {6}</td>\
         </tr>\
         <tr>\
           <td>Telefon:</td>\
-          <td colspan="2">{7}</td>\
+          <td>&nbsp;</td>\
+          <td>{7}</td>\
         </tr>\
         <tr>\
           <td>Emailadresse:</td>\
-          <td colspan="2">{8}</td>\
+          <td>&nbsp;</td>\
+          <td>{8}</td>\
         </tr>\
         <tr>\
           <td>Steuernummer:</td>\
-          <td colspan="2">{9}</td>\
+          <td>&nbsp;</td>\
+          <td>{9}</td>\
         </tr>\
         <tr>\
           <td>Bundesland:</td>\
-          <td colspan="2">{10}</td>\
+          <td>&nbsp;</td>\
+          <td>{10}</td>\
         </tr>\
+      </table>\
+      <h4>Kennzahlen:</h4>\
+      <table>\
         {11}\
       </table>\
     </body>\
@@ -504,14 +516,30 @@ function controlDialogText(ustva, period, validationResult) {
 
   // Add calculated Kennzahlen.
   var kennzahlen = '';
-  for (var i in ustva) {
-    if (typeof(i) != 'string' || i.slice(0,2) != 'kz') {
+  var basicCurrency = Banana.document.info("AccountingDataBase","BasicCurrency");
+  for (var kz in ustva) {
+    if (typeof(kz) != 'string' || kz.slice(0,2) != 'kz' || getPairwiseKennzahlReverse(kz)) {
       continue;
     }
 
-    kennzahlen = kennzahlen + sprintf('<tr><td>{0}:</td><td align="right">{1} EUR</td><td>&nbsp;</td></tr>',
-      Banana.Converter.stringToTitleCase(i),
-      Banana.Converter.toLocaleNumberFormat(ustva[i]));
+    var kzLabel = Banana.Converter.stringToTitleCase(kz);
+    var pair = '&nbsp;';
+    var delimiter = '&nbsp;';
+
+    // Add pairwise Kennzahlen into one line together.
+    var pairKz = getPairwiseKennzahl(kz);
+    if (pairKz) {
+      pair = sprintf('{0} {1}', Banana.Converter.toLocaleNumberFormat(ustva[pairKz]), basicCurrency);
+      kzLabel = sprintf('{0}/{1}', kzLabel, Banana.Converter.stringToTitleCase(pairKz));
+      delimiter = '/';
+    }
+
+    kennzahlen = kennzahlen + sprintf('<tr><td>{0}:</td><td>&nbsp;</td><td align="right">{1} {2}</td><td>{3}</td><td align="right">{4}</td><td >&nbsp;</td></tr>',
+      kzLabel,
+      Banana.Converter.toLocaleNumberFormat(ustva[kz]),
+      basicCurrency,
+      delimiter,
+      pair);
   }
 
   var datenKonsistent = validationResult ? 'ja' : 'nein';
