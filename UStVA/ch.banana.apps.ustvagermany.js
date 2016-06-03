@@ -300,8 +300,8 @@ function getPeriodSettings() {
  * using a split entry in the booking table: first entry for taxable amount,
  * second entry for VAT amount with AmountType = 2.
  *
- * @param  {int} kz UStVA Kennzahl.
- * @return {int}    UStVA Kennzahl.
+ * @param  {int} kz UStVA Kennzahl for taxable amount.
+ * @return {int}    UStVA Kennzahl for VAT amount.
  */
 function getPairwiseKennzahl(kz) {
   var pairs = {
@@ -314,6 +314,36 @@ function getPairwiseKennzahl(kz) {
     kz73: 'kz74',
     kz78: 'kz79',
     kz84: 'kz85'
+  }
+
+  // No pair value found.
+  if (pairs[kz] === undefined) {
+    return false;
+  }
+
+  // Return pair value.
+  return pairs[kz];
+}
+
+/**
+ * Get reverse pair value to some special case Kennzahlen.
+ *
+ * Opposite of getPairwiseKennzahl().
+ *
+ * @param  {int} kz UStVA Kennzahl for VAT amount.
+ * @return {int}    UStVA Kennzahl for taxable amount.
+ */
+function getPairwiseKennzahlReverse(kz) {
+  var pairs = {
+    kz36: 'kz35',
+    kz80: 'kz76',
+    kz98: 'kz95',
+    kz96: 'kz94',
+    kz47: 'kz46',
+    kz53: 'kz52',
+    kz74: 'kz73',
+    kz79: 'kz78',
+    kz85: 'kz84'
   }
 
   // No pair value found.
@@ -434,7 +464,7 @@ function controlDialogText(ustva, period, validationResult) {
     <body>\
       <h3>{0}</h3>\
       <p></p>\
-      <table border="1">\
+      <table>\
         <tr>\
           <td>Zeitraum:</td>\
           <td colspan="2">{1} bis {2}</td>\
@@ -591,15 +621,27 @@ function validateKennzahlenDialogText(validationResult) {
   var error = '';
   for (var i in validationResult) {
     var key = validationResult[i];
-    key = Banana.Converter.stringToTitleCase(key);
 
     // If error is in Kennzahl: Get VAT code(s) for the Kennzahl.
     if (key.slice(0,2) == 'kz') {
+      var kennzahl = Banana.Converter.stringToTitleCase(key);
       var vatCodes = getVatCodesByGr2(key.slice(2));
+
+      // If no VAT Code it maybe is a pairwise Kennzahl. Get the pair and try
+      // getting VAT codes from it.
+      if (vatCodes.length == 0 && getPairwiseKennzahlReverse(key)) {
+        key = getPairwiseKennzahlReverse(key);
+        vatCodes = getVatCodesByGr2(key.slice(2));
+      }
+
       vatCodes = vatCodes.replace('|', ', ');
-      error = error + sprintf('<li>{0} ({1})</li>', key, vatCodes);
+    }
+
+    if (vatCodes) {
+      error = error + sprintf('<li>{0} ({1})</li>', kennzahl, vatCodes);
     }
     else {
+      key = Banana.Converter.stringToTitleCase(key);
       error = error + sprintf('<li>{0}</li>', key);
     }
   }
