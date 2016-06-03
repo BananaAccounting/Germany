@@ -65,11 +65,10 @@ function exec() {
     return '@Cancel';
   }
 
-  // TODO: Error handling - make sure we get a known State from the AccountingDataBase.
+  // Get a State from the AccountingDataBase.
   var land = getLandIdByName(Banana.document.info('AccountingDataBase','State'));
 
   // Get data from AccountingDataBase.
-  // TODO: User friendly error handling for missing or wrong values.
   var data = {
     name: Banana.document.info('AccountingDataBase','Company'),
     strasse: Banana.document.info('AccountingDataBase','Address1'),
@@ -83,6 +82,7 @@ function exec() {
     zeitraum: zeitraum
   };
 
+  // Get entries from VAT table.
   var vatTableValues = getValuesfromVatTable();
 
   // Get VAT balance for every VAT code separately and do not group by
@@ -145,7 +145,8 @@ function exec() {
   // Create Geierlein object. See https://github.com/stesie/geierlein.
   var ustva = new geierlein.UStVA();
 
-  // This for-loop copied from geierlein-0.9.3/bin/geierlein.
+  // This for-loop copied from geierlein-0.9.3/bin/geierlein and adopted for
+  // our needs.
 
   // Format data.
   for (var key in data) {
@@ -166,22 +167,45 @@ function exec() {
     }
   }
 
+  // Validate Stammdaten.
+  var validationResult = ustva.datenlieferant.validate();
+
+  // Steuernummer and Land will not be validated by
+  // ustva.datenlieferant.validate() but by ustva.validate().
+  // Move the results for those two to validationResult.
+  if (data.steuernummer == undefined || data.steuernummer.length == 0) {
+    validationResult = validationResult === true ? [] : validationResult;
+    validationResult.push('steuernummer');
+  }
+  if (data.land == undefined || data.land.length == 0) {
+    validationResult = validationResult === true ? [] : validationResult;
+    validationResult.push('land');
+  }
+
+  // Show error dialog if Stammdaten did not validate.
+  if (validationResult !== true) {
+    Banana.Ui.showText(validateStammdatenDialogText(validationResult));
+    return '@Cancel';
+  }
+
   // Calculate resulting value for UStVA.
   if (ustva.kz83 === undefined) {
     ustva.kz83 = +ustva.calculateKz83().toFixed(2);
   }
 
+  // Validate Kennzahlen.
   var validationResult = ustva.validate();
-  Banana.Ui.showText(controlDialogText(ustva, period, validationResult));
 
-  // Validate data.
-  // TODO: User friendly error handling for missing Stammdaten or wrong Kennzahlen.
-  var validationResult = ustva.validate();
-  if(validationResult !== true) {
-    Banana.document.addMessage('Fehler bei der Validierung der Daten.');
+  // Show error dialog if Kennzahlen did not validate.
+  if (validationResult !== true) {
+    Banana.Ui.showText(validateKennzahlenDialogText(validationResult));
     return '@Cancel';
   }
 
+  // Show control output dialog.
+  Banana.Ui.showText(controlDialogText(ustva, period));
+
+  // Create XML and export it to a file. See @exportfiletype above.
   return ustva.toXml(false);
 }
 
@@ -443,11 +467,7 @@ function controlDialogText(ustva, period, validationResult) {
           <td>Bundesland:</td>\
           <td colspan="2">{10}</td>\
         </tr>\
-        <tr>\
-          <td>Daten konsistent:</td>\
-          <td colspan="2">{11}</td>\
-        </tr>\
-        {12}\
+        {11}\
       </table>\
     </body>\
   </html>';
@@ -467,7 +487,7 @@ function controlDialogText(ustva, period, validationResult) {
   var datenKonsistent = validationResult ? 'ja' : 'nein';
 
   return sprintf(html,
-    'Kontrollansicht UStVA (Deutschland)',
+    'Elster-UStVA Export: Kontrollansicht der berechneten Daten',
     period.start,
     period.end,
     ustva.datenlieferant.name,
@@ -478,7 +498,6 @@ function controlDialogText(ustva, period, validationResult) {
     ustva.datenlieferant.email,
     ustva.steuernummer,
     Banana.document.info('AccountingDataBase','State'),
-    datenKonsistent,
     kennzahlen);
 }
 
@@ -499,8 +518,94 @@ function sprintf(string) {
 }
 
 /**
- * Unused functions - left for later reference.
+ * Build text for Stammdaten validation error dialog.
+ *
+ * @param  {[type]} validationResult [description]
+ * @return {[type]}                  [description]
  */
+function validateStammdatenDialogText(validationResult) {
+  var html = '\
+  <html>\
+    <head>\
+      <title>{0}</title>\
+    </head>\
+    <body>\
+      <h3>{0}</h3>\
+      <p>In den Stammdaten der aktuellen Datei fehlen folgende Angaben:</p>\
+      <p></p>\
+      <ul>\
+        {1}\
+      </ul>\
+      <p>Bitte tragen Sie die Daten im Menü <em>Datei > Eigenschaften (Stammdaten)...</em> unter <em>Adresse</em> nach und starten Sie den Elster-UStVA Export anschließend erneut.</p>\
+    </body>\
+  </html>';
+
+  var error = '';
+  for (var i in validationResult) {
+    var key = validationResult[i];
+
+    // Add text to some special cases.
+    switch (key) {
+      case 'land':
+        key = 'Bundesland (Feld: Region)';
+        break;
+      case 'strasse':
+        key = 'Strasse (Feld: Adresse 1)';
+        break;
+      case 'plz':
+        key = 'PLZ (Feld: Postleitzahl)';
+        break;
+      default:
+        key = Banana.Converter.stringToTitleCase(key);
+    }
+
+    error = error + sprintf('<li>{0}</li>', key);
+  }
+
+  return sprintf(html, 'Elster-UStVA Export: Fehler in den Stammdaten', error);
+}
+
+/**
+ * Build text for Kennzahlen validation error dialog.
+ *
+ * @param  {[type]} validationResult [description]
+ * @return {[type]}                  [description]
+ */
+function validateKennzahlenDialogText(validationResult) {
+  var html = '\
+  <html>\
+    <head>\
+      <title>{0}</title>\
+    </head>\
+    <body>\
+      <h3>{0}</h3>\
+      <p>Folgende Kennzahlen konnten nicht korrekt validiert werden:</p>\
+      <p></p>\
+      <ul>\
+        {1}\
+      </ul>\
+      <p>Entweder stimmt die Buchhaltung nicht oder die Elster-UStVA App enthält Fehler.</p>\
+    </body>\
+  </html>';
+
+  var error = '';
+  for (var i in validationResult) {
+    var key = validationResult[i];
+    key = Banana.Converter.stringToTitleCase(key);
+
+    // If error is in Kennzahl: Get VAT code(s) for the Kennzahl.
+    if (key.slice(0,2) == 'kz') {
+      var vatCodes = getVatCodesByGr2(key.slice(2));
+      vatCodes = vatCodes.replace('|', ', ');
+      error = error + sprintf('<li>{0} ({1})</li>', key, vatCodes);
+    }
+    else {
+      error = error + sprintf('<li>{0}</li>', key);
+    }
+  }
+
+  return sprintf(html, 'Elster-UStVA Export: Fehler in den Kennzahlen', error);
+}
 
 /**
  * Get VAT Codes from the VAT table by value of the Gr2 column.
@@ -553,6 +658,10 @@ function filterVatTableRowsByGr2(row, index, table, gr2) {
 
   return false;
 }
+
+/**
+ * Unused functions - left for later reference.
+ */
 
 /**
  * Get the UStVA Kennzahlen used inside the VAT table, in column Gr2.
