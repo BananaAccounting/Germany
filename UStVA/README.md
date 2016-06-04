@@ -1,6 +1,6 @@
 # Beschreibung
 
-Diese Banana App exportiert die für die Umsatzsteuervoranmeldung (UStVA) in Deutschland notwendigen Daten in Form einer XML-Datei. Die Datei kann im Elster Online Portal unter hochgeladen werden. Hilfestellung finden Sie unter folgender Webadresse:
+Diese Banana App exportiert die für die Umsatzsteuervoranmeldung (UStVA) in Deutschland notwendigen Daten in Form einer XML-Datei. Die Datei kann im Elster Online Portal hochgeladen werden. Hilfestellung finden Sie unter folgender Webadresse:
 
 https://www.elsteronline.de/hilfe/eop/private/formulare/leitfaden/ustva_upload.html
 
@@ -36,11 +36,16 @@ Spezielle Kennzahlen in der UStVA, bei denen Nettobetrag sowie Steuerbetrag in g
 
 Wichtig ist hierfür, daß in der Buchungstabell die Spalte _Art Betrag_ angezeigt wird. Dazu im Menü _Werkzeuge > Neue Funktion hinzufügen..._ die Funktion _Spalte MwSt/USt Art Betrag in den Buchungen ändern_ aktivieren. Anschließend wird ein Buchungssatz in 2 Einträgen angelegt:
 
-1. Normaler Buchungssatz mit Buchungsbetrag in Spalte _Betrag EUR_.
+1. Buchungssatz mit Buchungsbetrag in Spalte _Betrag EUR_.
 2. Kopie des Buchungssatzes, aber Steuerbetrag in Spalte _Betrag EUR_ sowie Spalte _Art Betrag_ auf _2 (MwSt/USt Betrag)_ setzen.
+
+# Referenzen
+
+* [UStVA 2016 formular](http://www.finanzamt.bayern.de/Informationen/Formulare/Weitere_Themen_A_bis_Z/Umsatzsteuer-Voranmeldung/USt_1_A-2016.pdf)
+* [Documentation for the form](http://www.finanzamt.bayern.de/Informationen/Formulare/Weitere_Themen_A_bis_Z/Umsatzsteuer-Voranmeldung/USt_1_E-2016.pdf)
+* [Geierlein - eine Javascript-basierte Elster-Anwendung für die UStVA](https://github.com/stesie/geierlein)
+* Das in _ElsterBasis (EBA)/ElsterAnmeldung v3.5_ beschriebene XML-Schema. Auf die Dokumentation hat man als Entwickler über [ElsterWeb](https://www.elster.de/ent_home.php) Zugriff.
 
 # TODO
 
-* Kontrollausgabe, in der die ermittelten UStVA-Kennzahlen vor dem Speichern kontrolliert werden können.
-* Detailierte Fehlerausgabe bei Validierungsfehlern der Kennzahlen.
 * Setzen/Bearbeiten von einzelnen Kennzahlen, die nicht aus der Buchhaltung ermittelt werden können.
