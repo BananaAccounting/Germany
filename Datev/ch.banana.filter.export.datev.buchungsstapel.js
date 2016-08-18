@@ -16,6 +16,7 @@
 // @id = ch.banana.filter.export.datev.buchungsstapel
 // @publisher = Banana.ch SA
 // @description = DATEV Export / Buchungsdaten
+// @doctype = *.*
 // @task = export.file
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
@@ -24,7 +25,6 @@
 // @encoding = Windows-1252
 
 //TODO add limit of 99997 Transactions
-
 /**
 * ErrorId List
 */
@@ -290,16 +290,14 @@ function exec(inData) {
                 }
                 else {
                     if (valueAccountDebit.length > 0) {
-                        valueAccountDebit = getDatevAccount(tableAccounts, valueAccountDebit);
-                        if (valueAccountDebit == "@Cancel")
+                        valueAccount = getDatevAccount(tableAccounts, valueAccountDebit);
+                        if (valueAccount == "@Cancel")
                             return "@Cancel";
-                        valueAccount = valueAccountDebit;
                     }
                     else if (valueAccountCredit.length > 0) {
-                        valueAccountCredit = getDatevAccount(tableAccounts, valueAccountCredit);
-                        if (valueAccountCredit == "@Cancel")
+                        valueAccount = getDatevAccount(tableAccounts, valueAccountCredit);
+                        if (valueAccount == "@Cancel")
                             return "@Cancel";
-                        valueAccount = valueAccountCredit;
                         registrationType = "H";
                     }
                 }
@@ -374,13 +372,13 @@ function exec(inData) {
                 line.push(Banana.Converter.changeDateFormat(value, "YYYY-MM-DD", "DDMM"));
 
                 //11. Belegfeld1
-                value = filteredRows[i].value("DocInvoice");
+                value = filteredRows[i].value("Doc");
                 if (!value)
                     value = "";
                 line.push(toTextFormat(value));
 
                 //12. Belegfeld2
-                value = "";
+                value = filteredRows[i].value("DocInvoice");
                 line.push(toTextFormat(value));
 
                 //13. Skonto

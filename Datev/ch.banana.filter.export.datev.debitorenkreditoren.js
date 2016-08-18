@@ -16,6 +16,7 @@
 // @id = ch.banana.filter.export.datev.debitorenkreditoren
 // @publisher = Banana.ch SA
 // @description = DATEV Export / Kontendaten von Kunden und Lieferanten
+// @doctype = *.*
 // @task = export.file
 // @exportfilename = EXTF_GP_Stamm_<Date>
 // @exportfiletype = csv
