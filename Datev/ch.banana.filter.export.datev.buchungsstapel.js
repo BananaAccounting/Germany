@@ -194,6 +194,7 @@ function exec(inData) {
             var valueAccountCredit = "";
             var valueContraAccount = "";
             var valueVatRate = "";
+            var valueVatTwinAccount = "";
             var registrationType = "";
 
             for (var i = 0; i < filteredRows.length; i++) {
@@ -281,27 +282,22 @@ function exec(inData) {
                 valueAccount = "";  //Field 7. Konto
                 valueAccountDebit = filteredRows[i].value("AccountDebit");
                 valueAccountCredit = filteredRows[i].value("AccountCredit");
-                if (valueAccountDebit.length <= 0 && valueAccountCredit.length <= 0) {
-                    var msg = getErrorMessage(ID_ERR_DATEV_NOACCOUNT);
-                    fieldName = "AccountDebit";
-                    tableTransactions.addMessage(msg, originalRowNumber, fieldName, ID_ERR_DATEV_NOACCOUNT);
-                    line = [];
-                    continue;
+                valueVatTwinAccount = filteredRows[i].value("VatTwinAccount");
+
+                if (valueVatTwinAccount.length > 0 && valueVatTwinAccount == valueAccountCredit)
+                    registrationType = "H";
+
+                if (valueAccountDebit.length > 0) {
+                    valueAccount = getDatevAccount(tableAccounts, valueAccountDebit);
+                    if (valueAccount == "@Cancel")
+                        return "@Cancel";
                 }
-                else {
-                    if (valueAccountDebit.length > 0) {
-                        valueAccount = getDatevAccount(tableAccounts, valueAccountDebit);
-                        if (valueAccount == "@Cancel")
-                            return "@Cancel";
-                    }
-                    else if (valueAccountCredit.length > 0) {
-                        valueAccount = getDatevAccount(tableAccounts, valueAccountCredit);
-                        if (valueAccount == "@Cancel")
-                            return "@Cancel";
-                        registrationType = "H";
-                    }
+                else if (valueAccountCredit.length > 0) {
+                    valueAccount = getDatevAccount(tableAccounts, valueAccountCredit);
+                    if (valueAccount == "@Cancel")
+                        return "@Cancel";
                 }
-                //should not happen
+
                 if (valueAccount.length <= 0) {
                     fieldName = "AccountDebit";
                     tableTransactions.addMessage(msg, originalRowNumber, fieldName, ID_ERR_DATEV_NOACCOUNT);
@@ -975,6 +971,15 @@ function getSteuerSchlussel(tableAccounts, transactionRow, valueAccountDebit, va
     if (!vatCode || vatCode.length <= 0)
         return "";
 
+    //check if it is a reversal transaction with minus vatcode
+    var reversalTransaction=false;
+    if (vatCode.substring(0, 1) == "-") {
+        vatCode = vatCode.substring(1);
+        reversalTransaction = true;
+        if (vatCode.length <= 0)
+            return "";
+    }
+
     //load table VatCodes
     var tableVatCodes = Banana.document.table("VatCodes");
     if (!tableVatCodes) {
@@ -996,24 +1001,20 @@ function getSteuerSchlussel(tableAccounts, transactionRow, valueAccountDebit, va
     if (parseInt(steuerkey) == 40)
         return "40";
 
-    //mwst prozentsatz
-    /*var vatRate = getColumnValue(tableVatCodes, row, "VatRate");
-    if (vatRate == "@Cancel")
-        return "@Cancel";
-    vatRate = Math.abs(vatRate);*/
+    //Generalumkehrschlüssel
+    //EU-Tatbestand wird 50 summiert, z.B. 12 umsatzsteuer wird 62
+    if (reversalTransaction) {
+        if (parseInt(steuerkey) >= 10 && parseInt(steuerkey) <= 19) {
+            var nSteuerkey = parseInt(steuerkey);
+            nSteuerkey += 50;
+            steuerkey = nSteuerkey.toString();
+        }
+        else if (parseInt(steuerkey) < 10) {
+            steuerkey = "2" + steuerkey;
+        }
+    }
 
     if (!isAutomaticAccount(valueAccountDebit, tableAccounts) && !isAutomaticAccount(valueAccountCredit, tableAccounts)) {
-
-        var berichtigungskey = "";
-
-        //Stornierung
-        if (vatCode.substring(0, 1) == "-") {
-            berichtigungskey = 2;
-        }
-
-        //generates BU-Schlüssel
-        if (steuerkey.length < 2)
-            steuerkey = berichtigungskey + steuerkey;
         return steuerkey;
     }
 
