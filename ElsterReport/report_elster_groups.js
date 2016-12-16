@@ -46,7 +46,9 @@ function loadParam() {
 		"basicCurrency": Banana.document.info("AccountingDataBase", "BasicCurrency"), // Get the basic currency of the accounting
 		"grColumn": "ElsterFeld", // Specify the column ("Gr1" or "Gr2")
 		"formatNumber": true, // Specify if convert all the values into the local format
-		"rounding": 2 // Specify the rounding of the sums
+		"rounding": 2, // Specify the rounding of the sums
+		"columHeaders": ["Id", "Id2", "Description", "Amount1", "Amount2"],
+		"columWidth": ["Id", "Id2", "Description", "Amount1", "Amount2"],
 	};
 }
 
@@ -55,6 +57,10 @@ function loadForm() {
 
 	/** CONTO ECONOMICO **/
 	//INCOME
+	form.push({
+		"title": "Income",
+		"style": "test"
+	});
 	form.push({
 		"id": "E106",
 		"gr": "106",
@@ -76,7 +82,12 @@ function loadForm() {
 	form.push({
 		"id": "E",
 		"description": "TOTAL Erträge",
-		"sum": "E106;E108;E112"
+		"sum": "E106;E108;E112",
+		"column": 4
+	});
+	form.push({
+		"pageBreak": true,
+		"column": 4
 	});
 
 	//EXPENSES
@@ -120,7 +131,7 @@ function exec(string) {
 	loadForm();
 
 	// 2. Extract the data, calculate and load the balances
-	loadBalances();
+	getGrBalances();
 	preProcess();
 
 	// 3. Calculate the totals
@@ -139,66 +150,7 @@ function exec(string) {
 
 //The purpose of this function is to do some operations before the calculation of the totals
 function preProcess() {
-	/*
-	//var balanceUP =  Banana.document.currentBalance("Gr=UP-BIL", param.startDate, param.endDate).balance;
-	var balanceUP = "";
-
-	//Table Categories
-	if (Banana.document.table('Categories')) {
-	var table = Banana.document.table("Categories");
-	for (var i = 0; i < table.rowCount; i++) {
-	var tRow = table.row(i);
-	if (tRow.value("Group") === "RIS") {
-	balanceUP = tRow.value("Balance");
-	}
-	}
-
-	for (var i = 0; i < form.length; i++) {
-	//Attivo - Perdita di gestione (+)
-	if (Banana.SDecimal.sign(balanceUP) > 0) {
-	if (form[i]["id"] === "PAG") {
-	form[i]["amount"] = balanceUP;
-	getObject(form, "APG").amount = "";
-	}
-	}
-	//Passivo - Avanzo di gestione (-)
-	else if (Banana.SDecimal.sign(balanceUP) < 0) {
-	if (form[i]["id"] === "APG") {
-	form[i]["amount"] = Banana.SDecimal.invert(balanceUP);
-	getObject(form, "PAG").amount = "";
-	}
-	}
-	}
-	getObject(form, "P3").amount = Banana.document.table('Accounts').findRowByValue('Group', 'PN').value('Opening');
-	}
-	//Table Accounts
-	else {
-	var table = Banana.document.table("Totals");
-	for (var i = 0; i < table.rowCount; i++) {
-	var tRow = table.row(i);
-	if (tRow.value("Group") === "02") {
-	balanceUP = tRow.value("Balance");
-	}
-	}
-
-	for (var i = 0; i < form.length; i++) {
-	//Attivo - Perdita di gestione (+)
-	if (Banana.SDecimal.sign(balanceUP) > 0) {
-	if (form[i]["id"] === "APG") {
-	form[i]["amount"] = balanceUP;
-	getObject(form, "PAG").amount = "";
-	}
-	}
-	//Passivo - Avanzo di gestione (-)
-	else if (Banana.SDecimal.sign(balanceUP) < 0) {
-	if (form[i]["id"] === "PAG") {
-	form[i]["amount"] = Banana.SDecimal.invert(balanceUP);
-	getObject(form, "APG").amount = "";
-	}
-	}
-	}
-	}
-	 */
+	/* Eventually add some values to the form */
 }
 
 //The purpose of this function is to do some operations before the values are converted
@@ -217,15 +169,16 @@ function printReport() {
 	tableRow = table.addRow();
 	tableRow.addCell("Id", "styleTableHeader", 1);
 	tableRow.addCell("Id", "styleTableHeader", 1);
-	tableRow.addCell("Beschreibung", "styleTableHeader", 1);
-	tableRow.addCell("                                                              ", "styleTableHeader", 1);
-	tableRow.addCell("                                                              ", "styleTableHeader", 1);
+	tableRow.addCell(param.columHeaders[2], "styleTableHeader", 1);
+	tableRow.addCell("", "styleTableHeader", 1);
+	tableRow.addCell("", "styleTableHeader", 1);
 	tableRow.addCell("Teilbeträge", "styleTableHeader", 1);
 	tableRow.addCell("Gesamtbeträge", "styleTableHeader", 1);
 
 	for (var k = 0; k < form.length; k++) {
 
-		if (form[k]["id"].substring(0, 1) === "E" || form[k]["id"].substring(0, 1) === "K" || form[k]["id"].substring(0, 2) === "UP") {
+		if (form[k]["id"] &&
+			(form[k]["id"].substring(0, 1) === "E" || form[k]["id"].substring(0, 1) === "K" || form[k]["id"].substring(0, 2) === "UP")) {
 
 			//Titles
 			if (form[k]["id"] === "Rt" || form[k]["id"] === "Ct") {
@@ -238,7 +191,7 @@ function printReport() {
 				tableRow.addCell(form[k]["id"], "valueTotal", 1);
 				tableRow.addCell(form[k]["description"], "valueTotal", 4);
 				tableRow.addCell(" ", "valueTotal", 1);
-				tableRow.addCell(getBalance(form[k].id), "alignRight bold valueTotal", 1);
+				tableRow.addCell(form[k]["amount_formatted"], "alignRight bold valueTotal", 1);
 			}
 			//Details
 			else {
@@ -246,7 +199,7 @@ function printReport() {
 				tableRow.addCell(" ", "", 1);
 				tableRow.addCell(form[k]["id"], "", 1);
 				tableRow.addCell(form[k]["description"], "", 3);
-				tableRow.addCell(getBalance(form[k].id), "alignRight", 1);
+				tableRow.addCell(form[k]["amount_formatted"], "alignRight", 1);
 				tableRow.addCell(" ", "", 1);
 			}
 		}
@@ -265,33 +218,38 @@ function printReport() {
 }
 
 //The purpose of this function is to load all the balances and save the values into the form
-function loadBalances() {
+function getGrBalances() {
 
 	for (var i in form) {
-
+		if (form[i].id) {
+			form[i].id = form[i].id.trim();
+		}
+		if (form[i].gr) {
+			form[i].gr = form[i].gr.trim();
+		}
 		//Check if there are "vatClass" properties, then load VAT balances
 		if (form[i]["vatClass"]) {
 			if (form[i]["gr"]) {
-				form[i]["amount"] = calculateVatGr1Balance(form[i]["gr"], form[i]["vatClass"], param["grColumn"], param["startDate"], param["endDate"]);
+				form[i]["amount"] = getGrBalances_Vat(form[i]["gr"], form[i]["vatClass"], param["grColumn"], param["startDate"], param["endDate"]);
 			}
 		}
 
 		//Check if there are "bClass" properties, then load balances
 		if (form[i]["bClass"]) {
 			if (form[i]["gr"]) {
-				form[i]["amount"] = calculateAccountGr1Balance(form[i]["gr"], form[i]["bClass"], param["grColumn"], param["startDate"], param["endDate"]);
+				form[i]["amount"] = getGrBalances_Account(form[i]["gr"], form[i]["bClass"], param["grColumn"], param["startDate"], param["endDate"]);
 			}
 		}
 	}
 }
 
 //The purpose of this function is to calculate all the balances of the accounts belonging to the same group (grText)
-function calculateAccountGr1Balance(grText, bClass, grColumn, startDate, endDate) {
+function getGrBalances_Account(grText, bClass, grColumn, startDate, endDate) {
 
 	var accounts = getAccountListForGr(Banana.document.table("Accounts"), grText, "Account", grColumn);
 	accounts += "|" + getAccountListForGr(Banana.document.table("Categories"), grText, "Category", grColumn);
-	
-debugger;
+
+	debugger;
 	//Sum the amounts of opening, debit, credit, total and balance for all transactions for this accounts
 	var currentBal = Banana.document.currentBalance(accounts, startDate, endDate);
 
@@ -360,7 +318,7 @@ function getAccountListForGr(table, grText, codeColumn, grColumn) {
 }
 
 //The purpose of this function is to return a specific whole object
-function getObject(form, id) {
+function getFormObjectById(form, id) {
 	for (var i = 0; i < form.length; i++) {
 		if (form[i]["id"] === id) {
 			return form[i];
@@ -370,10 +328,9 @@ function getObject(form, id) {
 }
 
 //The purpose of this function is to get a specific value from the object
-function getValue(source, id, field) {
-	var searchId = id.trim();
+function getFormValueById(source, id, field) {
 	for (var i = 0; i < source.length; i++) {
-		if (source[i].id === searchId) {
+		if (source[i].id === id) {
 			return source[i][field];
 		}
 	}
@@ -404,13 +361,10 @@ function getBalance(id) {
 
 //The purpose of this function is to convert all the values from the given list to local format
 function formatValues(fields) {
-	if (param["formatNumber"] === true) {
-		for (i = 0; i < form.length; i++) {
-			var valueObj = getObject(form, form[i].id);
-
-			for (var j = 0; j < fields.length; j++) {
-				valueObj[fields[j]] = Banana.Converter.toLocaleNumberFormat(valueObj[fields[j]]);
-			}
+	for (i = 0; i < form.length; i++) {
+		for (var j = 0; j < fields.length; j++) {
+			var fieldName = fields[j];  
+			form[i][fieldName + "_formatted"] = Banana.Converter.toLocaleNumberFormat(form[i] [fieldName]);
 		}
 	}
 }
@@ -425,7 +379,7 @@ function calcTotals(fields) {
 //Calculate a single total of the form
 function calcTotal(id, fields) {
 
-	var valueObj = getObject(form, id);
+	var valueObj = getFormObjectById(form, id);
 	if (!valueObj || valueObj[fields[0]]) { //first field is present
 		return; //calc already done, return
 	}
@@ -450,7 +404,7 @@ function calcTotal(id, fields) {
 
 			for (var j = 0; j < fields.length; j++) {
 				var fieldName = fields[j];
-				var fieldValue = getValue(form, entry, fieldName);
+				var fieldValue = getFormValueById(form, entry, fieldName);
 				if (fieldValue) {
 					if (isNegative) {
 						//Invert sign
@@ -463,7 +417,7 @@ function calcTotal(id, fields) {
 			}
 		}
 	} else if (valueObj.gr) {
-		//Already calculated in loadBalances()
+		//Already calculated in getGrBalances()
 	}
 }
 
@@ -499,7 +453,6 @@ function createStyleSheet() {
 	style.setAttribute("padding-top", "5px");
 	style.setAttribute("font-size", "8px");
 
-	
 	style = stylesheet.addStyle(".right");
 	style.setAttribute("text-align", "right");
 
