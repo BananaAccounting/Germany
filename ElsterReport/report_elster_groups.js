@@ -14,7 +14,7 @@
 //
 // @id = de.banana.app.elster_report_groups
 // @api = 1.0
-// @pubdate = 2016-12-16
+// @pubdate = 2016-12-23
 // @publisher = Banana.ch SA
 // @description = Elster report groups
 // @task = app.command
@@ -29,94 +29,200 @@
 var param = {};
 var form = [];
 
+
 //Create the param object with some parameters
 function loadParam() {
-	var openingDate = Banana.Converter.toDate(Banana.document.info("AccountingDataBase", "OpeningDate"))
-		var year = "";
-	if (openingDate) {
-		openingDate.getFullYear();
-	}
+
 	param = {
-		"reportName": "Report Elster Groups", // Save the report's name
-		"headerLeft": Banana.document.info("Base", "HeaderLeft"), // Get the info from File->File properties->Header left
-		"headerRight": Banana.document.info("Base", "HeaderRight"), // Get the info from File->File properties->Header right
-		"startDate": Banana.document.info("AccountingDataBase", "OpeningDate"), // Get the start date of the accounting period
-		"endDate": Banana.document.info("AccountingDataBase", "ClosureDate"), // Get the end date of the accounting period
-		"year": year, // Get the year from the accounting period
-		"basicCurrency": Banana.document.info("AccountingDataBase", "BasicCurrency"), // Get the basic currency of the accounting
-		"grColumn": "ElsterFeld", // Specify the column ("Gr1" or "Gr2")
-		"formatNumber": true, // Specify if convert all the values into the local format
-		"rounding": 2, // Specify the rounding of the sums
-		"columHeaders": ["Id", "Id2", "Description", "Amount1", "Amount2"],
-		"columWidth": ["Id", "Id2", "Description", "Amount1", "Amount2"],
+
+		/* Get some basic accounting information */
+		"headerLeft": Banana.document.info("Base", "HeaderLeft"), 					 // Get the info from File->File properties->Header left
+		"headerRight": Banana.document.info("Base", "HeaderRight"), 				 // Get the info from File->File properties->Header right
+		"startDate": Banana.document.info("AccountingDataBase", "OpeningDate"), 	 // Get the start date of the accounting period
+		"endDate": Banana.document.info("AccountingDataBase", "ClosureDate"), 		 // Get the end date of the accounting period
+		"basicCurrency": Banana.document.info("AccountingDataBase", "BasicCurrency"),// Get the basic currency of the accounting
+		
+		/* Specify some settings */
+		"grColumn": "ElsterFeld", 													 // Specify the column (Gr, Gr1, Gr2 or something other)
+		"formatNumber": true, 	  													 // Specify if convert all the values into the local format
+		"rounding": 2,            													 // Specify the rounding of the sums
+		
+		/* Report's name */
+		"reportName" 			: "Report Elster Groups", 							 // Define the name of the report
+		
+		/* The font of the text */
+		"styleFontText" 		: "Arial",											 // Define the font for the report
+
+		/* General styles */
+		"styleHeader" 			: "font12 bold",									 // Define the style for the header of the page
+		"stylePageNumber" 		: "alignRight italic",								 // Define the style for the page number
+		"styleFooter" 			: "alignRight font8",								 // Define the style for the footer of the page
+		"styleTitle" 			: "font16 bold",									 // Define the style for the title of the page
+
+		/* Styles of the table */
+		//Header
+		"columHeaders" 			: [ "Id", "Description", "Amount1", "Amount2" ], 	 // Define the name for the columns of the table
+		"columWidth" 			: [ "10%", "60%", "15%", "15%" ], 					 // Define the width for the columns of the table
+		"styleTableHeader" 		: "backgroundColorBlue text-color-white alignCenter",// Define the style for the header of the table
+		"styleColorBorderTable" : "#2C4068",										 // Define the background color for the header of the table
+
+		//Table rows
+		"styleTextTable" 		: "alignLeft",										 // Define the style for the non-total texts of the table
+		"styleAmountTable" 		: "alignRight",										 // Define the style for the non-total amounts of the table
+		"styleTextTotal" 		: "alignLeft bold backgroundColorGrey",				 // Define the style for the total texts of the table
+		"styleAmountTotal" 		: "alignRight bold backgroundColorGrey",			 // Define the style for the total amounts of the table
+
+		/* Style for the text outside of the table */
+		"styleNotes" 			: "font12",											 // Define the style for the texts after the table
+
 	};
 }
 
-//The purpose of this function is to create and load the structure that will contains all the data used to create the report
+
+
+
+//The purpose of this function is to load the structure that contains the data used to create the report
 function loadForm() {
 
-	/** CONTO ECONOMICO **/
-	//INCOME
+	/* HEADER */
 	form.push({
-		"title": "Income",
-		"style": "test"
+		"headerText": "Elster Report",
+		"pageText": "Seite",
+	});
+
+	/* FOOTER */
+	form.push({
+		"footerText": "Banana Accounting",
+	});
+
+	/* TITLE */
+	form.push({
+	    "title": param.headerLeft + " - " + "Elster Report Jahr 2016",
+	});
+
+	/* INCOME */
+	form.push({
+	    "id": "E106",
+	    "gr": "106",
+	    "bClass": "4",
+	    "description": "106 Elster...",
 	});
 	form.push({
-		"id": "E106",
-		"gr": "106",
-		"bClass": "4",
-		"description": "106 Elster"
+	    "id": "E108",
+	    "gr": "108",
+	    "bClass": "4",
+	    "description": "108 Elster...",
 	});
 	form.push({
-		"id": "E108",
-		"gr": "108",
-		"bClass": "4",
-		"description": "108 Elster"
+	    "id": "E112",
+	    "gr": "112",
+	    "bClass": "4",
+	    "description": "112 Elster...",
 	});
 	form.push({
-		"id": "E112",
-		"gr": "112",
-		"bClass": "4",
-		"description": "112 Elster .."
-	});
-	form.push({
-		"id": "E",
-		"description": "TOTAL Erträge",
-		"sum": "E106;E108;E112",
-		"column": 4
-	});
-	form.push({
-		"pageBreak": true,
-		"column": 4
+	    "id": "E",
+	    "description": "TOTAL Erträge",
+	    "sum": "E106;E108;E112",
 	});
 
 	//EXPENSES
 	form.push({
-		"id": "K224",
-		"gr": "224",
-		"bClass": "3",
-		"description": "224 Elser ..."
+	    "id": "K224",
+	    "gr": "224",
+	    "bClass": "3",
+	    "description": "224 Elser...",
 	});
 	form.push({
-		"id": "K175",
-		"gr": "175",
-		"bClass": "3",
-		"description": "175 Elser ..."
+	    "id": "K175",
+	    "gr": "175",
+	    "bClass": "3",
+	    "description": "175 Elser...",
 	});
 	form.push({
-		"id": "K",
-		"description": "TOTALE Kosten",
-		"sum": "K224;K175"
+	    "id": "K",
+	    "description": "TOTALE Kosten",
+	    "sum": "K224;K175",
 	});
 
-	//RISULTATO D'ESERCIZIO
+	//PROFIT / LOSS
 	form.push({
-		"id": "UP",
-		"description": "Gewinn",
-		"sum": "E;-K"
+	    "id": "UP",
+	    "description": "Gewinn",
+	    "sum": "E;-K",
+	});
+	
+
+	/* PAGE BREAK. Can only be inserted after the table */
+	form.push({
+	    "pageBreak": true
 	});
 
+	/* NOTES. Can only be inserted after the table */
+	form.push({
+	    "notes" : "This is a text that can be added after the table.",
+	});
+
+	/* EMPTY PARAGRAPH. Can only be inserted after the table */
+	form.push({
+		"emptyParagraph" : true,
+	});
+
+	/* NOTES. Can only be inserted after the table */
+	form.push({
+	    "notes" : "This is an other text that can be added after the table.",
+	});
 }
+
+
+
+
+
+/* The main purpose of this function is to create styles for the report print */
+function loadStyleSheet(stylesheet) {
+	
+	stylesheet.addStyle("@page", "margin:10mm 10mm 10mm 20mm");
+	stylesheet.addStyle("body", "font-family:" + param.styleFontText);
+
+	//Define lines
+	stylesheet.addStyle(".horizontalLine", "border-bottom:thin solid black");
+
+	//Define some font styles
+	stylesheet.addStyle(".bold", "font-weight:bold");
+	stylesheet.addStyle(".italic", "font-style:italic");
+	stylesheet.addStyle(".font8", "font-size:8px");
+	stylesheet.addStyle(".font12", "font-size:12px");
+	stylesheet.addStyle(".font16", "font-size:16px");
+
+	//Define some background colors
+	stylesheet.addStyle(".backgroundColorBlue", "background-color:#2C4068");
+	stylesheet.addStyle(".backgroundColorGrey", "background-color:#eeeeee");
+
+	//Define text colors (by default it's black)
+	stylesheet.addStyle(".text-color-white", "color:#fff");
+
+	//Define text alignments
+	stylesheet.addStyle(".alignRight", "text-align:right");
+	stylesheet.addStyle(".alignCenter", "text-align:center");
+	stylesheet.addStyle(".alignLeft", "text-align:left");
+
+
+	//Define columns width
+	stylesheet.addStyle(".col1", "width:" + param.columWidth[0]);
+	stylesheet.addStyle(".col2", "width:" + param.columWidth[1]);
+	stylesheet.addStyle(".col3", "width:" + param.columWidth[2]);
+	stylesheet.addStyle(".col4", "width:" + param.columWidth[3]);
+
+	//Define table style
+	style = stylesheet.addStyle("table");
+	style.setAttribute("width", "100%");
+	stylesheet.addStyle("table.table td", "border:thin solid " + param.styleColorBorderTable);
+
+	return stylesheet;
+}
+
+
+
+
 
 //Main function
 function exec(string) {
@@ -138,7 +244,7 @@ function exec(string) {
 	calcTotals(["amount"]);
 
 	// 4. Do some operations before the format
-	//postProcess();
+	postProcess();
 
 	// 5. Format all the values
 	formatValues(["amount"]);
@@ -154,66 +260,85 @@ function preProcess() {
 }
 
 //The purpose of this function is to do some operations before the values are converted
-function postProcess() {}
+function postProcess() {
+
+}
 
 //The purpose of this function is to create and print the report
 function printReport() {
 
 	var report = Banana.Report.newReport(param.reportName);
-	var thisYear = Banana.Converter.toDate(Banana.document.info("AccountingDataBase", "OpeningDate")).getFullYear();
 
-	/** TABLE CONTO ECONOMICO **/
-	report.addParagraph(param.headerLeft + " - " + "Elster Report Jahr " + thisYear, "heading2");
-
-	var table = report.addTable("table");
-	tableRow = table.addRow();
-	tableRow.addCell("Id", "styleTableHeader", 1);
-	tableRow.addCell("Id", "styleTableHeader", 1);
-	tableRow.addCell(param.columHeaders[2], "styleTableHeader", 1);
-	tableRow.addCell("", "styleTableHeader", 1);
-	tableRow.addCell("", "styleTableHeader", 1);
-	tableRow.addCell("Teilbeträge", "styleTableHeader", 1);
-	tableRow.addCell("Gesamtbeträge", "styleTableHeader", 1);
-
+	/* Add a title */
 	for (var k = 0; k < form.length; k++) {
-
-		if (form[k]["id"] &&
-			(form[k]["id"].substring(0, 1) === "E" || form[k]["id"].substring(0, 1) === "K" || form[k]["id"].substring(0, 2) === "UP")) {
-
-			//Titles
-			if (form[k]["id"] === "Rt" || form[k]["id"] === "Ct") {
-				tableRow = table.addRow();
-				tableRow.addCell(form[k]["description"], "styleTitleCell", 7);
-			}
-			//Totals
-			else if (form[k]["id"] === "E" || form[k]["id"] === "K" || form[k]["id"] === "UP") {
-				tableRow = table.addRow();
-				tableRow.addCell(form[k]["id"], "valueTotal", 1);
-				tableRow.addCell(form[k]["description"], "valueTotal", 4);
-				tableRow.addCell(" ", "valueTotal", 1);
-				tableRow.addCell(form[k]["amount_formatted"], "alignRight bold valueTotal", 1);
-			}
-			//Details
-			else {
-				tableRow = table.addRow();
-				tableRow.addCell(" ", "", 1);
-				tableRow.addCell(form[k]["id"], "", 1);
-				tableRow.addCell(form[k]["description"], "", 3);
-				tableRow.addCell(form[k]["amount_formatted"], "alignRight", 1);
-				tableRow.addCell(" ", "", 1);
-			}
+		if (!form[k]["id"] && form[k]["title"]) {
+			report.addParagraph(form[k]["title"], param.styleTitle);
 		}
 	}
 
-	//report.addPageBreak();
+	/* Define all the columns */
+	var table = report.addTable("table");
+	var col1 = table.addColumn("col1");
+	var col2 = table.addColumn("col2");
+	var col3 = table.addColumn("col3");
+	var col4 = table.addColumn("col4");
 
+	/* Add the header of the table using the defined styles */
+	tableRow = table.addRow();
+	tableRow.addCell(param.columHeaders[0], param.styleTableHeader, 1);
+	tableRow.addCell(param.columHeaders[1], param.styleTableHeader, 1);
+	tableRow.addCell(param.columHeaders[2], param.styleTableHeader, 1);
+	tableRow.addCell(param.columHeaders[3], param.styleTableHeader, 1);
+
+	/* For each element of the form add a row to the table and fill it with the form element data */
+	for (var k = 0; k < form.length; k++) {
+
+		//Only elements with an ID has to be inserted in the table
+		if (form[k]["id"]) { 
+
+			//Add a row to the table
+			tableRow = table.addRow();
+			
+			//Take the amount value
+			if (param.formatNumber) {
+				var amount = form[k]["amount_formatted"];
+			} else {
+				var amount = form[k]["amount"];
+			}
+
+			//Fill the row of the table
+			if (!form[k]["sum"]) {
+				tableRow.addCell(form[k]["id"], param.styleTextTable, 1);
+				tableRow.addCell(form[k]["description"], param.styleTextTable, 1);
+				tableRow.addCell(amount, param.styleAmountTable, 1);
+				tableRow.addCell(" ", param.styleAmountTable, 1);
+			} else {
+				tableRow.addCell(form[k]["id"], param.styleTextTotal, 1);
+				tableRow.addCell(form[k]["description"], param.styleTextTotal, 1);
+				tableRow.addCell(" ",  param.styleAmountTotal, 1);
+				tableRow.addCell(amount,  param.styleAmountTotal, 1);
+			}
+		}
+		
+		if (form[k]["pageBreak"]) {
+			report.addPageBreak();
+		}
+
+		if (form[k]["emptyParagraph"]) {
+			report.addParagraph(" ", "");
+		}
+
+		if (form[k]["notes"]) {
+			report.addParagraph(form[k]["notes"], param.styleNotes);
+		}
+	}
 
 	//Add a footer to the report
 	addHeader(report);
 	addFooter(report);
 
 	//Print the report
-	var stylesheet = createStyleSheet();
+	var stylesheet = loadStyleSheet(Banana.Report.newStyleSheet());
 	Banana.Report.preview(report, stylesheet);
 }
 
@@ -337,28 +462,6 @@ function getFormValueById(source, id, field) {
 	Banana.document.addMessage("Couldn't find object with id: " + id);
 }
 
-//The purpose of this function is to get the Description from an object
-function getDescription(id) {
-	var searchId = id.trim();
-	for (var i = 0; i < form.length; i++) {
-		if (form[i]["id"] === searchId) {
-			return form[i]["description"];
-		}
-	}
-	Banana.document.addMessage("Couldn't find object with id: " + id);
-}
-
-//The purpose of this function is to get the Balance from an object
-function getBalance(id) {
-	var searchId = id.trim();
-	for (var i = 0; i < form.length; i++) {
-		if (form[i]["id"] === searchId) {
-			return form[i]["amount"];
-		}
-	}
-	Banana.document.addMessage("Couldn't find object with id: " + id);
-}
-
 //The purpose of this function is to convert all the values from the given list to local format
 function formatValues(fields) {
 	for (i = 0; i < form.length; i++) {
@@ -423,165 +526,26 @@ function calcTotal(id, fields) {
 
 //This function adds a Footer to the report
 function addFooter(report) {
-	report.getFooter().addClass("footer");
-	var versionLine = report.getFooter().addText("Banana Accounting - ", "description");
-	report.getFooter().addText("Pagina ", "description");
-	report.getFooter().addFieldPageNr();
+	for (var k = 0; k < form.length; k++) {
+		if (form[k]["footerText"]) {
+			var pageFooter = report.getFooter();
+			pageFooter.addClass("footer");
+			pageFooter.addParagraph(form[k]["footerText"], param.styleFooter);		
+		}
+	}
 }
 
+//This function adds an Header to the report
 function addHeader(report) {
-	var pageHeader = report.getHeader();
-	pageHeader.addClass("header");
-	pageHeader.addParagraph("Elster report", "header1 bold");
-	pageHeader.addParagraph("", "header2 right").addFieldPageNr();
-	pageHeader.addParagraph(" ", "horizontalLine");
-	pageHeader.addParagraph(" ");
-	pageHeader.addParagraph(" ");
-}
-
-//The main purpose of this function is to create styles for the report print
-function createStyleSheet() {
-	var stylesheet = Banana.Report.newStyleSheet();
-
-	var pageStyle = stylesheet.addStyle("@page");
-	pageStyle.setAttribute("margin", "5mm 10mm 5mm 10mm");
-
-	stylesheet.addStyle("body", "font-family : Helvetica");
-
-	var style = stylesheet.addStyle(".description");
-	style.setAttribute("padding-bottom", "5px");
-	style.setAttribute("padding-top", "5px");
-	style.setAttribute("font-size", "8px");
-
-	style = stylesheet.addStyle(".right");
-	style.setAttribute("text-align", "right");
-
-	// style = stylesheet.addStyle(".descriptionBold");
-	// style.setAttribute("font-size", "8px");
-	// style.setAttribute("font-weight", "bold");
-
-	style = stylesheet.addStyle(".footer");
-	style.setAttribute("text-align", "right");
-	style.setAttribute("font-size", "8px");
-	style.setAttribute("font-family", "Courier New");
-
-	style = stylesheet.addStyle(".heading1");
-	style.setAttribute("font-size", "16px");
-	style.setAttribute("font-weight", "bold");
-
-	style = stylesheet.addStyle(".heading2");
-	style.setAttribute("font-size", "12px");
-	style.setAttribute("font-weight", "bold");
-
-	style = stylesheet.addStyle(".heading3");
-	style.setAttribute("font-size", "10px");
-	style.setAttribute("font-weight", "bold");
-
-	style = stylesheet.addStyle(".heading4");
-	style.setAttribute("font-size", "9px");
-	style.setAttribute("font-weight", "bold");
-
-	style = stylesheet.addStyle(".header1");
-	style.setAttribute("font-size", "10px");
-	style.setAttribute("font-family", "Times New Roman");
-
-	style = stylesheet.addStyle(".header2");
-	style.setAttribute("font-size", "7px");
-	style.setAttribute("font-family", "Times New Roman");
-
-	style = stylesheet.addStyle(".horizontalLine");
-	style.setAttribute("border-bottom", "thin solid black");
-
-	// style = stylesheet.addStyle(".rowNumber");
-	// style.setAttribute("font-size", "9px");
-
-	// style = stylesheet.addStyle(".valueAmount");
-	// style.setAttribute("font-size", "9px");
-	// style.setAttribute("font-weight", "bold");
-	// style.setAttribute("padding-bottom", "5px");
-	// style.setAttribute("background-color", "#eeeeee");
-	// style.setAttribute("text-align", "right");
-
-	// style = stylesheet.addStyle(".valueDate");
-	// style.setAttribute("font-size", "9px");
-	// style.setAttribute("font-weight", "bold");
-	// style.setAttribute("padding-bottom", "5px");
-	// style.setAttribute("background-color", "#eeeeee");
-
-	// style = stylesheet.addStyle(".valueText");
-	// style.setAttribute("font-size", "9px");
-	// style.setAttribute("font-weight", "bold");
-	// style.setAttribute("padding-bottom", "5px");
-	// style.setAttribute("padding-top", "5px");
-	// style.setAttribute("background-color", "#eeeeee");
-
-	// style = stylesheet.addStyle(".valueTitle");
-	// style.setAttribute("font-size", "9px");
-	// style.setAttribute("font-weight", "bold");
-	// //style.setAttribute("padding-bottom", "5px");
-	// //style.setAttribute("padding-top", "5px");
-	// style.setAttribute("background-color", "#000000");
-	// style.setAttribute("color", "#fff");
-
-	// style = stylesheet.addStyle(".valueTitle1");
-	// style.setAttribute("font-size", "9px");
-	// style.setAttribute("font-weight", "bold");
-	// style.setAttribute("padding-bottom", "5px");
-	// style.setAttribute("padding-top", "5px");
-
-
-	style = stylesheet.addStyle(".valueTotal");
-	style.setAttribute("font-weight", "bold");
-	style.setAttribute("background-color", "#eeeeee");
-
-	style = stylesheet.addStyle(".valueTotal1");
-	style.setAttribute("background-color", "#eeeeee");
-
-	//Table
-	style = stylesheet.addStyle("table");
-	style.setAttribute("width", "100%");
-	style.setAttribute("font-size", "8px");
-	stylesheet.addStyle("table.table td", "border: thin solid #2C4068");
-
-	style = stylesheet.addStyle(".styleTableHeader");
-	//style.setAttribute("font-weight", "bold");
-	style.setAttribute("background-color", "#2C4068");
-	style.setAttribute("border-bottom", "1px double black");
-	style.setAttribute("color", "#fff");
-
-	style = stylesheet.addStyle(".styleTitleCell");
-	style.setAttribute("font-weight", "bold");
-	style.setAttribute("background-color", "#FFD100");
-	style.setAttribute("border-bottom", "1px double black");
-	style.setAttribute("color", "#2C4068");
-
-	style = stylesheet.addStyle(".background");
-	style.setAttribute("padding-bottom", "5px");
-	style.setAttribute("padding-top", "5px");
-	style.setAttribute("background-color", "#eeeeee");
-
-	style = stylesheet.addStyle(".borderLeft");
-	style.setAttribute("border-left", "thin solid black");
-
-	style = stylesheet.addStyle(".borderBottom");
-	style.setAttribute("border-bottom", "thin solid black");
-
-	style = stylesheet.addStyle(".bold");
-	style.setAttribute("font-weight", "bold");
-
-	style = stylesheet.addStyle(".italic");
-	style.setAttribute("font-style", "italic");
-
-	style = stylesheet.addStyle(".alignRight");
-	style.setAttribute("text-align", "right");
-
-	style = stylesheet.addStyle(".alignCenter");
-	style.setAttribute("text-align", "center");
-
-	//Image style
-	style = stylesheet.addStyle(".img");
-	style.setAttribute("height", "170");
-	style.setAttribute("width", "170");
-
-	return stylesheet;
+	for (var k = 0; k < form.length; k++) {
+		if (form[k]["headerText"]) {
+			var pageHeader = report.getHeader();
+			pageHeader.addClass("header");
+			pageHeader.addParagraph(form[k]["headerText"], param.styleHeader);
+			pageHeader.addParagraph(form[k]["pageText"] + " ", param.stylePageNumber).addFieldPageNr();
+			pageHeader.addParagraph(" ", "horizontalLine");
+			pageHeader.addParagraph(" ");
+			pageHeader.addParagraph(" ");
+		}
+	}
 }
