@@ -13,12 +13,12 @@
 // limitations under the License.
 //
 // @api = 1.0
-// @id = ch.banana.apps.ustvagermany
+// @id = ch.banana.apps.ustvagermany-2016
 // @description = Elster UStVA XML-Export
 // @task = export.file
 // @doctype = 100.110;100.130;110.110;110.130
 // @publisher = Banana.ch SA
-// @pubdate = 2016-05-23
+// @pubdate = 2017-03-02
 // @inputdatasource = none
 // @timeout = -1
 // @exportfiletype = xml

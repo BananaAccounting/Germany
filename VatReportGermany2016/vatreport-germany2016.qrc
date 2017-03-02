@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+ <qresource>
+     <file>vatreport-germany2016.js</file>
+     <file>geierlein.js</file>
+     <file>xmlwriter.js</file>
+ </qresource>
+ </RCC>
