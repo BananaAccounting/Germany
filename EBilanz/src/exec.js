@@ -70,5 +70,14 @@ function exec(string)
   }*/
   
   getAccountingData(param, contextList);
-  return createInstance(param, contextList);
+  var output = createInstance(param, contextList);
+
+  var report = Banana.Report.newReport("Bilanz (E-Bilanz)");
+  var stylesheet = Banana.Report.newStyleSheet();
+  for (var i in contextList) {
+    printEBilanzReport(report, stylesheet, param, contextList[i]);
+  }
+  Banana.Report.preview(report, stylesheet);
+
+  return output;
 }
