@@ -533,6 +533,8 @@ function printEBilanzReport(report, stylesheet, param, context)
   //Header Version
   cell = headerRow.addCell("", "version");
   paragraph = cell.addParagraph("Version:");
+  paragraph.addLineBreak();
+  paragraph.addText("HGB 5.4");
   
   printEBilanzReport_table(report, stylesheet, param, context, 'role_balanceSheet');
   printEBilanzReport_table(report, stylesheet, param, context, 'role_incomeStatement');
