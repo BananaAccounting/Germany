@@ -1,30 +1,22 @@
 function init_param()
 {
   var param = {
-  'contextId' : 'yourContextId',
-  'companyId' : 'yourCompanyId',
-  'identifierScheme' : 'http://scheme.xbrl.org',
-  'profitLossGroup' : '02',
   'accountingBasicCurrency' : '',
-  'accountingOpeningDate' : '',
-  'accountingClosureDate' : '',
-  'accountingYear' : 0,
+  'companyId' : '',
+  'identifierScheme' : 'http://scheme.xbrl.org',
   };
   
   if (Banana.document)
   {
     param.accountingBasicCurrency = Banana.document.info("AccountingDataBase", "BasicCurrency");
-    param.accountingOpeningDate = Banana.document.info("AccountingDataBase", "OpeningDate");
-    param.accountingClosureDate = Banana.document.info("AccountingDataBase", "ClosureDate");
-
-    var openingYear = 0;
-    var closureYear = 0;
-    if (param.accountingOpeningDate.length >= 10)
-        openingYear = param.accountingOpeningDate.substring(0, 4);
-    if (param.accountingClosureDate.length >= 10)
-        closureYear = param.accountingClosureDate.substring(0, 4);
-    if (openingYear > 0 && openingYear === closureYear)
-        param.accountingYear = openingYear;
+    var company = '';
+    if (Banana.document.info("AccountingDataBase","Company").length) {
+      company = Banana.document.info("AccountingDataBase","Company");
+    }
+    if (Banana.document.info("AccountingDataBase","Name").length || Banana.document.info("AccountingDataBase","FamilyName").length) {
+      company = Banana.document.info("AccountingDataBase","Name") + ' ' + Banana.document.info("AccountingDataBase","FamilyName");
+    }
+    param.companyId = company;
   }
  
   param.schemaRefs = init_schemarefs();

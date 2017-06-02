@@ -15,7 +15,7 @@
 // @id = xbrlcreateinstance_hgb54
 // @doctype = *.*
 // @publisher = Banana.ch SA
-// @pubdate = 2017-05-31
+// @pubdate = 2017-06-02
 // @description = Xbrl HGB 5.4 Instance Creation
 // @task = export.file
 // @exportfilename = <Date>_xbrl54_file
@@ -98,7 +98,7 @@ function exec(string)
   getAccountingData(param, contextList);
   var output = createInstance(param, contextList);
 
-  var report = Banana.Report.newReport("Bilanz (E-Bilanz)");
+  var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
   var stylesheet = Banana.Report.newStyleSheet();
   for (var i in contextList) {
     printEBilanzReport(report, stylesheet, param, contextList[i]);
@@ -110,30 +110,22 @@ function exec(string)
 function init_param()
 {
   var param = {
-  'contextId' : 'yourContextId',
-  'companyId' : 'yourCompanyId',
-  'identifierScheme' : 'http://scheme.xbrl.org',
-  'profitLossGroup' : '02',
   'accountingBasicCurrency' : '',
-  'accountingOpeningDate' : '',
-  'accountingClosureDate' : '',
-  'accountingYear' : 0,
+  'companyId' : '',
+  'identifierScheme' : 'http://scheme.xbrl.org',
   };
   
   if (Banana.document)
   {
     param.accountingBasicCurrency = Banana.document.info("AccountingDataBase", "BasicCurrency");
-    param.accountingOpeningDate = Banana.document.info("AccountingDataBase", "OpeningDate");
-    param.accountingClosureDate = Banana.document.info("AccountingDataBase", "ClosureDate");
-
-    var openingYear = 0;
-    var closureYear = 0;
-    if (param.accountingOpeningDate.length >= 10)
-        openingYear = param.accountingOpeningDate.substring(0, 4);
-    if (param.accountingClosureDate.length >= 10)
-        closureYear = param.accountingClosureDate.substring(0, 4);
-    if (openingYear > 0 && openingYear === closureYear)
-        param.accountingYear = openingYear;
+    var company = '';
+    if (Banana.document.info("AccountingDataBase","Company").length) {
+      company = Banana.document.info("AccountingDataBase","Company");
+    }
+    if (Banana.document.info("AccountingDataBase","Name").length || Banana.document.info("AccountingDataBase","FamilyName").length) {
+      company = Banana.document.info("AccountingDataBase","Name") + ' ' + Banana.document.info("AccountingDataBase","FamilyName");
+    }
+    param.companyId = company;
   }
  
   param.schemaRefs = init_schemarefs();
@@ -303,7 +295,8 @@ function loadAmounts(roleObject, context, accounts)
 	if (roleObject[xbrlCurrent])
 	{
 		amount = amount*roleObject[xbrlCurrent].weight;
-		roleObject[xbrlCurrent][contextName] += Math.round(amount * 100) / 100;
+		amount = Banana.SDecimal.round(amount, {'decimals':2});
+		roleObject[xbrlCurrent][contextName] = Banana.SDecimal.add(roleObject[xbrlCurrent][contextName], amount);
 	}
   }
 }
@@ -347,7 +340,7 @@ function loadNetIncomeLoss(role, context, param)
     if ( variableName == "VARIABLE_NETINCOMELOSS" && elementRole == role && elementid.length>0)
 	{
 	  if (param.taxonomy[role][elementid])
-        param.taxonomy[role][elementid][contextName] = Math.round(currentBalance * 100) / 100;
+        param.taxonomy[role][elementid][contextName] = Banana.SDecimal.round(currentBalance, {'decimals':2});
 	}
   }
   return;
@@ -423,7 +416,7 @@ function createInstance(param, contextList)
 		    periodtype = periodtype.substr(0,1);
 		  var contextref = periodtype + '-' + contextname;  
 		  var attrs = {'contextRef':contextref,'unitRef':'BaseCurrency','decimals':accountingDecimals};
-		  xbrlContent += xml_createElement(param.taxonomy[role][object]['qname'], Math.round(param.taxonomy[role][object][contextname] * 100) / 100, attrs) + '\n';
+		  xbrlContent += xml_createElement(param.taxonomy[role][object]['qname'], Banana.SDecimal.round(param.taxonomy[role][object][contextname], {'decimals':2}), attrs) + '\n';
 		}
       }
     }
@@ -540,47 +533,53 @@ function printEBilanzReport(report, stylesheet, param, context)
   //Header Version
   cell = headerRow.addCell("", "version");
   paragraph = cell.addParagraph("Version:");
+  
+  printEBilanzReport_table(report, stylesheet, param, context, 'role_balanceSheet');
+  printEBilanzReport_table(report, stylesheet, param, context, 'role_incomeStatement');
 
+}
+
+function printEBilanzReport_table(report, stylesheet, param, context, role)
+{
   //Data Rows
   var table2 = report.addTable("table2");
-  headerRow = table2.getHeader().addRow();
-  headerRow.addCell("Bilanz (E-Bilanz)", "mainTitle");
+  var headerRow = table2.getHeader().addRow();
+  var title = 'Bilanz';
+  if (role == 'role_incomeStatement')
+    title = 'Gewinn- und Verlustrechnung';
+  headerRow.addCell(title + " (E-Bilanz)", "mainTitle");
   
-
   //Column names
   headerRow = table2.getHeader().addRow();
   headerRow.addCell("Name", "title description");
   headerRow.addCell("Wert", "title amount");
 
-  //Rows
-  var accountingDecimals = Banana.document.info("Base", "DecimalsAmounts");
-  for (var role in param.taxonomy)
-  {
-    for (var object in param.taxonomy[role])
-    {
-      if (typeof param.taxonomy[role][object] === 'string')
-        continue;
-      var print = false;
-      var contextname = context['name'];
-      if (param.taxonomy[role][object][contextname] != 0)
-        print = true;
-      if (print == false)
-        continue;
+  //First row
+  var row = table2.addRow();
+  row.addCell(title, "row level0");
+  row.addCell("", "row level0 amount");
 
-      if (param.taxonomy[role][object][contextname] != 0)
-      {
-        var periodtype = param.taxonomy[role][object]['periodtype'];
-        if (periodtype.length>=1)
-          periodtype = periodtype.substr(0,1);
-        var row = table2.addRow();
-        var className = "row level" + param.taxonomy[role][object]['level'];
-        var amount = Math.round(param.taxonomy[role][object][contextname] * 100) / 100;
-        amount = Banana.Converter.toLocaleNumberFormat(amount);
-        row.addCell(param.taxonomy[role][object]['label']['de'], className);
-        row.addCell(amount, className + " amount");
-      }
-    }
-  }  
+  //Rows
+  for (var object in param.taxonomy[role])
+  {
+    if (typeof param.taxonomy[role][object] === 'string')
+      continue;
+    var print = false;
+    var contextname = context['name'];
+    if (param.taxonomy[role][object][contextname] == 0)
+      continue;
+
+    var periodtype = param.taxonomy[role][object]['periodtype'];
+    if (periodtype.length>=1)
+      periodtype = periodtype.substr(0,1);
+    row = table2.addRow();
+    var className = "row level" + param.taxonomy[role][object]['level'];
+    var amount = Banana.SDecimal.round(param.taxonomy[role][object][contextname], {'decimals':2});
+    //var amount = Math.round(param.taxonomy[role][object][contextname] * 100) / 100;
+    amount = Banana.Converter.toLocaleNumberFormat(amount);
+    row.addCell(param.taxonomy[role][object]['label']['de'], className);
+    row.addCell(amount, className + " amount");
+  }
 }
 // Copyright [2016] [Banana.ch SA - Lugano Switzerland]
 //
@@ -787,8 +786,9 @@ if (typeof String.prototype.endsWith != 'function') {
 function init_schemarefs()
 {
   var schemaRefs = [
+    '/de-gaap-ci-2015-04-03.xsd',
     '',
-    '/de-gaap-ci-2015-04-03-shell.xsd',
+    '',
     '',
     '',
   ];
@@ -812,6 +812,10 @@ function init_namespaces()
     {
       'namespace' : 'http://www.xbrl.org/2003/instance',
       'prefix' : 'xmlns:xbrli',
+    },
+    {
+      'namespace' : 'http://www.xbrl.org/2003/XLink',
+      'prefix' : 'xmlns:xl',
     },
     {
       'namespace' : 'http://www.w3.org/1999/xlink',
@@ -853,7 +857,7 @@ function init_taxonomy()
     'de-gaap-ci_is.netIncome': {
     'name': 'is.netIncome', 
     'qname': 'de-gaap-ci:is.netIncome', 
-    'label': {'de':'Jahresfehlbetrag', 'en':'Net income for the year', }, 
+    'label': {'de':'Jahresüberschuss/-fehlbetrag', 'en':'Net income/net loss for the financial year', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'level': 1, 
@@ -1922,7 +1926,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material': {
     'name': 'is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material', 
-    'label': {'de':'Aufwendungen für Roh-, Hilfs- und Betriebsstoffe und für bezogene Waren (GKV)', 'en':'Cost of raw materials, consumables and supplies, and of purchased merchandise (TC)', }, 
+    'label': {'de':'Aufwendungen für Roh-, Hilfs- und Betriebsstoffe und für bezogene Waren', 'en':'Cost of raw materials, consumables and supplies, and of purchased merchandise', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -2072,7 +2076,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services': {
     'name': 'is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services', 
-    'label': {'de':'Aufwendungen für bezogene Leistungen (GKV)', 'en':'Cost of purchased services', }, 
+    'label': {'de':'Aufwendungen für bezogene Leistungen', 'en':'Cost of purchased services', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -2142,7 +2146,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries': {
     'name': 'is.netIncome.regular.operatingTC.staff.salaries', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.staff.salaries', 
-    'label': {'de':'Löhne und Gehälter (GKV)', 'en':'Wages and salaries', }, 
+    'label': {'de':'Löhne und Gehälter', 'en':'Wages and salaries', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -2222,7 +2226,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social': {
     'name': 'is.netIncome.regular.operatingTC.staff.social', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.staff.social', 
-    'label': {'de':'soziale Abgaben und Aufwendungen für Altersversorgung und für Unterstützung (GKV)', 'en':'Social security, post-employment and other employee benefit costs', }, 
+    'label': {'de':'soziale Abgaben und Aufwendungen für Altersversorgung und für Unterstützung', 'en':'Social security, post-employment and other employee benefit costs', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -2292,7 +2296,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.startUpCost': {
     'name': 'is.netIncome.regular.operatingTC.deprAmort.fixAss.startUpCost', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.deprAmort.fixAss.startUpCost', 
-    'label': {'de':'Abschreibungen (GKV) auf immaterielle Vermögensgegenstände des Anlagevermögens und Sachanlagen, auf Ingangsetzungsaufwendungen', 'en':'Amortisation and write-downs of intangible fixed assets and depreciation and write-downs of tangible fixed assets (TC), of which of capitalised business start-up expenses', }, 
+    'label': {'de':'auf Ingangsetzungsaufwendungen', 'en':'Amortisation of capitalised business start-up expenses', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -2302,7 +2306,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.goodwill': {
     'name': 'is.netIncome.regular.operatingTC.deprAmort.fixAss.goodwill', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.deprAmort.fixAss.goodwill', 
-    'label': {'de':'Abschreibungen (GKV) auf immaterielle Vermögensgegenstände des Anlagevermögens und Sachanlagen, auf Geschäfts- oder Firmenwert', 'en':'Amortisation and write-downs of intangible fixed assets and depreciation and write-downs of tangible fixed assets (TC), of which of goodwill', }, 
+    'label': {'de':'auf Geschäfts- oder Firmenwert', 'en':'Goodwill amortisation and write-downs', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -2312,7 +2316,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.otherIntan': {
     'name': 'is.netIncome.regular.operatingTC.deprAmort.fixAss.otherIntan', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.deprAmort.fixAss.otherIntan', 
-    'label': {'de':'Abschreibungen (GKV) auf immaterielle Vermögensgegenstände des Anlagevermögens und Sachanlagen, auf andere immaterielle Vermögensgegenstände', 'en':'Amortisation and write-downs of intangible fixed assets and depreciation and write-downs of tangible fixed assets (TC), of which of intangible fixed assets', }, 
+    'label': {'de':'auf andere immaterielle Vermögensgegenstände', 'en':'Amortisation and write-downs of intangible fixed assets', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -2322,7 +2326,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan': {
     'name': 'is.netIncome.regular.operatingTC.deprAmort.fixAss.tan', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.deprAmort.fixAss.tan', 
-    'label': {'de':'Abschreibungen (GKV) auf immaterielle Vermögensgegenstände des Anlagevermögens und Sachanlagen, auf Sachanlagen', 'en':'Amortisation and write-downs of intangible fixed assets and depreciation and write-downs of tangible fixed assets (TC), of which of tangible assets', }, 
+    'label': {'de':'auf Sachanlagen', 'en':'Depreciation and write-downs of tangible fixed assets', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -2422,7 +2426,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss': {
     'name': 'is.netIncome.regular.operatingTC.deprAmort.currAss', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.deprAmort.currAss', 
-    'label': {'de':'Außer Wertpapieren. Unabhängig von der Rechtsform des bilanzierenden Unternehmens', 'en':'Write-downs (TC) of current assets to the extent as they exceed the write-downs that are usual for the corporation', }, 
+    'label': {'de':'Abschreibungen auf Vermögensgegenstände des Umlaufvermögens, soweit diese die in der Kapitalgesellschaft üblichen Abschreibungen überschreiten', 'en':'Write-downs of current assets to the extent that they exceed the write-downs that are usual for the corporation', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -3152,7 +3156,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.sponsor': {
     'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.sponsor', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.sponsor', 
-    'label': {'de':'Erträge zur Erfüllung satzungsmäßiger Aufgaben (UKV), Sponsoring', 'en':'Income from sponsors to be used for statutory duties (CoS)', }, 
+    'label': {'de':'Sponsoring', 'en':'Income from sponsors to be used for statutory duties (CoS)', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -4162,7 +4166,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost': {
     'name': 'is.netIncome.regular.operatingCOGS.otherCost', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.otherCost', 
-    'label': {'de':'sonstige betriebliche Aufwendungen', 'en':'Other operating expenses not classified as cost of sales, selling and administrative expenses (CoS)', }, 
+    'label': {'de':'sonstige betriebliche Aufwendungen', 'en':'Other operating income', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': -1, 
@@ -4242,7 +4246,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.fin': {
     'name': 'is.netIncome.regular.fin', 
     'qname': 'de-gaap-ci:is.netIncome.regular.fin', 
-    'label': {'de':'best practice', 'en':'Financial result', }, 
+    'label': {'de':'Finanz- und Beteiligungsergebnis', 'en':'Financial result', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -4362,7 +4366,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities': {
     'name': 'is.netIncome.regular.fin.netParticipation.earningSecurities', 
     'qname': 'de-gaap-ci:is.netIncome.regular.fin.netParticipation.earningSecurities', 
-    'label': {'de':'Beteiligungserträge von Kapitalgesellschaften bzw. von Personengesellschaften sind steuerlich unterschiedlich zu behandeln (Teileinkünfteverfahren, § 8b KStG, gewerbesteuerliche Kürzungen bzw. Hinzurechnungen). Die Erträge sind deshalb aufzuteilen.', 'en':'Income from other securities and long-term loans', }, 
+    'label': {'de':'Erträge aus anderen Wertpapieren und Ausleihungen des Finanzanlagevermögens', 'en':'Income from other securities and long-term loans', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -4572,7 +4576,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.other': {
     'name': 'is.netIncome.regular.fin.netParticipation.amortFinanc.other', 
     'qname': 'de-gaap-ci:is.netIncome.regular.fin.netParticipation.amortFinanc.other', 
-    'label': {'de':'Die Position dient als Auffangposition, soweit eine detaillierte Zuordnung auf die in der gleichen Ebene vorhandenen Positionen nicht möglich ist.', 'en':'Write-downs of other miscellaneous securities classified as current assets', }, 
+    'label': {'de':'Abschreibungen auf Finanzanlagen und auf Wertpapiere des Umlaufvermögens, nicht zuordenbar', 'en':'Write-downs of other miscellaneous securities classified as current assets', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -4672,7 +4676,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.offsetting': {
     'name': 'is.netIncome.regular.fin.netInterest.expenses.offsetting', 
     'qname': 'de-gaap-ci:is.netIncome.regular.fin.netInterest.expenses.offsetting', 
-    'label': {'de':'Pflichtangabe nicht hier, sondern im Anhang; wertmäßige zusätzliche Berichtsoption', 'en':'of which from excess of plan assets over pension liability', }, 
+    'label': {'de':'im Zusammenhang mit Vermögensverrechnung', 'en':'of which from excess of plan assets over pension liability', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -4822,7 +4826,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.extraord.income.misc': {
     'name': 'is.netIncome.extraord.income.misc', 
     'qname': 'de-gaap-ci:is.netIncome.extraord.income.misc', 
-    'label': {'de':'nicht zuordenbar', 'en':'Miscellaneous extraordinary income', }, 
+    'label': {'de':'außerordentliche Erträge, nicht zuordenbar', 'en':'Miscellaneous extraordinary income', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -4952,7 +4956,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.tax.prevPeriodPaid': {
     'name': 'is.netIncome.tax.prevPeriodPaid', 
     'qname': 'de-gaap-ci:is.netIncome.tax.prevPeriodPaid', 
-    'label': {'de':'Steuern vom Einkommen und vom Ertrag, Steuernachzahlungen für Vorjahre', 'en':'Taxes on income, backpayments of taxes for prior years (taxes on income)', }, 
+    'label': {'de':'Steuernachzahlungen für Vorjahre', 'en':'Backpayments of taxes for prior years', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -4962,7 +4966,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.tax.prevPeriodReceived': {
     'name': 'is.netIncome.tax.prevPeriodReceived', 
     'qname': 'de-gaap-ci:is.netIncome.tax.prevPeriodReceived', 
-    'label': {'de':'erläuternde Angabe, Position ist positiv zu füllen. Sie ist als "programmtechnisch abzuziehen" zu sehen', 'en':'Tax refunds for prior years', }, 
+    'label': {'de':'Steuererstattungen für Vorjahre', 'en':'Tax refunds for prior years', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': -1, 
@@ -4972,7 +4976,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.tax.releaseTaxProv': {
     'name': 'is.netIncome.tax.releaseTaxProv', 
     'qname': 'de-gaap-ci:is.netIncome.tax.releaseTaxProv', 
-    'label': {'de':'erläuternde Angabe, Position ist positiv zu füllen. Sie ist als "programmtechnisch abzuziehen" zu sehen', 'en':'Income from reversal of tax provisions', }, 
+    'label': {'de':'Erträge aus der Auflösung von Steuerrückstellungen', 'en':'Income from reversal of tax provisions', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': -1, 
@@ -5062,7 +5066,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.otherTaxes.prevPeriodPaid': {
     'name': 'is.netIncome.otherTaxes.prevPeriodPaid', 
     'qname': 'de-gaap-ci:is.netIncome.otherTaxes.prevPeriodPaid', 
-    'label': {'de':'sonstige Steuern, Steuernachzahlungen für Vorjahre', 'en':'Backpayments of taxes for prior years', }, 
+    'label': {'de':'Steuernachzahlungen für Vorjahre', 'en':'Backpayments of taxes for prior years', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -5072,7 +5076,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.otherTaxes.prevPeriodReceived': {
     'name': 'is.netIncome.otherTaxes.prevPeriodReceived', 
     'qname': 'de-gaap-ci:is.netIncome.otherTaxes.prevPeriodReceived', 
-    'label': {'de':'Position ist positiv zu füllen. Sie ist als "programmtechnisch abzuziehen" zu sehen', 'en':'Tax refunds for prior years', }, 
+    'label': {'de':'Steuererstattungen für Vorjahre', 'en':'Tax refunds for prior years', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': -1, 
@@ -5082,7 +5086,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.otherTaxes.releaseTaxProvision': {
     'name': 'is.netIncome.otherTaxes.releaseTaxProvision', 
     'qname': 'de-gaap-ci:is.netIncome.otherTaxes.releaseTaxProvision', 
-    'label': {'de':'sonstige Steuern, Erträge aus der Auflösung von Steuerrückstellungen', 'en':'Income from reversal of tax provisions', }, 
+    'label': {'de':'Erträge aus der Auflösung von Steuerrückstellungen', 'en':'Income from reversal of tax provisions', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': -1, 
@@ -5102,7 +5106,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.incomeSharing': {
     'name': 'is.netIncome.incomeSharing', 
     'qname': 'de-gaap-ci:is.netIncome.incomeSharing', 
-    'label': {'de':'Eine Verlustabführung ist positiv, eine Gewinnabführung negativ zu erfassen (vgl. aber Element "Gewinnabführung").', 'en':'Profit and loss transfer (subsidiary)', }, 
+    'label': {'de':'Verlust- bzw. Gewinnabführung (Tochter)', 'en':'Profit and loss transfer (subsidiary)', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -5142,7 +5146,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.incomeSharing.gain': {
     'name': 'is.netIncome.incomeSharing.gain', 
     'qname': 'de-gaap-ci:is.netIncome.incomeSharing.gain', 
-    'label': {'de':'Element ist positiv zu erfassen. Es ist als "programmtechnisch abzuziehen" zu sehen', 'en':'Profit and loss transfer (subsidiary), profit transferred under profit pooling, profit and loss transfer, or partial profit transfer agreements', }, 
+    'label': {'de':'auf Grund einer Gewinngemeinschaft, eines Gewinnabführungs- oder Teilgewinnabführungsvertrags abgeführte Gewinne', 'en':'Profit transferred on the basis of profit pooling, profit and loss transfer, or partial profit transfer agreements', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': -1, 
@@ -5202,7 +5206,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.incomeSubsidPaidToMinority': {
     'name': 'is.netIncome.incomeSubsidPaidToMinority', 
     'qname': 'de-gaap-ci:is.netIncome.incomeSubsidPaidToMinority', 
-    'label': {'de':'soweit die Tochtergesellschaft verpflichtet ist, die Dividende an die Minderheitsgesellschafter zu zahlen, vgl. Beckscher Bilanz-Kommentar Anm.13 Nr 2 zu §277 HGB mit Verweis auf ADS Anm.69 zu § 277', 'en':'Compensation payments to minority interests (subsidiary)', }, 
+    'label': {'de':'Ausgleichszahlung an Minderheiten (Tochter)', 'en':'Compensation payments to minority interests (subsidiary)', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': -1, 
@@ -5212,7 +5216,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.collItemChangeProfitHbst': {
     'name': 'is.netIncome.collItemChangeProfitHbst', 
     'qname': 'de-gaap-ci:is.netIncome.collItemChangeProfitHbst', 
-    'label': {'de':'bei fehlender Zuordnungsmöglichkeit von erfolgswirksamen Abweichungen in der Überleitungsrechnung zu einzelnen GuV-Posten', 'en':'Pooled item for profit changes from reconciliation statement', }, 
+    'label': {'de':'Sammelpo. für Gewinnänderungen aus der Überleitungsrechnung', 'en':'Pooled item for profit changes from reconciliation statement', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -5222,7 +5226,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.OtherForeign': {
     'name': 'is.netIncome.OtherForeign', 
     'qname': 'de-gaap-ci:is.netIncome.OtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Result of foreign branch(es)', }, 
+    'label': {'de':'Ergebnis der ausländischen Betriebsstätten, soweit nicht anders zuordenbar', 'en':'Result of foreign branch(es)', }, 
     'balance': 'credit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -5510,7 +5514,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries.misc': {
     'name': 'is.netIncome.regular.operatingCOGS.staff.salaries.misc', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.staff.salaries.misc', 
-    'label': {'de':'Löhne (z.B. für Produktion und Fertigung) sowie Gehälter (z.B. für Verwaltung und Vertrieb), inkl. Sachbezüge, soweit keine Vergütungen an Gesellschafter-Geschäftsführer oder Mitunternehmer sowie Auffangposition, soweit eine detaillierte Zuordnung auf die in der gleichen Ebene vorhandenen Positionen nicht möglich ist. Hierunter fallen die Bruttobeträge der Löhne und Gehälter, sowohl Geld- als auch Sachbezüge (Nettobetrag, Steuern, Arbeitnehmeranteile zur Sozialversicherung und Beiträge zur Berufsgenossenschaft).', 'en':'Memo Item: personell expenses (TC), wages and salaries, other salaries and wages', }, 
+    'label': {'de':'übrige Löhne und Gehälter', 'en':'Memo Item: personell expenses (TC), wages and salaries, other salaries and wages', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -5599,7 +5603,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.startUpCost': {
     'name': 'is.netIncome.regular.operatingCOGS.deprAm.fixAss.startUpCost', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.deprAm.fixAss.startUpCost', 
-    'label': {'de':'Nachrichtlich: Abschreibungen (entsprechend GKV), Abschreibungen auf immaterielle Vermögensgegenstände des Anlagevermögens und Sachanlagen, Abschreibungen auf Ingangsetzungsaufwendungen', 'en':'Memo item: depreciation, amortisation and write-downs (TC), amortisation and write-downs of intangible fixed assets, depreciation and write-downs of tangible fixed assets, mortisation of capitalised business start-up expenses', }, 
+    'label': {'de':'auf Ingangsetzungsaufwendungen', 'en':'Memo item: depreciation, amortisation and write-downs (TC), amortisation and write-downs of intangible fixed assets, depreciation and write-downs of tangible fixed assets, mortisation of capitalised business start-up expenses', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -5609,7 +5613,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.goodwill': {
     'name': 'is.netIncome.regular.operatingCOGS.deprAm.fixAss.goodwill', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.deprAm.fixAss.goodwill', 
-    'label': {'de':'Nachrichtlich: Abschreibungen (entsprechend GKV), Abschreibungen auf immaterielle Vermögensgegenstände des Anlagevermögens und Sachanlagen, Abschreibungen auf Geschäfts- oder Firmenwert', 'en':'Memo item: depreciation, amortisation and write-downs (TC), amortisation and write-downs of intangible fixed assets, depreciation and write-downs of tangible fixed assets; goodwill amortisation and write-downs', }, 
+    'label': {'de':'auf Geschäfts- oder Firmenwert', 'en':'Memo item: depreciation, amortisation and write-downs (TC), amortisation and write-downs of intangible fixed assets, depreciation and write-downs of tangible fixed assets; goodwill amortisation and write-downs', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -5629,7 +5633,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan': {
     'name': 'is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan', 
-    'label': {'de':'Nachrichtlich: Abschreibungen (entsprechend GKV), Abschreibungen auf immaterielle Vermögensgegenstände des Anlagevermögens und Sachanlagen, Abschreibungen auf Sachanlagen', 'en':'Memo item: depreciation, amortisation and write-downs (TC), amortisation and write-downs of intangible fixed assets, depreciation and write-downs of tangible fixed assets, depreciation and write-downs of tangible fixed assets', }, 
+    'label': {'de':'auf Sachanlagen', 'en':'Memo item: depreciation, amortisation and write-downs (TC), amortisation and write-downs of intangible fixed assets, depreciation and write-downs of tangible fixed assets, depreciation and write-downs of tangible fixed assets', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -5659,7 +5663,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr.otherIntan': {
     'name': 'is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr.otherIntan', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr.otherIntan', 
-    'label': {'de':'Nachrichtlich: Abschreibungen (entsprechend GKV), Abschreibungen auf immaterielle Vermögensgegenstände des Anlagevermögens und Sachanlagen, außerplanmäßige und Sonderabschreibungen, außerplanmäßige Abschreibungen, auf andere immaterielle Vermögensgegenstände', 'en':'Extraordinary write-downs on other intangible fixed assets (TC, memo item)', }, 
+    'label': {'de':'auf andere immaterielle Vermögensgegenstände (entsprechend GKV; nachrichtlich)', 'en':'Extraordinary write-downs on other intangible fixed assets (TC, memo item)', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -5729,7 +5733,7 @@ function init_taxonomy()
   'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss': {
     'name': 'is.netIncome.regular.operatingCOGS.deprAm.currAss', 
     'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.deprAm.currAss', 
-    'label': {'de':'Nachrichtlich: Abschreibungen (entsprechend GKV); auf Vermögensgegenstände des Umlaufvermögens, soweit diese die in der Kapitalgesellschaft üblichen Abschreibungen überschreiten', 'en':'Memo item: depreciation, amortisation and write-downs (TC), write-downs of current assets to the extent that they exceed the write-downs that are usual for the corporation', }, 
+    'label': {'de':'Abschreibungen auf Vermögensgegenstände des Umlaufvermögens, soweit diese die in der Kapitalgesellschaft üblichen Abschreibungen überschreiten', 'en':'Memo item: depreciation, amortisation and write-downs (TC), write-downs of current assets to the extent that they exceed the write-downs that are usual for the corporation', }, 
     'balance': 'debit', 
     'periodtype': 'duration', 
     'weight': 1, 
@@ -6409,7 +6413,7 @@ function init_taxonomy()
     'de-gaap-ci_bs.ass': {
     'name': 'bs.ass', 
     'qname': 'de-gaap-ci:bs.ass', 
-    'label': {'de':'Bilanzsumme, Summe Aktiva', 'en':'Balance sheet, total assets', }, 
+    'label': {'de':'Summe Aktiva', 'en':'Total assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'level': 1, 
@@ -6428,7 +6432,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.accountingConvenience': {
     'name': 'bs.ass.accountingConvenience', 
     'qname': 'de-gaap-ci:bs.ass.accountingConvenience', 
-    'label': {'de':'Die Position ist nur in der Handelsbilanz zulässig. § 269 HGB wurde durch das BilMoG aufgehoben. Es besteht daher keine Möglichkeit mehr, eine Bilanzierungshilfe in Anspruch zu nehmen. Gemäß Art. 67 Abs. 5 EGHGB können die nach bisherigem Recht in einem Jahresabschluss für ein vor dem 1.1.2010 endendes Geschäftsjahr angesetzten Beträge unter Anwendung der für sie geltenden Vorschriften des HGB a.F. fortgeführt werden. Steuerlich ist eine Bilanzierungshilfe mangels Wirtschaftsguteigenschaft nicht zulässig und muss im Rahmen der Überleitungsrechnung eliminiert werden.', 'en':'Accounting convenience', }, 
+    'label': {'de':'Bilanzierungshilfe', 'en':'Accounting convenience', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6438,7 +6442,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.accountingConvenience.startUpCost': {
     'name': 'bs.ass.accountingConvenience.startUpCost', 
     'qname': 'de-gaap-ci:bs.ass.accountingConvenience.startUpCost', 
-    'label': {'de':'Bilanzierungshilfe, Aufwendungen für die Ingangsetzung und Erweiterung des Geschäftsbetriebs', 'en':'Accounting convenience, business start-up and expansion expenses', }, 
+    'label': {'de':'Aufwendungen für die Ingangsetzung und Erweiterung des Geschäftsbetriebs', 'en':'Business start-up and expansion expenses', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6468,7 +6472,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.selfmade': {
     'name': 'bs.ass.fixAss.intan.selfmade', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.selfmade', 
-    'label': {'de':'Nicht aufgenommen werden unter diesem Posten selbst geschaffene Marken, Drucktitel, Verlagsrechte, Kundenlisten oder vergleichbare immaterielle VG des Anlagevermögens (§ 248 Abs. 2 S. 2 HGB). Handelsrechtlich besteht ein Aktivierungswahlrecht. Steuerlich ist diese Position nicht zulässig und muss im Rahmen der Überleitungsrechnung eliminiert werden. Zur zeitlichen Anwendung Hinweis auf Art. 66 Abs. 7 EGHGB.', 'en':'Internally generated intangible fixed assets', }, 
+    'label': {'de':'Selbst geschaffene gewerbliche Schutzrechte und ähnliche Rechte und Werte', 'en':'Internally generated intangible fixed assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6478,7 +6482,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands': {
     'name': 'bs.ass.fixAss.intan.concessionBrands', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.concessionBrands', 
-    'label': {'de':'Entgeltlich erworbene Konzessionen, gewerbliche Schutz- und ähnliche Rechte und Werte sowie Lizenzen an solchen Rechten und Werten', 'en':'Purchased concessions, industrial and similar rights and assets, licences in such rights and assets', }, 
+    'label': {'de':'Entgeltlich erworbene Konzessionen, gewerbliche Schutz- und ähnliche Rechte und Werte sowie Lizenzen an solchen', 'en':'Licences in purchased concessions, industrial and similar rights and assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6488,7 +6492,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.concession': {
     'name': 'bs.ass.fixAss.intan.concessionBrands.concession', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.concessionBrands.concession', 
-    'label': {'de':'Entgeltlich erworbene Konzessionen, gewerbliche Schutz- und ähnliche Rechte und Werte sowie Lizenzen an solchen Rechten und Werten, Konzessionen', 'en':'Purchased concessions, industrial and similar rights and assets, and licences in such rights and assets, concessions', }, 
+    'label': {'de':'Konzessionen', 'en':'Concessions', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6498,7 +6502,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.tradeMarks': {
     'name': 'bs.ass.fixAss.intan.concessionBrands.tradeMarks', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.concessionBrands.tradeMarks', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Purchased concessions, industrial and similar rights and assets, and licences in such rights and assets, industrial rights', }, 
+    'label': {'de':'gewerbliche Schutzrechte', 'en':'Industrial rights', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6508,7 +6512,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.other': {
     'name': 'bs.ass.fixAss.intan.concessionBrands.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.concessionBrands.other', 
-    'label': {'de':'Entgeltlich erworbene Konzessionen, gewerbliche Schutz- und ähnliche Rechte und Werte sowie Lizenzen an solchen Rechten und Werten, sonstige Rechte und Werte', 'en':'Purchased concessions, industrial and similar rights and assets, and licences in such rights and assets, other rights and assets', }, 
+    'label': {'de':'sonstige Rechte und Werte', 'en':'Purchased concessions, industrial and similar rights and assets, and licences in such rights and assets, other rights and assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6518,7 +6522,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.software': {
     'name': 'bs.ass.fixAss.intan.concessionBrands.software', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.concessionBrands.software', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Purchased concessions, industrial and similar rights and assets, and licences in such rights and assets, computer software', }, 
+    'label': {'de':'EDV-Software', 'en':'Computer software', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6528,7 +6532,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.licenses': {
     'name': 'bs.ass.fixAss.intan.concessionBrands.licenses', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.concessionBrands.licenses', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Purchased concessions, industrial and similar rights and assets, and licences in such rights and assets, licences in rights and assets', }, 
+    'label': {'de':'Lizenzen an Rechten und Werten', 'en':'Purchased concessions, industrial and similar rights and assets, and licences in such rights and assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6538,7 +6542,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.concessionBrandsOtherForeign': {
     'name': 'bs.ass.fixAss.intan.concessionBrandsOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.concessionBrandsOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Purchased concessions, industrial and similar rights and assets, and licences in such rights and assets of foreign branch(es)', }, 
+    'label': {'de':'entgeltl. erworb. Konzessionen, etc., soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Purchased concessions, industrial and similar rights and assets, and licences in such rights and assets of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6548,7 +6552,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.goodwill': {
     'name': 'bs.ass.fixAss.intan.goodwill', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.goodwill', 
-    'label': {'de':'Anders als die Regelung des § 7 Abs. 1 S. 3 EStG trifft das HGB über die Dauer des Abschreibungszeitraums keine typisierende Bestimmung. Allerdings regelt § 285 Abs. 13 HGB n.F. dass die Gründe, welche die Annahme einer betrieblichen Nutzungsdauer eines entgeltlich erworbenen Geschäfts- oder Firmenwert von mehr als 5 Jahren rechtfertigen, im Anhang anzugeben sind. Sofern aufgrund dieser Vorschriftenregelung die handelsrechtliche von der steuerrechtlichen Nutzungsdauer abweicht, ist im Rahmen der Überleitungsrechnung eine Anpassung herbeizuführen.', 'en':'Goodwill', }, 
+    'label': {'de':'Geschäfts- oder Firmenwert', 'en':'Goodwill', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6558,7 +6562,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.goodwill.purchased': {
     'name': 'bs.ass.fixAss.intan.goodwill.purchased', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.goodwill.purchased', 
-    'label': {'de':'Anders als die Regelung des § 7 Abs. 1 S. 3 EStG trifft das HGB über die Dauer des Abschreibungszeitraums keine typisierende Bestimmung. Allerdings regelt § 285 Abs. 13 HGB n.F. dass die Gründe, welche die Annahme einer betrieblichen Nutzungsdauer eines entgeltlich erworbenen Geschäfts- oder Firmenwert von mehr als 5 Jahren rechtfertigen, im Anhang anzugeben sind. Sofern aufgrund dieser Vorschriftenregelung die handelsrechtliche von der steuerrechtlichen Nutzungsdauer abweicht, ist im Rahmen der Überleitungsrechnung eine Anpassung herbeizuführen.', 'en':'Purchased goodwill', }, 
+    'label': {'de':'derivativer Firmenwert (Goodwill)', 'en':'Purchased goodwill', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6568,7 +6572,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.goodwillOtherForeign': {
     'name': 'bs.ass.fixAss.intan.goodwillOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.goodwillOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Goodwill of foreign branch(es)', }, 
+    'label': {'de':'Geschäfts- oder Firmenw. ausl. Betriebsstätten', 'en':'Goodwill of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6578,7 +6582,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.advPaym': {
     'name': 'bs.ass.fixAss.intan.advPaym', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.advPaym', 
-    'label': {'de':'geleistete Anzahlungen', 'en':'Intangible fixed assets, prepayments', }, 
+    'label': {'de':'geleistete Anzahlungen', 'en':'Prepayments', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6588,7 +6592,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.intan.other': {
     'name': 'bs.ass.fixAss.intan.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.intan.other', 
-    'label': {'de':'Immaterielle Vermögensgegenstände, sonstige immaterielle Vermögensgegenstände', 'en':'Intangible fixed assets, other intangible fixed assets', }, 
+    'label': {'de':'sonstige immaterielle Vermögensgegenstände', 'en':'Other intangible fixed assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6608,7 +6612,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.landBuildings': {
     'name': 'bs.ass.fixAss.tan.landBuildings', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.landBuildings', 
-    'label': {'de':'Grundstücke, grundstücksgleiche Rechte und Bauten', 'en':'Land, land rights and buildings, including buildings on third-party land', }, 
+    'label': {'de':'Grundstücke, grundstücksgleiche Rechte und Bauten einschließlich der Bauten auf fremden Grundstücken', 'en':'Land, land rights and buildings, including buildings on third-party land', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6618,7 +6622,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.landWithoutBuildings': {
     'name': 'bs.ass.fixAss.tan.landBuildings.landWithoutBuildings', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.landBuildings.landWithoutBuildings', 
-    'label': {'de':'Aus handelsrechtlicher Sicht: freiwillige Angabe, Buchwerte (gilt nicht für Übermittlungen nach § 5b EStG)', 'en':'Undeveloped land', }, 
+    'label': {'de':'unbebaute Grundstücke', 'en':'Undeveloped land', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6638,7 +6642,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand': {
     'name': 'bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand', 
-    'label': {'de':'Element umfasst sowohl den Buchwert der Bauten, als auch den Buchwert der Grundstücke.', 'en':'Buildings on own land and land rights', }, 
+    'label': {'de':'Bauten auf eigenen Grundstücken und grundstücksgleichen Rechten', 'en':'Buildings on own land and land rights', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6668,7 +6672,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.landBuildingsOtherForeign': {
     'name': 'bs.ass.fixAss.tan.landBuildingsOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.landBuildingsOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Land, land rights and buildings, including buildings on third-party land of foreign branch(es)', }, 
+    'label': {'de':'Grundstücke, grundstücksgleiche Rechte und Bauten, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Land, land rights and buildings, including buildings on third-party land of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6708,7 +6712,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.machinery.installations': {
     'name': 'bs.ass.fixAss.tan.machinery.installations', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.machinery.installations', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Operating facilities', }, 
+    'label': {'de':'Betriebsvorrichtungen', 'en':'Operating facilities', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6728,7 +6732,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.machinery.gwg': {
     'name': 'bs.ass.fixAss.tan.machinery.gwg', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.machinery.gwg', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Low-value assets', }, 
+    'label': {'de':'GWG', 'en':'Low-value assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6758,7 +6762,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.machinery.otherForeign': {
     'name': 'bs.ass.fixAss.tan.machinery.otherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.machinery.otherForeign', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Technical equipment and machinery of foreign branch(es)', }, 
+    'label': {'de':'technische Anlagen und Maschinen ausländischer Betriebsstätten', 'en':'Technical equipment and machinery of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6768,7 +6772,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm': {
     'name': 'bs.ass.fixAss.tan.otherEquipm', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.otherEquipm', 
-    'label': {'de':'andere Anlagen, Betriebs- und Geschäftsausstattung', 'en':'Other equipment, operating and office equipment', }, 
+    'label': {'de':'andere Anlagen, Betriebs- und Geschäftsausstattung', 'en':'Other operating and office equipment', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6798,7 +6802,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.office': {
     'name': 'bs.ass.fixAss.tan.otherEquipm.office', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.otherEquipm.office', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Office equipment', }, 
+    'label': {'de':'Geschäftsausstattung', 'en':'Office equipment', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6808,7 +6812,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.gwg': {
     'name': 'bs.ass.fixAss.tan.otherEquipm.gwg', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.otherEquipm.gwg', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Low-value assets', }, 
+    'label': {'de':'GWG', 'en':'Low-value assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6828,7 +6832,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.otherbga': {
     'name': 'bs.ass.fixAss.tan.otherEquipm.otherbga', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.otherEquipm.otherbga', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Other operating and office equipment', }, 
+    'label': {'de':'Sonstige Betriebs- und Geschäftsausstattung', 'en':'Other operating and office equipment', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6838,7 +6842,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.otherEquipmOtherForeign': {
     'name': 'bs.ass.fixAss.tan.otherEquipmOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.otherEquipmOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Other operating and office equipment of foreign branch(es)', }, 
+    'label': {'de':'andere Anlagen, Betriebs- und Geschäftsausstattung ausländischer Betriebsstätten', 'en':'Other operating and office equipment of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6858,7 +6862,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym': {
     'name': 'bs.ass.fixAss.tan.inConstrAdvPaym', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.inConstrAdvPaym', 
-    'label': {'de':'Geleistete Anzahlungen sind Vorleistungen auf eine von dem anderen Vertragsteil zu erbringende Lieferung oder Leistung. Anlagen im Bau umfassen die bis zum Bilanzstichtag getätigten Investitionen für Gegenstände des Sachanlagevermögens, die am Bilanzstichtag noch nicht fertig gestellt sind.', 'en':'Prepayments and assets under construction', }, 
+    'label': {'de':'Geleistete Anzahlungen und Anlagen im Bau', 'en':'Prepayments and assets under construction', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6878,7 +6882,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym.buildingUnderConstr': {
     'name': 'bs.ass.fixAss.tan.inConstrAdvPaym.buildingUnderConstr', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.inConstrAdvPaym.buildingUnderConstr', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Buildings under construction', }, 
+    'label': {'de':'Gebäude im Bau', 'en':'Buildings under construction', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6898,7 +6902,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaymOtherForeign': {
     'name': 'bs.ass.fixAss.tan.inConstrAdvPaymOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.inConstrAdvPaymOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Prepayments and equipment under construction of foreign branch(es)', }, 
+    'label': {'de':'geleistete Anzahlungen und Anlagen im Bau, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Prepayments and equipment under construction of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6918,7 +6922,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.other.leasedAss': {
     'name': 'bs.ass.fixAss.tan.other.leasedAss', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.other.leasedAss', 
-    'label': {'de':'ADS § 246 Tz. 386', 'en':'Leased assets (own assets leased to others)', }, 
+    'label': {'de':'vermietete Anlagenwerte', 'en':'Own assets leased to others', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6928,7 +6932,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.tan.other.other': {
     'name': 'bs.ass.fixAss.tan.other.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.tan.other.other', 
-    'label': {'de':'Posten sollte in Folgezeile erläutert sein.', 'en':'Miscellaneous other tangible fixed assets', }, 
+    'label': {'de':'übrige sonstige Sachanlagen, nicht zuordenbare Sachanlagen', 'en':'Miscellaneous other tangible fixed assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6958,7 +6962,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships': {
     'name': 'bs.ass.fixAss.fin.sharesInAffil.partnerships', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.sharesInAffil.partnerships', 
-    'label': {'de':'In HB Leerübermittlung möglich, Positionen für steuerrechtliche Darstellung nach Überleitungsrechnung; Spiegelbildmethode.', 'en':'of which shares in partnerships', }, 
+    'label': {'de':'Anteile an Personengesellschaften', 'en':'of which shares in partnerships', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6968,7 +6972,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.corporations': {
     'name': 'bs.ass.fixAss.fin.sharesInAffil.corporations', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.sharesInAffil.corporations', 
-    'label': {'de':'In HB Leerübermittlung möglich, Positionen für steuerrechtliche Darstellung nach Überleitungsrechnung.', 'en':'Shares in affiliated companies, shares in corporations', }, 
+    'label': {'de':'Anteile an Kapitalgesellschaften', 'en':'of which shares in corporations', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6978,7 +6982,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.other': {
     'name': 'bs.ass.fixAss.fin.sharesInAffil.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.sharesInAffil.other', 
-    'label': {'de':'Anteile an verbundenen Unternehmen, nach Rechtsform nicht zuordenbar', 'en':'Shares in affiliated companies, legal form not allocable', }, 
+    'label': {'de':'nach Rechtsform nicht zuordenbar', 'en':'of which legal form not allocable', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -6988,7 +6992,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffilOtherForeign': {
     'name': 'bs.ass.fixAss.fin.sharesInAffilOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.sharesInAffilOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Shares in affiliated companies of the accounts for foreign branch(es)', }, 
+    'label': {'de':'soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Shares in affiliated companies of the accounts for foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7008,7 +7012,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.gmbhSilent': {
     'name': 'bs.ass.fixAss.fin.loansToSharehold.gmbhSilent', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToSharehold.gmbhSilent', 
-    'label': {'de':'Ausleihungen an Gesellschafter, Ausleihungen an GmbH-Gesellschafter und stille Gesellschafte', 'en':'Loans to shareholders; loans to shareholders of private limited company (GmbH) and to silent partners', }, 
+    'label': {'de':'Ausleihungen an GmbH-Gesellschafter und stille Gesellschafter', 'en':'Loans to shareholders of private limited company (GmbH) and to silent partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7018,7 +7022,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.unlimitedLiable': {
     'name': 'bs.ass.fixAss.fin.loansToSharehold.unlimitedLiable', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToSharehold.unlimitedLiable', 
-    'label': {'de':'Nach handelsrechtlicher Sicht: freiwillige Angabe, Buchwerte (gilt nicht für Übermittlungen nach § 5b EStG)', 'en':'Loans to shareholders; loans to general partners', }, 
+    'label': {'de':'Ausleihungen an persönlich haftende Gesellschafter', 'en':'Loans to general partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7028,7 +7032,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.limitedLiable': {
     'name': 'bs.ass.fixAss.fin.loansToSharehold.limitedLiable', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToSharehold.limitedLiable', 
-    'label': {'de':'Nach handelsrechtlicher Sicht: freiwillige Angabe, Buchwerte (gilt nicht für Übermittlungen nach § 5b EStG)', 'en':'Loans to shareholders, loans to limited partners', }, 
+    'label': {'de':'Ausleihungen an Kommanditisten', 'en':'Loans to limited partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7058,7 +7062,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.partnerships': {
     'name': 'bs.ass.fixAss.fin.loansToAffil.partnerships', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToAffil.partnerships', 
-    'label': {'de':'steuerlich erforderlich', 'en':'Loans to affiliated companies (partnerships)', }, 
+    'label': {'de':'Ausleihungen an Personengesellschaften', 'en':'Loans to partnerships', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7068,7 +7072,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.corporations': {
     'name': 'bs.ass.fixAss.fin.loansToAffil.corporations', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToAffil.corporations', 
-    'label': {'de':'Ausleihungen an Kapitalgesellschaften', 'en':'Loans to affiliated companies (corporations)', }, 
+    'label': {'de':'Ausleihungen an Kapitalgesellschaften', 'en':'Loans to corporations', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7078,7 +7082,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.soleProprietor': {
     'name': 'bs.ass.fixAss.fin.loansToAffil.soleProprietor', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToAffil.soleProprietor', 
-    'label': {'de':'Ausleihungen an verbundene Unternehmen, soweit Einzelunternehmen', 'en':'Loans to affiliated companies (sole proprietorships)', }, 
+    'label': {'de':'Ausleihungen an Einzelunternehmen', 'en':'Loans to affiliated companies (sole proprietorships)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7088,7 +7092,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.other': {
     'name': 'bs.ass.fixAss.fin.loansToAffil.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToAffil.other', 
-    'label': {'de':'Ausleihungen an verbundene Unternehmen, nach Rechtsform nicht zuordenbar', 'en':'Loans to affiliated companies (legal form not allocable)', }, 
+    'label': {'de':'Ausleihungen an Unternehmen, nach Rechtsform nicht zuordenbar', 'en':'Loans to companies (legal form not allocable)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7098,7 +7102,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToAffilOtherForeign': {
     'name': 'bs.ass.fixAss.fin.loansToAffilOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToAffilOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Loans to foreign branch(es) to affiliated companies', }, 
+    'label': {'de':'Ausleihungen ausländischer Betriebsstätten an verbundene Unternehmen', 'en':'Loans to foreign branch(es) to affiliated companies', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7118,7 +7122,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships': {
     'name': 'bs.ass.fixAss.fin.particip.partnerships', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.particip.partnerships', 
-    'label': {'de':'Beteiligungen, Beteiligungen an Personengesellschaften', 'en':'Other long-term equity investments, investments in partnerships', }, 
+    'label': {'de':'Beteiligungen an Personengesellschaften', 'en':'Investments in partnerships', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7128,7 +7132,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.particip.corporations': {
     'name': 'bs.ass.fixAss.fin.particip.corporations', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.particip.corporations', 
-    'label': {'de':'Beteiligungen, Beteiligungen an Kapitalgesellschaften', 'en':'Other long-term equity investments, investments in corporations', }, 
+    'label': {'de':'Beteiligungen an Kapitalgesellschaften', 'en':'Investments in corporations', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7138,7 +7142,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.particip.silent': {
     'name': 'bs.ass.fixAss.fin.particip.silent', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.particip.silent', 
-    'label': {'de':'Nach handelsrechtlicher Sicht: freiwillige Angabe, Buchwerte (gilt nicht für Übermittlungen nach § 5b EStG)', 'en':'Other long-term equity investments, silent partnerships', }, 
+    'label': {'de':'stille Beteiligungen', 'en':'Silent partnerships', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7148,7 +7152,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.particip.silent.typical': {
     'name': 'bs.ass.fixAss.fin.particip.silent.typical', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.particip.silent.typical', 
-    'label': {'de':'In HB Leerübermittlung möglich, Positionen für steuerrechtliche Darstellung nach Überleitungsrechnung; Spiegelbildmethode.', 'en':'Other long-term equity investments, silent partnerships, of which typical silent partnerships', }, 
+    'label': {'de':'typisch stille Beteiligung', 'en':'Typical silent partnership', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7158,7 +7162,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.particip.silent.atypical': {
     'name': 'bs.ass.fixAss.fin.particip.silent.atypical', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.particip.silent.atypical', 
-    'label': {'de':'In HB Leerübermittlung möglich, Positionen für steuerrechtliche Darstellung nach Überleitungsrechnung; Spiegelbildmethode.', 'en':'Other long-term equity investments, silent partnerships, of which atypical silent partnerships', }, 
+    'label': {'de':'atypisch stille Beteiligung', 'en':'Atypical silent partnership', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7168,7 +7172,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.particip.other': {
     'name': 'bs.ass.fixAss.fin.particip.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.particip.other', 
-    'label': {'de':'Beteiligungen, sonstige Beteiligungen, nach Rechtsform nicht zuordenbar', 'en':'Other long-term equity investments, miscellaneous other long-term equity investments', }, 
+    'label': {'de':'sonstige Beteiligungen, nach Rechtsform nicht zuordenbar', 'en':'Other miscellaneous long-term equity investments', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7178,7 +7182,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.participOtherForeign': {
     'name': 'bs.ass.fixAss.fin.participOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.participOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Investments of foreign branch(es)', }, 
+    'label': {'de':'Beteiligungen, soweit aus ausländischer Betriebsstätte nicht anders zuordenbar', 'en':'Investments of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7188,7 +7192,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip': {
     'name': 'bs.ass.fixAss.fin.loansToParticip', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToParticip', 
-    'label': {'de':'Ausleihungen an Unternehmen mit Beteiligungsverhältnis', 'en':'Loans to other long-term investees and investors', }, 
+    'label': {'de':'Ausleihungen an Unternehmen, mit denen ein Beteiligungsverhältnis besteht', 'en':'Loans to other long-term investees and investors', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7198,7 +7202,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.partnerships': {
     'name': 'bs.ass.fixAss.fin.loansToParticip.partnerships', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToParticip.partnerships', 
-    'label': {'de':'Ausleihungen an Unternehmen, mit denen ein Beteiligungsverhältnis besteht, Ausleihungen an Personengesellschaften', 'en':'Loans to other long-term investees and investors, of which loans to partnerships', }, 
+    'label': {'de':'Ausleihungen an Personengesellschaften', 'en':'Loans to partnerships', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7208,7 +7212,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.corporations': {
     'name': 'bs.ass.fixAss.fin.loansToParticip.corporations', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToParticip.corporations', 
-    'label': {'de':'Ausleihungen an Unternehmen, mit denen ein Beteiligungsverhältnis besteht, Ausleihungen an Kapitalgesellschaften', 'en':'Loans to other long-term investees and investors, of which loans to corporations', }, 
+    'label': {'de':'Ausleihungen an Kapitalgesellschaften', 'en':'Loans to corporations', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7218,7 +7222,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.other': {
     'name': 'bs.ass.fixAss.fin.loansToParticip.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToParticip.other', 
-    'label': {'de':'Ausleihungen an Unternehmen, mit denen ein Beteiligungsverhältnis besteht, nicht nach Rechtsform zuordenbar', 'en':'Loans to long-term investees and investors, legal form not allocable', }, 
+    'label': {'de':'Ausleihungen an Unternehmen, mit Beteiligungsverhältnis, nicht nach Rechtsform zuordenbar', 'en':'Loans to long-term investees and investors, legal form not allocable', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7228,7 +7232,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.loansToParticipOtherForeign': {
     'name': 'bs.ass.fixAss.fin.loansToParticipOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToParticipOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Loans of foreign branch(es) to long-term investees and investors,', }, 
+    'label': {'de':'soweit aus ausländischer Betriebsstätte nicht zuordenbar', 'en':'Loans of foreign branch(es) to long-term investees and investors,', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7248,7 +7252,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.securities.shares': {
     'name': 'bs.ass.fixAss.fin.securities.shares', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.securities.shares', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Long-term securities, shares', }, 
+    'label': {'de':'Aktien', 'en':'Shares', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7258,7 +7262,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.securities.warrants': {
     'name': 'bs.ass.fixAss.fin.securities.warrants', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.securities.warrants', 
-    'label': {'de':'nur, wenn es sich um ein verbrieftes Wertpapier handelt (andernfalls: sonstiger Vermögensgegenstand)', 'en':'Long-term securities, warrants', }, 
+    'label': {'de':'Optionsscheine', 'en':'Warrants', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7268,7 +7272,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.securities.partCertificate': {
     'name': 'bs.ass.fixAss.fin.securities.partCertificate', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.securities.partCertificate', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Long-term securities, profit participation certificates', }, 
+    'label': {'de':'Genussscheine', 'en':'Profit participation certificates', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7278,7 +7282,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.securities.mutInvestm': {
     'name': 'bs.ass.fixAss.fin.securities.mutInvestm', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.securities.mutInvestm', 
-    'label': {'de':'Wertpapiere des Anlagevermögens, Investmentzertifikate', 'en':'Long-term securities, investment fund shares / units', }, 
+    'label': {'de':'Investmentzertifikate', 'en':'Investment fund shares/units', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7288,7 +7292,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.securities.bonds': {
     'name': 'bs.ass.fixAss.fin.securities.bonds', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.securities.bonds', 
-    'label': {'de':'Wertpapiere des Anlagevermögens, Obligationen', 'en':'Long-term securities, bonds', }, 
+    'label': {'de':'Obligationen', 'en':'Bonds', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7298,7 +7302,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.securities.convertBond': {
     'name': 'bs.ass.fixAss.fin.securities.convertBond', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.securities.convertBond', 
-    'label': {'de':'Wertpapiere des Anlagevermögens, Wandelschuldverschreibungen', 'en':'Long-term securities, convertible bonds', }, 
+    'label': {'de':'Wandelschuldverschreibungen', 'en':'Convertible bonds', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7308,7 +7312,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.securities.securities': {
     'name': 'bs.ass.fixAss.fin.securities.securities', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.securities.securities', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Long-term securities, fixed-income securities', }, 
+    'label': {'de':'festverzinsliche Wertpapiere', 'en':'Fixed-income securities', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7318,7 +7322,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.securities.other': {
     'name': 'bs.ass.fixAss.fin.securities.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.securities.other', 
-    'label': {'de':'Wertpapiere des Anlagevermögens, sonstige Wertpapiere des Anlagevermögens', 'en':'Long-term securities, other long-term securities', }, 
+    'label': {'de':'sonstige Wertpapiere des Anlagevermögens', 'en':'Other long-term securitities', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7328,7 +7332,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.securitiesOtherForeign': {
     'name': 'bs.ass.fixAss.fin.securitiesOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.securitiesOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Long-term securities of foreign branch(es)', }, 
+    'label': {'de':'soweit aus ausländischer Betriebsstätte nicht zuordenbar', 'en':'Long-term securities of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7338,7 +7342,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherLoans': {
     'name': 'bs.ass.fixAss.fin.otherLoans', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherLoans', 
-    'label': {'de':'Sammelposten für alle den vorgenannten Positionen nicht zuordenbare Finanzanlagen', 'en':'Other loans', }, 
+    'label': {'de':'Sonstige Ausleihungen', 'en':'Other loans', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7348,7 +7352,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.employees': {
     'name': 'bs.ass.fixAss.fin.otherLoans.employees', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherLoans.employees', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Other loans; loans to employees', }, 
+    'label': {'de':'Ausleihungen an Mitarbeiter', 'en':'Loans to employees', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7358,7 +7362,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.other': {
     'name': 'bs.ass.fixAss.fin.otherLoans.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherLoans.other', 
-    'label': {'de':'Sonstige Ausleihungen, übrige sonstige Ausleihungen / nicht zuordenbare sonstige Ausleihunge', 'en':'Other loans, miscellaneous other loans', }, 
+    'label': {'de':'übrige sonstige Ausleihungen / nicht zuordenbare sonstige Ausleihungen', 'en':'Miscellaneous other loans', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7368,7 +7372,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherLoansOtherForeign': {
     'name': 'bs.ass.fixAss.fin.otherLoansOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherLoansOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Other loans of foreign branch(es)', }, 
+    'label': {'de':'sonstige Ausleihungen, soweit bei ausländischen Betriebsstätten nicht anders zuordenbar', 'en':'Other loans of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7378,7 +7382,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss': {
     'name': 'bs.ass.fixAss.fin.otherFinAss', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherFinAss', 
-    'label': {'de':'zusammenfassende Angabe', 'en':'Other long-term financial assets', }, 
+    'label': {'de':'Sonstige Finanzanlagen', 'en':'Other long-term financial assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7388,7 +7392,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.profSharRights': {
     'name': 'bs.ass.fixAss.fin.otherFinAss.profSharRights', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherFinAss.profSharRights', 
-    'label': {'de':'freiwillige Angabe, Buchwerte', 'en':'Other long-term financial assets, profit participation rights', }, 
+    'label': {'de':'Genussrechte', 'en':'Profit participation rights', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7398,7 +7402,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.coopShares': {
     'name': 'bs.ass.fixAss.fin.otherFinAss.coopShares', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherFinAss.coopShares', 
-    'label': {'de':'Sonstige Finanzanlagen, Genossenschaftsanteile (langfristiger Verbleib)', 'en':'Shares in cooperatives', }, 
+    'label': {'de':'Genossenschaftsanteile', 'en':'Shares in cooperatives', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7408,7 +7412,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.reInsurClaim': {
     'name': 'bs.ass.fixAss.fin.otherFinAss.reInsurClaim', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherFinAss.reInsurClaim', 
-    'label': {'de':'Nach handelsrechtlicher Sicht: freiwillige Angabe, Buchwerte (gilt nicht für Übermittlungen nach § 5b EStG)', 'en':'Pension liability claims from life insurance policies', }, 
+    'label': {'de':'Rückdeckungsansprüche aus Lebensversicherungen', 'en':'Pension liability claims from life insurance policies', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7418,7 +7422,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.silent': {
     'name': 'bs.ass.fixAss.fin.otherFinAss.silent', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherFinAss.silent', 
-    'label': {'de':'Stille Beteiligungen innerhalb der sonstigen Finanzanlagen', 'en':'Silent partnerships included in other long-term financial assets', }, 
+    'label': {'de':'stille Beteiligungen', 'en':'Silent partnerships', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7428,7 +7432,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.other': {
     'name': 'bs.ass.fixAss.fin.otherFinAss.other', 
     'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherFinAss.other', 
-    'label': {'de':'Sonstige Finanzanlagen, übrige sonstige Finanzanlagen / nicht zuordenbare sonstige Finanzanlagen', 'en':'Other long-term financial assets, miscellaneous other long-term financial assets', }, 
+    'label': {'de':'übrige sonstige Finanzanlagen / nicht zuordenbare sonstige Finanzanlagen', 'en':'Miscellaneous other long-term financial assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7438,7 +7442,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.assInbetwFixAndCurr': {
     'name': 'bs.ass.assInbetwFixAndCurr', 
     'qname': 'de-gaap-ci:bs.ass.assInbetwFixAndCurr', 
-    'label': {'de':'Vermögensgegenstände zwischen Anlagevermögen und Umlaufvermögen', 'en':'Assets classified between fixed and current assets', }, 
+    'label': {'de':'Vermögensgegenstände zwischen AV u. UV', 'en':'Assets classified between fixed and current assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7448,7 +7452,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.assInbetwFixAndCurr.nuclFuel': {
     'name': 'bs.ass.assInbetwFixAndCurr.nuclFuel', 
     'qname': 'de-gaap-ci:bs.ass.assInbetwFixAndCurr.nuclFuel', 
-    'label': {'de':'Vermögensgegenstände zwischen Anlagevermögen und Umlaufvermögen, Kernbrennelemente', 'en':'Assets classified between fixed and current assets, nuclear fuel assemblies', }, 
+    'label': {'de':'Kernbrennelemente', 'en':'Nuclear fuel assemblies', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7458,7 +7462,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.assInbetwFixAndCurr.filmRights': {
     'name': 'bs.ass.assInbetwFixAndCurr.filmRights', 
     'qname': 'de-gaap-ci:bs.ass.assInbetwFixAndCurr.filmRights', 
-    'label': {'de':'ADS § 265 Tz. 66', 'en':'Assets classified between fixed and current assets, film rights and similar rights', }, 
+    'label': {'de':'Filmvermögen von Filmverleihern', 'en':'Film rights and similar rights', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7468,7 +7472,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.assInbetwFixAndCurr.miningOverburden': {
     'name': 'bs.ass.assInbetwFixAndCurr.miningOverburden', 
     'qname': 'de-gaap-ci:bs.ass.assInbetwFixAndCurr.miningOverburden', 
-    'label': {'de':'Vermögensgegenstände zwischen Anlagevermögen und Umlaufvermögen, Vorabraum im Tagebau', 'en':'Assets classified between fixed and current assets, overburden from open-cast mining', }, 
+    'label': {'de':'Vorabraum im Tagebau', 'en':'Overburden from open-cast mining', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7478,7 +7482,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.assInbetwFixAndCurr.other': {
     'name': 'bs.ass.assInbetwFixAndCurr.other', 
     'qname': 'de-gaap-ci:bs.ass.assInbetwFixAndCurr.other', 
-    'label': {'de':'ADS § 265 Tz. 66', 'en':'Other', }, 
+    'label': {'de':'andere Vermögensgegenstände zwischen Anlagevermögen und Umlaufvermögen', 'en':'Other', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7518,7 +7522,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.material.rawMaterial': {
     'name': 'bs.ass.currAss.inventory.material.rawMaterial', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.material.rawMaterial', 
-    'label': {'de':'Roh-, Hilfs- und Betriebsstoffe, Rohstoffe', 'en':'Raw materials, consumables and supplies, of which raw materials', }, 
+    'label': {'de':'Rohstoffe', 'en':'Raw materials', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7528,7 +7532,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.material.supplMaterial': {
     'name': 'bs.ass.currAss.inventory.material.supplMaterial', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.material.supplMaterial', 
-    'label': {'de':'Roh-, Hilfs- und Betriebsstoffe, Hilfsstoffe', 'en':'Raw materials, consumables and supplies, of which supplies', }, 
+    'label': {'de':'Hilfsstoffe', 'en':'Supplies', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7538,7 +7542,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.material.consumables': {
     'name': 'bs.ass.currAss.inventory.material.consumables', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.material.consumables', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Raw materials, consumables and supplies, of which consumables', }, 
+    'label': {'de':'Betriebsstoffe', 'en':'Consumables', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7548,7 +7552,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.materialOtherForeign': {
     'name': 'bs.ass.currAss.inventory.materialOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.materialOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Raw materials, consumables and supplies of foreign branch(es)', }, 
+    'label': {'de':'RHB-stoffe soweit bei ausländischen Betriebsstätten nicht anders zuordenbar', 'en':'Raw materials, consumables and supplies of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7568,7 +7572,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.inProgress.goods': {
     'name': 'bs.ass.currAss.inventory.inProgress.goods', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.inProgress.goods', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Work in progress, unfinished goods', }, 
+    'label': {'de':'unfertige Erzeugnisse', 'en':'Unfinished goods', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7578,7 +7582,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.inProgress.services': {
     'name': 'bs.ass.currAss.inventory.inProgress.services', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.inProgress.services', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Work in progress, services in progress', }, 
+    'label': {'de':'unfertige Leistungen', 'en':'Services in progress', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7588,7 +7592,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.inProgress.notYetInvoiced': {
     'name': 'bs.ass.currAss.inventory.inProgress.notYetInvoiced', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.inProgress.notYetInvoiced', 
-    'label': {'de':'noch nicht abgerechnete Leistungen', 'en':'Work in progress, unbilled services rendered (work in progress)', }, 
+    'label': {'de':'noch nicht abgerechnete Leistungen', 'en':'Unbilled services rendered (work in progress)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7598,7 +7602,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.inProgress.constructionInProgress': {
     'name': 'bs.ass.currAss.inventory.inProgress.constructionInProgress', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.inProgress.constructionInProgress', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Work in progress, contracted construction in progress', }, 
+    'label': {'de':'in Ausführung befindliche Bauaufträge', 'en':'Contracted construction in progress', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7608,7 +7612,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.inProgress.ordersInProgress': {
     'name': 'bs.ass.currAss.inventory.inProgress.ordersInProgress', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.inProgress.ordersInProgress', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Work in progress, orders in progress', }, 
+    'label': {'de':'in Arbeit befindliche Aufträge', 'en':'Work in progress, orders in progress', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7618,7 +7622,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.inProgressOtherForeign': {
     'name': 'bs.ass.currAss.inventory.inProgressOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.inProgressOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Unfinished goods and services in progress of foreign branch(es)', }, 
+    'label': {'de':'unfertige Erzeugnisse, unfertige Leistungen ausländischer Betriebsstätten', 'en':'Unfinished goods and services in progress of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7638,7 +7642,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.goods': {
     'name': 'bs.ass.currAss.inventory.finishedAndMerch.goods', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.finishedAndMerch.goods', 
-    'label': {'de':'eigene Erzeugnisse', 'en':'Finished goods and merchandise, of which finished goods', }, 
+    'label': {'de':'fertige Erzeugnisse', 'en':'Finished goods', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7648,7 +7652,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.merchandise': {
     'name': 'bs.ass.currAss.inventory.finishedAndMerch.merchandise', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.finishedAndMerch.merchandise', 
-    'label': {'de':'Hierbei handelt es sich um Handelswaren, d.h. keine eigenen Erzeugnisse.', 'en':'Finished goods and merchandise, of which merchandise', }, 
+    'label': {'de':'Waren', 'en':'Merchandise', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7658,7 +7662,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.notYetInvoiced': {
     'name': 'bs.ass.currAss.inventory.finishedAndMerch.notYetInvoiced', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.finishedAndMerch.notYetInvoiced', 
-    'label': {'de':'Fertige Erzeugnisse und Waren, noch nicht abgerechnete Leistungen (fertige Erzeugnisse, Waren)', 'en':'Unbilled services rendered', }, 
+    'label': {'de':'noch nicht abgerechnete Leistungen', 'en':'Unbilled services rendered', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7668,7 +7672,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerchOtherForeign': {
     'name': 'bs.ass.currAss.inventory.finishedAndMerchOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.finishedAndMerchOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Finished goods and merchandise of foreign branch(es)', }, 
+    'label': {'de':'fertige Erzeugnisse und Waren ausländischer Betriebsstätten', 'en':'Finished goods and merchandise of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7678,7 +7682,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.other': {
     'name': 'bs.ass.currAss.inventory.other', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.other', 
-    'label': {'de':'Vorräte, sonstige Vorräte', 'en':'Inventories, other inventories', }, 
+    'label': {'de':'sonstige Vorräte', 'en':'Other inventories', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7688,7 +7692,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.advPaymPaid': {
     'name': 'bs.ass.currAss.inventory.advPaymPaid', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.advPaymPaid', 
-    'label': {'de':'geleistete Anzahlungen (Vorräte)', 'en':'Prepayments (inventories)', }, 
+    'label': {'de':'geleistete Anzahlungen', 'en':'Prepayments', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7698,7 +7702,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.gross': {
     'name': 'bs.ass.currAss.inventory.gross', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.gross', 
-    'label': {'de':'Ausschließlich für kleine Kapitalgesellschaften, die erhaltene Anzahlungen von den Vorräten absetzen; Angabe hier nur, wenn nicht in einer der vorhergehenden Positionen enthalten.', 'en':'Inventories gross before deduction of payments received', }, 
+    'label': {'de':'Vorräte, vor Absetzung von erhaltenen Anzahlungen', 'en':'Inventories gross before deduction of payments received', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7708,7 +7712,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.inventory.advPaymReceived': {
     'name': 'bs.ass.currAss.inventory.advPaymReceived', 
     'qname': 'de-gaap-ci:bs.ass.currAss.inventory.advPaymReceived', 
-    'label': {'de':'Vorräte, erhaltene Anzahlungen auf Bestellungen (offen aktivisch abgesetzt)', 'en':'Payments received on account of orders', }, 
+    'label': {'de':'erhaltene Anzahlungen auf Bestellungen, offen abgesetzt', 'en':'Payments received on account of orders', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -7738,7 +7742,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.regulatory': {
     'name': 'bs.ass.currAss.receiv.regulatory', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.regulatory', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, Forderungen aus dem Zentralregulierungs- und Delkrederegeschäft', 'en':'Receivables and other assets, receivables from central settlement and del credere services', }, 
+    'label': {'de':'Forderungen aus dem Zentralregulierungs- und Delkrederegeschäft', 'en':'Receivables from central settlement and del credere services', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7748,7 +7752,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.regulatory.upTo1year': {
     'name': 'bs.ass.currAss.receiv.regulatory.upTo1year', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.regulatory.upTo1year', 
-    'label': {'de':'I.d.R. genossenschaftsspez. Zusatzposten, soweit für die Mitglieder Abrechnungen vorgenommen werden; kann jedoch auch bei anderen Rechtsformen vorkommen, die dieses Geschäft betreiben.', 'en':'Receivables and other assets, receivables from central settlement and del credere services, due within 1 year', }, 
+    'label': {'de':'mit Restlaufzeit bis zu einem Jahr', 'en':'of which due within 1 year', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7758,7 +7762,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.regulatory.above1year': {
     'name': 'bs.ass.currAss.receiv.regulatory.above1year', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.regulatory.above1year', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, Forderungen aus dem Zentralregulierungs- und Delkrederegeschäft mit einer Restlaufzeit von mehr als einem Jahr', 'en':'of which due after more than 1 year', }, 
+    'label': {'de':'mit einer Restlaufzeit von mehr als einem Jahr', 'en':'of which due after more than 1 year', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7768,7 +7772,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.shareholders': {
     'name': 'bs.ass.currAss.receiv.shareholders', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.shareholders', 
-    'label': {'de':'Hier werden auch Forderungen aus Lieferungen und Leistungen gegenüber Gesellschaftern erwartet.', 'en':'Receivables and other assets, receivables from shareholders', }, 
+    'label': {'de':'Forderungen gegen Gesellschafter', 'en':'Receivables from shareholders', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7778,7 +7782,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.shareholders.gmbh': {
     'name': 'bs.ass.currAss.receiv.shareholders.gmbh', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.shareholders.gmbh', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, Forderungen gegen Gesellschafter, Forderungen gegen GmbH-Gesellschafter', 'en':'Receivables and other assets, receivables from shareholders, of which receivables from shareholders of private limited company (GmbH)', }, 
+    'label': {'de':'Forderungen gegen GmbH-Gesellschafter', 'en':'Receivables from shareholders of private limited company (GmbH)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7788,7 +7792,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.shareholders.unlimitedLiable': {
     'name': 'bs.ass.currAss.receiv.shareholders.unlimitedLiable', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.shareholders.unlimitedLiable', 
-    'label': {'de':'Aus handelsrechtlicher Sicht: für individuelle Reportingzwecke bei Personenhandelsgesellschaften (gilt nicht für Übermittlungen nach § 5b EStG)', 'en':'Receivables and other assets, receivables from shareholders, of which receivables from general partners', }, 
+    'label': {'de':'Forderungen gegen persönlich haftende Gesellschafter', 'en':'Receivables from general partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7798,7 +7802,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.shareholders.limitedLiable': {
     'name': 'bs.ass.currAss.receiv.shareholders.limitedLiable', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.shareholders.limitedLiable', 
-    'label': {'de':'Aus handelsrechtlicher Sicht: für individuelle Reportingzwecke (gilt nicht für Übermittlungen nach § 5b EStG)', 'en':'Receivables and other assets, receivables from shareholders, of which receivables from limited partners', }, 
+    'label': {'de':'Forderungen gegen Kommanditisten und atypisch stille Gesellschafter', 'en':'Receivables from limited partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7808,7 +7812,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.shareholders.silent': {
     'name': 'bs.ass.currAss.receiv.shareholders.silent', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.shareholders.silent', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, Forderungen gegen Gesellschafter, Forderungen gegen typisch stille Gesellschafter', 'en':'Receivables and other assets, receivables from shareholders, of which receivables from silent partners', }, 
+    'label': {'de':'Forderungen gegen typisch stille Gesellschafter', 'en':'Receivables from silent partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7818,7 +7822,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.shareholders.other': {
     'name': 'bs.ass.currAss.receiv.shareholders.other', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.shareholders.other', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, Forderungen gegen Gesellschafter, Forderungen gegen sonstige Gesellschafter', 'en':'Receivables and other assets, receivables from shareholders, of which receivables from other partners', }, 
+    'label': {'de':'Forderungen gegen sonstige Gesellschafter', 'en':'Receivables from other partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7838,7 +7842,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners': {
     'name': 'bs.ass.currAss.receiv.unpaidCapitalPartners', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.unpaidCapitalPartners', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, Einzahlungsverpflichtungen persönlich haftender Gesellschafter und Kommanditisten', 'en':'Receivables and other assets, call obligations of general and limited partners', }, 
+    'label': {'de':'Einzahlungsverpflichtungen persönlich haftender Gesellschafter und Kommanditisten', 'en':'Call obligations of general and limited partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7848,7 +7852,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners.unlimitedLiable': {
     'name': 'bs.ass.currAss.receiv.unpaidCapitalPartners.unlimitedLiable', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.unpaidCapitalPartners.unlimitedLiable', 
-    'label': {'de':'Für Verlustanteile, die den Kapitalanteil übersteigen, soweit eine Zahlungsverpflichtung besteht', 'en':'Call obligations of general partners', }, 
+    'label': {'de':'Einzahlungsverpflichtungen persönlich haftender Gesellschafter', 'en':'Call obligations of general partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7858,7 +7862,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners.limitedLiable': {
     'name': 'bs.ass.currAss.receiv.unpaidCapitalPartners.limitedLiable', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.unpaidCapitalPartners.limitedLiable', 
-    'label': {'de':'Für Verlustanteile, die den Kapitalanteil übersteigen, soweit eine Zahlungsverpflichtung besteht', 'en':'Receivables and other assets, call obligations of general and limited partners, call obligations of limited partners', }, 
+    'label': {'de':'Einzahlungsverpflichtungen von Kommanditisten', 'en':'Call obligations of limited partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7878,7 +7882,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.affil.upTo1year': {
     'name': 'bs.ass.currAss.receiv.affil.upTo1year', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.affil.upTo1year', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'of which due within 1 year', }, 
+    'label': {'de':'mit einer Restlaufzeit bis zu einem Jahr', 'en':'of which due within 1 year', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7888,7 +7892,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.affil.above1year': {
     'name': 'bs.ass.currAss.receiv.affil.above1year', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.affil.above1year', 
-    'label': {'de':'Forderungen gegen verbundene Unternehmen, mit Restlaufzeit über 1 Jahr', 'en':'of which due after more than 1 year', }, 
+    'label': {'de':'mit einer Restlaufzeit von mehr als einem Jahr', 'en':'of which due after more than 1 year', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7898,7 +7902,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.affilOtherForeign': {
     'name': 'bs.ass.currAss.receiv.affilOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.affilOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Receivables from affiliated companies of foreign branch(es)', }, 
+    'label': {'de':'Forderungen ausländischer Betriebsstätten gegen verbundene Unternehmen', 'en':'Receivables from affiliated companies of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7908,7 +7912,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.particip': {
     'name': 'bs.ass.currAss.receiv.particip', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.particip', 
-    'label': {'de':'Hier werden auch Forderungen aus Lieferungen und Leistungen gegenüber Unternehmen, mit denen ein Beteiligungsverhältnis besteht, erwartet.', 'en':'Receivables from other long-term investees and investors', }, 
+    'label': {'de':'Ford. gegen Untern., mit denen ein Bet.verh. besteht', 'en':'Receivables from other long-term investees and investors', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7928,7 +7932,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.unpaidCapital': {
     'name': 'bs.ass.currAss.receiv.other.unpaidCapital', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.unpaidCapital', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, eingeforderte noch ausstehende Kapitaleinlagen', 'en':'Receivables and other assets, unpaid contributions to subscribed capital', }, 
+    'label': {'de':'eingeforderte noch ausstehende Kapitaleinlagen', 'en':'Unpaid contributions to subscribed capital', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7938,7 +7942,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.unpaidCapitalUnlimitedLiablePartner': {
     'name': 'bs.ass.currAss.receiv.other.unpaidCapitalUnlimitedLiablePartner', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.unpaidCapitalUnlimitedLiablePartner', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, eingeforderte noch ausstehende Kapitaleinlagen persönlich haftender Gesellschafter', 'en':'Receivables and other assets, unpaid contributions to subscribed capital of general partners', }, 
+    'label': {'de':'eingeforderte noch ausstehende Kapitaleinlagen persönlich haftender Gesellschafter', 'en':'Unpaid contributions to subscribed capital of general partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7948,7 +7952,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.unpaidCapitalLimitedLiablePartner': {
     'name': 'bs.ass.currAss.receiv.other.unpaidCapitalLimitedLiablePartner', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.unpaidCapitalLimitedLiablePartner', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, eingeforderte noch ausstehende Kapitaleinlagen Kommanditisten', 'en':'Receivables and other assets, unpaid contributions to subscribed capital of limited partners', }, 
+    'label': {'de':'eingeforderte noch ausstehende Kapitaleinlagen Kommanditisten', 'en':'Unpaid contributions to subscribed capital of limited partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7958,7 +7962,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other': {
     'name': 'bs.ass.currAss.receiv.other', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other', 
-    'label': {'de':'sonstige Vermögensgegenstände', 'en':'Receivables and other assets, other assets', }, 
+    'label': {'de':'sonstige Vermögensgegenstände', 'en':'Other assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7968,7 +7972,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.profSharRights': {
     'name': 'bs.ass.currAss.receiv.other.profSharRights', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.profSharRights', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Receivables and other assets, other assets, of which profit participation rights', }, 
+    'label': {'de':'Genussrechte', 'en':'Profit participation rights', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7978,7 +7982,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.secondaryPaym': {
     'name': 'bs.ass.currAss.receiv.other.secondaryPaym', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.secondaryPaym', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Receivables and other assets, other assets, supplementary payments or additional contributions receivable', }, 
+    'label': {'de':'Einzahlungsansprüche zu Nebenleistungen oder Zuzahlungen', 'en':'Supplementary payments or additional contributions receivable', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7988,7 +7992,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.coopShares': {
     'name': 'bs.ass.currAss.receiv.other.coopShares', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.coopShares', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Receivables and other assets, other assets, short-term shares in cooperatives', }, 
+    'label': {'de':'Genossenschaftsanteile', 'en':'Short-term shares in cooperatives', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -7998,7 +8002,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.reInsurClaim': {
     'name': 'bs.ass.currAss.receiv.other.reInsurClaim', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.reInsurClaim', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, sonstige Vermögensgegenstände, Rückdeckungsansprüche aus Lebensversicherungen (kurzfristiger Verbleib)', 'en':'Receivables and other assets, other assets, short-term pension liability claims from life insurance policies', }, 
+    'label': {'de':'Rückdeckungsansprüche aus Lebensversicherungen', 'en':'Short-term pension liability claims from life insurance policies', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8008,7 +8012,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.vat': {
     'name': 'bs.ass.currAss.receiv.other.vat', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.vat', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Receivables and other assets, other assets, value added tax receivables', }, 
+    'label': {'de':'Umsatzsteuerforderungen', 'en':'Value added tax receivables', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8018,7 +8022,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxOverpayment': {
     'name': 'bs.ass.currAss.receiv.other.corpTaxOverpayment', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.corpTaxOverpayment', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, sonstige Vermögensgegenstände, Körperschaftsteuerüberzahlungen', 'en':'Receivables and other assets, other assets, excess payments of corporation tax', }, 
+    'label': {'de':'Körperschaftsteuerüberzahlungen', 'en':'Excess payments of corporation tax', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8028,7 +8032,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.tradeTaxOverpayment': {
     'name': 'bs.ass.currAss.receiv.other.tradeTaxOverpayment', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.tradeTaxOverpayment', 
-    'label': {'de':'steuerlich erforderlich', 'en':'Receivables and other assets, other assets, excess payments of trade tax', }, 
+    'label': {'de':'Gewerbesteuerüberzahlungen', 'en':'Excess payments of trade tax', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8038,7 +8042,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.minTaxFingov': {
     'name': 'bs.ass.currAss.receiv.other.minTaxFingov', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.minTaxFingov', 
-    'label': {'de':'für Prüfungsfeststellungen zu sonstigen Steuern (z.B. Lohnsteuer) und vergleiche Sachverhalte', 'en':'Receivables and other assets, other assets, tax reduction (according to revenue authorities)', }, 
+    'label': {'de':'Mindersteuern lt. Finanzverwaltung', 'en':'Tax reduction (according to tax authorities)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8048,7 +8052,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.InterstMinTaxFingovAO': {
     'name': 'bs.ass.currAss.receiv.other.InterstMinTaxFingovAO', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.InterstMinTaxFingovAO', 
-    'label': {'de':'steuerlich erforderlich', 'en':'Receivables and other assets, other assets, interest in accordance to AO s.233a on tax reductions (according to revenue authorities)', }, 
+    'label': {'de':'Zinsen nach § 233a AO auf Mindersteuern lt. Finanzverwaltung', 'en':'Interest in accordance to AO s.233a on tax reductions (according to tax authorities)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8058,7 +8062,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG': {
     'name': 'bs.ass.currAss.receiv.other.corpTaxCredit37KStG', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.corpTaxCredit37KStG', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, sonstige Vermögensgegenstände, Körperschaftsteuerguthaben nach § 37 KStG', 'en':'Receivables and other assets, other assets, corporation tax credit under KStG s.37', }, 
+    'label': {'de':'Körperschaftsteuerguthaben nach § 37 KStG', 'en':'Corporation tax credit under KStG s.37', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8068,7 +8072,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.otherTaxRec': {
     'name': 'bs.ass.currAss.receiv.other.otherTaxRec', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.otherTaxRec', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, sonstige Vermögensgegenstände, andere Forderungen gegen Finanzbehörden', 'en':'Receivables and other assets, other assets, other receivables from revenue authorities', }, 
+    'label': {'de':'andere Forderungen gegen Finanzbehörden', 'en':'Other receivables from revenue authorities', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8078,7 +8082,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.socInsur': {
     'name': 'bs.ass.currAss.receiv.other.socInsur', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.socInsur', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Receivables and other assets, other assets, receivables from social security institutions', }, 
+    'label': {'de':'Forderungen gegen Sozialversicherungsträger', 'en':'Receivables from social security institutions', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8088,7 +8092,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.employees': {
     'name': 'bs.ass.currAss.receiv.other.employees', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.employees', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Receivables and other assets, other assets, receivables from and loans to employees', }, 
+    'label': {'de':'Forderungen und Darlehen an Mitarbeiter', 'en':'Receivables from and loans to employees', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8098,7 +8102,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.bodies': {
     'name': 'bs.ass.currAss.receiv.other.bodies', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.bodies', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Receivables and other assets, other assets, receivables from and loans to members of governing bodies', }, 
+    'label': {'de':'Forderungen und Darlehen an Organmitglieder', 'en':'Receivables from and loans to members of governing bodies', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8108,7 +8112,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.jointWork': {
     'name': 'bs.ass.currAss.receiv.other.jointWork', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.jointWork', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, sonstige Vermögensgegenstände, Forderungen gegen Arbeitsgemeinschaften', 'en':'Receivables and other assets, other assets, receivables from project consortiums', }, 
+    'label': {'de':'Forderungen gegen Arbeitsgemeinschaften', 'en':'Receivables from project consortiums', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8118,7 +8122,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.shareholders': {
     'name': 'bs.ass.currAss.receiv.other.shareholders', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.shareholders', 
-    'label': {'de':'Mitzugehörigkeitsvermerk in der Bilanz, soweit Gesellschafter nicht als Hauptposten ausgewiesen sind.', 'en':'Receivables and other assets, other assets, of which from shareholders', }, 
+    'label': {'de':'Sonstige Vermögensgegenstände gegenüber Gesellschaftern', 'en':'Receivables from shareholders', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8128,7 +8132,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.other.other': {
     'name': 'bs.ass.currAss.receiv.other.other', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.other', 
-    'label': {'de':'Forderungen und sonstige Vermögensgegenstände, sonstige Vermögensgegenstände, Übrige sonstige Vermögensgegenstände / nicht zuordenbare sonstige Vermögensgegenstände', 'en':'Receivables and other assets, other assets, miscellaneous other assets', }, 
+    'label': {'de':'Übrige sonstige Vermögensgegenstände / nicht zuordenbare sonstige Vermögensgegenstände', 'en':'Miscellaneous other assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8138,7 +8142,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.receiv.otherForeign': {
     'name': 'bs.ass.currAss.receiv.otherForeign', 
     'qname': 'de-gaap-ci:bs.ass.currAss.receiv.otherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Other assets of foreign branch(es)', }, 
+    'label': {'de':'sonstige Vermögensgegenstände, soweit die ausländische Betriebsstätte nicht anders zuordenbar', 'en':'Other assets of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8148,7 +8152,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities': {
     'name': 'bs.ass.currAss.securities', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities', 
-    'label': {'de':'Wertpapiere des Umlaufvermögens', 'en':'Securities', }, 
+    'label': {'de':'Wertpapiere', 'en':'Securities', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8158,7 +8162,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.affil': {
     'name': 'bs.ass.currAss.securities.affil', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.affil', 
-    'label': {'de':'Anteile an verbundenen Unternehmen (Umlaufvermögen)', 'en':'Shares in affiliated companies (current assets)', }, 
+    'label': {'de':'Anteile an verbundenen Unternehmen', 'en':'Shares in affiliated companies', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8168,7 +8172,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.affil.parentComp': {
     'name': 'bs.ass.currAss.securities.affil.parentComp', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.affil.parentComp', 
-    'label': {'de':'Anteile an verbundenen Unternehmen (Umlaufvermögen), Anteile an herrschender oder an mit Mehrheit beteiligter Gesellschaft', 'en':'Shares in affiliated companies (current assets), shares in parent or majority investor', }, 
+    'label': {'de':'Anteile an herrschender oder an mit Mehrheit beteiligter Gesellschaft', 'en':'Shares in parent or in majority investor', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8178,7 +8182,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.affil.subsidiaries': {
     'name': 'bs.ass.currAss.securities.affil.subsidiaries', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.affil.subsidiaries', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Shares in subsidiaries', }, 
+    'label': {'de':'Anteile an Tochterunternehmen', 'en':'Shares in subsidiaries', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8188,7 +8192,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.ownShares': {
     'name': 'bs.ass.currAss.securities.ownShares', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.ownShares', 
-    'label': {'de':'Wertpapiere des Umlaufvermögens, eigene Anteile', 'en':'Securities, treasury shares', }, 
+    'label': {'de':'eigene Anteile', 'en':'Treasury shares', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8198,7 +8202,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.other': {
     'name': 'bs.ass.currAss.securities.other', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.other', 
-    'label': {'de':'Wertpapiere des Umlaufvermögens, sonstige Wertpapiere des Umlaufvermögens', 'en':'Securities, other securities classified as current assets', }, 
+    'label': {'de':'sonstige Wertpapiere', 'en':'Other securities', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8208,7 +8212,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.other.shares': {
     'name': 'bs.ass.currAss.securities.other.shares', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.other.shares', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Shares', }, 
+    'label': {'de':'Aktien', 'en':'Shares', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8218,7 +8222,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.other.warrants': {
     'name': 'bs.ass.currAss.securities.other.warrants', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.other.warrants', 
-    'label': {'de':'Wertpapiere des Umlaufvermögens, sonstige Wertpapiere des Umlaufvermögens, Optionsscheine innerhalb der sonstigen Wertpapiere des Umlaufvermögens', 'en':'Warrants', }, 
+    'label': {'de':'Optionsscheine', 'en':'Warrants', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8228,7 +8232,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.other.partCertificate': {
     'name': 'bs.ass.currAss.securities.other.partCertificate', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.other.partCertificate', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Profit participation certificates', }, 
+    'label': {'de':'Genussscheine', 'en':'Profit participation certificates', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8248,7 +8252,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.other.bonds': {
     'name': 'bs.ass.currAss.securities.other.bonds', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.other.bonds', 
-    'label': {'de':'Obligationen', 'en':'Securities, other securities classified as current assets, of which bonds', }, 
+    'label': {'de':'Obligationen', 'en':'Bonds', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8258,7 +8262,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.other.convertBond': {
     'name': 'bs.ass.currAss.securities.other.convertBond', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.other.convertBond', 
-    'label': {'de':'Wertpapiere des Umlaufvermögens, sonstige Wertpapiere des Umlaufvermögens, Wandelschuldverschreibungen innerhalb der sonstigen Wertpapiere des Umlaufvermögens', 'en':'Convertible bonds', }, 
+    'label': {'de':'Wandelschuldverschreibungen', 'en':'Convertible bonds', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8268,7 +8272,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.other.securities': {
     'name': 'bs.ass.currAss.securities.other.securities', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.other.securities', 
-    'label': {'de':'festverzinsliche Wertpapiere', 'en':'Securities, other securities classified as current assets, of which fixed-income securities', }, 
+    'label': {'de':'festverzinsliche Wertpapiere', 'en':'Fixed-income securities', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8278,7 +8282,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.other.other': {
     'name': 'bs.ass.currAss.securities.other.other', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.other.other', 
-    'label': {'de':'Wertpapiere des Umlaufvermögens, sonstige Wertpapiere des Umlaufvermögens, übrige sonstige Wertpapiere des Umlaufvermögens', 'en':'Securities, other securities classified as current assets, miscellaneous other securities', }, 
+    'label': {'de':'übrige sonstige Wertpapiere des Umlaufvermögens', 'en':'Miscellaneous other securities classified as current assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8288,7 +8292,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.securities.otherNonMappable': {
     'name': 'bs.ass.currAss.securities.otherNonMappable', 
     'qname': 'de-gaap-ci:bs.ass.currAss.securities.otherNonMappable', 
-    'label': {'de':'nicht zuordenbare Wertpapiere', 'en':'Securities, other securities classified as current assets, non-allocable securities', }, 
+    'label': {'de':'nicht zuordenbare Wertpapiere', 'en':'Non-allocable securities', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8308,7 +8312,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.cashEquiv.cheques': {
     'name': 'bs.ass.currAss.cashEquiv.cheques', 
     'qname': 'de-gaap-ci:bs.ass.currAss.cashEquiv.cheques', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Cash-in-hand, central bank balances, bank balances and cheques; cheques', }, 
+    'label': {'de':'Schecks', 'en':'Cheques', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8318,7 +8322,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.cashEquiv.cash': {
     'name': 'bs.ass.currAss.cashEquiv.cash', 
     'qname': 'de-gaap-ci:bs.ass.currAss.cashEquiv.cash', 
-    'label': {'de':'Kassenbestand, Bundesbankguthaben, Guthaben bei Kreditinstituten und Schecks; Kasse', 'en':'Cash-in-hand, central bank balances, bank balances and cheques; cash-in-hand', }, 
+    'label': {'de':'Kasse', 'en':'Cash-in-hand', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8328,7 +8332,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.cashEquiv.centralBank': {
     'name': 'bs.ass.currAss.cashEquiv.centralBank', 
     'qname': 'de-gaap-ci:bs.ass.currAss.cashEquiv.centralBank', 
-    'label': {'de':'Kassenbestand, Bundesbankguthaben, Guthaben bei Kreditinstituten und Scheck; Bundesbankguthaben', 'en':'Cash-in-hand, central bank balances, bank balances and cheques; central bank balances', }, 
+    'label': {'de':'Bundesbankguthaben', 'en':'Central bank balances', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8338,7 +8342,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.cashEquiv.bank': {
     'name': 'bs.ass.currAss.cashEquiv.bank', 
     'qname': 'de-gaap-ci:bs.ass.currAss.cashEquiv.bank', 
-    'label': {'de':'Kassenbestand, Bundesbankguthaben, Guthaben bei Kreditinstituten und Schecks; Guthaben bei Kreditinstituten', 'en':'Cash-in-hand, central bank balances, bank balances and cheques; bank balances', }, 
+    'label': {'de':'Guthaben bei Kreditinstituten', 'en':'Bank balances', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8348,7 +8352,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.cashEquiv.other': {
     'name': 'bs.ass.currAss.cashEquiv.other', 
     'qname': 'de-gaap-ci:bs.ass.currAss.cashEquiv.other', 
-    'label': {'de':'Kassenbestand, Bundesbankguthaben, Guthaben bei Kreditinstituten und Schecks; sonstige nicht zuordenbare flüssige Mittel', 'en':'Cash-in-hand, central bank balances, bank balances and cheques; other, not allocable cash', }, 
+    'label': {'de':'Sonstige nicht zuordenbare flüssige Mittel', 'en':'Other, not allocable cash', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8358,7 +8362,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.currAss.cashEquivOtherForeign': {
     'name': 'bs.ass.currAss.cashEquivOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.currAss.cashEquivOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Cash-in-hand, central bank balances, bank balances and cheques of foreign branch(es)', }, 
+    'label': {'de':'soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Cash-in-hand, central bank balances, bank balances and cheques of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8368,7 +8372,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.prepaidExp': {
     'name': 'bs.ass.prepaidExp', 
     'qname': 'de-gaap-ci:bs.ass.prepaidExp', 
-    'label': {'de':'Ausgaben vor dem Abschlussstichtag sind zu aktivieren, soweit sie Aufwand für einen bestimmten Zeitraum danach darstellen.', 'en':'Prepaid expenses', }, 
+    'label': {'de':'Aktive Rechnungsabgrenzungsposten', 'en':'Prepaid expenses', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8378,7 +8382,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.prepaidExp.loadRedempt': {
     'name': 'bs.ass.prepaidExp.loadRedempt', 
     'qname': 'de-gaap-ci:bs.ass.prepaidExp.loadRedempt', 
-    'label': {'de':'Aktive Rechnungsabgrenzungsposten, Disagio/Damnum', 'en':'Prepaid expenses, discount', }, 
+    'label': {'de':'Disagio/Damnum', 'en':'Discount', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8388,7 +8392,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.prepaidExp.moneyProv': {
     'name': 'bs.ass.prepaidExp.moneyProv', 
     'qname': 'de-gaap-ci:bs.ass.prepaidExp.moneyProv', 
-    'label': {'de':'Aktive Rechnungsabgrenzungsposten, Geldbeschaffungskosten', 'en':'Prepaid expenses, cost of finance', }, 
+    'label': {'de':'Geldbeschaffungskosten', 'en':'Cost of finance', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8398,7 +8402,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.prepaidExp.customTaxDuty': {
     'name': 'bs.ass.prepaidExp.customTaxDuty', 
     'qname': 'de-gaap-ci:bs.ass.prepaidExp.customTaxDuty', 
-    'label': {'de':'Aktive Rechnungsabgrenzungsposten, als Aufwand berücksichtigte Zölle und Verbrauchsteuern auf Vorräte', 'en':'Prepaid expenses, customs and excise duties relating to inventories and recognised as expenses', }, 
+    'label': {'de':'als Aufwand berücksichtigte Zölle und Verbrauchsteuern', 'en':'Customs and excise duties relating to inventories and recognised as expenses', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8408,7 +8412,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.prepaidExp.vat': {
     'name': 'bs.ass.prepaidExp.vat', 
     'qname': 'de-gaap-ci:bs.ass.prepaidExp.vat', 
-    'label': {'de':'Aktive Rechnungsabgrenzungsposten, als Aufwand berücksichtigte Umsatzsteuer auf Anzahlungen', 'en':'Prepaid expenses, value added tax relating to payments on account and recognised as expenses', }, 
+    'label': {'de':'als Aufwand berücksichtigte Umsatzsteuer auf Anzahlungen', 'en':'Value added tax relating to payments on account and recognised as expenses', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8418,7 +8422,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.prepaidExp.rentPaid': {
     'name': 'bs.ass.prepaidExp.rentPaid', 
     'qname': 'de-gaap-ci:bs.ass.prepaidExp.rentPaid', 
-    'label': {'de':'für individuelle Reportingzwecke', 'en':'Prepaid expenses, prepaid rent and non-recoverable building cost subsidies', }, 
+    'label': {'de':'geleistete Mietvorauszahlungen und verlorene Baukostenzuschüsse', 'en':'Prepaid rent and non-recoverable building cost subsidies', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8428,7 +8432,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.prepaidExp.other': {
     'name': 'bs.ass.prepaidExp.other', 
     'qname': 'de-gaap-ci:bs.ass.prepaidExp.other', 
-    'label': {'de':'Aktive Rechnungsabgrenzungsposten, sonstige aktive Rechnungsabgrenzung', 'en':'Prepaid expenses, other prepaid expenses', }, 
+    'label': {'de':'sonstige aktive Rechnungsabgrenzung', 'en':'Other prepaid expenses', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8438,7 +8442,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.prepaidExpOtherForeign': {
     'name': 'bs.ass.prepaidExpOtherForeign', 
     'qname': 'de-gaap-ci:bs.ass.prepaidExpOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Prepaid expenses of foreign branch(es)', }, 
+    'label': {'de':'Rechnungsabgrenzungsposten, soweit für die ausländische Betriebsstätte nicht anders zuordenbar', 'en':'Prepaid expenses of foreign branch(es)', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8468,7 +8472,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.taxbalanceOrgancomp': {
     'name': 'bs.ass.taxbalanceOrgancomp', 
     'qname': 'de-gaap-ci:bs.ass.taxbalanceOrgancomp', 
-    'label': {'de':'Aktiver Ausgleichsposten für Organschaftsverhältnisse beim Organträger', 'en':'Asset-side adjustment item for consolidated tax group at group parent', }, 
+    'label': {'de':'Ausgleichsposten für Organschaftsverhältnis beim Organträger', 'en':'Asset-side adjustment item for consolidated tax group at group parent', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8488,7 +8492,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital': {
     'name': 'bs.ass.deficitNotCoveredByCapital', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen', 'en':'Deficit or withdrawals not covered by equity', }, 
+    'label': {'de':'n. durch Eigenkapital gedeckter Fehlbetrag', 'en':'Deficit or withdrawals not covered by equity', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8498,7 +8502,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP': {
     'name': 'bs.ass.deficitNotCoveredByCapital.privateAccountSP', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.privateAccountSP', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Privatkonto (Einzelunternehmen) [Aktivseite]', 'en':'Deficit or withdrawals not covered by equity; private account (sole proprietorship), deficit item', }, 
+    'label': {'de':'Privatkonto', 'en':'Private account (sole proprietorship), deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8508,7 +8512,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.beginYear': {
     'name': 'bs.ass.deficitNotCoveredByCapital.privateAccountSP.beginYear', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.privateAccountSP.beginYear', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Privatkonto (Einzelunternehmen) [Aktivseite], Anfangskapital [Aktivseite]', 'en':'Deficit or withdrawals not covered by equity; private account (sole proprietorship), opening balance, deficit item', }, 
+    'label': {'de':'Anfangskapital', 'en':'Opening balance, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8518,7 +8522,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjustBILMOG': {
     'name': 'bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjustBILMOG', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjustBILMOG', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Privatkonto (Einzelunternehmen) [Aktivseite], Kapitalanpassung nach BilMoG', 'en':'Deficit or withdrawals not covered by equity; private account (sole proprietorship), deficit item; capital adjustments under BilMoG', }, 
+    'label': {'de':'Kapitalanpassung nach BilMoG', 'en':'Capital adjustments due to BilMoG', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8528,7 +8532,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjust': {
     'name': 'bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjust', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjust', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Privatkonto (Einzelunternehmen) [Aktivseite], Kapitalanpassungen', 'en':'Deficit or withdrawals not covered by equity; private account (sole proprietorship), deficit item; capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Capital adjustments', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8538,7 +8542,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.incomeUseDeposits': {
     'name': 'bs.ass.deficitNotCoveredByCapital.privateAccountSP.incomeUseDeposits', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.privateAccountSP.incomeUseDeposits', 
-    'label': {'de':'erwarteter Wert negativ', 'en':'Deficit or withdrawals not covered by equity; private account (sole proprietorship), deficit item, capital contributions in reporting period', }, 
+    'label': {'de':'Einlagen', 'en':'Capital contributions in reporting period', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8548,7 +8552,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.incomeUseWithdrawals': {
     'name': 'bs.ass.deficitNotCoveredByCapital.privateAccountSP.incomeUseWithdrawals', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.privateAccountSP.incomeUseWithdrawals', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Privatkonto (Einzelunternehmen) [Aktivseite], Privatkonto (Einzelunternehmen), Entnahmen', 'en':'Deficit or withdrawals not covered by equity; private account (sole proprietorship), deficit item; capital withdrawals in reporting period', }, 
+    'label': {'de':'Entnahmen', 'en':'Capital withdrawals in reporting period', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -8558,7 +8562,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjust6bRes': {
     'name': 'bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjust6bRes', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjust6bRes', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Privatkonto (Einzelunternehmen) [Aktivseite], Kapitaländerung durch Übertragung einer § 6 b EStG Rücklage', 'en':'Deficit or withdrawals not covered by equity; private account (sole proprietorship), deficit item; capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
+    'label': {'de':'Kapitaländerung durch Übertragung einer § 6 b EStG Rücklage', 'en':'Capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8568,7 +8572,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.netIncome': {
     'name': 'bs.ass.deficitNotCoveredByCapital.privateAccountSP.netIncome', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.privateAccountSP.netIncome', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Privatkonto (Einzelunternehmen) [Aktivseite], Jahresüberschuss/-fehlbetrag', 'en':'Deficit or withdrawals not covered by equity; private account (sole proprietorship), deficit item; net income/net loss for the financial year', }, 
+    'label': {'de':'Jahresüberschuss/-fehlbetrag', 'en':'Net income/net loss for the financial year, general partner, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8578,7 +8582,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Vermögenseinlagen gedeckter Verlustanteil der persönlich haftenden Gesellschafter [Aktivseite]', 'en':'Deficit or withdrawals not covered by equity; share of loss of general partners not covered by capital contributions, deficit item', }, 
+    'label': {'de':'Nicht durch Vermögenseinlagen gedeckter Verlustanteil persönlich haftenden Gesellschafter', 'en':'Share of loss of general partners not covered by capital contributions, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8598,7 +8602,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.capAdjustBILMOG': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.capAdjustBILMOG', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.capAdjustBILMOG', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Vermögenseinlagen gedeckter Verlustanteil der persönlich haftenden Gesellschafter [Aktivseite], Nicht gedeckter Verlustanteil persönlich haftender Gesellschafter [Aktivseite], Summe Anfangskapital, Nicht gedeckter Verlustanteil persönlich haftender Gesellschafter [Aktivseite], Summe Kapitalanpassungen nach BilMoG', 'en':'total of capital movements under BilMoG, deficit item', }, 
+    'label': {'de':'Summe Kapitalanpassungen nach BilMoG', 'en':'total of capital movements under BilMoG, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8638,7 +8642,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.capAdjust6bRes': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.capAdjust6bRes', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.capAdjust6bRes', 
-    'label': {'de':'Nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Vermögenseinlagen gedeckter Verlustanteil der persönlich haftenden Gesellschafter [Aktivseite], Summe Kapitaländerung durch Übertragung einer § 6b EStG Rücklage', 'en':'Capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
+    'label': {'de':'Summe Kapitaländerung durch Übertragung einer § 6b EStG Rücklage [Aktivseite]', 'en':'Capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8648,7 +8652,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.netIncome': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.netIncome', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.netIncome', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Vermögenseinlagen gedeckter Verlustanteil der persönlich haftenden Gesellschafter [Aktivseite], Nicht gedeckter Verlustanteil persönlich haftender Gesellschafter, Summe Jahresüberschuss', 'en':'Total net income, deficit item', }, 
+    'label': {'de':'Summe Jahresüberschuss', 'en':'Total net income, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8668,7 +8672,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Vermögenseinlagen gedeckter Verlustanteil der Kommanditisten [Aktivseite]', 'en':'Deficit or withdrawals not covered by equity; share of loss of limited partners not covered by capital contributions, deficit item', }, 
+    'label': {'de':'Nicht durch Vermögenseinlagen gedeckter Verlustanteil der Kommanditisten [Aktivseite]', 'en':'Share of loss of limited partners not covered by capital contributions, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8688,7 +8692,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.capAdjustBILMOG': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.capAdjustBILMOG', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.capAdjustBILMOG', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Vermögenseinlagen gedeckter Verlustanteil der Kommanditisten [Aktivseite]; Summe Kapitalanpassungen nach BilMoG', 'en':'total of capital movements under BilMoG, deficit item', }, 
+    'label': {'de':'Summe Kapitalanpassungen nach BilMoG', 'en':'total of capital movements under BilMoG, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8708,7 +8712,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.incomeUseDeposits': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.incomeUseDeposits', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.incomeUseDeposits', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Vermögenseinlagen gedeckter Verlustanteil der Kommanditisten [Aktivseite]; Summe Einlagen', 'en':'contributions total, deficit item', }, 
+    'label': {'de':'Summe Einlagen', 'en':'contributions total, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8718,7 +8722,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.incomeUseWithdrawals': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.incomeUseWithdrawals', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.incomeUseWithdrawals', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Vermögenseinlagen gedeckter Verlustanteil der Kommanditisten [Aktivseite], Summe Entnahmen', 'en':'Withdrawals, deficit item', }, 
+    'label': {'de':'Summe Entnahmen', 'en':'Withdrawals, deficit item', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -8748,7 +8752,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.capMovements': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.capMovements', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.capMovements', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, nicht durch Vermögenseinlagen gedeckter Verlustanteil der Kommanditisten [Aktivseite], Summe Kapitalumgliederungen', 'en':'Reclassification total, deficit item', }, 
+    'label': {'de':'Summe Kapitalumgliederungen', 'en':'Reclassification total, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8758,7 +8762,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner', 
-    'label': {'de':'Nicht durch Vermögenseinlagen gedeckte Entnahmen persönlich haftender Gesellschafter', 'en':'Deficit or withdrawals not covered by equity; withdrawals of general partner not covered by capital contributions, deficit item', }, 
+    'label': {'de':'Nicht durch Vermögenseinlagen gedeckte Entnahmen persönlich haftender Gesellschafter', 'en':'Withdrawals of general partner not covered by capital contributions, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8768,7 +8772,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.beginYear': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.beginYear', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.beginYear', 
-    'label': {'de':'Summe Anfangskapital', 'en':'Deficit or withdrawals not covered by equity; withdrawals of general partner not covered by capital contributions, deficit item; opening balance', }, 
+    'label': {'de':'Summe Anfangskapital', 'en':'Opening balance', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8778,7 +8782,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjustBILMOG': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjustBILMOG', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjustBILMOG', 
-    'label': {'de':'Summe Kapitalanpassungen nach BilMoG', 'en':'Deficit or withdrawals not covered by equity; withdrawals of general partner not covered by capital contributions, deficit item; capital movements under BilMoG', }, 
+    'label': {'de':'Summe Kapitalanpassungen nach BilMoG', 'en':'Capital movements under BilMoG, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8788,7 +8792,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjust': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjust', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjust', 
-    'label': {'de':'Summe Kapitalanpassungen', 'en':'Deficit or withdrawals not covered by equity; withdrawals of general partner not covered by capital contributions, deficit item; capital movements', }, 
+    'label': {'de':'Summe Kapitalanpassungen', 'en':'Capital movements, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8798,7 +8802,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.incomeUseDeposit': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.incomeUseDeposit', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.incomeUseDeposit', 
-    'label': {'de':'Summe Einlagen', 'en':'Deficit or withdrawals not covered by equity; withdrawals of general partner not covered by capital contributions, deficit item; contributions', }, 
+    'label': {'de':'Summe Einlagen', 'en':'Contributions', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8808,7 +8812,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.incomeUseWithdrawals': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.incomeUseWithdrawals', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.incomeUseWithdrawals', 
-    'label': {'de':'Summe Entnahmen', 'en':'Deficit or withdrawals not covered by equity; withdrawals of general partner not covered by capital contributions, deficit item; withdrawals', }, 
+    'label': {'de':'Summe Entnahmen', 'en':'Withdrawals, deficit item', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -8818,7 +8822,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjust6bRules': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjust6bRules', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjust6bRules', 
-    'label': {'de':'Summe Kapitaländerung durch Übertragung einer § 6b EStG Rücklage', 'en':'Deficit or withdrawals not covered by equity; withdrawals of general partner not covered by capital contributions, deficit item; capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
+    'label': {'de':'Summe Kapitaländerung durch Übertragung einer § 6b EStG Rücklage', 'en':'Capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8828,7 +8832,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.netIncome': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.netIncome', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.netIncome', 
-    'label': {'de':'Summe Jahresüberschuss', 'en':'Deficit or withdrawals not covered by equity; withdrawals of general partner not covered by capital contributions, deficit item; net income', }, 
+    'label': {'de':'Summe Jahresüberschuss', 'en':'Net income, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8838,7 +8842,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capMovements': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capMovements', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capMovements', 
-    'label': {'de':'Summe Kapitalumgliederungen', 'en':'Deficit or withdrawals not covered by equity; withdrawals of general partner not covered by capital contributions, deficit item; reclassifications', }, 
+    'label': {'de':'Summe Kapitalumgliederungen', 'en':'Total of reclassifications, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8848,7 +8852,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Nicht durch Vermögenseinlagen gedeckte Entnahmen der Kommanditisten [Aktivseite]', 'en':'Deficit or withdrawals not covered by equity; withdrawals of limited partner not covered by capital contributions, deficit item', }, 
+    'label': {'de':'Nicht durch Vermögenseinlagen gedeckte Entnahmen der Kommanditisten', 'en':'Withdrawals of limited partners not covered by capital contributions', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8858,7 +8862,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.beginYear': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.beginYear', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.beginYear', 
-    'label': {'de':'Summe Anfangskapital', 'en':'Deficit or withdrawals not covered by equity; withdrawals of limited partner not covered by capital contributions, deficit item; opening balance', }, 
+    'label': {'de':'Summe Anfangskapital', 'en':'Opening balance, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8868,7 +8872,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjustBILMOG': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjustBILMOG', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjustBILMOG', 
-    'label': {'de':'Summe Kapitalanpassungen nach BilMoG', 'en':'Deficit or withdrawals not covered by equity; withdrawals of limited partner not covered by capital contributions, deficit item; capital movements under BilMoG', }, 
+    'label': {'de':'Summe Kapitalanpassungen nach BilMoG', 'en':'Capital movements under BilMoG, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8878,7 +8882,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjust': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjust', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjust', 
-    'label': {'de':'Summe Kapitalanpassungen', 'en':'Deficit or withdrawals not covered by equity; withdrawals of limited partner not covered by capital contributions, deficit item; capital movements', }, 
+    'label': {'de':'Summe Kapitalanpassungen', 'en':'Capital movements, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8888,7 +8892,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.incomeUseDeposits': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.incomeUseDeposits', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.incomeUseDeposits', 
-    'label': {'de':'Summe Einlagen', 'en':'Deficit or withdrawals not covered by equity; withdrawals of limited partner not covered by capital contributions, deficit item; contributions', }, 
+    'label': {'de':'Summe Einlagen', 'en':'Contributions', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8898,7 +8902,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.incomeUseWithdrawals': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.incomeUseWithdrawals', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.incomeUseWithdrawals', 
-    'label': {'de':'Summe Entnahmen', 'en':'Deficit or withdrawals not covered by equity; withdrawals of limited partner not covered by capital contributions, deficit item; withdrawals', }, 
+    'label': {'de':'Summe Entnahmen', 'en':'Withdrawals, deficit item', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -8908,7 +8912,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjust6bRules': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjust6bRules', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjust6bRules', 
-    'label': {'de':'Summe Kapitaländerung durch Übertragung einer § 6b EStG Rücklage', 'en':'Deficit or withdrawals not covered by equity; withdrawals of limited partner not covered by capital contributions, deficit item; capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
+    'label': {'de':'Summe Kapitaländerung durch Übertragung einer § 6b EStG Rücklage', 'en':'Capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8918,7 +8922,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.netIncome': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.netIncome', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.netIncome', 
-    'label': {'de':'Summe Jahresüberschuss', 'en':'Deficit or withdrawals not covered by equity; withdrawals of limited partner not covered by capital contributions, deficit item, net income', }, 
+    'label': {'de':'Summe Jahresüberschuss', 'en':'Net income, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8928,7 +8932,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capMovements': {
     'name': 'bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capMovements', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capMovements', 
-    'label': {'de':'Summe Kapitalumgliederungen', 'en':'Deficit or withdrawals not covered by equity; withdrawals of limited partner not covered by capital contributions, deficit item; reclassifications', }, 
+    'label': {'de':'Summe Kapitalumgliederungen', 'en':'Total of reclassifications, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8938,7 +8942,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.unpaidContributionUnlimitedLiablelPartner': {
     'name': 'bs.ass.deficitNotCoveredByCapital.unpaidContributionUnlimitedLiablelPartner', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.unpaidContributionUnlimitedLiablelPartner', 
-    'label': {'de':'Nicht eingeforderte ausstehende Einlagen der persönlich haftenden Gesellschafter', 'en':'Deficit or withdrawals not covered by equity, uncalled unpaid contributions of general partners', }, 
+    'label': {'de':'Nicht eingeforderte ausstehende Einlagen der persönlich haftenden Gesellschafter', 'en':'Uncalled unpaid contributions of general partners', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -8948,7 +8952,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.unpaidContributionLimitedLiablelPartner': {
     'name': 'bs.ass.deficitNotCoveredByCapital.unpaidContributionLimitedLiablelPartner', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.unpaidContributionLimitedLiablelPartner', 
-    'label': {'de':'Nicht eingeforderte ausstehende Einlagen der Kommanditisten', 'en':'Deficit or withdrawals not covered by equity, uncalled unpaid contributions of limited partners', }, 
+    'label': {'de':'Nicht eingeforderte ausstehende Einlagen der Kommanditisten', 'en':'Uncalled unpaid contributions of limited partners', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -8958,7 +8962,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.dueToPartners': {
     'name': 'bs.ass.deficitNotCoveredByCapital.dueToPartners', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.dueToPartners', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Gesellschafterdarlehen mit Eigenkapital-Charakter [Aktivseite]', 'en':'Deficit or withdrawals not covered by equity, of which equity-equivalent partner loans, deficit item', }, 
+    'label': {'de':'Gesellschafterdarlehen mit Eigenkapital-Charakter', 'en':'Equity-equivalent partner loans, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8978,7 +8982,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lastrange': {
     'name': 'bs.ass.deficitNotCoveredByCapital.lastrange', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.lastrange', 
-    'label': {'de':'z.B. gem. § 16 Abs. 3 Satz 2 DMBilG', 'en':'Deficit or withdrawals not covered by equity, subordinated capital, deficit item', }, 
+    'label': {'de':'Nachrangiges Kapital', 'en':'Subordinated capital, deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8988,7 +8992,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.silentPartner': {
     'name': 'bs.ass.deficitNotCoveredByCapital.silentPartner', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.silentPartner', 
-    'label': {'de':'ADS § 272 Tz 12,soweit Fremdkapital, siehe Verbindlichkeiten ggü. Gesellschaftern', 'en':'Deficit or withdrawals not covered by equity, equity-equivalent contributions by silent partners, deficit item', }, 
+    'label': {'de':'Einlagen stiller Gesellschafter mit Eigenkapital-Charakter', 'en':'Reserves (partnerships), deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -8998,7 +9002,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership': {
     'name': 'bs.ass.deficitNotCoveredByCapital.reservesPartnership', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.reservesPartnership', 
-    'label': {'de':'Soweit Gewinnrücklagen, Ausweis als satzungsmäßige oder andere. Wird nur für Personenhandelsgesellschaften erwartet', 'en':'Deficit or withdrawals not covered by equity, reserves (partnership)', }, 
+    'label': {'de':'Rücklagen (gesamthänderisch gebunden)', 'en':'Reserves (partnerships), deficit item', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9008,7 +9012,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership.finalPrev': {
     'name': 'bs.ass.deficitNotCoveredByCapital.reservesPartnership.finalPrev', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.reservesPartnership.finalPrev', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Rücklagen (gesamthänderisch gebunden);des letzten Stichtags', 'en':'Deficit or withdrawals not covered by equity, reserves (partnership), final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Final in prior report', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9018,7 +9022,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership.capAdjust': {
     'name': 'bs.ass.deficitNotCoveredByCapital.reservesPartnership.capAdjust', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.reservesPartnership.capAdjust', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Rücklagen (gesamthänderisch gebunden); Kapitalanpassungen', 'en':'Deficit or withdrawals not covered by equity, reserves (partnership), capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Capital adjustments', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9028,7 +9032,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership.movements': {
     'name': 'bs.ass.deficitNotCoveredByCapital.reservesPartnership.movements', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.reservesPartnership.movements', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Rücklagen (gesamthänderisch gebunden); Umschichtungen', 'en':'Deficit or withdrawals not covered by equity, reserves (partnership), reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Reallocation', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9038,7 +9042,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership.changePresentYear': {
     'name': 'bs.ass.deficitNotCoveredByCapital.reservesPartnership.changePresentYear', 
     'qname': 'de-gaap-ci:bs.ass.deficitNotCoveredByCapital.reservesPartnership.changePresentYear', 
-    'label': {'de':'nicht durch Eigenkapital gedeckter Fehlbetrag / nicht durch Vermögenseinlagen gedeckter Verlustanteil / nicht durch Vermögenseinlagen gedeckte Entnahmen, Rücklagen (gesamthänderisch gebunden); Zuführungen / Minderungen lfd. Jahr', 'en':'Deficit or withdrawals not covered by equity, reserves (partnership), changes in present year', }, 
+    'label': {'de':'Zuführungen / Minderungen lfd. Jahr', 'en':'Changes during the present year', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9048,7 +9052,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.ass.other': {
     'name': 'bs.ass.other', 
     'qname': 'de-gaap-ci:bs.ass.other', 
-    'label': {'de':'Der Posten muss bei Nutzung der Taxonomie im Rahmen des EHUG durch einen expliziten Postenbezeichner ersetzt werden.', 'en':'Other assets', }, 
+    'label': {'de':'sonstige Aktiva', 'en':'Other assets', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9058,7 +9062,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab': {
     'name': 'bs.eqLiab', 
     'qname': 'de-gaap-ci:bs.eqLiab', 
-    'label': {'de':'Bilanzsumme, Summe Passiva', 'en':'Total equity and liabilities', }, 
+    'label': {'de':'Summe Passiva', 'en':'Total equity and liabilities', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'level': 1, 
@@ -9087,7 +9091,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.corp': {
     'name': 'bs.eqLiab.equity.subscribed.corp', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.corp', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, gezeichnetes Kapital (Kapitalgesellschaften), gezeichnetes Kapital (Kapitalgesellschaften)', 'en':'Subscribed capital', }, 
+    'label': {'de':'gezeichnetes Kapital', 'en':'Subscribed capital', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9097,7 +9101,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.corp.finalPrev': {
     'name': 'bs.eqLiab.equity.subscribed.corp.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.corp.finalPrev', 
-    'label': {'de':'Hier ist das Schlusskapital des vorangegangenen Wirtschaftsjahres einzutragen. Soweit in den Vorjahren Kapitalanpassungen bzw. Kapitalveränderungen vorgenommen wurden, sind diese hier zu berücksichtigen.', 'en':'final in prior report', }, 
+    'label': {'de':'Schlusskapital des letzten Stichtags', 'en':'final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9107,7 +9111,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.corp.capAdjust': {
     'name': 'bs.eqLiab.equity.subscribed.corp.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.corp.capAdjust', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile; gezeichnetes Kapital, Kapitalveränderungen (z.B. durch Kapitalerhöhung)', 'en':'capital adjustments (e.g. increase in capital)', }, 
+    'label': {'de':'Kapitalveränderungen (z.B. durch Kapitalerhöhung)', 'en':'capital adjustments (e.g. increase in capital)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9127,7 +9131,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.corp.changePresentYear': {
     'name': 'bs.eqLiab.equity.subscribed.corp.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.corp.changePresentYear', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile; gezeichnetes Kapital, Umschichtungen', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Umschichtungen', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9147,7 +9151,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP': {
     'name': 'bs.eqLiab.equity.subscribed.privateAccountSP', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.privateAccountSP', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Privatkonto (Einzelunternehmen)', 'en':'Subscribed capital / capital account / capital shares; private account (sole proprietorship)', }, 
+    'label': {'de':'Privatkonto', 'en':'private account (sole proprietorship)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9157,7 +9161,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.beginYear': {
     'name': 'bs.eqLiab.equity.subscribed.privateAccountSP.beginYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.privateAccountSP.beginYear', 
-    'label': {'de':'übliche Darstellung bei Einzelunternehmen', 'en':'Subscribed capital / capital account / capital shares; private account (sole proprietorship), opening balance [private account, equity]', }, 
+    'label': {'de':'Anfangskapital', 'en':'Beginning balance', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9167,7 +9171,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.capAdjustBILMOG': {
     'name': 'bs.eqLiab.equity.subscribed.privateAccountSP.capAdjustBILMOG', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.privateAccountSP.capAdjustBILMOG', 
-    'label': {'de':'für Einzelunternehmer', 'en':'Capital changes due to BilMoG', }, 
+    'label': {'de':'Kapitalanpassung nach BilMoG', 'en':'Capital changes due to BilMoG', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9197,7 +9201,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.incomeUseWithdrawals': {
     'name': 'bs.eqLiab.equity.subscribed.privateAccountSP.incomeUseWithdrawals', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.privateAccountSP.incomeUseWithdrawals', 
-    'label': {'de':'Übliche Darstellung bei Einzelunternehmen. Erfassungshinweis: Entnahmen sind mit einem positiven Betrag einzutragen und als Abzugsposition zu interpretieren.', 'en':'Capital withdrawals', }, 
+    'label': {'de':'Entnahmen', 'en':'Capital withdrawals', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -9207,7 +9211,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.capAdjust6bRes': {
     'name': 'bs.eqLiab.equity.subscribed.privateAccountSP.capAdjust6bRes', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.privateAccountSP.capAdjust6bRes', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Privatkonto (Einzelunternehmen), Kapitaländerung durch Übertragung einer § 6 b EStG Rücklage', 'en':'Subscribed capital / capital account / capital shares; private account (sole proprietorship), of which capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
+    'label': {'de':'Kapitaländerung durch Übertragung einer § 6 b EStG Rücklage', 'en':'Subscribed capital / capital account / capital shares; private account (sole proprietorship), of which capital adjustment through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9217,7 +9221,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.netIncome': {
     'name': 'bs.eqLiab.equity.subscribed.privateAccountSP.netIncome', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.privateAccountSP.netIncome', 
-    'label': {'de':'übliche Darstellung im Rahmen der Postenhierarchie bei Einzelunternehmen', 'en':'Subscribed capital / capital account / capital shares; private account (sole proprietorship), net income / net loss for the financial year, private account', }, 
+    'label': {'de':'Jahresüberschuss/-fehlbetrag', 'en':'Net income/net loss for the financial year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9237,7 +9241,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.beginYear': {
     'name': 'bs.eqLiab.equity.subscribed.unlimitedLiablePartners.beginYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.unlimitedLiablePartners.beginYear', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Kapitalanteile der persönlich haftenden Gesellschafter, Summe Anfangskapital', 'en':'opening balance total', }, 
+    'label': {'de':'Summe Anfangskapital', 'en':'opening balance total', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9247,7 +9251,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.capAdjustBILMOG': {
     'name': 'bs.eqLiab.equity.subscribed.unlimitedLiablePartners.capAdjustBILMOG', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.unlimitedLiablePartners.capAdjustBILMOG', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Kapitalanteile der persönlich haftenden Gesellschafter, Summe Kapitalanpassungen nach BilMoG', 'en':'total of capital movements under BilMoG', }, 
+    'label': {'de':'Summe Kapitalanpassungen nach BilMoG', 'en':'total of capital movements under BilMoG', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9257,7 +9261,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.capAdjust': {
     'name': 'bs.eqLiab.equity.subscribed.unlimitedLiablePartners.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.unlimitedLiablePartners.capAdjust', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Kapitalanteile der persönlich haftenden Gesellschafter, Summe Kapitalanpassungen', 'en':'total of capital movements', }, 
+    'label': {'de':'Summe Kapitalanpassungen', 'en':'total of capital movements', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9267,7 +9271,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.incomeUseDeposits': {
     'name': 'bs.eqLiab.equity.subscribed.unlimitedLiablePartners.incomeUseDeposits', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.unlimitedLiablePartners.incomeUseDeposits', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Kapitalanteile der persönlich haftenden Gesellschafter, Summe Einlagen', 'en':'contributions total', }, 
+    'label': {'de':'Summe Einlagen', 'en':'contributions total', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9317,7 +9321,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.unpaidCap': {
     'name': 'bs.eqLiab.equity.subscribed.unlimitedLiablePartners.unpaidCap', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.unlimitedLiablePartners.unpaidCap', 
-    'label': {'de':'in der Vorspalte auszuweisen', 'en':'Subscribed capital / capital account / capital shares; uncalled contributions of general partners', }, 
+    'label': {'de':'nicht eingeforderte ausstehende Einlagen der persönlich haftenden Gesellschafter', 'en':'Subscribed capital / capital account / capital shares; uncalled contributions of general partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -9327,7 +9331,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners': {
     'name': 'bs.eqLiab.equity.subscribed.limitedLiablePartners', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.limitedLiablePartners', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Kapitalanteile der Kommanditisten', 'en':'Subscribed capital / capital account / capital shares; capital share of limited partners', }, 
+    'label': {'de':'Kapitalanteile der Kommanditisten', 'en':'Capital share of limited partners', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9347,7 +9351,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.beginYear.capAdjustBILMOG': {
     'name': 'bs.eqLiab.equity.subscribed.limitedLiablePartners.beginYear.capAdjustBILMOG', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.limitedLiablePartners.beginYear.capAdjustBILMOG', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Kapitalanteile der Kommanditisten, Summe Kapitalanpassungen nach BilMoG', 'en':'total of capital movements under BilMoG', }, 
+    'label': {'de':'Summe Kapitalanpassungen nach BilMoG', 'en':'total of capital movements under BilMoG', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9357,7 +9361,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.capAdjust': {
     'name': 'bs.eqLiab.equity.subscribed.limitedLiablePartners.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.limitedLiablePartners.capAdjust', 
-    'label': {'de':'Mussfeld kann leer übermittelt werden, falls Modul Kapitalkontenentwicklung übermittelt wird.', 'en':'total of capital movements', }, 
+    'label': {'de':'Summe Kapitalanpassungen', 'en':'total of capital movements', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9367,7 +9371,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.incomeUseDeposits': {
     'name': 'bs.eqLiab.equity.subscribed.limitedLiablePartners.incomeUseDeposits', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.limitedLiablePartners.incomeUseDeposits', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Kapitalanteile der Kommanditisten, Summe Einlagen', 'en':'contributions total', }, 
+    'label': {'de':'Summe Einlagen', 'en':'contributions total', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9377,7 +9381,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.incomeUseWithdrawals': {
     'name': 'bs.eqLiab.equity.subscribed.limitedLiablePartners.incomeUseWithdrawals', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.limitedLiablePartners.incomeUseWithdrawals', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Kapitalanteile der Kommanditisten, Summe Entnahmen', 'en':'withdrawals total', }, 
+    'label': {'de':'Summe Entnahmen', 'en':'withdrawals total', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -9387,7 +9391,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.capAdjust6bRes': {
     'name': 'bs.eqLiab.equity.subscribed.limitedLiablePartners.capAdjust6bRes', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.limitedLiablePartners.capAdjust6bRes', 
-    'label': {'de':'Mussfeld kann leer übermittelt werden, falls Modul Kapitalkontenentwicklung übermittelt wird.', 'en':'capital adjustment in total through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
+    'label': {'de':'Summe Kapitaländerung durch Übertragung einer § 6b EStG Rücklage', 'en':'capital adjustment in total through transfer of tax-allowable reserves within the meaning of EStG s.6b', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9397,7 +9401,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.netIncome': {
     'name': 'bs.eqLiab.equity.subscribed.limitedLiablePartners.netIncome', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.limitedLiablePartners.netIncome', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Kapitalanteile der Kommanditisten, Summe Jahresüberschuss', 'en':'total net income', }, 
+    'label': {'de':'Summe Jahresüberschuss', 'en':'total net income', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9417,7 +9421,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.unpaidCap': {
     'name': 'bs.eqLiab.equity.subscribed.limitedLiablePartners.unpaidCap', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.limitedLiablePartners.unpaidCap', 
-    'label': {'de':'in der Vorspalte auszuweisen', 'en':'Subscribed capital / capital account / capital shares, of which uncalled capital of limited partners', }, 
+    'label': {'de':'nicht eingeforderte ausstehende Einlagen der Kommanditisten', 'en':'Subscribed capital / capital account / capital shares, of which uncalled capital of limited partners', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -9427,7 +9431,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted': {
     'name': 'bs.eqLiab.equity.subscribed.ownSharesdeducted', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.ownSharesdeducted', 
-    'label': {'de':'Erfassungshinweis: Diese Position muss einen positiven Betrag enthalten. Sie ist als "programmtechnisch abzuziehen" zu sehen.', 'en':'Subscribed capital / capital account / capital shares; treasury shares, deducted from subscribed capital on the face of the balance sheet', }, 
+    'label': {'de':'Eigene Anteile - offen vom Gezeichneten Kapital abgesetzt', 'en':'Subscribed capital / capital account / capital shares; treasury shares, deducted from subscribed capital on the face of the balance sheet', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -9437,7 +9441,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted.finalPrev': {
     'name': 'bs.eqLiab.equity.subscribed.ownSharesdeducted.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.ownSharesdeducted.finalPrev', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Eigene Anteile - offen vom Gezeichneten Kapital abgesetzt, Eigene Anteile des letzten Stichtags', 'en':'Subscribed capital / capital account / capital shares; treasury shares, deducted from subscribed capital on the face of the balance sheet, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Subscribed capital / capital account / capital shares; treasury shares, deducted from subscribed capital on the face of the balance sheet, final in prior report', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9447,7 +9451,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted.capAdjust': {
     'name': 'bs.eqLiab.equity.subscribed.ownSharesdeducted.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.ownSharesdeducted.capAdjust', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Eigene Anteile - offen vom Gezeichneten Kapital abgesetzt, Eigene Anteile, Kapitalanpassungen', 'en':'capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'capital adjustments', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9477,7 +9481,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners': {
     'name': 'bs.eqLiab.equity.subscribed.coopPartners', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.coopPartners', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Geschäftsguthaben der Genossen', 'en':'Subscribed capital / capital account / capital shares; paid-up shares in cooperatives', }, 
+    'label': {'de':'Geschäftsguthaben der Genossen', 'en':'Subscribed capital / capital account / capital shares; paid-up shares in cooperatives', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9487,7 +9491,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners.finalPrev': {
     'name': 'bs.eqLiab.equity.subscribed.coopPartners.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.coopPartners.finalPrev', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Geschäftsguthaben der Genossen, Geschäftsguthaben des letzten Stichtags', 'en':'Subscribed capital / capital account / capital shares; paid-up shares in cooperatives, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Subscribed capital / capital account / capital shares; paid-up shares in cooperatives, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9497,7 +9501,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners.capAdjust': {
     'name': 'bs.eqLiab.equity.subscribed.coopPartners.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.coopPartners.capAdjust', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Geschäftsguthaben der Genossen, Geschäftsguthaben, Kapitalanpassungen', 'en':'capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9517,7 +9521,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners.changePresentYear': {
     'name': 'bs.eqLiab.equity.subscribed.coopPartners.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.subscribed.coopPartners.changePresentYear', 
-    'label': {'de':'gezeichnetes Kapital / Kapitalkonto/ Kapitalanteile, Geschäftsguthaben der Genossen, Geschäftsguthaben, Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9527,7 +9531,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.endowmentCapital': {
     'name': 'bs.eqLiab.equity.endowmentCapital', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.endowmentCapital', 
-    'label': {'de':'Eigenkapital, Dotationskapital', 'en':'Equity, allocated to branch', }, 
+    'label': {'de':'Dotationskapital', 'en':'Equity, allocated to branch', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9537,7 +9541,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.association': {
     'name': 'bs.eqLiab.equity.association', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.association', 
-    'label': {'de':'Eigenkapital, Vereinskapital', 'en':'Equity; capital of association, club or union', }, 
+    'label': {'de':'Vereinskapital', 'en':'Equity; capital of association, club or union', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9547,7 +9551,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.association.finalPrev': {
     'name': 'bs.eqLiab.equity.association.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.association.finalPrev', 
-    'label': {'de':'Eigenkapital, Vereinskapital, Vereinskapital des letzten Stichtags', 'en':'Equity; capital of association, club or union, final in prior report', }, 
+    'label': {'de':'Vereinskapital des letzten Stichtags', 'en':'Equity; capital of association, club or union, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9557,7 +9561,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.association.contributions': {
     'name': 'bs.eqLiab.equity.association.contributions', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.association.contributions', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Equity; capital of association, club or union, contributions', }, 
+    'label': {'de':'Einstellungen', 'en':'Equity; capital of association, club or union, contributions', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9567,7 +9571,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.association.withdrawals': {
     'name': 'bs.eqLiab.equity.association.withdrawals', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.association.withdrawals', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Equity; capital of association, club or union, withdrawals', }, 
+    'label': {'de':'Entnahmen', 'en':'Equity; capital of association, club or union, withdrawals', }, 
     'balance': 'debit', 
     'periodtype': 'instant', 
     'weight': -1, 
@@ -9607,7 +9611,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.foundation': {
     'name': 'bs.eqLiab.equity.foundation', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.foundation', 
-    'label': {'de':'Eigenkapital, Stiftungskapital', 'en':'Equity, capital of foundation', }, 
+    'label': {'de':'Stiftungskapital', 'en':'Equity, capital of foundation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9617,7 +9621,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.foundation.estab': {
     'name': 'bs.eqLiab.equity.foundation.estab', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.foundation.estab', 
-    'label': {'de':'Eigenkapital, Stiftungskapital, Errichtungskapital', 'en':'Equity, capital of foundation, establishing capital', }, 
+    'label': {'de':'Errichtungskapital', 'en':'Equity, capital of foundation, establishing capital', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9627,7 +9631,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.foundation.estab.finalPrev': {
     'name': 'bs.eqLiab.equity.foundation.estab.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.foundation.estab.finalPrev', 
-    'label': {'de':'Nur bei Verbrauchsstiftungen', 'en':'Equity, capital of foundation, establishing capital, final in prior report', }, 
+    'label': {'de':'Errichtungskapital des letzten Stichtags', 'en':'Equity, capital of foundation, establishing capital, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9637,7 +9641,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.foundation.estab.capAdjust': {
     'name': 'bs.eqLiab.equity.foundation.estab.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.foundation.estab.capAdjust', 
-    'label': {'de':'Nur bei Verbrauchsstiftungen', 'en':'Equity, capital of foundation, establishing capital, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Equity, capital of foundation, establishing capital, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9647,7 +9651,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.foundation.estab.movements': {
     'name': 'bs.eqLiab.equity.foundation.estab.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.foundation.estab.movements', 
-    'label': {'de':'Nur bei Verbrauchsstiftungen', 'en':'Equity, capital of foundation, establishing capital, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Equity, capital of foundation, establishing capital, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9657,7 +9661,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.foundation.estab.changePresentYear': {
     'name': 'bs.eqLiab.equity.foundation.estab.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.foundation.estab.changePresentYear', 
-    'label': {'de':'Nur bei Verbrauchsstiftungen', 'en':'Equity, capital of foundation, establishing capital, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Equity, capital of foundation, establishing capital, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9667,7 +9671,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.foundation.donation': {
     'name': 'bs.eqLiab.equity.foundation.donation', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.foundation.donation', 
-    'label': {'de':'Eigenkapital, Stiftungskapital, Zustiftungskapital', 'en':'Equity, capital of foundation, endowment donation capital', }, 
+    'label': {'de':'Zustiftungskapital', 'en':'Equity, capital of foundation, endowment donation capital', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9677,7 +9681,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.foundation.donation.finalPrev': {
     'name': 'bs.eqLiab.equity.foundation.donation.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.foundation.donation.finalPrev', 
-    'label': {'de':'Eigenkapital, Stiftungskapital, Zustiftungskapital, Zustiftungskapital des letzten Stichtags', 'en':'Equity, capital of foundation, endowment donation capital, final in prior report', }, 
+    'label': {'de':'Zustiftungskapital des letzten Stichtags', 'en':'Equity, capital of foundation, endowment donation capital, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9717,7 +9721,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.foundation.injectionRevRes': {
     'name': 'bs.eqLiab.equity.foundation.injectionRevRes', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.foundation.injectionRevRes', 
-    'label': {'de':'Eigenkapital, Stiftungskapital, Zuführungen aus Ergebnisrücklagen', 'en':'Equity, capital of foundation, injection from revenue reserves', }, 
+    'label': {'de':'Zuführungen aus Ergebnisrücklagen', 'en':'Equity, capital of foundation, injection from revenue reserves', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9727,7 +9731,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.dueToPartners': {
     'name': 'bs.eqLiab.equity.dueToPartners', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.dueToPartners', 
-    'label': {'de':'Eigenkapital, Gesellschafterdarlehen mit Eigenkapital-Charakter', 'en':'Equity, equity-equivalent partner loans', }, 
+    'label': {'de':'Gesellschafterdarlehen mit EK-Charakter', 'en':'Equity, equity-equivalent partner loans', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9737,7 +9741,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.profSharing': {
     'name': 'bs.eqLiab.equity.profSharing', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.profSharing', 
-    'label': {'de':'ADS § 272 Tz. 12, soweit Fremdkapital, siehe sonstige Verbindlichkeiten.', 'en':'Equity, equity-equivalent profit participation loans', }, 
+    'label': {'de':'Genussrechtskapital mit EK-Charakter', 'en':'Equity, equity-equivalent profit participation loans', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9747,7 +9751,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.lastrangecapital': {
     'name': 'bs.eqLiab.equity.lastrangecapital', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.lastrangecapital', 
-    'label': {'de':'Eigenkapital, Nachrangiges Kapital (Eigenkapital-Charakter)', 'en':'Equity, equity-equivalent subordinated capital', }, 
+    'label': {'de':'Nachrangiges Kapital', 'en':'Subordinated capital', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9757,7 +9761,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.silentPartner': {
     'name': 'bs.eqLiab.equity.silentPartner', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.silentPartner', 
-    'label': {'de':'Eigenkapital, Einlagen stiller Gesellschafter mit EK-Charakter', 'en':'Equity, equity-equivalent contributions by silent partners', }, 
+    'label': {'de':'Einlagen stiller Gesellschafter mit EK-Charakter', 'en':'Equity, equity-equivalent contributions by silent partners', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9777,7 +9781,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.capRes.finalPrev': {
     'name': 'bs.eqLiab.equity.capRes.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.capRes.finalPrev', 
-    'label': {'de':'Kapitalrücklage, Kapitalrücklage des letzten Stichtags', 'en':'Capital reserves, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Capital reserves, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9807,7 +9811,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.capRes.changePresentYear': {
     'name': 'bs.eqLiab.equity.capRes.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.capRes.changePresentYear', 
-    'label': {'de':'Kapitalrücklage, Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9817,7 +9821,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.reservesPartnership': {
     'name': 'bs.eqLiab.equity.reservesPartnership', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.reservesPartnership', 
-    'label': {'de':'Soweit es sich um Gewinnrücklagen handelt, erfolgt der Ausweis als satzungsmäßige oder andere Rücklagen. Vgl. hierzu auch BMF-Schreiben v. 11.7.2011, Az.: IV C 6-S 2178/09/10001, BStBl I 2011 S. 713', 'en':'Equity, reserves (partnerships)', }, 
+    'label': {'de':'Rücklagen', 'en':'Equity, reserves (partnerships)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9827,7 +9831,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.reservesPartnership.finalPrev': {
     'name': 'bs.eqLiab.equity.reservesPartnership.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.reservesPartnership.finalPrev', 
-    'label': {'de':'Eigenkapital, Rücklagen (gesamthänderisch gebunden), Rücklagen (gesamthänderisch gebunden) des letzten Stichtags', 'en':'Equity, reserves (partnerships), final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Equity, reserves (partnerships), final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9837,7 +9841,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.reservesPartnership.capAdjust': {
     'name': 'bs.eqLiab.equity.reservesPartnership.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.reservesPartnership.capAdjust', 
-    'label': {'de':'Eigenkapital, Rücklagen (gesamthänderisch gebunden), Kapitalanpassungen', 'en':'capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9867,7 +9871,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes': {
     'name': 'bs.eqLiab.equity.revenueRes', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes', 
-    'label': {'de':'zusammengefasst', 'en':'Profit reserves/ revenue reserves', }, 
+    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen', 'en':'Profit reserves/ revenue reserves', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9887,7 +9891,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.legal.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.legal.finalPrev', 
-    'label': {'de':'gesetzliche Rücklage, gesetzliche Rücklage des letzten Stichtags', 'en':'Legal reserve, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Legal reserve, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9917,7 +9921,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.legal.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.legal.changePresentYear', 
-    'label': {'de':'gesetzliche Rücklage, Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9927,7 +9931,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve', }, 
+    'label': {'de':'Gebundene Rücklagen', 'en':'Revenue reserves, appropriated reserve', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9937,7 +9941,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.project', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.project', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, project reserve', }, 
+    'label': {'de':'Projektrücklage', 'en':'Revenue reserves, appropriated reserve, project reserve', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9947,7 +9951,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.project.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.project.finalPrev', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, project reserve, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, appropriated reserve, project reserve, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9957,7 +9961,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.project.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.project.capAdjust', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, project reserve, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, appropriated reserve, project reserve, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9967,7 +9971,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.project.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.project.movements', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, project reserve, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, appropriated reserve, project reserve, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9977,7 +9981,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.project.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.project.changePresentYear', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, project reserve, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, appropriated reserve, project reserve, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9987,7 +9991,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, working capital reserve', }, 
+    'label': {'de':'Betriebsmittelrücklage', 'en':'Revenue reserves, appropriated reserve, working capital reserve', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -9997,7 +10001,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.finalPrev', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, working capital reserve, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, appropriated reserve, working capital reserve, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10007,7 +10011,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.capAdjust', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, working capital reserve, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, appropriated reserve, working capital reserve, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10017,7 +10021,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.movements', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Gebundene Rücklagen, Betriebsmittelrücklage, Umschichtungen', 'en':'Revenue reserves, appropriated reserve, working capital reserve, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, appropriated reserve, working capital reserve, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10027,7 +10031,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.changePresentYear', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, working capital reserve, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, appropriated reserve, working capital reserve, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10037,7 +10041,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.replacement', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.replacement', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, replacement reserve', }, 
+    'label': {'de':'Wiederbeschaffungsrücklage', 'en':'Revenue reserves, appropriated reserve, replacement reserve', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10047,7 +10051,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.finalPrev', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, replacement reserve, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, appropriated reserve, replacement reserve, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10057,7 +10061,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.capAdjust', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, replacement reserve, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, appropriated reserve, replacement reserve, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10067,7 +10071,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.movements', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, replacement reserve, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, appropriated reserve, replacement reserve, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10077,7 +10081,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.changePresentYear', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, replacement reserve, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, appropriated reserve, replacement reserve, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10087,7 +10091,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares', }, 
+    'label': {'de':'Rücklage zum Erwerb von Gesellschaftsrechten', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10097,7 +10101,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.finalPrev', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10107,7 +10111,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.capAdjust', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10117,7 +10121,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.movements', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10127,7 +10131,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.changePresentYear', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, appropriated reserve, reserve for acquisition of shares, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10137,7 +10141,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management', }, 
+    'label': {'de':'im Bereich der Vermögensverwaltung', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10147,7 +10151,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.finalPrev', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10157,7 +10161,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.capAdjust', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10167,7 +10171,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.movements', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10177,7 +10181,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.changePresentYear', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, appropriated reserve, reserve in the field of asset management, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10187,7 +10191,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve', }, 
+    'label': {'de':'Freie Rücklagen', 'en':'Revenue reserves, unappropriated reserve', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10197,7 +10201,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.assetManagement', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.assetManagement', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management', }, 
+    'label': {'de':'Rücklage aus Überschüssen der Vermögensverwaltung', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10207,7 +10211,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.finalPrev', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10217,7 +10221,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.capAdjust', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10227,7 +10231,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.movements', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10237,7 +10241,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.changePresentYear', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, unappropriated reserve, reserve from revenue of asset management, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10247,7 +10251,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course', }, 
+    'label': {'de':'Rücklage aus sonstigen zeitnah zu verwendenden Mitteln', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10257,7 +10261,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.finalPrev', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10267,7 +10271,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.capAdjust', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10277,7 +10281,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.movements', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10287,7 +10291,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.changePresentYear', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, unappropriated reserve, reserve from other means to be used in due course, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10297,7 +10301,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance': {
     'name': 'bs.eqLiab.equity.revenueRes.capMaintenance', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.capMaintenance', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance', }, 
+    'label': {'de':'Kapitalerhaltungsrücklage', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10307,7 +10311,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.capMaintenance.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.capMaintenance.finalPrev', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10317,7 +10321,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.capMaintenance.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.capMaintenance.capAdjust', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10327,7 +10331,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.capMaintenance.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.capMaintenance.movements', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10337,7 +10341,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.capMaintenance.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.capMaintenance.changePresentYear', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, unappropriated reserve, reserve for capital maintenance, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10347,7 +10351,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment': {
     'name': 'bs.eqLiab.equity.revenueRes.investment', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.investment', 
-    'label': {'de':'Position für steuerbefreite Körperschaften', 'en':'Revenue reserves, unappropriated reserve, investement reserve', }, 
+    'label': {'de':'Ansparrücklage', 'en':'Revenue reserves, unappropriated reserve, investement reserve', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10357,7 +10361,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.investment.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.investment.finalPrev', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, investement reserve, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, unappropriated reserve, investement reserve, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10367,7 +10371,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.investment.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.investment.capAdjust', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, investement reserve, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, unappropriated reserve, investement reserve, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10377,7 +10381,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.investment.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.investment.movements', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, investement reserve, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, unappropriated reserve, investement reserve, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10387,7 +10391,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.investment.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.investment.changePresentYear', 
-    'label': {'de':'Position für gemeinnützige Körperschaften', 'en':'Revenue reserves, unappropriated reserve, investement reserve, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, unappropriated reserve, investement reserve, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10397,7 +10401,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp': {
     'name': 'bs.eqLiab.equity.revenueRes.sharesParentComp', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.sharesParentComp', 
-    'label': {'de':'RL für Anteile an einem herrsch./ mehrheitl. bet. Untern.', 'en':'Reserve for shares in a parent or majority investor', }, 
+    'label': {'de':'Rücklage für Anteile an einem herrschenden oder mehrheitlich beteiligten Unternehmen', 'en':'Reserve for shares in a parent or majority investor', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10407,7 +10411,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.sharesParentComp.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.sharesParentComp.finalPrev', 
-    'label': {'de':'Rücklage für Anteile an einem herrschenden oder mehrheitlich beteiligten Unternehmen, Rücklage für Anteile an einem herrschenden oder mehrheitlich beteiligten Unternehmen des letzten Stichtags', 'en':'Reserve, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Reserve, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10427,7 +10431,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.sharesParentComp.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.sharesParentComp.movements', 
-    'label': {'de':'Rücklage für Anteile an einem herrschenden oder mehrheitlich beteiligten Unternehmen, Umschichtungen', 'en':'capital movements', }, 
+    'label': {'de':'Umschichtungen', 'en':'capital movements', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10437,7 +10441,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.sharesParentComp.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.sharesParentComp.changePresentYear', 
-    'label': {'de':'Rücklage für Anteile an einem herrschenden oder mehrheitlich beteiligten Unternehmen, Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10467,7 +10471,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.statutory.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.statutory.finalPrev', 
-    'label': {'de':'satzungsmäßige Rücklage, satzungsmäßige Rücklage des letzten Stichtags', 'en':'final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10477,7 +10481,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.statutory.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.statutory.capAdjust', 
-    'label': {'de':'satzungsmäßige Rücklagen, Kapitalanpassungen', 'en':'capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10497,7 +10501,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.statutory.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.statutory.changePresentYear', 
-    'label': {'de':'satzungsmäßige Rücklagen, Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10507,7 +10511,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.startUpCost': {
     'name': 'bs.eqLiab.equity.revenueRes.startUpCost', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.startUpCost', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Gewinnrücklage mit Ausschüttungssperre für aktivierte Aufwendungen für die Ingangsetzung und Erweiterung des Geschäftsbetriebs', 'en':'Revenue reserves, revenue reserve for capitalised business start-up and expansion expenses (restriction on distribution)', }, 
+    'label': {'de':'Gewinnrücklage mit Ausschüttungssperre für aktivierte Aufwendungen für die Ingangsetzung und Erweiterung des Geschäftsbetriebs', 'en':'Revenue reserves, revenue reserve for capitalised business start-up and expansion expenses (restriction on distribution)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10557,7 +10561,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax': {
     'name': 'bs.eqLiab.equity.revenueRes.defTax', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.defTax', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Gewinnrücklage mit Ausschüttungssperre für einen aktivierten Abgrenzungsposten für latente Steuern', 'en':'Revenue reserves, revenue reserve for deferred tax assets (restriction on distribution)', }, 
+    'label': {'de':'Gewinnrücklage mit Ausschüttungssperre für einen aktivierten Abgrenzungsposten für latente Steuern', 'en':'Revenue reserves, revenue reserve for deferred tax assets (restriction on distribution)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10607,7 +10611,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss': {
     'name': 'bs.eqLiab.equity.revenueRes.intanAss', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.intanAss', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Gewinnrücklage mit Ausschüttungssperre für selbst geschaffene immaterielle Vermögensgegenstände des Anlagevermögens unter Berücksichtigung der darauf entfallenden passiven latenten Steuern', 'en':'Revenue reserves, revenue reserve for internally generated intangible fixed assets, net of deferred tax liabilities (restriction on distribution)', }, 
+    'label': {'de':'Gewinnrücklage mit Ausschüttungssperre für selbst geschaffene immaterielle Vermögensgegenstände des Anlagevermögens unter Berücksichtigung der darauf entfallenden passiven latenten Steuern', 'en':'Revenue reserves, revenue reserve for internally generated intangible fixed assets, net of deferred tax liabilities (restriction on distribution)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10657,7 +10661,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue': {
     'name': 'bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Gewinnrücklage mit Ausschüttungssperre für zum beizulegenden Zeitwert bilanzierte Vermögensgegenstände, soweit dieser die Anschaffungskosten übersteigt unter Berücksichtigung der darauf entfallenden passiven latenten Steuern', 'en':'Revenue reserves, revenue reserve for the difference of assets measured at fair value and their cost, net of deferred tax liabilities (restriction on distribution)', }, 
+    'label': {'de':'Gewinnrücklage mit Ausschüttungssperre für zum beizulegenden Zeitwert bilanzierte Vermögensgegenstände, soweit dieser die Anschaffungskosten übersteigt unter Berücksichtigung der darauf entfallenden passiven latenten Steuern', 'en':'Revenue reserves, revenue reserve for the difference of assets measured at fair value and their cost, net of deferred tax liabilities (restriction on distribution)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10757,7 +10761,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.special': {
     'name': 'bs.eqLiab.equity.revenueRes.special', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.special', 
-    'label': {'de':'Branchenspezifischer/individueller Zusatzposten im Rücklagenbereich, zur Abdeckung EINES speziellen Zwecks.', 'en':'Revenue reserves, special reserve', }, 
+    'label': {'de':'Sonderrücklage', 'en':'Special reserve', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10767,7 +10771,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.special.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.special.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.special.finalPrev', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Sonderrücklage, Sonderrücklage des letzten Stichtags', 'en':'Revenue reserves, special reserve, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, special reserve, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10777,7 +10781,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.special.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.special.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.special.capAdjust', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Sonderrücklage, Kapitalanpassungen', 'en':'capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10787,7 +10791,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.special.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.special.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.special.movements', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Sonderrücklage, Umschichtungen', 'en':'capital movements', }, 
+    'label': {'de':'Umschichtungen', 'en':'capital movements', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10797,7 +10801,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.special.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.special.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.special.changePresentYear', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Sonderrücklage, Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10817,7 +10821,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.other.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.other.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.other.finalPrev', 
-    'label': {'de':'andere Gewinnrücklage, andere Gewinnrücklage des letzten Stichtags', 'en':'Other revenue reserves, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Other revenue reserves, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10827,7 +10831,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.other.capAdjust': {
     'name': 'bs.eqLiab.equity.revenueRes.other.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.other.capAdjust', 
-    'label': {'de':'andere Gewinnrücklage, Kapitalanpassungen', 'en':'capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10837,7 +10841,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.other.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.other.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.other.movements', 
-    'label': {'de':'andere Gewinnrücklage, Umschichtungen', 'en':'capital movements', }, 
+    'label': {'de':'Umschichtungen', 'en':'capital movements', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10847,7 +10851,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.other.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.other.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.other.changePresentYear', 
-    'label': {'de':'andere Gewinnrücklage, Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10857,7 +10861,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop': {
     'name': 'bs.eqLiab.equity.revenueRes.otherCoop', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.otherCoop', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, andere Ergebnisrücklagen', 'en':'Revenue reserves, other revenue reserves (cooperatives)', }, 
+    'label': {'de':'andere Ergebnisrücklagen', 'en':'Revenue reserves, other revenue reserves (cooperatives)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10867,7 +10871,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.otherCoop.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.otherCoop.finalPrev', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, andere Ergebnisrücklagen, des letzten Stichtags', 'en':'Revenue reserves, other revenue reserves (cooperatives), final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, other revenue reserves (cooperatives), final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10897,7 +10901,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop.changePresentYear': {
     'name': 'bs.eqLiab.equity.revenueRes.otherCoop.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.otherCoop.changePresentYear', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, andere Ergebnisrücklagen, Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10907,7 +10911,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness': {
     'name': 'bs.eqLiab.equity.revenueRes.taxablePurposeBusiness', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.taxablePurposeBusiness', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Rücklagen im Bereich des Wirtschaftlichen Geschäftsbetriebs', 'en':'Revenue reserves, revenue reserves within the taxable purpose business', }, 
+    'label': {'de':'Rücklagen im Bereich des Wirtschaftlichen Geschäftsbetriebs', 'en':'Revenue reserves, revenue reserves within the taxable purpose business', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10917,7 +10921,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.finalPrev': {
     'name': 'bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.finalPrev', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Rücklagen im Bereich des Wirtschaftlichen Geschäftsbetriebs, Rücklagen im Bereich des Wirtschaftlichen Geschäftsbetriebs des letzten Stichtags', 'en':'Revenue reserves, revenue reserves within the taxable purpose business, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Revenue reserves, revenue reserves within the taxable purpose business, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10927,7 +10931,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.taxablePurposeBusiness.revenueRes.capAdjust': {
     'name': 'bs.eqLiab.equity.taxablePurposeBusiness.revenueRes.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.taxablePurposeBusiness.revenueRes.capAdjust', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Rücklagen im Bereich des Wirtschaftlichen Geschäftsbetriebs, Kapitalanpassungen', 'en':'Revenue reserves, revenue reserves within the taxable purpose business, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Revenue reserves, revenue reserves within the taxable purpose business, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10937,7 +10941,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.movements': {
     'name': 'bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.movements', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Rücklagen im Bereich des Wirtschaftlichen Geschäftsbetriebs, Umschichtungen', 'en':'Revenue reserves, revenue reserves within the taxable purpose business, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Revenue reserves, revenue reserves within the taxable purpose business, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10947,7 +10951,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.changePresYear': {
     'name': 'bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.changePresYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.changePresYear', 
-    'label': {'de':'Gewinnrücklagen/Ergebnisrücklagen, Rücklagen im Bereich des Wirtschaftlichen Geschäftsbetriebs, Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, revenue reserves within the taxable purpose business, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'Revenue reserves, revenue reserves within the taxable purpose business, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10967,7 +10971,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.retainedEarnings': {
     'name': 'bs.eqLiab.equity.retainedEarnings', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.retainedEarnings', 
-    'label': {'de':'nur bei Kapitalgesellschaften', 'en':'Equity, retained profits/accumulated losses brought forward', }, 
+    'label': {'de':'Gewinn-/Verlustvortrag', 'en':'Retained profits/accumulated losses brought forward', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -10977,7 +10981,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.retainedEarnings.finalPrev': {
     'name': 'bs.eqLiab.equity.retainedEarnings.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.retainedEarnings.finalPrev', 
-    'label': {'de':'Eigenkapital, Gewinn-/Verlustvortrag, bei Kapitalgesellschaften, - bei Kapitalgesellschaften - des letzten Stichtags', 'en':'Equity, retained profits/accumulated losses brought forward, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Equity, retained profits/accumulated losses brought forward, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11027,7 +11031,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds': {
     'name': 'bs.eqLiab.equity.SurplusOfUnspentFunds', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.SurplusOfUnspentFunds', 
-    'label': {'de':'Eigenkapital, Ergebnisvortrag/Mittelvortrag/Verwendungsüberhang', 'en':'Equity, surplus of unappropriated funds', }, 
+    'label': {'de':'Ergebnisvortrag/Mittelvortrag/Verwendungsüberhang', 'en':'Equity, surplus of unappropriated funds', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11077,7 +11081,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.netIncome': {
     'name': 'bs.eqLiab.equity.netIncome', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.netIncome', 
-    'label': {'de':'Jahresüberschuss (Bilanz) - bei Kapitalgesellschaften', 'en':'Net income/net loss for the financial year', }, 
+    'label': {'de':'Jahresüberschuss/-fehlbetrag', 'en':'Net income/net loss for the financial year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11097,7 +11101,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus': {
     'name': 'bs.eqLiab.equity.reallocationSurplus', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus', 
-    'label': {'de':'Position für Stiftungen', 'en':'Equity; reallocation surplus', }, 
+    'label': {'de':'Umschichtungsergebnisse', 'en':'Equity; reallocation surplus', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11107,7 +11111,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.finalPrev': {
     'name': 'bs.eqLiab.equity.reallocationSurplus.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.finalPrev', 
-    'label': {'de':'Position für Stiftungen', 'en':'Equity; reallocation surplus, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Equity; reallocation surplus, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11117,7 +11121,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.capAdjust': {
     'name': 'bs.eqLiab.equity.reallocationSurplus.capAdjust', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.capAdjust', 
-    'label': {'de':'Position für Stiftungen', 'en':'Equity; reallocation surplus, capital adjustments', }, 
+    'label': {'de':'Kapitalanpassungen', 'en':'Equity; reallocation surplus, capital adjustments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11127,7 +11131,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.movement': {
     'name': 'bs.eqLiab.equity.reallocationSurplus.movement', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.movement', 
-    'label': {'de':'Position für Stiftungen', 'en':'Equity; reallocation surplus, reallocation', }, 
+    'label': {'de':'Umschichtungen', 'en':'Equity; reallocation surplus, reallocation', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11137,7 +11141,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.changePresentYear': {
     'name': 'bs.eqLiab.equity.reallocationSurplus.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.changePresentYear', 
-    'label': {'de':'Position für Stiftungen', 'en':'Equity; reallocation surplus, changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen des lfd. Jahres', 'en':'Equity; reallocation surplus, changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11157,7 +11161,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally': {
     'name': 'bs.eqLiab.equity.netIncome.taxBalanceGenerally', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.netIncome.taxBalanceGenerally', 
-    'label': {'de':'Eigenkapital, steuerlicher Ausgleichsposten', 'en':'Equity, tax adjustment item', }, 
+    'label': {'de':'steuerlicher Ausgleichsposten', 'en':'Equity, tax adjustment item', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11167,7 +11171,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.finalPrev': {
     'name': 'bs.eqLiab.equity.netIncome.taxBalanceGenerally.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.netIncome.taxBalanceGenerally.finalPrev', 
-    'label': {'de':'Eigenkapital, steuerlicher Ausgleichsposten, steuerlicher Ausgleichsposten - des letzten Stichtags', 'en':'Equity, tax adjustment item, final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Equity, tax adjustment item, final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11187,7 +11191,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.movements': {
     'name': 'bs.eqLiab.equity.netIncome.taxBalanceGenerally.movements', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.netIncome.taxBalanceGenerally.movements', 
-    'label': {'de':'Eigenkapital, steuerlicher Ausgleichsposten, Umschichtungen', 'en':'capital movements', }, 
+    'label': {'de':'Umschichtungen', 'en':'capital movements', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11197,7 +11201,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.changePresentYear': {
     'name': 'bs.eqLiab.equity.netIncome.taxBalanceGenerally.changePresentYear', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.netIncome.taxBalanceGenerally.changePresentYear', 
-    'label': {'de':'Eigenkapital, steuerlicher Ausgleichsposten, Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
+    'label': {'de':'Zuführungen/Minderungen lfd. Jahr', 'en':'capital changes during the present year', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11207,7 +11211,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.profitLoss': {
     'name': 'bs.eqLiab.equity.profitLoss', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.profitLoss', 
-    'label': {'de':'Bilanzverlust (Bilanz)', 'en':'Net retained profits/net accumulated losses', }, 
+    'label': {'de':'Bilanzgewinn / Bilanzverlust', 'en':'Net retained profits/net accumulated losses', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11217,7 +11221,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.profitLoss.finalPrev': {
     'name': 'bs.eqLiab.equity.profitLoss.finalPrev', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.profitLoss.finalPrev', 
-    'label': {'de':'Eigenkapital, Bilanzgewinn / Bilanzverlust (Bilanz) - bei Kapitalgesellschaften, Bilanzgewinn / Bilanzverlust (Bilanz) - bei Kapitalgesellschaften - des letzten Stichtags', 'en':'Equity, net retained profits/net accumulated losses (balance sheet), final in prior report', }, 
+    'label': {'de':'des letzten Stichtags', 'en':'Equity, net retained profits/net accumulated losses (balance sheet), final in prior report', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11257,7 +11261,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.currTransl': {
     'name': 'bs.eqLiab.equity.currTransl', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.currTransl', 
-    'label': {'de':'Eigenkapital, Währungsumrechnungsdifferenzen', 'en':'Equity, foreign currency translation differences', }, 
+    'label': {'de':'Währungsumrechnungsdifferenzen', 'en':'Equity, foreign currency translation differences', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11267,7 +11271,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.equity.deficitNotCoveredByCapital': {
     'name': 'bs.eqLiab.equity.deficitNotCoveredByCapital', 
     'qname': 'de-gaap-ci:bs.eqLiab.equity.deficitNotCoveredByCapital', 
-    'label': {'de':'Variante I negatives Eigenkapital Passivausweis, wird in die Berechnung einbezogen zur Eliminierung auf Passivseite, da gesetzlicher Posten auf Aktivseite', 'en':'Equity, deficit not covered by equity (reported in equity)', }, 
+    'label': {'de':'Nicht durch Eigenkapital gedeckter Fehlbetrag', 'en':'Equity, deficit not covered by equity (reported in equity)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11277,7 +11281,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes': {
     'name': 'bs.eqLiab.pretaxRes', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes', 
-    'label': {'de':'ab BilMoG Neubildung nur in der Steuerbilanz zulässig', 'en':'Special tax-allowable reserves', }, 
+    'label': {'de':'Sonderposten mit Rücklageanteil', 'en':'Special tax-allowable reserves', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11287,7 +11291,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.res': {
     'name': 'bs.eqLiab.pretaxRes.res', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.res', 
-    'label': {'de':'Sonderposten mit Rücklageanteil, steuerfreie Rücklagen', 'en':'Special tax-allowable reserves, untaxed reserves', }, 
+    'label': {'de':'steuerfreie Rücklagen', 'en':'Special tax-allowable reserves, untaxed reserves', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11297,7 +11301,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.res.gainAssetSale': {
     'name': 'bs.eqLiab.pretaxRes.res.gainAssetSale', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.res.gainAssetSale', 
-    'label': {'de':'Sonderposten mit Rücklageanteil, steuerfreie Rücklagen, Rücklage für Veräußerungsgewinne', 'en':'Special tax-allowable reserves, untaxed reserves, reserve disposal gains', }, 
+    'label': {'de':'Rücklage für Veräußerungsgewinne', 'en':'Special tax-allowable reserves, untaxed reserves, reserve disposal gains', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11307,7 +11311,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.res.subsidies': {
     'name': 'bs.eqLiab.pretaxRes.res.subsidies', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.res.subsidies', 
-    'label': {'de':'Sonderposten mit Rücklageanteil, steuerfreie Rücklagen, Rücklage für Zuschüsse', 'en':'Special tax-allowable reserves, untaxed reserves, reserve for subsidies', }, 
+    'label': {'de':'Rücklage für Zuschüsse', 'en':'Special tax-allowable reserves, untaxed reserves, reserve for subsidies', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11317,7 +11321,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.res.replacement': {
     'name': 'bs.eqLiab.pretaxRes.res.replacement', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.res.replacement', 
-    'label': {'de':'Sonderposten mit Rücklageanteil, steuerfreie Rücklagen, Rücklage für Ersatzbeschaffung', 'en':'Special tax-allowable reserves, untaxed reserves, replacement reserve', }, 
+    'label': {'de':'Rücklage für Ersatzbeschaffung', 'en':'Special tax-allowable reserves, untaxed reserves, replacement reserve', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11327,7 +11331,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.res.spec': {
     'name': 'bs.eqLiab.pretaxRes.res.spec', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.res.spec', 
-    'label': {'de':'Sonderposten mit Rücklageanteil, steuerfreie Rücklagen, Rücklage durch Vornahme von Ansparabschreibungen', 'en':'Special tax-allowable reserves, untaxed reserves, tax-allowable reserve for future capital expenditures', }, 
+    'label': {'de':'Rücklage durch Vornahme von Ansparabschreibungen', 'en':'Special tax-allowable reserves, untaxed reserves, tax-allowable reserve for future capital expenditures', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11337,7 +11341,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.res.taxRelifAct': {
     'name': 'bs.eqLiab.pretaxRes.res.taxRelifAct', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.res.taxRelifAct', 
-    'label': {'de':'Sonderposten mit Rücklageanteil, steuerfreie Rücklagen, Rücklage nach dem Steuerentlastungsgesetz', 'en':'Special tax-allowable reserves, untaxed reserves, reserve under German Tax Relief Act', }, 
+    'label': {'de':'Rücklage nach dem Steuerentlastungsgesetz', 'en':'Special tax-allowable reserves, untaxed reserves, reserve under German Tax Relief Act', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11347,7 +11351,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.res.other': {
     'name': 'bs.eqLiab.pretaxRes.res.other', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.res.other', 
-    'label': {'de':'Sonderposten mit Rücklageanteil, steuerfreie Rücklagen, Übrige steuerfreie Rücklagen / nicht zuordenbare steuerfreie Rücklagen', 'en':'Special tax-allowable reserves, untaxed reserves, other miscellaneous reserves', }, 
+    'label': {'de':'Übrige steuerfreie Rücklagen / nicht zuordenbare steuerfreie Rücklagen', 'en':'Special tax-allowable reserves, untaxed reserves, other miscellaneous reserves', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11357,7 +11361,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort': {
     'name': 'bs.eqLiab.pretaxRes.specAmort', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.specAmort', 
-    'label': {'de':'Einzelheiten können unten erläutert werden.', 'en':'Special tax-allowable reserves, accelerated tax depreciation and write-downs', }, 
+    'label': {'de':'steuerrechtliche Sonderabschreibungen', 'en':'Special tax-allowable reserves, accelerated tax depreciation and write-downs', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11367,7 +11371,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort.fixAssTan': {
     'name': 'bs.eqLiab.pretaxRes.specAmort.fixAssTan', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.specAmort.fixAssTan', 
-    'label': {'de':'Sonderposten mit Rücklageanteil, steuerrechtliche Sonderabschreibungen, steuerrechtliche Sonderabschreibungen auf Sachanlagen', 'en':'Special tax-allowable reserves, accelerated tax depreciation and write-downs, accelerated tax depreciation, tangible fixed assets', }, 
+    'label': {'de':'auf Sachanlagen', 'en':'on tangible fixed assets', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11377,7 +11381,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort.fixAssFin': {
     'name': 'bs.eqLiab.pretaxRes.specAmort.fixAssFin', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.specAmort.fixAssFin', 
-    'label': {'de':'Sonderposten mit Rücklageanteil, steuerrechtliche Sonderabschreibungen, steuerrechtliche Sonderabschreibungen auf Finanzanlagen', 'en':'Special tax-allowable reserves, accelerated tax depreciation and write-downs; accelerated tax write-downs, long-term financial assets', }, 
+    'label': {'de':'auf Finanzanlagen', 'en':'on long-term financial assets', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11387,7 +11391,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort.currAss': {
     'name': 'bs.eqLiab.pretaxRes.specAmort.currAss', 
     'qname': 'de-gaap-ci:bs.eqLiab.pretaxRes.specAmort.currAss', 
-    'label': {'de':'Erläuternde Aufgliederung', 'en':'on current assets', }, 
+    'label': {'de':'auf Umlaufvermögen', 'en':'on current assets', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11407,7 +11411,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.securities': {
     'name': 'bs.eqLiab.liab.securities', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.securities', 
-    'label': {'de':'Anleihen sind festverzinsliche Wertpapiere zur langfristigen Kapitalfinanzierung des Unternehmens, die als Fremdkapital zu behandeln sind.', 'en':'Bonds', }, 
+    'label': {'de':'Anleihen', 'en':'Bonds', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11417,7 +11421,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.otherDebtInstruments': {
     'name': 'bs.eqLiab.liab.otherDebtInstruments', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.otherDebtInstruments', 
-    'label': {'de':'Verbindlichkeiten, Sonstige Schuldtitel / sonstige Finanzschulden', 'en':'Liabilities, other miscellaneous debt instruments', }, 
+    'label': {'de':'Sonstige Schuldtitel / sonstige Finanzschulden', 'en':'Liabilities, other miscellaneous debt instruments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11427,7 +11431,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.bank': {
     'name': 'bs.eqLiab.liab.bank', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.bank', 
-    'label': {'de':'Sämtliche Verbindlichkeiten gegenüber Kreditinstituten (z.B. Darlehen, nicht geleistete Schuldzinsen, negative Bankkonten).', 'en':'Liabilities to banks', }, 
+    'label': {'de':'Verbindlichkeiten gegenüber Kreditinstituten', 'en':'Liabilities to banks', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11457,7 +11461,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.regulatory': {
     'name': 'bs.eqLiab.liab.regulatory', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.regulatory', 
-    'label': {'de':'Verbindlichkeiten, Verbindlichkeiten aus dem Zentralregulierungs- und Delkrederegeschäft', 'en':'Liabilities from central settlement and del credere services', }, 
+    'label': {'de':'Verbindlichkeiten aus dem Zentralregulierungs- und Delkrederegeschäft', 'en':'Liabilities from central settlement and del credere services', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11477,7 +11481,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.shareholders': {
     'name': 'bs.eqLiab.liab.shareholders', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.shareholders', 
-    'label': {'de':'Nicht verwendbar für die AG; die Position kann sich inhaltlich überschneiden mit Verbindlichkeiten gegenüber verbundenen Unternehmen.', 'en':'Liabilities, liabilities to shareholders', }, 
+    'label': {'de':'Verbindlichkeiten gegenüber Gesellschaftern', 'en':'Liabilities to shareholders', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11487,7 +11491,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbhSilent': {
     'name': 'bs.eqLiab.liab.shareholders.gmbhSilent', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.shareholders.gmbhSilent', 
-    'label': {'de':'Verbindlichkeiten, Verbindlichkeiten gegenüber Gesellschaftern, Verbindlichkeiten gegenüber GmbH-Gesellschaftern und stillen Gesellschaftern', 'en':'Liabilites, liabilities to shareholders, liabilities of shareholders of private limited company (GmbH) and to silent partners', }, 
+    'label': {'de':'Verbindlichkeiten gegenüber GmbH-Gesellschaftern und stillen Gesellschaftern', 'en':'Liabilites, liabilities to shareholders, liabilities of shareholders of private limited company (GmbH) and to silent partners', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11497,7 +11501,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.shareholders.unlimitedPartner': {
     'name': 'bs.eqLiab.liab.shareholders.unlimitedPartner', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.shareholders.unlimitedPartner', 
-    'label': {'de':'Verbindlichkeiten, Verbindlichkeiten gegenüber Gesellschaftern, Verbindlichkeiten gegenüber persönlich haftenden Gesellschaftern', 'en':'Liabilities, liabilities to shareholders, liabilities to general partners', }, 
+    'label': {'de':'Verbindlichkeiten gegenüber persönlich haftenden Gesellschaftern', 'en':'Liabilities, liabilities to shareholders, liabilities to general partners', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11507,7 +11511,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.shareholders.limitedPartner': {
     'name': 'bs.eqLiab.liab.shareholders.limitedPartner', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.shareholders.limitedPartner', 
-    'label': {'de':'Verbindlichkeiten, Verbindlichkeiten gegenüber Gesellschaftern, Verbindlichkeiten gegenüber Kommanditisten', 'en':'Liabilities, liabilities to shareholders, liablities to limited partners', }, 
+    'label': {'de':'Verbindlichkeiten gegenüber Kommanditisten', 'en':'Liabilities, liabilities to shareholders, liablities to limited partners', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11547,7 +11551,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.conditionalRepayableDonations': {
     'name': 'bs.eqLiab.liab.conditionalRepayableDonations', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.conditionalRepayableDonations', 
-    'label': {'de':'Verbindlichkeiten aus bedingt rückzahlungspflichtigen Spenden', 'en':'Liabilities, liabilites from conditionally repayable donations', }, 
+    'label': {'de':'Verbindlichkeiten aus bedingt rückzahlungspflichtigen Spenden', 'en':'liabilites from conditionally repayable donations', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11567,7 +11571,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.statutoryBenefits.commitments': {
     'name': 'bs.eqLiab.liab.statutoryBenefits.commitments', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.statutoryBenefits.commitments', 
-    'label': {'de':'Verbindlichkeiten, Verbindlichkeiten für satzungsgemäße Leistungen, Verbindlichkeiten aus erteilten Zusagen', 'en':'Liabilities, liabilities from commitments', }, 
+    'label': {'de':'Verbindlichkeiten aus erteilten Zusagen', 'en':'Liabilities, liabilities from commitments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11577,7 +11581,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.statutoryBenefits.other': {
     'name': 'bs.eqLiab.liab.statutoryBenefits.other', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.statutoryBenefits.other', 
-    'label': {'de':'Verbindlichkeiten, Verbindlichkeiten für satzungsgemäße Leistungen, übrige', 'en':'Liabilities, liabilities from other statutory benefits', }, 
+    'label': {'de':'Übrige Verbindlichkeiten für satzungsgemäße Leistungen', 'en':'Liabilities, liabilities from other statutory benefits', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11587,7 +11591,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other': {
     'name': 'bs.eqLiab.liab.other', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other', 
-    'label': {'de':'Summe der sonstigen Verbindlichkeiten (z.B. Steuerverbindlichkeiten, Verbindlichkeiten im Rahmen der sozialen Sicherheit).', 'en':'Other liabilities', }, 
+    'label': {'de':'sonstige Verbindlichkeiten', 'en':'Other liabilities', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11597,7 +11601,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.theroffTax': {
     'name': 'bs.eqLiab.liab.other.theroffTax', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.theroffTax', 
-    'label': {'de':'Für handelsrechtliche Berichtszwecke wird die Position als Davon-Ausweis angezeigt. Um ein (handels- und steuerrechtlich) abweichendes Kontenmapping zu vermeiden, ist sie trotzdem rechnerisch verknüpft.', 'en':'Other liabilities, of which taxes', }, 
+    'label': {'de':'aus Steuern', 'en':'of which taxes', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11607,7 +11611,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.theroffTax.vat': {
     'name': 'bs.eqLiab.liab.other.theroffTax.vat', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.theroffTax.vat', 
-    'label': {'de':'sonstige Verbindlichkeiten aus Steuern, Umsatzsteuerverbindlichkeiten', 'en':'Other liabilities, of which taxes: VAT', }, 
+    'label': {'de':'Umsatzsteuerverbindlichkeiten', 'en':'Other liabilities, of which taxes: VAT', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11617,7 +11621,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.theroffTax.operatingTaxes': {
     'name': 'bs.eqLiab.liab.other.theroffTax.operatingTaxes', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.theroffTax.operatingTaxes', 
-    'label': {'de':'sonstige Verbindlichkeiten aus Steuern, Verbindlichkeiten aus anderen Betriebssteuern und Abgaben', 'en':'Other liabilities, of which taxes: other operating taxes and duties', }, 
+    'label': {'de':'Verbindlichkeiten aus anderen Betriebssteuern und Abgaben', 'en':'Other liabilities, of which taxes: other operating taxes and duties', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11627,7 +11631,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.theroffTax.otherTaxes': {
     'name': 'bs.eqLiab.liab.other.theroffTax.otherTaxes', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.theroffTax.otherTaxes', 
-    'label': {'de':'sonstige Verbindlichkeiten aus Steuern, Verbindlichkeiten aus sonstigen Steuern', 'en':'Other liabilities, of which taxes: other taxes', }, 
+    'label': {'de':'Verbindlichkeiten aus sonstigen Steuern', 'en':'Other liabilities, of which taxes: other taxes', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11637,7 +11641,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.thereoffSocSec': {
     'name': 'bs.eqLiab.liab.other.thereoffSocSec', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.thereoffSocSec', 
-    'label': {'de':'Für handelsrechtliche Berichtszwecke wird die Position als Davon-Ausweis angezeigt. Um ein (handels- und steuerrechtlich) abweichendes Kontenmapping zu vermeiden, ist sie trotzdem rechnerisch verknüpft.', 'en':'Other liabilities, of which social security', }, 
+    'label': {'de':'im Rahmen der sozialen Sicherheit', 'en':'of which social security', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11647,7 +11651,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.shareholders': {
     'name': 'bs.eqLiab.liab.other.shareholders', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.shareholders', 
-    'label': {'de':'sonstige Verbindlichkeiten, sonstige Verbindlichkeiten gegenüber Gesellschaftern', 'en':'Other liabilities, of which liabilities to shareholders', }, 
+    'label': {'de':'gegenüber Gesellschaftern', 'en':'of which to shareholders', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11657,7 +11661,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.thereoffCoopertiveRefunds': {
     'name': 'bs.eqLiab.liab.other.thereoffCoopertiveRefunds', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.thereoffCoopertiveRefunds', 
-    'label': {'de':'Optionaler Spezialposition für Genossenschaften', 'en':'of which refunds by cooperatives', }, 
+    'label': {'de':'aus genossenschaftlicher Rückvergütung', 'en':'of which refunds by cooperatives', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11667,7 +11671,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.employees': {
     'name': 'bs.eqLiab.liab.other.employees', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.employees', 
-    'label': {'de':'sonstige Verbindlichkeiten, sonstige Verbindlichkeiten gegenüber Mitarbeitern', 'en':'Other liabilities, of which liabilities to employees', }, 
+    'label': {'de':'gegenüber Mitarbeitern', 'en':'Liabilities to employees', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11677,7 +11681,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.profitPartLoans': {
     'name': 'bs.eqLiab.liab.other.profitPartLoans', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.profitPartLoans', 
-    'label': {'de':'partiarische Darlehen', 'en':'Other liabilities, of which profit participation loans', }, 
+    'label': {'de':'partiarische Darlehen', 'en':'Profit participation loans', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11687,7 +11691,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.jointVent': {
     'name': 'bs.eqLiab.liab.other.jointVent', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.jointVent', 
-    'label': {'de':'sonstige Verbindlichkeiten, sonstige Verbindlichkeiten gegenüber Arbeitsgemeinschaften', 'en':'Liabilities to tax authorities', }, 
+    'label': {'de':'gegenüber Arbeitsgemeinschaften', 'en':'Liabilities to tax authorities', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11697,7 +11701,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.profSharRights': {
     'name': 'bs.eqLiab.liab.other.profSharRights', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.profSharRights', 
-    'label': {'de':'sonstige Verbindlichkeiten, sonstige Verbindlichkeiten aus Genussrechten mit Fremdkapitalcharakter', 'en':'Other liabilities, of which debt-equivalent profit participation rights', }, 
+    'label': {'de':'aus Genussrechten mit Fremdkapitalcharakter', 'en':'Debt-equivalent profit participation rights', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11707,7 +11711,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.other.other': {
     'name': 'bs.eqLiab.liab.other.other', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.other.other', 
-    'label': {'de':'sonstige Verbindlichkeiten, übrige sonstige Verbindlichkeiten', 'en':'Other liablilites; other miscellaneous liabilities', }, 
+    'label': {'de':'übrige sonstige Verbindlichkeiten', 'en':'Other liablilites; other miscellaneous liabilities', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11717,7 +11721,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.liab.otherForeign': {
     'name': 'bs.eqLiab.liab.otherForeign', 
     'qname': 'de-gaap-ci:bs.eqLiab.liab.otherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Other liabilities of foreign branch(es)', }, 
+    'label': {'de':'sonstige Verbindlichkeiten, soweit für die ausländische Betriebsstätte nicht anders zuordenbar', 'en':'Other liabilities of foreign branch(es)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11737,7 +11741,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.equitySilentPartner': {
     'name': 'bs.eqLiab.otherSpecRes.equitySilentPartner', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.equitySilentPartner', 
-    'label': {'de':'Sonstige Sonderposten, Einlagen stiller Gesellschafter', 'en':'Other special reserves, contributions by silent partners', }, 
+    'label': {'de':'Einlagen stiller Gesellschafter', 'en':'Other special reserves, contributions by silent partners', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11757,7 +11761,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.subsidies': {
     'name': 'bs.eqLiab.otherSpecRes.subsidies', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.subsidies', 
-    'label': {'de':'Sonstige Sonderposten, Sonderposten für Investitionszulagen und für Zuschüsse Dritter', 'en':'Other special reserves, special reserve for investment grants and subsidies', }, 
+    'label': {'de':'Sonderposten für Investitionszulagen und für Zuschüsse Dritter', 'en':'Other special reserves, special reserve for investment grants and subsidies', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11767,7 +11771,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.ownShares': {
     'name': 'bs.eqLiab.otherSpecRes.ownShares', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.ownShares', 
-    'label': {'de':'Sonstige Sonderposten, Ausgleichsposten für aktivierte eigene Anteile', 'en':'Other special reserves, special reserve for capitalised treasury shares', }, 
+    'label': {'de':'Ausgleichsposten für aktivierte eigene Anteile', 'en':'Other special reserves, special reserve for capitalised treasury shares', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11777,7 +11781,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.accountingConvenience': {
     'name': 'bs.eqLiab.otherSpecRes.accountingConvenience', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.accountingConvenience', 
-    'label': {'de':'Sonstige Sonderposten, Ausgleichsposten für aktivierte Bilanzierungshilfen (Personenhandelsgesellschaften)', 'en':'Other special reserves, special reserve for recognised asset side accounting conveniences (commercial partnerships)', }, 
+    'label': {'de':'Ausgleichsposten für aktivierte Bilanzierungshilfen', 'en':'Other special reserves, special reserve for recognised asset side accounting conveniences (commercial partnerships)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11787,7 +11791,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.taxbalanceOrgancomp': {
     'name': 'bs.eqLiab.otherSpecRes.taxbalanceOrgancomp', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.taxbalanceOrgancomp', 
-    'label': {'de':'Sonstige Sonderposten, Passiver Ausgleichsposten für Organschaftsverhältnisse beim Organträger', 'en':'Other special reserves, liability-side adjustment item for consolidated tax group at group parent', }, 
+    'label': {'de':'Passiver Ausgleichsposten für Organschaftsverhältnisse beim Organträger', 'en':'Other special reserves, liability-side adjustment item for consolidated tax group at group parent', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11797,7 +11801,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.taxbalanceGenerally': {
     'name': 'bs.eqLiab.otherSpecRes.taxbalanceGenerally', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.taxbalanceGenerally', 
-    'label': {'de':'Sonstige Sonderposten, allgemeiner passiver steuerlicher Ausgleichsposten', 'en':'Tax adjustment item', }, 
+    'label': {'de':'steuerlicher Ausgleichsposten', 'en':'Tax adjustment item', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11807,7 +11811,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.unspentDonationFunds': {
     'name': 'bs.eqLiab.otherSpecRes.unspentDonationFunds', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.unspentDonationFunds', 
-    'label': {'de':'Sonstige Sonderposten, noch nicht verbrauchte Spendenmittel', 'en':'Other special reserves, unspent donations', }, 
+    'label': {'de':'Noch nicht verbrauchte Spendenmittel', 'en':'Other special reserves, unspent donations', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11817,7 +11821,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.unspentDonationFunds.statutoryUse': {
     'name': 'bs.eqLiab.otherSpecRes.unspentDonationFunds.statutoryUse', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.unspentDonationFunds.statutoryUse', 
-    'label': {'de':'Sonstige Sonderposten, noch nicht verbrauchte Spendenmittel, noch nicht satzungsgemäß verwendete Spenden', 'en':'Other special reserves, unspent donations statutorily bound', }, 
+    'label': {'de':'Noch nicht satzungsgemäß verwendete Spenden', 'en':'Other special reserves, unspent donations statutorily bound', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11827,7 +11831,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.unspentDonationFunds.bound': {
     'name': 'bs.eqLiab.otherSpecRes.unspentDonationFunds.bound', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.unspentDonationFunds.bound', 
-    'label': {'de':'Sonstige Sonderposten, noch nicht verbrauchte Spendenmittel, längerfristig gebundene Spenden', 'en':'Other special reserves, unused donations, longer-term bound donations', }, 
+    'label': {'de':'Längerfristig gebundene Spenden', 'en':'Other special reserves, unused donations, longer-term bound donations', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11837,7 +11841,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.statutoryBoundCapital': {
     'name': 'bs.eqLiab.otherSpecRes.statutoryBoundCapital', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.statutoryBoundCapital', 
-    'label': {'de':'Der Posten steht dem aktivischen Ausweis eines aus Eigenmitteln angeschafften Vermögensgegenstands gegenüber und beinhaltet somit bereits verwendete Mittel.', 'en':'Other special reserves, statutory bound capital', }, 
+    'label': {'de':'Nutzungsgebundenes Kapital', 'en':'Other special reserves, statutory bound capital', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11847,7 +11851,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.other': {
     'name': 'bs.eqLiab.otherSpecRes.other', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.other', 
-    'label': {'de':'Sammelposten, der sich inhaltlich aus den folgenden Erläuterungen ergibt', 'en':'Other special reserves, any other special reserves', }, 
+    'label': {'de':'andere Sonderposten', 'en':'Other special reserves, any other special reserves', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11857,7 +11861,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.otherSpecRes.other.releaseWithdrawalEStG4g': {
     'name': 'bs.eqLiab.otherSpecRes.other.releaseWithdrawalEStG4g', 
     'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.other.releaseWithdrawalEStG4g', 
-    'label': {'de':'Sonstige Sonderposten, andere Sonderposten, Ausgleichsposten bei Entnahmen § 4g EStG', 'en':'Other special reserves, any other special reserves, of which reversal of liability-side tax adjustment item under EStG sec. 4g', }, 
+    'label': {'de':'Ausgleichsposten bei Entnahmen § 4g EStG', 'en':'Other special reserves, any other special reserves, of which reversal of liability-side tax adjustment item under EStG sec. 4g', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11907,7 +11911,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.pensions.direct': {
     'name': 'bs.eqLiab.accruals.pensions.direct', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.pensions.direct', 
-    'label': {'de':'Rückstellungen für Pensionen und ähnliche Verpflichtungen, Rückstellung für Direktzusagen', 'en':'Provisions for pensions and similar obligations, direct pension commitments', }, 
+    'label': {'de':'Rückstellung für Direktzusagen', 'en':'Provisions for pensions and similar obligations, direct pension commitments', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11917,7 +11921,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.pensions.externalFunds': {
     'name': 'bs.eqLiab.accruals.pensions.externalFunds', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.pensions.externalFunds', 
-    'label': {'de':'erläuternde Angabe', 'en':'Provisions for pensions and similar obligations; additional payment obligations to pension funds and life insurance policies', }, 
+    'label': {'de':'Rückstellungen für Zuschussverpflichtungen für Pensionskassen und Lebensversicherungen', 'en':'Provisions for pensions and similar obligations; additional payment obligations to pension funds and life insurance policies', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11937,7 +11941,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.pensionsOtherForeign': {
     'name': 'bs.eqLiab.accruals.pensionsOtherForeign', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.pensionsOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Provisions for pensions and similar obligations of foreign branch(es)', }, 
+    'label': {'de':'Rückstellungen für Pensionen und ähnliche Verpflichtungen, soweit bei ausländischer Betriebsstätte nicht anders zuordenbar', 'en':'Provisions for pensions and similar obligations of foreign branch(es)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11947,7 +11951,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.tax': {
     'name': 'bs.eqLiab.accruals.tax', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.tax', 
-    'label': {'de':'Steuerrückstellungen', 'en':'Tax provisions', }, 
+    'label': {'de':'Steuerrückstellungen', 'en':'Provisions for taxes', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11957,7 +11961,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.tax.gewst': {
     'name': 'bs.eqLiab.accruals.tax.gewst', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.tax.gewst', 
-    'label': {'de':'Steuerrückstellungen, Gewerbesteuerrückstellung', 'en':'Tax provisions, provision for trade tax', }, 
+    'label': {'de':'Gewerbesteuerrückstellung', 'en':'Tax provisions, provision for trade tax', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11967,7 +11971,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.tax.kst': {
     'name': 'bs.eqLiab.accruals.tax.kst', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.tax.kst', 
-    'label': {'de':'erläuternde Angabe', 'en':'Tax provisions, provision for corporation tax', }, 
+    'label': {'de':'Körperschaftsteuerrückstellung', 'en':'Tax provisions, provision for corporation tax', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11977,7 +11981,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.tax.other': {
     'name': 'bs.eqLiab.accruals.tax.other', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.tax.other', 
-    'label': {'de':'Steuerrückstellungen, Rückstellung für sonstige Steuern (außer für latente Steuern)', 'en':'Tax provisions, provision for other taxes (except deferred tax liabilities)', }, 
+    'label': {'de':'Rückstellung für sonstige Steuern (außer für latente Steuern)', 'en':'Tax provisions, provision for other taxes (except deferred tax liabilities)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11987,7 +11991,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.tax.defTax': {
     'name': 'bs.eqLiab.accruals.tax.defTax', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.tax.defTax', 
-    'label': {'de':'Steuerrückstellungen, Rückstellungen für latente Steuern', 'en':'Tax provisions, deferred tax liabilities', }, 
+    'label': {'de':'Rückstellungen für latente Steuern', 'en':'Tax provisions, deferred tax liabilities', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -11997,7 +12001,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.tax.additionalTax': {
     'name': 'bs.eqLiab.accruals.tax.additionalTax', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.tax.additionalTax', 
-    'label': {'de':'Steuerrückstellungen, Mehrsteuern lt. Finanzverwaltung', 'en':'Tax provisions, additional tax (according to revenue authorities)', }, 
+    'label': {'de':'Mehrsteuern lt. Finanzverwaltung', 'en':'Tax provisions, additional tax (according to revenue authorities)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12007,7 +12011,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.tax.AO233aOnAdditionalTax': {
     'name': 'bs.eqLiab.accruals.tax.AO233aOnAdditionalTax', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.tax.AO233aOnAdditionalTax', 
-    'label': {'de':'Steuerrückstellungen, Zinsen nach § 233a AO auf Mehrsteuern lt. Finanzverwaltung', 'en':'Tax provisions, interest in accordance to AO s.233a on additional tax (according to revenue authorities)', }, 
+    'label': {'de':'Zinsen nach § 233a AO auf Mehrsteuern lt. Finanzverwaltung', 'en':'Tax provisions, interest in accordance to AO s.233a on additional tax (according to revenue authorities)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12017,7 +12021,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.taxOtherForeign': {
     'name': 'bs.eqLiab.accruals.taxOtherForeign', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.taxOtherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Provisions for taxes of foreign branch(es)', }, 
+    'label': {'de':'Steuerrückstellungen ausländischer Betriebsstätten', 'en':'Provisions for taxes of foreign branch(es)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12037,7 +12041,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.other.statutoryLiab': {
     'name': 'bs.eqLiab.accruals.other.statutoryLiab', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.statutoryLiab', 
-    'label': {'de':'sonstige Rückstellungen, Rückstellungen für satzungsgemäße Verpflichtungen', 'en':'Other provisions, provisions for statutory obligations', }, 
+    'label': {'de':'Rückstellungen für satzungsgemäße Verpflichtungen', 'en':'Other provisions, provisions for statutory obligations', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12047,7 +12051,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.other.guarantees': {
     'name': 'bs.eqLiab.accruals.other.guarantees', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.guarantees', 
-    'label': {'de':'sonstige Rückstellungen, Rückstellungen für Gewährleistungen', 'en':'Other provisions, provisions for warranties', }, 
+    'label': {'de':'Rückstellungen für Gewährleistungen', 'en':'Other provisions, provisions for warranties', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12057,7 +12061,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.other.currRisk': {
     'name': 'bs.eqLiab.accruals.other.currRisk', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.currRisk', 
-    'label': {'de':'sonstige Rückstellungen, Rückstellungen für Währungsrisiken', 'en':'Other provisions, provisions for foreign currency risks', }, 
+    'label': {'de':'Rückstellungen für Währungsrisiken', 'en':'Other provisions, provisions for foreign currency risks', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12067,7 +12071,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.other.businessRecordsRetension': {
     'name': 'bs.eqLiab.accruals.other.businessRecordsRetension', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.businessRecordsRetension', 
-    'label': {'de':'sonstige Rückstellungen, Rückstellung für die Aufbewahrung von Geschäftsunterlagen', 'en':'Other provisions, provisions for the retention of company records', }, 
+    'label': {'de':'Rückstellung für die Aufbewahrung von Geschäftsunterlagen', 'en':'Other provisions, provisions for the retention of company records', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12077,7 +12081,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.other.taxAudits': {
     'name': 'bs.eqLiab.accruals.other.taxAudits', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.taxAudits', 
-    'label': {'de':'sonstige Rückstellungen, Rückstellung wegen zukünftiger Betriebsprüfungen bei Großbetrieben', 'en':'Other provisions, provisions for future tax audits - large entities', }, 
+    'label': {'de':'Rückstellung wegen zukünftiger Betriebsprüfungen bei Großbetrieben', 'en':'Other provisions, provisions for future tax audits - large entities', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12087,7 +12091,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.other.germanEarlyRetirementProgramme': {
     'name': 'bs.eqLiab.accruals.other.germanEarlyRetirementProgramme', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.germanEarlyRetirementProgramme', 
-    'label': {'de':'sonstige Rückstellungen, Rückstellung für Altersteilzeit', 'en':'Other provisions, provisions for German partitial retirement programme', }, 
+    'label': {'de':'Rückstellung für Altersteilzeit', 'en':'Other provisions, provisions for German partitial retirement programme', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12097,7 +12101,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.other.anniversary': {
     'name': 'bs.eqLiab.accruals.other.anniversary', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.anniversary', 
-    'label': {'de':'sonstige Rückstellungen, Rückstellung für Jubiläumsaufwendungen', 'en':'Other provisions, provisions for anniversaries', }, 
+    'label': {'de':'Rückstellung für Jubiläumsaufwendungen', 'en':'Other provisions, provisions for anniversaries', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12137,7 +12141,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.other.other': {
     'name': 'bs.eqLiab.accruals.other.other', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.other', 
-    'label': {'de':'erläuternde Angabe', 'en':'Other provisions, miscellaneous other provisions', }, 
+    'label': {'de':'übrige sonstige Rückstellungen / nicht zuordenbare Rückstellungen', 'en':'Other provisions, miscellaneous other provisions', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12147,7 +12151,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.accruals.otherForeign': {
     'name': 'bs.eqLiab.accruals.otherForeign', 
     'qname': 'de-gaap-ci:bs.eqLiab.accruals.otherForeign', 
-    'label': {'de':'Übermittlung nur, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en':'Other provisions of foreign branch(es)', }, 
+    'label': {'de':'sonstige Rückstellungen ausländischer Betriebsstätten', 'en':'Other provisions of foreign branch(es)', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -12157,7 +12161,7 @@ function init_taxonomy()
   'de-gaap-ci_bs.eqLiab.defIncome': {
     'name': 'bs.eqLiab.defIncome', 
     'qname': 'de-gaap-ci:bs.eqLiab.defIncome', 
-    'label': {'de':'passive Rechnungsabgrenzungsposten', 'en':'Deferred income', }, 
+    'label': {'de':'Rechnungsabgrenzungsposten', 'en':'Deferred income', }, 
     'balance': 'credit', 
     'periodtype': 'instant', 
     'weight': 1, 
@@ -20155,9 +20159,9 @@ function init_accounts()
 
 function sum_group(T, contextname, group, subgroup){
   if (T[group]['balance'] == T[subgroup]['balance'])
-    T[group][contextname] += T[subgroup][contextname];
+    T[group][contextname] =  Banana.SDecimal.add(T[group][contextname], T[subgroup][contextname]);
   else
-    T[group][contextname] -= T[subgroup][contextname];
+    T[group][contextname] = Banana.SDecimal.subtract(T[group][contextname], T[subgroup][contextname]);
 }
 
 function sum_role_incomeStatement_level7(T, contextname)

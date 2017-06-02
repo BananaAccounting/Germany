@@ -75,45 +75,51 @@ function printEBilanzReport(report, stylesheet, param, context)
   //Header Version
   cell = headerRow.addCell("", "version");
   paragraph = cell.addParagraph("Version:");
+  
+  printEBilanzReport_table(report, stylesheet, param, context, 'role_balanceSheet');
+  printEBilanzReport_table(report, stylesheet, param, context, 'role_incomeStatement');
 
+}
+
+function printEBilanzReport_table(report, stylesheet, param, context, role)
+{
   //Data Rows
   var table2 = report.addTable("table2");
-  headerRow = table2.getHeader().addRow();
-  headerRow.addCell("Bilanz (E-Bilanz)", "mainTitle");
+  var headerRow = table2.getHeader().addRow();
+  var title = 'Bilanz';
+  if (role == 'role_incomeStatement')
+    title = 'Gewinn- und Verlustrechnung';
+  headerRow.addCell(title + " (E-Bilanz)", "mainTitle");
   
-
   //Column names
   headerRow = table2.getHeader().addRow();
   headerRow.addCell("Name", "title description");
   headerRow.addCell("Wert", "title amount");
 
-  //Rows
-  var accountingDecimals = Banana.document.info("Base", "DecimalsAmounts");
-  for (var role in param.taxonomy)
-  {
-    for (var object in param.taxonomy[role])
-    {
-      if (typeof param.taxonomy[role][object] === 'string')
-        continue;
-      var print = false;
-      var contextname = context['name'];
-      if (param.taxonomy[role][object][contextname] != 0)
-        print = true;
-      if (print == false)
-        continue;
+  //First row
+  var row = table2.addRow();
+  row.addCell(title, "row level0");
+  row.addCell("", "row level0 amount");
 
-      if (param.taxonomy[role][object][contextname] != 0)
-      {
-        var periodtype = param.taxonomy[role][object]['periodtype'];
-        if (periodtype.length>=1)
-          periodtype = periodtype.substr(0,1);
-        var row = table2.addRow();
-        var className = "row level" + param.taxonomy[role][object]['level'];
-        var amount = Math.round(param.taxonomy[role][object][contextname] * 100) / 100;
-        amount = Banana.Converter.toLocaleNumberFormat(amount);
-        row.addCell(param.taxonomy[role][object]['label']['de'], className);
-        row.addCell(amount, className + " amount");
-      }
-    }
-  }  
+  //Rows
+  for (var object in param.taxonomy[role])
+  {
+    if (typeof param.taxonomy[role][object] === 'string')
+      continue;
+    var print = false;
+    var contextname = context['name'];
+    if (param.taxonomy[role][object][contextname] == 0)
+      continue;
+
+    var periodtype = param.taxonomy[role][object]['periodtype'];
+    if (periodtype.length>=1)
+      periodtype = periodtype.substr(0,1);
+    row = table2.addRow();
+    var className = "row level" + param.taxonomy[role][object]['level'];
+    var amount = Banana.SDecimal.round(param.taxonomy[role][object][contextname], {'decimals':2});
+    //var amount = Math.round(param.taxonomy[role][object][contextname] * 100) / 100;
+    amount = Banana.Converter.toLocaleNumberFormat(amount);
+    row.addCell(param.taxonomy[role][object]['label']['de'], className);
+    row.addCell(amount, className + " amount");
+  }
 }

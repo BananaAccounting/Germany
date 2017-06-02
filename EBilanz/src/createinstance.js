@@ -69,7 +69,7 @@ function createInstance(param, contextList)
 		    periodtype = periodtype.substr(0,1);
 		  var contextref = periodtype + '-' + contextname;  
 		  var attrs = {'contextRef':contextref,'unitRef':'BaseCurrency','decimals':accountingDecimals};
-		  xbrlContent += xml_createElement(param.taxonomy[role][object]['qname'], Math.round(param.taxonomy[role][object][contextname] * 100) / 100, attrs) + '\n';
+		  xbrlContent += xml_createElement(param.taxonomy[role][object]['qname'], Banana.SDecimal.round(param.taxonomy[role][object][contextname], {'decimals':2}), attrs) + '\n';
 		}
       }
     }

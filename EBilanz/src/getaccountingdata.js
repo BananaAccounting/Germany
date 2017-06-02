@@ -158,7 +158,8 @@ function loadAmounts(roleObject, context, accounts)
 	if (roleObject[xbrlCurrent])
 	{
 		amount = amount*roleObject[xbrlCurrent].weight;
-		roleObject[xbrlCurrent][contextName] += Math.round(amount * 100) / 100;
+		amount = Banana.SDecimal.round(amount, {'decimals':2});
+		roleObject[xbrlCurrent][contextName] = Banana.SDecimal.add(roleObject[xbrlCurrent][contextName], amount);
 	}
   }
 }
@@ -202,7 +203,7 @@ function loadNetIncomeLoss(role, context, param)
     if ( variableName == "VARIABLE_NETINCOMELOSS" && elementRole == role && elementid.length>0)
 	{
 	  if (param.taxonomy[role][elementid])
-        param.taxonomy[role][elementid][contextName] = Math.round(currentBalance * 100) / 100;
+        param.taxonomy[role][elementid][contextName] = Banana.SDecimal.round(currentBalance, {'decimals':2});
 	}
   }
   return;
