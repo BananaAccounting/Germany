@@ -630,10 +630,12 @@ function getExtractedRows(tableExtract, transactions) {
             value = tableExtract.value(i, "Account");
             if (!value || !includeAccount(value))
                 continue;
+            if (value.startsWith(";") || value.startsWith(".") || value.startsWith(","))
+              value = value.substring(1, value.length);
             line.push(value);
 
             // 2. Name (Adressattyp Unternehmen)
-            value = tableExtract.value(i, "Company");
+            value = tableExtract.value(i, "OrganisationName");
             if (!value)
                 value = "";
             line.push(toTextFormat(value));
@@ -642,7 +644,7 @@ function getExtractedRows(tableExtract, transactions) {
             line.push(toTextFormat(""));
 
             // 4. Name (Adressattyp natürl. Person)
-            lastname = tableExtract.value(i, "LastName");
+            lastname = tableExtract.value(i, "FamilyName");
             if (!lastname)
                 lastname = "";
             line.push(toTextFormat(lastname));
@@ -677,7 +679,7 @@ function getExtractedRows(tableExtract, transactions) {
             line.push(toTextFormat(""));
 
             // 11. Anrede
-            value = tableExtract.value(i, "Salutation");
+            value = tableExtract.value(i, "NamePrefix");
             if (!value)
                 value = "";
             line.push(toTextFormat(value));
@@ -695,7 +697,7 @@ function getExtractedRows(tableExtract, transactions) {
             line.push(toTextFormat(""));
 
             // 16. Strasse
-            value = tableExtract.value(i, "Address1");
+            value = tableExtract.value(i, "Street");
             if (!value)
                 value = "";
             line.push(toTextFormat(value));
@@ -704,13 +706,13 @@ function getExtractedRows(tableExtract, transactions) {
             line.push(toTextFormat(""));
 
             // 18. Postleitzahl
-            value = tableExtract.value(i, "Zip");
+            value = tableExtract.value(i, "PostalCode");
             if (!value)
                 value = "";
             line.push(toTextFormat(value));
 
             // 19. Ort
-            value = tableExtract.value(i, "Town");
+            value = tableExtract.value(i, "Locality");
             if (!value)
                 value = "";
             line.push(toTextFormat(value));
@@ -746,7 +748,7 @@ function getExtractedRows(tableExtract, transactions) {
             line.push("");
 
             // 29. Telefon
-            value = tableExtract.value(i, "Phone");
+            value = tableExtract.value(i, "PhoneMain");
             if (!value)
                 value = "";
             line.push(toTextFormat(value));
@@ -761,7 +763,7 @@ function getExtractedRows(tableExtract, transactions) {
             line.push(toTextFormat(""));
 
             // 33. E-Mail
-            value = tableExtract.value(i, "Email");
+            value = tableExtract.value(i, "EmailWork");
             if (!value)
                 value = "";
             line.push(toTextFormat(value));
@@ -770,7 +772,7 @@ function getExtractedRows(tableExtract, transactions) {
             line.push(toTextFormat(""));
 
             // 35. Internet
-            value = tableExtract.value(i, "Www");
+            value = tableExtract.value(i, "Website");
             if (!value)
                 value = "";
             line.push(toTextFormat(value));
@@ -1344,6 +1346,15 @@ function readAccountingData() {
         accountingYear = openingYear;
 
     return true;
+}
+
+/**
+  Checks that string starts with the specific string
+*/
+if (typeof String.prototype.startsWith != 'function') {
+    String.prototype.startsWith = function (str) {
+        return this.slice(0, str.length) == str;
+    };
 }
 
 /**
