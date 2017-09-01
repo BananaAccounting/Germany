@@ -1,4 +1,4 @@
-﻿// Copyright [2014] [Banana.ch SA - Lugano Switzerland]
+﻿// Copyright [2017] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -13,16 +13,18 @@
 // limitations under the License.
 //
 //
+// @api = 1.0
 // @id = ch.banana.filter.export.datev.buchungsstapel
-// @publisher = Banana.ch SA
 // @description = DATEV Export / Buchungsdaten
 // @doctype = *.*
-// @task = export.file
+// @encoding = Windows-1252
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
+// @pubdate = 2017-09-01
+// @publisher = Banana.ch SA
+// @task = export.file
 // @timeout = -1
-// @encoding = Windows-1252
 
 //TODO add limit of 99997 Transactions
 /**
@@ -176,13 +178,12 @@ function exec(inData) {
         }
 
         //load data
-        var tableAccounts = Banana.document.table("Accounts");
         var tableTransactions = Banana.document.table("Transactions");
         var journal = Banana.document.journal(
             Banana.document.ORIGINTYPE_CURRENT, Banana.document.ACCOUNTTYPE_NORMAL);
         var filteredRows = journal.findRows(filterTransactions);
 
-        if (tableAccounts && tableTransactions && filteredRows) {
+        if (tableTransactions && filteredRows) {
             var fieldsHeader = getFieldsHeader();
             transactions.push(fieldsHeader);
 
@@ -190,11 +191,8 @@ function exec(inData) {
             var value = "";
             var fieldName = "";
             var valueAccount = "";
-            var valueAccountDebit = "";
-            var valueAccountCredit = "";
             var valueContraAccount = "";
             var valueVatRate = "";
-            var valueVatTwinAccount = "";
             var registrationType = "";
 
             for (var i = 0; i < filteredRows.length; i++) {
@@ -246,28 +244,30 @@ function exec(inData) {
 
                 //1. Umsatz (Umsatz = 0 not permitted)
                 var amountIsValid = false;
-                fieldName = "AmountCurrency";
+                fieldName = "JAmountAccountCurrency";
                 value = filteredRows[i].value(fieldName);
-                if (value) {
-                    if (value.length > 0) {
-                        amountIsValid = true;
-                    }
+                if (value && value.length > 0) {
+                  amountIsValid = true;
                 }
                 else {
-                    fieldName = "Amount";
+                    fieldName = "JAmount";
                     value = filteredRows[i].value(fieldName);
                     if (value && value.length > 0) {
                         amountIsValid = true;
                     }
                 }
-
+                var amountSign = Banana.SDecimal.sign(value);
+                var transactionCurrency = filteredRows[i].value("JTransactionCurrency");
+                value = Banana.SDecimal.abs(value);
                 if (amountIsValid) {
-                    //check if is a transaction vat excluding
-                    if (isVatExcluded(filteredRows[i]))
+                    //if transaction has vatcode takes gross amount
+                    var vatCode = filteredRows[i].value("VatCode");
+                    if (vatCode && vatCode.length>0
+                      && transactionCurrency === accountingBasicCurrency)
                     {
                         var valueTax = filteredRows[i].value("VatTaxable");
                         value = filteredRows[i].value("VatAmount");
-                        value = Banana.SDecimal.add(Math.abs(valueTax), Math.abs(value));
+                        value = Banana.SDecimal.add(Banana.SDecimal.abs(valueTax), Banana.SDecimal.abs(value));
                     }
                     line.push(toAmountFormat(value));
                 }
@@ -279,31 +279,8 @@ function exec(inData) {
 
                 //2. Soll/Haben Kennzeichen
                 registrationType = "S";
-                valueAccount = "";  //Field 7. Konto
-                valueAccountDebit = filteredRows[i].value("AccountDebit");
-                valueAccountCredit = filteredRows[i].value("AccountCredit");
-                valueVatTwinAccount = filteredRows[i].value("VatTwinAccount");
-
-                if (valueVatTwinAccount.length > 0 && valueVatTwinAccount == valueAccountCredit)
-                    registrationType = "H";
-
-                if (valueAccountDebit.length > 0) {
-                    valueAccount = getDatevAccount(tableAccounts, valueAccountDebit);
-                    if (valueAccount == "@Cancel")
-                        return "@Cancel";
-                }
-                else if (valueAccountCredit.length > 0) {
-                    valueAccount = getDatevAccount(tableAccounts, valueAccountCredit);
-                    if (valueAccount == "@Cancel")
-                        return "@Cancel";
-                }
-
-                if (valueAccount.length <= 0) {
-                    fieldName = "AccountDebit";
-                    tableTransactions.addMessage(msg, originalRowNumber, fieldName, ID_ERR_DATEV_NOACCOUNT);
-                    line = [];
-                    continue;
-                }
+                if (amountSign < 0)
+                  registrationType = "H";
                 line.push(toTextFormat(registrationType));
 
                 //3. WKZ Umsatz
@@ -340,17 +317,21 @@ function exec(inData) {
                 line.push(toTextFormat(value));
 
                 //7. Konto
+                valueAccount = filteredRows[i].value("JAccount");
+                valueAccount = getDatevAccount(valueAccount);
+                if (valueAccount == "@Cancel")
+                    return "@Cancel";
                 line.push(valueAccount);
 
                 //8. Gegenkonto
-                value = filteredRows[i].value("JContraAccount");
-                value = getDatevAccount(tableAccounts, value);
-                if (value == "@Cancel")
+                valueContraAccount = filteredRows[i].value("JContraAccount");
+                valueContraAccount = getDatevAccount(valueContraAccount);
+                if (valueContraAccount == "@Cancel")
                     return "@Cancel";
-                line.push(value);
+                line.push(valueContraAccount);
 
                 //9. BU-Schlüssel
-                value = getSteuerSchlussel(tableAccounts, filteredRows[i], valueAccountDebit, valueAccountCredit);
+                value = getSteuerSchlussel(filteredRows[i], valueAccount, valueContraAccount);
                 if (value == "@Cancel") {
                     line = [];
                     continue;
@@ -479,9 +460,10 @@ function exec(inData) {
 
                 transactions.push(line);
                 line = [];
+                fieldName = "";
                 value = "";
-                valueAccountDebit = "";
-                valueAccountCredit = "";
+                valueAccount = "";
+                valueContraAccount = "";
                 valueVatRate = "";
             }
         }
@@ -490,6 +472,20 @@ function exec(inData) {
     }
 
     return "@Cancel";
+}
+
+/**
+* check text length
+*/
+function checkTextLength(text, maxLength, tableName, fieldName, rowNumber) {
+    if (maxLength >= 0 && text.length > maxLength) {
+        var msg = getErrorMessage(ID_ERR_DATEV_LONGTEXT);
+        msg = msg.replace("%1", fieldName);
+        msg = msg.replace("%2", maxLength);
+        tableName.addMessage(msg, rowNumber, fieldName, ID_ERR_DATEV_LONGTEXT);
+        text = text.substring(0, maxLength);
+    }
+    return text;
 }
 
 /**
@@ -679,29 +675,114 @@ function filterTransactions(row, index, table) {
     }
 
     //Exclude empty rows
-    var accountDebit = row.value("AccountDebit");
-    if (!accountDebit)
-        accountDebit = "";
-    var accountCredit = row.value("AccountCredit");
-    if (!accountCredit)
-        accountCredit = "";
+    var jAccount = row.value("JAccount");
+    if (!jAccount)
+        jAccount = "";
+    var jContraAccount = row.value("JContraAccount");
+    if (!jContraAccount)
+        jContraAccount = "";
     var date = row.value("Date");
     if (!date)
         date = "";
-    var amount = row.value("Amount");
+    var amount = row.value("JAmount");
     if (!amount)
         amount = "";
-    var amountCurrency = row.value("AmountCurrency");
+    var amountCurrency = row.value("JAmountAccountCurrency");
     if (!amountCurrency)
         amountCurrency = "";
-    if (accountDebit.isEmpty && accountCredit.isEmpty && date.isEmpty
+    if (jAccount.isEmpty && jContraAccount.isEmpty && date.isEmpty
         && amount.isEmpty && amountCurrency.isEmpty)
         return false;
 
     return true;
 }
 
+/**
+* Returns the value of the column
+* if the row is not valid an error message is added
+*/
+function getColumnValue(table, row, columnName) {
 
+    if (columnName.length <= 0 || !row || !table)
+        return "";
+
+    var value = row.value(columnName);
+
+    if (value === undefined) {
+        var msg = getErrorMessage(ID_ERR_DATEV_FIELDNOTFOUND);
+        msg = msg.replace("%1", columnName);
+        table.addMessage(msg, -1, columnName, ID_ERR_DATEV_FIELDNOTFOUND);
+        return "@Cancel";
+    }
+
+    return value;
+}
+
+/**
+* return the country code of the specified account
+*/
+function getCountry(vatnumber) {
+    var country = "";
+    var tableAccounts = Banana.document.table("Accounts");
+    if (vatnumber.length <= 0 || !tableAccounts)
+        return country;
+    var row = tableAccounts.findRowByValue("VatNumber", vatnumber);
+    if (row) {
+        country = getColumnValue(tableAccounts, row, "Country");
+    }
+    if (country.length > 2)
+        country = country.substring(0, 2);
+    return country;
+}
+
+/**
+* return the datev account number if this is specified in the table Accounts, column DatevAccount
+*/
+function getDatevAccount(accountId) {
+    if (accountId.length <= 0)
+      return accountId;
+
+    var tableAccounts = Banana.document.table("Accounts");
+    if (tableAccounts) {
+      var row = tableAccounts.findRowByValue("Account", accountId);
+      if (row) {
+        var value = row.value("DatevAccount");
+        if (value !== undefined && value.length>0)
+          return value;
+      }
+    }
+    var tableCategories = Banana.document.table("Categories");
+    if (tableCategories) {
+      var row = tableCategories.findRowByValue("Category", accountId);
+      if (row) {
+        var value = row.value("DatevAccount");
+        if (value !== undefined && value.length>0)
+          return value;
+      }
+    }
+    return accountId;
+}
+
+/**
+* return the text error message according to error id
+*/
+function getErrorMessage(errorId) {
+    switch (errorId) {
+        case ID_ERR_DATEV_FIELDNOTFOUND:
+            return "Das Feld %1 ist nicht vorhanden. Das Skript wird beendet.";
+        case ID_ERR_DATEV_LONGTEXT:
+            return "Der Text vom Feld %1 ist zu lang und er wird geschnitten. Maximale Länge %2 Zeichen";
+        case ID_ERR_DATEV_NOAMOUNT:
+            return "Buchung ohne Betrag. Diese Buchung wird ausgeschlossen.";
+        case ID_ERR_DATEV_NOACCOUNT:
+            return "Betrag ohne Konto Soll und Konto Haben. Diese Buchung wird ausgeschlossen.";
+        case ID_ERR_DATEV_NODATE:
+            return "Buchung ohne Datum. Diese Buchung wird ausgeschlossen.";
+        case ID_ERR_DATEV_PERIODNOTVALID:
+            return "Das Datum ist in der Buchhaltungsperiode nicht inbegriffen. Diese Buchung wird ausgeschlossen.";
+    }
+    return "";
+}
 
 /**
 * The function getFieldsHeader return an array
@@ -915,57 +996,10 @@ function getHeader() {
 }
 
 /**
-* check text length
-*/
-function checkTextLength(text, maxLength, tableName, fieldName, rowNumber) {
-    if (maxLength >= 0 && text.length > maxLength) {
-        var msg = getErrorMessage(ID_ERR_DATEV_LONGTEXT);
-        msg = msg.replace("%1", fieldName);
-        msg = msg.replace("%2", maxLength);
-        tableName.addMessage(msg, rowNumber, fieldName, ID_ERR_DATEV_LONGTEXT);
-        text = text.substring(0, maxLength);
-    }
-    return text;
-}
-
-/**
-* return the country code of the specified account
-*/
-function getCountry(tableAccounts, vatnumber) {
-    var country = "";
-    if (vatnumber.length <= 0 || !tableAccounts)
-        return country;
-    var row = tableAccounts.findRowByValue("VatNumber", vatnumber);
-    if (row) {
-        country = getColumnValue(tableAccounts, row, "Country");
-    }
-    if (country.length > 2)
-        country = country.substring(0, 2);
-    return country;
-}
-
-
-/**
-* return the datev account number if this is specified in the table Accounts, column DatevAccount
-*/
-function getDatevAccount(tableAccounts, accountId) {
-    var datevAccountId = "";
-    if (accountId.length <= 0 || !tableAccounts)
-        return datevAccountId;
-    var row = tableAccounts.findRowByValue("Account", accountId);
-    if (row) {
-        datevAccountId = getColumnValue(tableAccounts, row, "DatevAccount");
-    }
-    if (datevAccountId.length <= 0)
-        datevAccountId = accountId;
-    return datevAccountId;
-}
-
-/**
 * return the key according to the used vat rate
 */
-function getSteuerSchlussel(tableAccounts, transactionRow, valueAccountDebit, valueAccountCredit) {
-
+function getSteuerSchlussel(transactionRow, valueAccount, valueContraAccount) {
+    
     //get vatcode from table Transactions
     var vatCode = transactionRow.value("VatCode");
     if (!vatCode || vatCode.length <= 0)
@@ -1014,53 +1048,11 @@ function getSteuerSchlussel(tableAccounts, transactionRow, valueAccountDebit, va
         }
     }
 
-    if (!isAutomaticAccount(valueAccountDebit, tableAccounts) && !isAutomaticAccount(valueAccountCredit, tableAccounts)) {
+    if (!isAutomaticAccount(valueAccount) && !isAutomaticAccount(valueContraAccount)) {
         return steuerkey;
     }
 
     return "";
-}
-
-/**
-* return the text error message according to error id
-*/
-function getErrorMessage(errorId) {
-    switch (errorId) {
-        case ID_ERR_DATEV_FIELDNOTFOUND:
-            return "Das Feld %1 ist nicht vorhanden. Das Skript wird beendet.";
-        case ID_ERR_DATEV_LONGTEXT:
-            return "Der Text vom Feld %1 ist zu lang und er wird geschnitten. Maximale Länge %2 Zeichen";
-        case ID_ERR_DATEV_NOAMOUNT:
-            return "Buchung ohne Betrag. Diese Buchung wird ausgeschlossen.";
-        case ID_ERR_DATEV_NOACCOUNT:
-            return "Betrag ohne Konto Soll und Konto Haben. Diese Buchung wird ausgeschlossen.";
-        case ID_ERR_DATEV_NODATE:
-            return "Buchung ohne Datum. Diese Buchung wird ausgeschlossen.";
-        case ID_ERR_DATEV_PERIODNOTVALID:
-            return "Das Datum ist in der Buchhaltungsperiode nicht inbegriffen. Diese Buchung wird ausgeschlossen.";
-    }
-    return "";
-}
-
-/**
-* Returns the value of the column
-* if the row is not valid an error message is added
-*/
-function getColumnValue(table, row, columnName) {
-
-    if (columnName.length <= 0 || !row || !table)
-        return "";
-
-    var value = row.value(columnName);
-
-    if (value === undefined) {
-        var msg = getErrorMessage(ID_ERR_DATEV_FIELDNOTFOUND);
-        msg = msg.replace("%1", columnName);
-        table.addMessage(msg, -1, columnName, ID_ERR_DATEV_FIELDNOTFOUND);
-        return "@Cancel";
-    }
-
-    return value;
 }
 
 /**
@@ -1092,47 +1084,28 @@ function initParam() {
 * AV Automatische Errechnung der Vorsteuer
 * return true
 */
-function isAutomaticAccount(accountId, table) {
-    if (table) {
-        var row = table.findRowByValue("Account", accountId);
-        if (row) {
-            var value = getColumnValue(table, row, "DatevAuto");
-            if (value == "1") {
-                return true;
-            }
-        }
+function isAutomaticAccount(accountId) {
+    if (accountId.length <= 0)
+      return false;
+
+    var tableAccounts = Banana.document.table("Accounts");
+    if (tableAccounts) {
+      var row = tableAccounts.findRowByValue("Account", accountId);
+      if (row) {
+        var value = row.value("DatevAuto");
+        if (value && value == 1)
+          return true;
+      }
     }
-    return false;
-}
-
-/**
-* if the vat code excludes the vat amount from the total amount return true
-* Amount type 1 = without VAT/Sales tax
-*/
-function isVatExcluded(transactionRow) {
-
-    //get vatcode from table Transactions
-    var vatCode = transactionRow.value("VatCode");
-    if (!vatCode || vatCode.length <= 0)
-        return false;
-
-    //load table VatCodes
-    var tableVatCodes = Banana.document.table("VatCodes");
-    if (!tableVatCodes) {
-        return false;
+    var tableCategories = Banana.document.table("Categories");
+    if (tableCategories) {
+      var row = tableCategories.findRowByValue("Category", accountId);
+      if (row) {
+        var value = row.value("DatevAuto");
+        if (value && value == 1)
+          return true;
+      }
     }
-
-    //get row from table vatcode
-    var row = tableVatCodes.findRowByValue("VatCode", vatCode);
-    if (!row) {
-        return false;
-    }
-
-    //amounttype
-    var amountType = getColumnValue(tableVatCodes, row, "AmountType");
-    if (amountType == 1)
-        return true;
-
     return false;
 }
 

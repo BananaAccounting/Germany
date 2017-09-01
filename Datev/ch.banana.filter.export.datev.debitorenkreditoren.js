@@ -1,4 +1,4 @@
-﻿// Copyright [2014] [Banana.ch SA - Lugano Switzerland]
+﻿// Copyright [2017] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -13,16 +13,18 @@
 // limitations under the License.
 //
 //
+// @api = 1.0
 // @id = ch.banana.filter.export.datev.debitorenkreditoren
-// @publisher = Banana.ch SA
 // @description = DATEV Export / Kontendaten von Kunden und Lieferanten
 // @doctype = *.*
-// @task = export.file
+// @encoding = Windows-1252
 // @exportfilename = EXTF_GP_Stamm_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
+// @pubdate = 2017-09-01
+// @publisher = Banana.ch SA
+// @task = export.file
 // @timeout = -1
-// @encoding = Windows-1252
 
 /**
 * The function checks if a number is between two numbers you enter
@@ -169,28 +171,6 @@ function exec(inData) {
 }
 
 /**
-* Extract customers' accounts from table Accounts into table Extract
-* according to the customer group
-*/
-function extractCustomersAccounts(row, i, table) {
-    var debitorenGruppe = param["debitorengruppe"];
-    if (param["debitorengruppe"].length <= 0)
-        return 0;
-    return row.value("Gr") === param["debitorengruppe"];
-}
-
-/**
-* Extract suppliers' accounts from table Accounts into table Extract
-* according to the supplier group
-*/
-function extractSuppliersAccounts(row, i, table) {
-    var debitorenGruppe = param["kreditorengruppe"];
-    if (param["kreditorengruppe"].length <= 0)
-        return 0;
-    return row.value("Gr") === param["kreditorengruppe"];
-}
-
-/**
 * Calls the dialog in order to set variables
 */
 function dialogExec() {
@@ -269,6 +249,28 @@ function dialogExec() {
     var value = Banana.document.scriptSaveSettings(paramToString);
 
     return true;
+}
+
+/**
+* Extract customers' accounts from table Accounts into table Extract
+* according to the customer group
+*/
+function extractCustomersAccounts(row, i, table) {
+    var debitorenGruppe = param["debitorengruppe"];
+    if (param["debitorengruppe"].length <= 0)
+        return 0;
+    return row.value("Gr") === param["debitorengruppe"];
+}
+
+/**
+* Extract suppliers' accounts from table Accounts into table Extract
+* according to the supplier group
+*/
+function extractSuppliersAccounts(row, i, table) {
+    var debitorenGruppe = param["kreditorengruppe"];
+    if (param["kreditorengruppe"].length <= 0)
+        return 0;
+    return row.value("Gr") === param["kreditorengruppe"];
 }
 
 /**
@@ -1416,4 +1418,3 @@ function zeroPad(num, places) {
     var zero = places - num.toString().length + 1;
     return Array(+(zero > 0 && zero)).join("0") + num;
 }
-
