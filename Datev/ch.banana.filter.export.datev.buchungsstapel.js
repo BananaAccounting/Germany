@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2017-09-05
+// @pubdate = 2017-09-01
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -198,7 +198,7 @@ function exec(inData) {
             for (var i = 0; i < filteredRows.length; i++) {
 
                 //Original number of row in table transaction
-               var originalRowNumber = filteredRows[i].value("JRowOrigin");
+                var originalRowNumber = filteredRows[i].value("JRowOrigin");
 
                 //Check period
                 var validPeriod = false;
@@ -247,7 +247,7 @@ function exec(inData) {
                 fieldName = "JAmountAccountCurrency";
                 value = filteredRows[i].value(fieldName);
                 if (value && value.length > 0) {
-                  amountIsValid = true;
+                    amountIsValid = true;
                 }
                 else {
                     fieldName = "JAmount";
@@ -262,9 +262,8 @@ function exec(inData) {
                 if (amountIsValid) {
                     //if transaction has vatcode takes gross amount
                     var vatCode = filteredRows[i].value("VatCode");
-                    if (vatCode && vatCode.length>0
-                      && transactionCurrency === accountingBasicCurrency)
-                    {
+                    if (vatCode && vatCode.length > 0
+                        && transactionCurrency === accountingBasicCurrency) {
                         var valueTax = filteredRows[i].value("VatTaxable");
                         value = filteredRows[i].value("VatAmount");
                         value = Banana.SDecimal.add(Banana.SDecimal.abs(valueTax), Banana.SDecimal.abs(value));
@@ -280,7 +279,7 @@ function exec(inData) {
                 //2. Soll/Haben Kennzeichen
                 registrationType = "S";
                 if (amountSign < 0)
-                  registrationType = "H";
+                    registrationType = "H";
                 line.push(toTextFormat(registrationType));
 
                 //3. WKZ Umsatz
@@ -611,7 +610,7 @@ function dialogExec() {
                 param["periodBegin"] = "01." + zeroPad(month, 2) + "." + accountingYear.toString();
                 param["periodEnd"] = "30." + zeroPad(month, 2) + "." + accountingYear.toString();
             }
-                //month with 28 or 29 days
+            //month with 28 or 29 days
             else if (month === 2) {
                 var day = 28;
                 if (accountingYear % 4 == 0 && (accountingYear % 100 != 0 || accountingYear % 400 == 0)) {
@@ -620,7 +619,7 @@ function dialogExec() {
                 param["periodBegin"] = "01.02." + accountingYear.toString();
                 param["periodEnd"] = day.toString() + ".02." + accountingYear.toString();
             }
-                //months with 31 days
+            //months with 31 days
             else {
                 param["periodBegin"] = "01." + zeroPad(month, 2) + "." + accountingYear.toString();
                 param["periodEnd"] = "31." + zeroPad(month, 2) + "." + accountingYear.toString();
@@ -666,8 +665,8 @@ function filterTransactions(row, index, table) {
         //Exclude duplicated row, this happens for contraaccounttype==1 where a single transaction is splitted into two rows in the journal
         var prevRow = table.row(index - 1);
         if (prevRow) {
-           var currTransactionNumber = row.value("JRowOrigin");
-           var prevTransactionNumber = prevRow.value("JRowOrigin");
+            var currTransactionNumber = row.value("JRowOrigin");
+            var prevTransactionNumber = prevRow.value("JRowOrigin");
             var prevContraAccountType = prevRow.value("JContraAccountType");
             if (prevContraAccountType && prevContraAccountType == 1 && currTransactionNumber == prevTransactionNumber)
                 return false;
@@ -740,32 +739,27 @@ function getCountry(vatnumber) {
 */
 function getDatevAccount(accountId) {
     if (accountId.length <= 0)
-      return accountId;
+        return accountId;
 
-    var datevAccountId = "";
-    var isIncomeExpenseAccounting = false;
-    var accountingType = Banana.document.info("Base", "FileTypeGroup");
-    if (accountingType == "110")
-      isIncomeExpenseAccounting = true;
-
-    var tableCategories = Banana.document.table("Categories");
-    if (tableCategories && isIncomeExpenseAccounting) {
-      var row = tableCategories.findRowByValue("Category", accountId);
-      if (row)
-        datevAccountId = getColumnValue(tableCategories, row, "DatevAccount");
-    }
-    else {
-      var tableAccounts = Banana.document.table("Accounts");
-      if (tableAccounts) {
+    var tableAccounts = Banana.document.table("Accounts");
+    if (tableAccounts) {
         var row = tableAccounts.findRowByValue("Account", accountId);
-        if (row)
-          datevAccountId = getColumnValue(tableAccounts, row, "DatevAccount");
-      }
+        if (row) {
+            var value = row.value("DatevAccount");
+            if (value !== undefined && value.length > 0)
+                return value;
+        }
     }
-    if (datevAccountId.length <= 0)
-      datevAccountId = accountId;
-
-    return datevAccountId;
+    var tableCategories = Banana.document.table("Categories");
+    if (tableCategories) {
+        var row = tableCategories.findRowByValue("Category", accountId);
+        if (row) {
+            var value = row.value("DatevAccount");
+            if (value !== undefined && value.length > 0)
+                return value;
+        }
+    }
+    return accountId;
 }
 
 /**
@@ -1004,14 +998,14 @@ function getHeader() {
 * return the key according to the used vat rate
 */
 function getSteuerSchlussel(transactionRow, valueAccount, valueContraAccount) {
-    
+
     //get vatcode from table Transactions
     var vatCode = transactionRow.value("VatCode");
     if (!vatCode || vatCode.length <= 0)
         return "";
 
     //check if it is a reversal transaction with minus vatcode
-    var reversalTransaction=false;
+    var reversalTransaction = false;
     if (vatCode.substring(0, 1) == "-") {
         vatCode = vatCode.substring(1);
         reversalTransaction = true;
@@ -1091,32 +1085,25 @@ function initParam() {
 */
 function isAutomaticAccount(accountId) {
     if (accountId.length <= 0)
-      return false;
+        return false;
 
-    var isIncomeExpenseAccounting = false;
-    var accountingType = Banana.document.info("Base", "FileTypeGroup");
-    if (accountingType == "110")
-      isIncomeExpenseAccounting = true;
-
-    var tableCategories = Banana.document.table("Categories");
-    if (tableCategories && isIncomeExpenseAccounting) {
-      var row = tableCategories.findRowByValue("Category", accountId);
-      if (row) {
-        var value = getColumnValue(tableCategories, row, "DatevAuto");
-        if (value == "1")
-            return true;
-      }
-    }
-    else {
-      var tableAccounts = Banana.document.table("Accounts");
-      if (tableAccounts) {
+    var tableAccounts = Banana.document.table("Accounts");
+    if (tableAccounts) {
         var row = tableAccounts.findRowByValue("Account", accountId);
         if (row) {
-          var value = getColumnValue(tableAccounts, row, "DatevAuto");
-          if (value == "1")
-            return true;
+            var value = row.value("DatevAuto");
+            if (value && value == 1)
+                return true;
         }
-      }
+    }
+    var tableCategories = Banana.document.table("Categories");
+    if (tableCategories) {
+        var row = tableCategories.findRowByValue("Category", accountId);
+        if (row) {
+            var value = row.value("DatevAuto");
+            if (value && value == 1)
+                return true;
+        }
     }
     return false;
 }
