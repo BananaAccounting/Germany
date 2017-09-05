@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2017-09-01
+// @pubdate = 2017-09-05
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -742,25 +742,30 @@ function getDatevAccount(accountId) {
     if (accountId.length <= 0)
       return accountId;
 
-    var tableAccounts = Banana.document.table("Accounts");
-    if (tableAccounts) {
-      var row = tableAccounts.findRowByValue("Account", accountId);
-      if (row) {
-        var value = row.value("DatevAccount");
-        if (value !== undefined && value.length>0)
-          return value;
-      }
-    }
+    var datevAccountId = "";
+    var isIncomeExpenseAccounting = false;
+    var accountingType = Banana.document.info("Base", "FileTypeGroup");
+    if (accountingType == "110")
+      isIncomeExpenseAccounting = true;
+
     var tableCategories = Banana.document.table("Categories");
-    if (tableCategories) {
+    if (tableCategories && isIncomeExpenseAccounting) {
       var row = tableCategories.findRowByValue("Category", accountId);
-      if (row) {
-        var value = row.value("DatevAccount");
-        if (value !== undefined && value.length>0)
-          return value;
+      if (row)
+        datevAccountId = getColumnValue(tableCategories, row, "DatevAccount");
+    }
+    else {
+      var tableAccounts = Banana.document.table("Accounts");
+      if (tableAccounts) {
+        var row = tableAccounts.findRowByValue("Account", accountId);
+        if (row)
+          datevAccountId = getColumnValue(tableAccounts, row, "DatevAccount");
       }
     }
-    return accountId;
+    if (datevAccountId.length <= 0)
+      datevAccountId = accountId;
+
+    return datevAccountId;
 }
 
 /**
@@ -1088,22 +1093,29 @@ function isAutomaticAccount(accountId) {
     if (accountId.length <= 0)
       return false;
 
-    var tableAccounts = Banana.document.table("Accounts");
-    if (tableAccounts) {
-      var row = tableAccounts.findRowByValue("Account", accountId);
-      if (row) {
-        var value = row.value("DatevAuto");
-        if (value && value == 1)
-          return true;
-      }
-    }
+    var isIncomeExpenseAccounting = false;
+    var accountingType = Banana.document.info("Base", "FileTypeGroup");
+    if (accountingType == "110")
+      isIncomeExpenseAccounting = true;
+
     var tableCategories = Banana.document.table("Categories");
-    if (tableCategories) {
+    if (tableCategories && isIncomeExpenseAccounting) {
       var row = tableCategories.findRowByValue("Category", accountId);
       if (row) {
-        var value = row.value("DatevAuto");
-        if (value && value == 1)
-          return true;
+        var value = getColumnValue(tableCategories, row, "DatevAuto");
+        if (value == "1")
+            return true;
+      }
+    }
+    else {
+      var tableAccounts = Banana.document.table("Accounts");
+      if (tableAccounts) {
+        var row = tableAccounts.findRowByValue("Account", accountId);
+        if (row) {
+          var value = getColumnValue(tableAccounts, row, "DatevAuto");
+          if (value == "1")
+            return true;
+        }
       }
     }
     return false;
