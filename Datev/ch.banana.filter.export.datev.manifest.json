@@ -1,0 +1,15 @@
+{
+    "category": "productivity",
+    "country": "germany",
+    "countryCode": "de",
+    "description": "DATEV",
+    "description.en": "DATEV",
+    "description.de": "DATEV",
+    "id": "ch.banana.apps.vatreportch.ef",
+    "language": "",
+    "publisher": "Banana.ch",
+    "title": "DATEV",
+    "title.en": "DATEV",
+    "title.de": "DATEV",
+    "version": "1.0"
+}
