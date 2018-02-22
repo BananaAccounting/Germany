@@ -20753,8 +20753,8 @@ function sum_role_incomeStatement_level1(T, contextname)
 function sum_role_incomeStatement(contextname, taxonomy)
 {
   var object = taxonomy['role_incomeStatement'];
-    if (object === undefined)
-    continue;
+  if (object === undefined)
+    return;
   sum_role_incomeStatement_level7(object, contextname);
   sum_role_incomeStatement_level6(object, contextname);
   sum_role_incomeStatement_level5(object, contextname);
@@ -21367,8 +21367,8 @@ function sum_role_balanceSheet_level1(T, contextname)
 function sum_role_balanceSheet(contextname, taxonomy)
 {
   var object = taxonomy['role_balanceSheet'];
-    if (object === undefined)
-    continue;
+  if (object === undefined)
+    return;
   sum_role_balanceSheet_level5(object, contextname);
   sum_role_balanceSheet_level4(object, contextname);
   sum_role_balanceSheet_level3(object, contextname);
