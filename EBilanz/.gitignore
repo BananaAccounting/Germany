@@ -1,4 +1,7 @@
+*.csv
+*.zip
 *.bak
+*.pdf
 *.autosave
-/hgb*/*
+/5.4/*
 ~$*
