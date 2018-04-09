@@ -1,4 +1,4 @@
-﻿// Copyright [2017] [Banana.ch SA - Lugano Switzerland]
+﻿// Copyright [2018] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_GP_Stamm_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2017-09-04
+// @pubdate = 2018-04-09
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -122,10 +122,10 @@ dialog.showHelp = function () {
 /**
 * Dialog's events declaration
 */
-dialog.buttonBox.accepted.connect(dialog, "checkdata");
-dialog.buttonBox.helpRequested.connect(dialog, "showHelp");
-dialog.bereichGroupBox.debitorenkontoCheckBox.clicked.connect(dialog, "enableButtons");
-dialog.bereichGroupBox.kreditorenkontoCheckBox.clicked.connect(dialog, "enableButtons");
+dialog.buttonBox.accepted.connect(dialog, dialog.checkdata);
+dialog.buttonBox.helpRequested.connect(dialog, dialog.showHelp);
+dialog.bereichGroupBox.debitorenkontoCheckBox.clicked.connect(dialog, dialog.enableButtons);
+dialog.bereichGroupBox.kreditorenkontoCheckBox.clicked.connect(dialog, dialog.enableButtons);
 
 /**
 * main function
