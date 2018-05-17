@@ -152,7 +152,7 @@ function loadAmounts(roleObject, context, accounts)
 	if ( xbrlIdCredit && amount < 0)  {
 		xbrlCurrent = xbrlIdCredit;
 	}
-	if (roleObject[xbrlCurrent] && roleObject[xbrlCurrent].balance == 'credit') {
+	if (bClass=='2' || (roleObject[xbrlCurrent] && roleObject[xbrlCurrent].balance == 'credit')) {
 		amount = amount*-1;
 	}
 	if (roleObject[xbrlCurrent])

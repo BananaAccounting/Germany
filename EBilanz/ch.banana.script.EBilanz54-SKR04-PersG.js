@@ -1,4 +1,4 @@
-// Copyright [2014] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2018] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 // @id = ch.banana.script.EBilanz54-SKR04-PersG
 // @doctype = *.*
 // @publisher = Banana.ch SA
-// @pubdate = 2018-03-12
+// @pubdate = 2018-05-17
 // @description = E-Bilanz Taxonomie 5.4 SKR04 Personengesellschaften
 // @task = export.file
 // @exportfilename = <Date>_xbrl54gaap_skr04PersG
@@ -24,16 +24,19 @@
 // @encoding = utf-8
 // @timeout = -1
 
-function exec(string)
+function exec(inData, options)
 {
   var param = init_param();
 
   //calls dialog if inData contains no param
   /*var rtnDialog = true;
-  if (string.length > 0) {
-      param = JSON.parse(string);
+  if (inData && inData.length > 0) {
+      param = JSON.parse(inData);
   }
-  else {
+  else if (options && options.useLastSettings) {
+      param = JSON.parse(Banana.document.getScriptSettings());
+   }
+   else {
       rtnDialog = dialogExec(param);
   }
 
@@ -289,7 +292,7 @@ function loadAmounts(roleObject, context, accounts)
 	if ( xbrlIdCredit && amount < 0)  {
 		xbrlCurrent = xbrlIdCredit;
 	}
-	if (roleObject[xbrlCurrent] && roleObject[xbrlCurrent].balance == 'credit') {
+	if (bClass=='2' || (roleObject[xbrlCurrent] && roleObject[xbrlCurrent].balance == 'credit')) {
 		amount = amount*-1;
 	}
 	if (roleObject[xbrlCurrent])

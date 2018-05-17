@@ -1,4 +1,4 @@
-// Copyright [2014] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2018] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+// @api = 1.0
 // @id = xbrlcreateinstance_hgb54
 // @doctype = *.*
 // @publisher = Banana.ch SA
-// @pubdate = 2017-06-02
+// @pubdate = 2018-05-17
 // @description = Xbrl HGB 5.4 Instance Creation
 // @task = export.file
 // @exportfilename = <Date>_xbrl54_file
@@ -24,16 +25,19 @@
 // @encoding = utf-8
 // @timeout = -1
 
-function exec(string)
+function exec(inData, options)
 {
   var param = init_param();
 
   //calls dialog if inData contains no param
   /*var rtnDialog = true;
-  if (string.length > 0) {
-      param = JSON.parse(string);
+  if (inData && inData.length > 0) {
+      param = JSON.parse(inData);
   }
-  else {
+  else if (options && options.useLastSettings) {
+      param = JSON.parse(Banana.document.getScriptSettings());
+   }
+   else {
       rtnDialog = dialogExec(param);
   }
 
@@ -289,7 +293,7 @@ function loadAmounts(roleObject, context, accounts)
 	if ( xbrlIdCredit && amount < 0)  {
 		xbrlCurrent = xbrlIdCredit;
 	}
-	if (roleObject[xbrlCurrent] && roleObject[xbrlCurrent].balance == 'credit') {
+	if (bClass=='2' || (roleObject[xbrlCurrent] && roleObject[xbrlCurrent].balance == 'credit')) {
 		amount = amount*-1;
 	}
 	if (roleObject[xbrlCurrent])

@@ -1,13 +1,16 @@
-function exec(string)
+function exec(inData, options)
 {
   var param = init_param();
 
   //calls dialog if inData contains no param
   /*var rtnDialog = true;
-  if (string.length > 0) {
-      param = JSON.parse(string);
+  if (inData && inData.length > 0) {
+      param = JSON.parse(inData);
   }
-  else {
+  else if (options && options.useLastSettings) {
+      param = JSON.parse(Banana.document.getScriptSettings());
+   }
+   else {
       rtnDialog = dialogExec(param);
   }
 
