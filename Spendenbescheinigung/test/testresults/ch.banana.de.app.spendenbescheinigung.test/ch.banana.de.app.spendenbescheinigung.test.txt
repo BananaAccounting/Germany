@@ -1,0 +1,612 @@
+%%info_test_name{ch.banana.de.app.spendenbescheinigung.test}
+\documentclass{report}
+\usepackage{longtable}
+\usepackage{color}
+\usepackage{listings}
+\usepackage[margin=1cm]{geometry}
+\begin{document}
+\newenvironment{tablevalue}[2]{\textbf{Table: #1}\begin{longtable}[l]{#2}}{\end{longtable}}
+\newenvironment{reportvalue}[1]{\textbf{Report: #1}\\}{}
+\lstnewenvironment{jsonvalue}[1]{\textbf{Json: #1}\lstset{language=Java}}{}
+\lstnewenvironment{xmlvalue}[1]{\textbf{Xml: #1}\lstset{language=Xml}}{}
+\newcommand{\info}[2]{\textit{#1: #2}\\}
+\newcommand{\fatalerror}[1]{\textbf{\textcolor[rgb]{1,0,0}{Fatal error: #1}}\\}
+\newcommand{\keyvalue}[2]{\textbf{Keyvalue: #1} #2\\}
+\newcommand{\textvalue}[1]{#1\\}
+\newcommand{\excltest}[1]{\\Excluded from compare: #1}
+\newcommand{\lognewpage}{\newpage}
+\newenvironment{testcase}[1]{\section*{Test: #1}}{\newpage}
+\newenvironment{test}[1]{\section*{Test case: #1}}{}
+%Begin test data
+%%SCRIPT{/Users/ivan/Documents/GitHub/Germany/Spendenbescheinigung/test/ch.banana.de.app.spendenbescheinigung.test.js}
+%
+\begin{testcase}{ReportTest}
+\begin{test}{testBananaApp}
+\begin{reportvalue}{Whole year report}
+Banana.ch SA \\
+Via Trevano 7a, 6900 Lugano \\
+  \\
+  \\
+  \\
+Pinco Pallino \\
+Via Abc \\
+6963 Pregassona \\
+  \\
+  \\
+  \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l }
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Banana.ch SA \newline Via Trevano 7a \newline 6900 Lugano \newline \\
+\end{longtable}
+  \\
+Bestätigung über Geldzuwendungen/Mitgliedsbeitrag \\
+im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen \\
+  \\
+\begin{longtable}[l]{ l }
+Name und Anschrift des Zuwendenden: \newline Pinco Pallino \newline Via Abc, 6963 Pregassona \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Betrag der Zuwendung - in Ziffern - \newline 1'500.35 \newline  & - in Buchstaben - \newline eintausendfünfhundert 35/100 \newline  & Tag der Zuwendung:  \newline 01.01.2018 - 31.12.2018 \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l  l }
+Date  & Doc  & Description  & Amount EUR \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+30.03.2018  &  & donazione1  & 1'000.00 \\
+30.03.2018  &  & donazione2  & 500.35 \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\multicolumn{2}{l}{} & Summe  & 1'500.35 \\
+\end{longtable}
+  \\
+  \\
+Prova testo 1 \\
+  \\
+Prova testo 2 \\
+  \\
+Prova testo 3 \\
+  \\
+Prova testo 4 \\
+  \\
+Prova testo 5 \\
+  \\
+Prova testo 6 \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Lugano, giugno 2018  & Pinco Pallino  &                       \\
+\multicolumn{3}{l}{}\\
+\multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
+\end{longtable}
+  \\
+Hinweis: \\
+Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG). \\
+  \\
+Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungs-bescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO). \\
+\end{reportvalue}
+\begin{reportvalue}{First semester report}
+Banana.ch SA \\
+Via Trevano 7a, 6900 Lugano \\
+  \\
+  \\
+  \\
+Pinco Pallino \\
+Via Abc \\
+6963 Pregassona \\
+  \\
+  \\
+  \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l }
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Banana.ch SA \newline Via Trevano 7a \newline 6900 Lugano \newline \\
+\end{longtable}
+  \\
+Bestätigung über Geldzuwendungen/Mitgliedsbeitrag \\
+im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen \\
+  \\
+\begin{longtable}[l]{ l }
+Name und Anschrift des Zuwendenden: \newline Pinco Pallino \newline Via Abc, 6963 Pregassona \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Betrag der Zuwendung - in Ziffern - \newline 1'500.35 \newline  & - in Buchstaben - \newline eintausendfünfhundert 35/100 \newline  & Tag der Zuwendung:  \newline 01.01.2018 - 30.06.2018 \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l  l }
+Date  & Doc  & Description  & Amount EUR \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+30.03.2018  &  & donazione1  & 1'000.00 \\
+30.03.2018  &  & donazione2  & 500.35 \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\multicolumn{2}{l}{} & Summe  & 1'500.35 \\
+\end{longtable}
+  \\
+  \\
+Prova testo 1 \\
+  \\
+Prova testo 2 \\
+  \\
+Prova testo 3 \\
+  \\
+Prova testo 4 \\
+  \\
+Prova testo 5 \\
+  \\
+Prova testo 6 \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Lugano, giugno 2018  & Pinco Pallino  &                       \\
+\multicolumn{3}{l}{}\\
+\multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
+\end{longtable}
+  \\
+Hinweis: \\
+Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG). \\
+  \\
+Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungs-bescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO). \\
+\end{reportvalue}
+\begin{reportvalue}{Second semester report}
+Banana.ch SA \\
+Via Trevano 7a, 6900 Lugano \\
+  \\
+  \\
+  \\
+Pinco Pallino \\
+Via Abc \\
+6963 Pregassona \\
+  \\
+  \\
+  \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l }
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Banana.ch SA \newline Via Trevano 7a \newline 6900 Lugano \newline \\
+\end{longtable}
+  \\
+Bestätigung über Geldzuwendungen/Mitgliedsbeitrag \\
+im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen \\
+  \\
+\begin{longtable}[l]{ l }
+Name und Anschrift des Zuwendenden: \newline Pinco Pallino \newline Via Abc, 6963 Pregassona \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Betrag der Zuwendung - in Ziffern - \newline 0.00 \newline  & - in Buchstaben - \newline  00/100 \newline  & Tag der Zuwendung:  \newline 01.07.2018 - 31.12.2018 \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l  l }
+Date  & Doc  & Description  & Amount EUR \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\multicolumn{2}{l}{} & Summe  & 0.00 \\
+\end{longtable}
+  \\
+  \\
+Prova testo 1 \\
+  \\
+Prova testo 2 \\
+  \\
+Prova testo 3 \\
+  \\
+Prova testo 4 \\
+  \\
+Prova testo 5 \\
+  \\
+Prova testo 6 \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Lugano, giugno 2018  & Pinco Pallino  &                       \\
+\multicolumn{3}{l}{}\\
+\multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
+\end{longtable}
+  \\
+Hinweis: \\
+Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG). \\
+  \\
+Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungs-bescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO). \\
+\end{reportvalue}
+\begin{reportvalue}{First quarter report}
+Banana.ch SA \\
+Via Trevano 7a, 6900 Lugano \\
+  \\
+  \\
+  \\
+Pinco Pallino \\
+Via Abc \\
+6963 Pregassona \\
+  \\
+  \\
+  \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l }
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Banana.ch SA \newline Via Trevano 7a \newline 6900 Lugano \newline \\
+\end{longtable}
+  \\
+Bestätigung über Geldzuwendungen/Mitgliedsbeitrag \\
+im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen \\
+  \\
+\begin{longtable}[l]{ l }
+Name und Anschrift des Zuwendenden: \newline Pinco Pallino \newline Via Abc, 6963 Pregassona \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Betrag der Zuwendung - in Ziffern - \newline 1'500.35 \newline  & - in Buchstaben - \newline eintausendfünfhundert 35/100 \newline  & Tag der Zuwendung:  \newline 01.01.2018 - 31.03.2018 \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l  l }
+Date  & Doc  & Description  & Amount EUR \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+30.03.2018  &  & donazione1  & 1'000.00 \\
+30.03.2018  &  & donazione2  & 500.35 \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\multicolumn{2}{l}{} & Summe  & 1'500.35 \\
+\end{longtable}
+  \\
+  \\
+Prova testo 1 \\
+  \\
+Prova testo 2 \\
+  \\
+Prova testo 3 \\
+  \\
+Prova testo 4 \\
+  \\
+Prova testo 5 \\
+  \\
+Prova testo 6 \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Lugano, giugno 2018  & Pinco Pallino  &                       \\
+\multicolumn{3}{l}{}\\
+\multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
+\end{longtable}
+  \\
+Hinweis: \\
+Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG). \\
+  \\
+Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungs-bescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO). \\
+\end{reportvalue}
+\begin{reportvalue}{Second quarter report}
+Banana.ch SA \\
+Via Trevano 7a, 6900 Lugano \\
+  \\
+  \\
+  \\
+Pinco Pallino \\
+Via Abc \\
+6963 Pregassona \\
+  \\
+  \\
+  \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l }
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Banana.ch SA \newline Via Trevano 7a \newline 6900 Lugano \newline \\
+\end{longtable}
+  \\
+Bestätigung über Geldzuwendungen/Mitgliedsbeitrag \\
+im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen \\
+  \\
+\begin{longtable}[l]{ l }
+Name und Anschrift des Zuwendenden: \newline Pinco Pallino \newline Via Abc, 6963 Pregassona \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Betrag der Zuwendung - in Ziffern - \newline 0.00 \newline  & - in Buchstaben - \newline  00/100 \newline  & Tag der Zuwendung:  \newline 01.04.2018 - 30.06.2018 \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l  l }
+Date  & Doc  & Description  & Amount EUR \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\multicolumn{2}{l}{} & Summe  & 0.00 \\
+\end{longtable}
+  \\
+  \\
+Prova testo 1 \\
+  \\
+Prova testo 2 \\
+  \\
+Prova testo 3 \\
+  \\
+Prova testo 4 \\
+  \\
+Prova testo 5 \\
+  \\
+Prova testo 6 \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Lugano, giugno 2018  & Pinco Pallino  &                       \\
+\multicolumn{3}{l}{}\\
+\multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
+\end{longtable}
+  \\
+Hinweis: \\
+Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG). \\
+  \\
+Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungs-bescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO). \\
+\end{reportvalue}
+\begin{reportvalue}{Third quarter report}
+Banana.ch SA \\
+Via Trevano 7a, 6900 Lugano \\
+  \\
+  \\
+  \\
+Pinco Pallino \\
+Via Abc \\
+6963 Pregassona \\
+  \\
+  \\
+  \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l }
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Banana.ch SA \newline Via Trevano 7a \newline 6900 Lugano \newline \\
+\end{longtable}
+  \\
+Bestätigung über Geldzuwendungen/Mitgliedsbeitrag \\
+im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen \\
+  \\
+\begin{longtable}[l]{ l }
+Name und Anschrift des Zuwendenden: \newline Pinco Pallino \newline Via Abc, 6963 Pregassona \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Betrag der Zuwendung - in Ziffern - \newline 0.00 \newline  & - in Buchstaben - \newline  00/100 \newline  & Tag der Zuwendung:  \newline 01.07.2018 - 30.09.2018 \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l  l }
+Date  & Doc  & Description  & Amount EUR \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\multicolumn{2}{l}{} & Summe  & 0.00 \\
+\end{longtable}
+  \\
+  \\
+Prova testo 1 \\
+  \\
+Prova testo 2 \\
+  \\
+Prova testo 3 \\
+  \\
+Prova testo 4 \\
+  \\
+Prova testo 5 \\
+  \\
+Prova testo 6 \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Lugano, giugno 2018  & Pinco Pallino  &                       \\
+\multicolumn{3}{l}{}\\
+\multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
+\end{longtable}
+  \\
+Hinweis: \\
+Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG). \\
+  \\
+Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungs-bescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO). \\
+\end{reportvalue}
+\begin{reportvalue}{Fourth quarter report}
+Banana.ch SA \\
+Via Trevano 7a, 6900 Lugano \\
+  \\
+  \\
+  \\
+Pinco Pallino \\
+Via Abc \\
+6963 Pregassona \\
+  \\
+  \\
+  \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l }
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Banana.ch SA \newline Via Trevano 7a \newline 6900 Lugano \newline \\
+\end{longtable}
+  \\
+Bestätigung über Geldzuwendungen/Mitgliedsbeitrag \\
+im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen \\
+  \\
+\begin{longtable}[l]{ l }
+Name und Anschrift des Zuwendenden: \newline Pinco Pallino \newline Via Abc, 6963 Pregassona \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Betrag der Zuwendung - in Ziffern - \newline 0.00 \newline  & - in Buchstaben - \newline  00/100 \newline  & Tag der Zuwendung:  \newline 01.10.2018 - 31.12.2018 \newline \\
+\end{longtable}
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l  l }
+Date  & Doc  & Description  & Amount EUR \\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\multicolumn{2}{l}{} & Summe  & 0.00 \\
+\end{longtable}
+  \\
+  \\
+Prova testo 1 \\
+  \\
+Prova testo 2 \\
+  \\
+Prova testo 3 \\
+  \\
+Prova testo 4 \\
+  \\
+Prova testo 5 \\
+  \\
+Prova testo 6 \\
+  \\
+  \\
+  \\
+\begin{longtable}[l]{ l  l  l }
+Lugano, giugno 2018  & Pinco Pallino  &                       \\
+\multicolumn{3}{l}{}\\
+\multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
+\end{longtable}
+  \\
+Hinweis: \\
+Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG). \\
+  \\
+Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungs-bescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO). \\
+\end{reportvalue}
+\keyvalue{Result}{Passed}
+\end{test}
+\begin{test}{testVerifyMethods}
+\keyvalue{Result}{Passed}
+\end{test}
+\end{testcase}
+\end{document}
