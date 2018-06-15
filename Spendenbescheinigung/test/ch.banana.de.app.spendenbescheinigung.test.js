@@ -105,8 +105,7 @@ ReportTest.prototype.testBananaApp = function() {
 
 //Function that create the report for the test
 ReportTest.prototype.report_test = function(banDoc, startDate, endDate, userParam, reportName) {
-  var isTest = true;
-  var report = createReport(banDoc, startDate, endDate, isTest, userParam);
+  var report = createReport(banDoc, startDate, endDate, userParam);
   Test.logger.addReport(reportName, report);
 }
 

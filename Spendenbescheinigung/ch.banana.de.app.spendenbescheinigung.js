@@ -35,8 +35,6 @@ function loadParam() {
 /* Main function */
 function exec() {
 
-	var isTest = false;
-
 	/* 1) Opens the dialog for the period choice */
 	var dateform = null;
 	if (options && options.useLastSettings) {
@@ -48,8 +46,18 @@ function exec() {
 	    return;
 	}
 
+    /* 1) Get user parameters from the dialog */
+    var userParam = initUserParam();
+    userParam = parametersDialog(userParam);
+    userParam = verifyUserParam(userParam);
+
+    var membershipList = checkMembershipList(Banana.document);
+    if (!arrayContains(membershipList, userParam.costcenter) || !userParam.costcenter) {
+        return;
+    }
+
 	/* 2) Creates the report */
-	var report = createReport(Banana.document, dateform.selectionStartDate, dateform.selectionEndDate, isTest);            
+	var report = createReport(Banana.document, dateform.selectionStartDate, dateform.selectionEndDate, userParam);            
 	var stylesheet = createStyleSheet();
 	Banana.Report.preview(report, stylesheet);
 }
@@ -61,23 +69,13 @@ function exec() {
 * The report is created using the selected period and the data of the dialog
 *
 **************************************************************************************/
-function createReport(banDoc, startDate, endDate, isTest, testParam) {
+function createReport(banDoc, startDate, endDate, userParam) {
 
     /* 1) Load parameters */
     param = loadParam();
 
 	/* 2) Create the report */
     var report = Banana.Report.newReport(param.reportName);
-
-    if (!isTest) {
-        /* 1. Get parameters */
-        var userParam = initUserParam();
-        userParam = parametersDialog(userParam);
-        userParam = verifyUserParam(userParam, isTest);
-    }
-    else {
-        var userParam = testParam;
-    }
 
     /* Donor Receiver  */
     report.addParagraph(userParam.text01, "");
@@ -482,6 +480,27 @@ function printTransactionTable(banDoc, report, costcenter, account, startDate, e
     tableRow.addCell(Banana.Converter.toLocaleNumberFormat(total), "bold right borderTop borderBottom", 1);
 }
 
+function checkMembershipList(banDoc) {
+    var membershipList = [];
+    var accountsTable = banDoc.table("Accounts");
+    for (var i = 0; i < accountsTable.rowCount; i++) {
+        var tRow = accountsTable.row(i);
+        var account = tRow.value("Account");
+        if (account.substring(0,1) === "." || account.substring(0,1) === "," || account.substring(0,1) === ";") {
+            membershipList.push(account);
+        }
+    }
+    return membershipList;
+}
+
+function arrayContains(array, value) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === value) {
+            return true;
+        }
+    }
+    return false;
+}
 
 /**************************************************************************************
 *
@@ -1333,13 +1352,10 @@ function initUserParam() {
     return userParam;
 }
 
-function verifyUserParam(userParam, isTest) {
+function verifyUserParam(userParam) {
 
     if (!userParam.costcenter) {
         userParam.costcenter = '';
-        if (!isTest) {
-            Banana.document.addMessage('Cost center not selected');
-        }
     }
 
     // if (!userParam.account) {
