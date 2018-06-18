@@ -1,8 +1,8 @@
 Test Banana Apps
 ----------------
 
-Date:        2018-06-15 12:53:08.373
-Duration:    00:00:00.235
+Date:        2018-06-18 08:57:54.421
+Duration:    00:00:00.228
 Application: Banana90 9.0.3
 OS:          macOS Sierra (10.12)
 Qt:          5.9.0

@@ -24,6 +24,7 @@
 
 
 var param = {};
+var selectedCostCenter = '';
 
 /* Function that loads some parameters */
 function loadParam() {
@@ -488,6 +489,7 @@ function checkMembershipList(banDoc) {
         var account = tRow.value("Account");
         if (account.substring(0,1) === "." || account.substring(0,1) === "," || account.substring(0,1) === ";") {
             membershipList.push(account);
+            //membershipList.push(account + " " + tRow.value("Description"));
         }
     }
     return membershipList;
@@ -1036,7 +1038,7 @@ function convertParam(userParam) {
     currentParam.name = 'costcenter';
     currentParam.title = 'Mitgliedkonto';
     currentParam.type = 'string';
-    currentParam.value = userParam.costcenter ? userParam.costcenter : '';
+    currentParam.value = selectedCostCenter;
     currentParam.readValue = function() {
         userParam.costcenter = this.value;
     }
@@ -1064,12 +1066,24 @@ function convertParam(userParam) {
     }
     convertedParam.data.push(currentParam);
 
+    // Address
+    var currentParam = {};
+    currentParam.name = 'address';
+    currentParam.title = 'Aussteller';
+    currentParam.type = 'string';
+    currentParam.value = '';
+    currentParam.readValue = function() {
+        userParam.address = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
     // Address row 1
     var currentParam = {};
     currentParam.name = 'text01';
-    currentParam.title = 'Aussteller (Zeile 1)';
+    currentParam.parentObject = 'address';
+    currentParam.title = 'Zeile 1';
     currentParam.type = 'string';
-    currentParam.value = userParam.text01 ? userParam.text01 : '...';
+    currentParam.value = userParam.text01 ? userParam.text01 : '';
     currentParam.readValue = function() {
         userParam.text01 = this.value;
     }
@@ -1078,9 +1092,10 @@ function convertParam(userParam) {
     // Address row 2
     var currentParam = {};
     currentParam.name = 'text02';
-    currentParam.title = 'Aussteller (Zeile 2)';
+    currentParam.parentObject = 'address';
+    currentParam.title = 'Zeile 2';
     currentParam.type = 'string';
-    currentParam.value = userParam.text02 ? userParam.text02 : '...';
+    currentParam.value = userParam.text02 ? userParam.text02 : '';
     currentParam.readValue = function() {
         userParam.text02 = this.value;
     }
@@ -1089,9 +1104,10 @@ function convertParam(userParam) {
     // Address row 3
     var currentParam = {};
     currentParam.name = 'text03';
-    currentParam.title = 'Aussteller (Zeile 3)';
+    currentParam.parentObject = 'address';
+    currentParam.title = 'Zeile 3';
     currentParam.type = 'string';
-    currentParam.value = userParam.text03 ? userParam.text03 : '...';
+    currentParam.value = userParam.text03 ? userParam.text03 : '';
     currentParam.readValue = function() {
         userParam.text03 = this.value;
     }
@@ -1298,7 +1314,7 @@ function convertParam(userParam) {
     // luogo e data
     var currentParam = {};
     currentParam.name = 'localityAndDate';
-    currentParam.title = 'Ord und Datum';
+    currentParam.title = 'Ort und Datum';
     currentParam.type = 'string';
     currentParam.value = userParam.localityAndDate ? userParam.localityAndDate : '...';
     currentParam.readValue = function() {
@@ -1325,9 +1341,10 @@ function initUserParam() {
     userParam.costcenter = '';
     // userParam.account = '';
     userParam.transactions = true;
-    userParam.text01 = '...';
-    userParam.text02 = '...';
-    userParam.text03 = '...';
+    userParam.address = '';
+    userParam.text01 = '';
+    userParam.text02 = '';
+    userParam.text03 = '';
     userParam.text04 = '';
     userParam.text04bold = false;
     userParam.text04border = false;
@@ -1349,6 +1366,14 @@ function initUserParam() {
     userParam.localityAndDate = '...';
     userParam.signature = '...';
 
+    //Takes the account from the cursor. If it is a cost center use it
+    var accountsTable = Banana.document.table('Accounts');
+    var selectedAccount = accountsTable.row(Banana.document.cursor.rowNr).value('Account');
+    if (selectedAccount.substring(0,1) === "." || selectedAccount.substring(0,1) === "," || selectedAccount.substring(0,1) === ";") {
+        selectedCostCenter = selectedAccount;
+        userParam.costcenter = selectedCostCenter;
+    }
+
     return userParam;
 }
 
@@ -1366,16 +1391,20 @@ function verifyUserParam(userParam) {
         userParam.transactions = false;
     }
 
+    if (!userParam.address) {
+        userParam.address = '';
+    }
+
     if (!userParam.text01) {
-        userParam.text01 = '...';
+        userParam.text01 = '';
     }
 
     if (!userParam.text02) {
-        userParam.text02 = '...';
+        userParam.text02 = '';
     }
 
     if (!userParam.text03) {
-        userParam.text03 = '...';
+        userParam.text03 = '';
     }
 
     //Free Text 1
@@ -1478,7 +1507,7 @@ function parametersDialog(userParam) {
     }
     else {
 
-        userParam.costcenter = Banana.Ui.getText('costcenter', 'Cost center (donor)', '');
+        userParam.costcenter = Banana.Ui.getText('costcenter', 'Cost center (donor)', selectedCostCenter);
         if (userParam.costcenter === undefined) {
             return;
         }
@@ -1493,17 +1522,22 @@ function parametersDialog(userParam) {
             return;
         }
 
-        userParam.text01 = Banana.Ui.getText('text01', 'Aussteller (Zeile 1)', '');
+        // userParam.address = Banana.Ui.getText('address', 'Aussteller', '');
+        // if (userParam.address === undefined) {
+        //     return;
+        // }
+
+        userParam.text01 = Banana.Ui.getText('text01', 'Zeile 1', '');
         if (userParam.text01 === undefined) {
             return;
         }
 
-        userParam.text02 = Banana.Ui.getText('text02', 'Aussteller (Zeile 2)', '');
+        userParam.text02 = Banana.Ui.getText('text02', 'Zeile 2', '');
         if (userParam.text02 === undefined) {
             return;
         }
 
-        userParam.text03 = Banana.Ui.getText('text03', 'Aussteller (Zeile 3)', '');
+        userParam.text03 = Banana.Ui.getText('text03', 'Zeile 3', '');
         if (userParam.text03 === undefined) {
             return;
         }
