@@ -24,7 +24,7 @@
 
 
 var param = {};
-var selectedCostCenter = '';
+var cursorSelectedCostCenter = '';
 
 /* Function that loads some parameters */
 function loadParam() {
@@ -49,10 +49,13 @@ function exec() {
 
     /* 1) Get user parameters from the dialog */
     var userParam = initUserParam();
-    userParam = parametersDialog(userParam);
-    userParam = verifyUserParam(userParam);
+    var savedParam = Banana.document.getScriptSettings();
+    if (savedParam.length > 0) {
+        userParam = parametersDialog(savedParam);
+        userParam = verifyUserParam(userParam);
+    }
 
-    var membershipList = checkMembershipList(Banana.document);
+    var membershipList = getMemebershipList(Banana.document);
     if (!arrayContains(membershipList, userParam.costcenter) || !userParam.costcenter) {
         return;
     }
@@ -481,7 +484,7 @@ function printTransactionTable(banDoc, report, costcenter, account, startDate, e
     tableRow.addCell(Banana.Converter.toLocaleNumberFormat(total), "bold right borderTop borderBottom", 1);
 }
 
-function checkMembershipList(banDoc) {
+function getMemebershipList(banDoc) {
     var membershipList = [];
     var accountsTable = banDoc.table("Accounts");
     for (var i = 0; i < accountsTable.rowCount; i++) {
@@ -489,7 +492,19 @@ function checkMembershipList(banDoc) {
         var account = tRow.value("Account");
         if (account.substring(0,1) === "." || account.substring(0,1) === "," || account.substring(0,1) === ";") {
             membershipList.push(account);
-            //membershipList.push(account + " " + tRow.value("Description"));
+        }
+    }
+    return membershipList;
+}
+
+function getMemebershipListWithDescription(banDoc) {
+    var membershipList = [];
+    var accountsTable = banDoc.table("Accounts");
+    for (var i = 0; i < accountsTable.rowCount; i++) {
+        var tRow = accountsTable.row(i);
+        var account = tRow.value("Account");
+        if (account.substring(0,1) === "." || account.substring(0,1) === "," || account.substring(0,1) === ";") {
+            membershipList.push(account + " " + tRow.value("Description"));
         }
     }
     return membershipList;
@@ -1038,7 +1053,7 @@ function convertParam(userParam) {
     currentParam.name = 'costcenter';
     currentParam.title = 'Mitgliedkonto';
     currentParam.type = 'string';
-    currentParam.value = selectedCostCenter;
+    currentParam.value = cursorSelectedCostCenter;
     currentParam.readValue = function() {
         userParam.costcenter = this.value;
     }
@@ -1370,8 +1385,8 @@ function initUserParam() {
     var accountsTable = Banana.document.table('Accounts');
     var selectedAccount = accountsTable.row(Banana.document.cursor.rowNr).value('Account');
     if (selectedAccount.substring(0,1) === "." || selectedAccount.substring(0,1) === "," || selectedAccount.substring(0,1) === ";") {
-        selectedCostCenter = selectedAccount;
-        userParam.costcenter = selectedCostCenter;
+        cursorSelectedCostCenter = selectedAccount;
+        userParam.costcenter = cursorSelectedCostCenter;
     }
 
     return userParam;
@@ -1491,9 +1506,9 @@ function parametersDialog(userParam) {
     if (savedParam.length > 0) {
         userParam = JSON.parse(savedParam);
     }
-    
+
     if (typeof(Banana.Ui.openPropertyEditor) !== 'undefined') {
-        var dialogTitle = param.xmldialogtitle;
+        var dialogTitle = userParam.xmldialogtitle;
         var convertedParam = convertParam(userParam);
         var pageAnchor = 'dlgSettings';
         if (!Banana.Ui.openPropertyEditor(dialogTitle, convertedParam, pageAnchor)) {
@@ -1507,8 +1522,19 @@ function parametersDialog(userParam) {
     }
     else {
 
-        userParam.costcenter = Banana.Ui.getText('costcenter', 'Mitgliedkonto', selectedCostCenter);
-        if (userParam.costcenter === undefined) {
+        //userParam.costcenter = Banana.Ui.getText('costcenter', 'Mitgliedkonto', cursorSelectedCostCenter);
+        var membershipList = getMemebershipListWithDescription(Banana.document);
+        var defaultItem = '';
+        for (var i = 0; i < membershipList.length; i++) {
+            if (membershipList[i].split(' ')[0] === cursorSelectedCostCenter) {
+                defaultItem = i;
+            }
+        } 
+        userParam.costcenter = Banana.Ui.getItem('costcenter', 'Mitgliedkonto', membershipList, defaultItem, false);
+        if (userParam.costcenter) {
+            //removes the description text in order to have only the account (es. ";S001 Socio 1" => ";S001")
+            userParam.costcenter = userParam.costcenter.split(' ')[0];            
+        } else {
             return;
         }
 
