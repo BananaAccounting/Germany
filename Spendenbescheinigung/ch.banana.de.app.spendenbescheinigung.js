@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2018-06-15
+// @pubdate = 2018-06-19
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung
 // @description.de = Spendenbescheinigung
@@ -1058,7 +1058,7 @@ function convertParam(userParam) {
     // Transaction table
     var currentParam = {};
     currentParam.name = 'transactions';
-    currentParam.title = 'Buchungen anzeigen';
+    currentParam.title = 'Buchungen anzeigen  (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.transactions ? true : false;
     currentParam.readValue = function() {
@@ -1081,7 +1081,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text01';
     currentParam.parentObject = 'address';
-    currentParam.title = 'Zeile 1';
+    currentParam.title = 'Aussteller Zeile 1';
     currentParam.type = 'string';
     currentParam.value = userParam.text01 ? userParam.text01 : '';
     currentParam.readValue = function() {
@@ -1093,7 +1093,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text02';
     currentParam.parentObject = 'address';
-    currentParam.title = 'Zeile 2';
+    currentParam.title = 'Aussteller Zeile 2';
     currentParam.type = 'string';
     currentParam.value = userParam.text02 ? userParam.text02 : '';
     currentParam.readValue = function() {
@@ -1105,7 +1105,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text03';
     currentParam.parentObject = 'address';
-    currentParam.title = 'Zeile 3';
+    currentParam.title = 'Aussteller Zeile 3';
     currentParam.type = 'string';
     currentParam.value = userParam.text03 ? userParam.text03 : '';
     currentParam.readValue = function() {
@@ -1127,7 +1127,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text04bold';
     currentParam.parentObject = 'text04';
-    currentParam.title = 'Fett';
+    currentParam.title = 'Fett (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text04bold ? true : false;
     currentParam.readValue = function() {
@@ -1138,7 +1138,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text04border';
     currentParam.parentObject = 'text04';
-    currentParam.title = 'Rahmen';
+    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text04border ? true : false;
     currentParam.readValue = function() {
@@ -1160,7 +1160,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text05bold';
     currentParam.parentObject = 'text05';
-    currentParam.title = 'Fett';
+    currentParam.title = 'Fett (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text05bold ? true : false;
     currentParam.readValue = function() {
@@ -1171,7 +1171,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text05border';
     currentParam.parentObject = 'text05';
-    currentParam.title = 'Rahmen';
+    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text05border ? true : false;
     currentParam.readValue = function() {
@@ -1193,7 +1193,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text06bold';
     currentParam.parentObject = 'text06';
-    currentParam.title = 'Fett';
+    currentParam.title = 'Fett (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text06bold ? true : false;
     currentParam.readValue = function() {
@@ -1204,7 +1204,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text06border';
     currentParam.parentObject = 'text06';
-    currentParam.title = 'Rahmen';
+    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text06border ? true : false;
     currentParam.readValue = function() {
@@ -1226,7 +1226,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text07bold';
     currentParam.parentObject = 'text07';
-    currentParam.title = 'Fett';
+    currentParam.title = 'Fett (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text07bold ? true : false;
     currentParam.readValue = function() {
@@ -1237,7 +1237,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text07border';
     currentParam.parentObject = 'text07';
-    currentParam.title = 'Rahmen';
+    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text07border ? true : false;
     currentParam.readValue = function() {
@@ -1259,7 +1259,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text08bold';
     currentParam.parentObject = 'text08';
-    currentParam.title = 'Fett';
+    currentParam.title = 'Fett (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text08bold ? true : false;
     currentParam.readValue = function() {
@@ -1270,7 +1270,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text08border';
     currentParam.parentObject = 'text08';
-    currentParam.title = 'Rahmen';
+    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text08border ? true : false;
     currentParam.readValue = function() {
@@ -1292,7 +1292,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text09bold';
     currentParam.parentObject = 'text09';
-    currentParam.title = 'Fett';
+    currentParam.title = 'Fett (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text09bold ? true : false;
     currentParam.readValue = function() {
@@ -1303,7 +1303,7 @@ function convertParam(userParam) {
     var currentParam = {};
     currentParam.name = 'text09border';
     currentParam.parentObject = 'text09';
-    currentParam.title = 'Rahmen';
+    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
     currentParam.type = 'bool';
     currentParam.value = userParam.text09border ? true : false;
     currentParam.readValue = function() {
@@ -1316,7 +1316,7 @@ function convertParam(userParam) {
     currentParam.name = 'localityAndDate';
     currentParam.title = 'Ort und Datum';
     currentParam.type = 'string';
-    currentParam.value = userParam.localityAndDate ? userParam.localityAndDate : '...';
+    currentParam.value = userParam.localityAndDate ? userParam.localityAndDate : '';
     currentParam.readValue = function() {
         userParam.localityAndDate = this.value;
     }
@@ -1327,7 +1327,7 @@ function convertParam(userParam) {
     currentParam.name = 'signature';
     currentParam.title = 'Unterschrift';
     currentParam.type = 'string';
-    currentParam.value = userParam.signature ? userParam.signature : '...';
+    currentParam.value = userParam.signature ? userParam.signature : '';
     currentParam.readValue = function() {
         userParam.signature = this.value;
     }
@@ -1363,8 +1363,8 @@ function initUserParam() {
     userParam.text09 = '';
     userParam.text09bold = false;
     userParam.text09border = false;
-    userParam.localityAndDate = '...';
-    userParam.signature = '...';
+    userParam.localityAndDate = '';
+    userParam.signature = '';
 
     //Takes the account from the cursor. If it is a cost center use it
     var accountsTable = Banana.document.table('Accounts');
@@ -1507,7 +1507,7 @@ function parametersDialog(userParam) {
     }
     else {
 
-        userParam.costcenter = Banana.Ui.getText('costcenter', 'Cost center (donor)', selectedCostCenter);
+        userParam.costcenter = Banana.Ui.getText('costcenter', 'Mitgliedkonto', selectedCostCenter);
         if (userParam.costcenter === undefined) {
             return;
         }
@@ -1517,7 +1517,7 @@ function parametersDialog(userParam) {
         //     return;
         // }
 
-        userParam.transactions = Banana.Ui.getInt('transactions', 'Show transactions', userParam.transactions);
+        userParam.transactions = Banana.Ui.getInt('transactions', 'Buchungen anzeigen  (0=Nein; 1=Ja)', userParam.transactions);
         if (userParam.transactions === undefined) {
             return;
         }
@@ -1527,17 +1527,17 @@ function parametersDialog(userParam) {
         //     return;
         // }
 
-        userParam.text01 = Banana.Ui.getText('text01', 'Zeile 1', '');
+        userParam.text01 = Banana.Ui.getText('text01', 'Aussteller Zeile 1', '');
         if (userParam.text01 === undefined) {
             return;
         }
 
-        userParam.text02 = Banana.Ui.getText('text02', 'Zeile 2', '');
+        userParam.text02 = Banana.Ui.getText('text02', 'Aussteller Zeile 2', '');
         if (userParam.text02 === undefined) {
             return;
         }
 
-        userParam.text03 = Banana.Ui.getText('text03', 'Zeile 3', '');
+        userParam.text03 = Banana.Ui.getText('text03', 'Aussteller Zeile 3', '');
         if (userParam.text03 === undefined) {
             return;
         }
@@ -1547,11 +1547,11 @@ function parametersDialog(userParam) {
         if (userParam.text04 === undefined) {
             return;
         }
-        userParam.text04bold = Banana.Ui.getInt('text04bold', 'Bold text', userParam.text04bold);
+        userParam.text04bold = Banana.Ui.getInt('text04bold', 'Fett (0=Nein; 1=Ja)', userParam.text04bold);
         if (userParam.text04bold === undefined) {
             return;
         }
-        userParam.text04border = Banana.Ui.getInt('text04border', 'Border around text', userParam.text04border);
+        userParam.text04border = Banana.Ui.getInt('text04border', 'Rahmen (0=Nein; 1=Ja)', userParam.text04border);
         if (userParam.text04border === undefined) {
             return;
         }
@@ -1561,11 +1561,11 @@ function parametersDialog(userParam) {
         if (userParam.text05 === undefined) {
             return;
         }
-        userParam.text05bold = Banana.Ui.getInt('text05bold', 'Bold text', userParam.text05bold);
+        userParam.text05bold = Banana.Ui.getInt('text05bold', 'Fett (0=Nein; 1=Ja)', userParam.text05bold);
         if (userParam.text05bold === undefined) {
             return;
         }
-        userParam.text05border = Banana.Ui.getInt('text05border', 'Border around text', userParam.text05border);
+        userParam.text05border = Banana.Ui.getInt('text05border', 'Rahmen (0=Nein; 1=Ja)', userParam.text05border);
         if (userParam.text05border === undefined) {
             return;
         }
@@ -1575,11 +1575,11 @@ function parametersDialog(userParam) {
         if (userParam.text06 === undefined) {
             return;
         }
-        userParam.text06bold = Banana.Ui.getInt('text06bold', 'Bold text', userParam.text06bold);
+        userParam.text06bold = Banana.Ui.getInt('text06bold', 'Fett (0=Nein; 1=Ja)', userParam.text06bold);
         if (userParam.text06bold === undefined) {
             return;
         }
-        userParam.text06border = Banana.Ui.getInt('text06border', 'Border around text', userParam.text06border);
+        userParam.text06border = Banana.Ui.getInt('text06border', 'Rahmen (0=Nein; 1=Ja)', userParam.text06border);
         if (userParam.text06border === undefined) {
             return;
         }
@@ -1589,11 +1589,11 @@ function parametersDialog(userParam) {
         if (userParam.text07 === undefined) {
             return;
         }
-        userParam.text07bold = Banana.Ui.getInt('text07bold', 'Bold text', userParam.text07bold);
+        userParam.text07bold = Banana.Ui.getInt('text07bold', 'Fett (0=Nein; 1=Ja)', userParam.text07bold);
         if (userParam.text07bold === undefined) {
             return;
         }
-        userParam.text07border = Banana.Ui.getInt('text07border', 'Border around text', userParam.text07border);
+        userParam.text07border = Banana.Ui.getInt('text07border', 'Rahmen (0=Nein; 1=Ja)', userParam.text07border);
         if (userParam.text07border === undefined) {
             return;
         }
@@ -1603,11 +1603,11 @@ function parametersDialog(userParam) {
         if (userParam.text08 === undefined) {
             return;
         }
-        userParam.text08bold = Banana.Ui.getInt('text08bold', 'Bold text', userParam.text08bold);
+        userParam.text08bold = Banana.Ui.getInt('text08bold', 'Fett (0=Nein; 1=Ja)', userParam.text08bold);
         if (userParam.text08bold === undefined) {
             return;
         }
-        userParam.text08border = Banana.Ui.getInt('text08border', 'Border around text', userParam.text08border);
+        userParam.text08border = Banana.Ui.getInt('text08border', 'Rahmen (0=Nein; 1=Ja)', userParam.text08border);
         if (userParam.text08border === undefined) {
             return;
         }
@@ -1617,21 +1617,21 @@ function parametersDialog(userParam) {
         if (userParam.text09 === undefined) {
             return;
         }
-        userParam.text09bold = Banana.Ui.getInt('text09bold', 'Bold text', userParam.text09bold);
+        userParam.text09bold = Banana.Ui.getInt('text09bold', 'Fett (0=Nein; 1=Ja)', userParam.text09bold);
         if (userParam.text09bold === undefined) {
             return;
         }
-        userParam.text09border = Banana.Ui.getInt('text09border', 'Border around text', userParam.text09border);
+        userParam.text09border = Banana.Ui.getInt('text09border', 'Rahmen (0=Nein; 1=Ja)', userParam.text09border);
         if (userParam.text09border === undefined) {
             return;
         }
 
-        userParam.localityAndDate = Banana.Ui.getInt('localityAndDate', 'Locality and date', '');
+        userParam.localityAndDate = Banana.Ui.getText('localityAndDate', 'Ort und Datum', '');
         if (userParam.localityAndDate === undefined) {
             return;
         }
 
-        userParam.signature = Banana.Ui.getInt('signature', 'Signature', '');
+        userParam.signature = Banana.Ui.getText('signature', 'Unterschrift', '');
         if (userParam.signature === undefined) {
             return;
         }        
