@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2018-06-19
+// @pubdate = 2018-07-03
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung
 // @description.de = Spendenbescheinigung

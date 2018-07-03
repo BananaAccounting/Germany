@@ -1,0 +1,13 @@
+{
+    "category": "productivity",
+    "country": "germany",
+    "countryCode": "de",
+    "description.en": "Donation receipt",
+    "description.de": "Spendenbescheinigung",
+    "id": "ch.banana.de.app.spendenbescheinigung",
+    "language": "german",
+    "publisher": "Banana.ch",
+    "title.en": "Donation receipt",
+    "title.de": "Spendenbescheinigung",
+    "version": "1.0"
+}
