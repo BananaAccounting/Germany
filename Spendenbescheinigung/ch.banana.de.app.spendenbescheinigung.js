@@ -1530,7 +1530,7 @@ function parametersDialog(userParam) {
                 defaultItem = i;
             }
         } 
-        userParam.costcenter = Banana.Ui.getItem('costcenter', 'Mitgliedkonto', membershipList, defaultItem, false);
+        userParam.costcenter = Banana.Ui.getItem('', 'Mitgliedskonto', membershipList, defaultItem, false);
         if (userParam.costcenter) {
             //removes the description text in order to have only the account (es. ";S001 Socio 1" => ";S001")
             userParam.costcenter = userParam.costcenter.split(' ')[0];            
@@ -1543,7 +1543,7 @@ function parametersDialog(userParam) {
         //     return;
         // }
 
-        userParam.transactions = Banana.Ui.getInt('transactions', 'Buchungen anzeigen  (0=Nein; 1=Ja)', userParam.transactions);
+        userParam.transactions = Banana.Ui.getInt('', 'Buchungen anzeigen  (0=Nein; 1=Ja)', userParam.transactions);
         if (userParam.transactions === undefined) {
             return;
         }
@@ -1553,111 +1553,111 @@ function parametersDialog(userParam) {
         //     return;
         // }
 
-        userParam.text01 = Banana.Ui.getText('text01', 'Aussteller Zeile 1', '');
+        userParam.text01 = Banana.Ui.getText('', 'Aussteller Zeile 1', '');
         if (userParam.text01 === undefined) {
             return;
         }
 
-        userParam.text02 = Banana.Ui.getText('text02', 'Aussteller Zeile 2', '');
+        userParam.text02 = Banana.Ui.getText('', 'Aussteller Zeile 2', '');
         if (userParam.text02 === undefined) {
             return;
         }
 
-        userParam.text03 = Banana.Ui.getText('text03', 'Aussteller Zeile 3', '');
+        userParam.text03 = Banana.Ui.getText('', 'Aussteller Zeile 3', '');
         if (userParam.text03 === undefined) {
             return;
         }
 
         //Free text 1
-        userParam.text04 = Banana.Ui.getText('text04', 'Text 1', '');
+        userParam.text04 = Banana.Ui.getText('', 'Text 1', '');
         if (userParam.text04 === undefined) {
             return;
         }
-        userParam.text04bold = Banana.Ui.getInt('text04bold', 'Fett (0=Nein; 1=Ja)', userParam.text04bold);
+        userParam.text04bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text04bold);
         if (userParam.text04bold === undefined) {
             return;
         }
-        userParam.text04border = Banana.Ui.getInt('text04border', 'Rahmen (0=Nein; 1=Ja)', userParam.text04border);
+        userParam.text04border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text04border);
         if (userParam.text04border === undefined) {
             return;
         }
 
         //Free text 2
-        userParam.text05 = Banana.Ui.getText('text05', 'Text 2', '');
+        userParam.text05 = Banana.Ui.getText('', 'Text 2', '');
         if (userParam.text05 === undefined) {
             return;
         }
-        userParam.text05bold = Banana.Ui.getInt('text05bold', 'Fett (0=Nein; 1=Ja)', userParam.text05bold);
+        userParam.text05bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text05bold);
         if (userParam.text05bold === undefined) {
             return;
         }
-        userParam.text05border = Banana.Ui.getInt('text05border', 'Rahmen (0=Nein; 1=Ja)', userParam.text05border);
+        userParam.text05border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text05border);
         if (userParam.text05border === undefined) {
             return;
         }
 
         //Free text 3
-        userParam.text06 = Banana.Ui.getText('text06', 'Text 3', '');
+        userParam.text06 = Banana.Ui.getText('', 'Text 3', '');
         if (userParam.text06 === undefined) {
             return;
         }
-        userParam.text06bold = Banana.Ui.getInt('text06bold', 'Fett (0=Nein; 1=Ja)', userParam.text06bold);
+        userParam.text06bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text06bold);
         if (userParam.text06bold === undefined) {
             return;
         }
-        userParam.text06border = Banana.Ui.getInt('text06border', 'Rahmen (0=Nein; 1=Ja)', userParam.text06border);
+        userParam.text06border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text06border);
         if (userParam.text06border === undefined) {
             return;
         }
 
         //Free text 4
-        userParam.text07 = Banana.Ui.getText('text07', 'Text 4', '');
+        userParam.text07 = Banana.Ui.getText('', 'Text 4', '');
         if (userParam.text07 === undefined) {
             return;
         }
-        userParam.text07bold = Banana.Ui.getInt('text07bold', 'Fett (0=Nein; 1=Ja)', userParam.text07bold);
+        userParam.text07bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text07bold);
         if (userParam.text07bold === undefined) {
             return;
         }
-        userParam.text07border = Banana.Ui.getInt('text07border', 'Rahmen (0=Nein; 1=Ja)', userParam.text07border);
+        userParam.text07border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text07border);
         if (userParam.text07border === undefined) {
             return;
         }
 
         //Free text 5
-        userParam.text08 = Banana.Ui.getText('text08', 'Text 5', '');
+        userParam.text08 = Banana.Ui.getText('', 'Text 5', '');
         if (userParam.text08 === undefined) {
             return;
         }
-        userParam.text08bold = Banana.Ui.getInt('text08bold', 'Fett (0=Nein; 1=Ja)', userParam.text08bold);
+        userParam.text08bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text08bold);
         if (userParam.text08bold === undefined) {
             return;
         }
-        userParam.text08border = Banana.Ui.getInt('text08border', 'Rahmen (0=Nein; 1=Ja)', userParam.text08border);
+        userParam.text08border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text08border);
         if (userParam.text08border === undefined) {
             return;
         }
 
         //Free text 6
-        userParam.text09 = Banana.Ui.getText('text09', 'Text 6', '');
+        userParam.text09 = Banana.Ui.getText('', 'Text 6', '');
         if (userParam.text09 === undefined) {
             return;
         }
-        userParam.text09bold = Banana.Ui.getInt('text09bold', 'Fett (0=Nein; 1=Ja)', userParam.text09bold);
+        userParam.text09bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text09bold);
         if (userParam.text09bold === undefined) {
             return;
         }
-        userParam.text09border = Banana.Ui.getInt('text09border', 'Rahmen (0=Nein; 1=Ja)', userParam.text09border);
+        userParam.text09border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text09border);
         if (userParam.text09border === undefined) {
             return;
         }
 
-        userParam.localityAndDate = Banana.Ui.getText('localityAndDate', 'Ort und Datum', '');
+        userParam.localityAndDate = Banana.Ui.getText('', 'Ort und Datum', '');
         if (userParam.localityAndDate === undefined) {
             return;
         }
 
-        userParam.signature = Banana.Ui.getText('signature', 'Unterschrift', '');
+        userParam.signature = Banana.Ui.getText('', 'Unterschrift', '');
         if (userParam.signature === undefined) {
             return;
         }        
