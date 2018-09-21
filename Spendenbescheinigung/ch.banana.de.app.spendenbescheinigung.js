@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2018-07-03
+// @pubdate = 2018-09-21
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung
 // @description.de = Spendenbescheinigung
@@ -22,19 +22,10 @@
 // @doctype = *
 // @task = app.command
 
-
-var param = {};
-var cursorSelectedCostCenter = '';
-
-/* Function that loads some parameters */
-function loadParam() {
-    param = {};
-    param.reportName = "Spendenbescheinigung";
-    return param;
-}
-
-/* Main function */
-function exec() {
+function exec(inData, options) {
+    
+    if (!Banana.document)
+        return "@Cancel";
 
 	/* 1) Opens the dialog for the period choice */
 	var dateform = null;
@@ -44,313 +35,299 @@ function exec() {
 	    dateform = settingsDialog();
 	}
 	if (!dateform) {
-	    return;
+	    return "@Cancel";
 	}
 
-    /* 1) Get user parameters from the dialog */
+    /* 2) Get user parameters from the dialog */
     var userParam = initUserParam();
     var savedParam = Banana.document.getScriptSettings();
     if (savedParam.length > 0) {
         userParam = parametersDialog(savedParam);
-        userParam = verifyUserParam(userParam);
     }
 
-    var membershipList = getMemebershipList(Banana.document);
-    if (!arrayContains(membershipList, userParam.costcenter) || !userParam.costcenter) {
-        return;
+    if (!userParam) {
+        return "@Cancel";
     }
 
-	/* 2) Creates the report */
-	var report = createReport(Banana.document, dateform.selectionStartDate, dateform.selectionEndDate, userParam);            
-	var stylesheet = createStyleSheet();
+    /* 3) Get the list of all the donors (CC3) */
+    var membershipList = getCC3List(Banana.document);
+    var donorsToPrint = [];
+
+    //If user insert the Cc3 account without ";", we add it
+    if (userParam.costcenter && userParam.costcenter.substring(0,1) !== ";") {
+        userParam.costcenter = ";"+userParam.costcenter;
+    }
+
+    if (userParam.costcenter && membershipList.indexOf(userParam.costcenter) > -1) { //CC3 exists
+        donorsToPrint.push(userParam.costcenter);
+    }
+    else if (userParam.costcenter && membershipList.indexOf(userParam.costcenter) < 0) { //CC3 does not exists
+        Banana.document.addMessage("Ungültiges Mitgliedkonto Konto");
+        return "@Cancel";
+    }
+    else if (!userParam.costcenter || userParam.costcenter === "" || userParam.costcenter === undefined) { //Empty field, so we take all the CC3
+        donorsToPrint = membershipList;
+    }
+
+	/* 4) Creates the report */
+	var report = createReport(Banana.document, dateform.selectionStartDate, dateform.selectionEndDate, userParam, donorsToPrint);            
+	var stylesheet = createStyleSheet(userParam);
 	Banana.Report.preview(report, stylesheet);
 }
 
+/* The report is created using the selected period and the data of the dialog */
+function createReport(banDoc, startDate, endDate, userParam, donorsToPrint) {
 
-/**************************************************************************************
-*
-* REPORT
-* The report is created using the selected period and the data of the dialog
-*
-**************************************************************************************/
-function createReport(banDoc, startDate, endDate, userParam) {
+    /* Create the report */
+    var report = Banana.Report.newReport("Spendenbescheinigung");
 
-    /* 1) Load parameters */
-    param = loadParam();
+    for (var k = 0; k < donorsToPrint.length; k++) {
 
-	/* 2) Create the report */
-    var report = Banana.Report.newReport(param.reportName);
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
 
-    /* Donor Receiver  */
-    report.addParagraph(userParam.text01, "");
-    report.addParagraph(userParam.text02 + ", " + userParam.text03, "");
-    report.addParagraph(" ", "");
-    report.addParagraph(" ", "");
-    report.addParagraph(" ", "");
+        /*************************************
+        a) Address of the sender
+        *************************************/
+        var headerLeft = banDoc.info("Base","HeaderLeft");
+        var name = banDoc.info("AccountingDataBase","Name");
+        var familyName = banDoc.info("AccountingDataBase","FamilyName");
+        var address1 = banDoc.info("AccountingDataBase","Address1");
+        var zip = banDoc.info("AccountingDataBase","Zip");
+        var city = banDoc.info("AccountingDataBase","City");
+        var country = banDoc.info("AccountingDataBase","Country");
 
+        if (name && familyName && headerLeft) {
+            report.addParagraph(name + " " + familyName + " - " + headerLeft, "");
+        } else if (name && familyName && !headerLeft) {
+            report.addParagraph(name + " " + familyName, "");
+        } else if (!name && familyName && !headerLeft) {
+        	report.addParagraph(familyName, "");
+        }
 
-    /*************************************
-     a) Address of the Membership (donor)
-    *************************************/
-    var address = getAddress(banDoc, userParam.costcenter);
-    if (address.firstname && address.familyname) {
-        report.addParagraph(address.firstname + " " + address.familyname, "bold");
-    } else {
-        report.addParagraph(address.familyname, "bold");
-    }
-    report.addParagraph(address.street, "bold");
-    report.addParagraph(address.postalcode + " " + address.locality, "bold");
-    report.addParagraph(" ", "");
-    report.addParagraph(" ", "");
-    report.addParagraph(" ", "");
-    report.addParagraph(" ", "");
-    report.addParagraph(" ", "");
-    report.addParagraph(" ", "");
+        report.addParagraph(address1 + ", " + zip + " " + city, "");
+        report.addParagraph("", "");
 
 
-    /*************************************
-     b) Donor Receiver 
-    *************************************/
-    var table = report.addTable("table01");
+        /*************************************
+        b) Address of the Membership (donor)
+        *************************************/
+        var address = getAddress(banDoc, donorsToPrint[k]);
+        if (address.firstname && address.familyname) {
+            report.addParagraph(address.firstname + " " + address.familyname + "                                                             Mitgliedskonto: " + donorsToPrint[k].substring(1), "address");
+        } else {
+            report.addParagraph(address.familyname, "address");
+        }
+        report.addParagraph(address.street, "address");
+        report.addParagraph(address.postalcode + " " + address.locality, "address");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+
+
+        /*************************************
+        c) Donor Receiver 
+        *************************************/
+        var table = report.addTable("table01");
+        
+        tableRow = table.addRow();
+        var paragraph01 = tableRow.addCell("","");
+        paragraph01.addParagraph("Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung)", "");
+        paragraph01.addParagraph(userParam.text01, "");
+        paragraph01.addParagraph(userParam.text02, "");
+        paragraph01.addParagraph(userParam.text03, "");
+
+        report.addParagraph(" ", "");
+        report.addParagraph("Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge", "bold");
+        report.addParagraph("im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen", "");
+        report.addParagraph(" ", "");
+
+
+        /*************************************
+        d) Address of the Membership (donor)  
+        *************************************/
+        var table = report.addTable("table01");
+        tableRow = table.addRow();
+        var paragraph01 = tableRow.addCell("","");
+        paragraph01.addParagraph("Name und Anschrift des Zuwendenden:", "");
+        if (address.firstname && address.familyname) {
+            paragraph01.addParagraph(address.firstname + " " + address.familyname, "bold");
+        } else {
+            paragraph01.addParagraph(address.familyname, "bold");
+        }
+        paragraph01.addParagraph(address.street + ", " + address.postalcode + " " + address.locality, "bold");
+        paragraph01.addParagraph("Mitgliedskonto: " + donorsToPrint[k].substring(1), "bold");
+        report.addParagraph(" ", "");
+
+
+        /*************************************
+        e) Accounting data of the donation
+        *************************************/
+
+        /* Calculate the total of the Transactions */
+        var transactionsObj = calculateTotalTransactions(banDoc, donorsToPrint[k], startDate, endDate);
+        
+        report.addParagraph(" ", "");
+        var table = report.addTable("table03");
+        tableRow = table.addRow();
+        var cell1 = tableRow.addCell("","");
+        cell1.addParagraph("Betrag der Zuwendung - in Ziffern -", "");
+        cell1.addParagraph(Banana.Converter.toLocaleNumberFormat(transactionsObj.total), "bold");
+
+        /* Retrieves the cents from the amount */
+        var digits = [];
+        var number = Banana.Converter.toLocaleNumberFormat(transactionsObj.total);
+        var numberString = number.toString();
+        var c1,c2 = '';
+        for (i = 0; i < numberString.length; i++) {
+            if (!isNaN(numberString[i])) {
+                digits.push(numberString[i]);
+            }
+        }
+        c1 = digits[digits.length-2]; //es. x.3x
+        c2 = digits[digits.length-1]; //es. x.x5 => x.35
+
+        /* Converts the amount in German words (cents excluded) */
+        var amountInWords = numToWords(transactionsObj.total);
+
+        var cell2 = tableRow.addCell("","");
+        cell2.addParagraph("- in Buchstaben -", "");
+        cell2.addParagraph(amountInWords + " " + c1 + c2 + "/100", "bold");
+
+        /* Date of the donation */
+        var cell3 = tableRow.addCell("","");
+        cell3.addParagraph("Tag der Zuwendung: ", "");
+        cell3.addParagraph(Banana.Converter.toLocaleDateFormat(startDate) + " - " + Banana.Converter.toLocaleDateFormat(endDate), "bold");
+        report.addParagraph(" ", "");
+
+
+        /*************************************
+        f) Add texts
+        *************************************/
+        var text04 = "[ ] Wir sind wegen Förderung der Entwicklungszusammenarbeit nach dem Freistellungsbescheid bzw. nach der Anlage zum Körperschaft- steuerbescheid des Finanzamtes Kempten, StNr. 127/111/20031, vom 30.12.2016 für den letzten Veranlagungszeitraum 2013 bis 2015 nach § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes von der Körperschaftsteuer und nach § 3 Nr. 6 des Gewerbesteuergesetzes von der Gewerbesteuer befreit.";
+        report.addParagraph(" ", "");
+        report.addParagraph(text04, "");
+
+        var text05 = "[ ] Die Einhaltung der satzungsmäßigen Voraussetzungen nach den §§ 51, 59, 60 und 61 AO wurde vom Finanzamt .......................,,StNr. ................................., mit Bescheid vom ................... nach § 60a AO gesondert festgestellt. Wir fördern nach unserer Satzung (Angabe des begünstigten Zwecks / der begünstigten Zwecke) ................. .";
+        report.addParagraph(" ", "");
+        report.addParagraph(text05, "bold");
+        
+        var text06 = "Es wird bestätigt, dass die Zuwendung nur zur Förderung";
+        var text07 = "der Entwicklungszusammenarbeit";
+        var text08 = "verwendet wird.";
+        var text09 = "Nur für steuerbegünstigte Einrichtungen, bei denen die Mitgliedsbeiträge steuerlich nicht abziehbar sind:";
+        var text10 = "[ ] Es wird bestätigt, dass es sich nicht um einen Mitgliedsbeitrag handelt, dessen Abzug nach § 10b Abs. 1 des Einkommensteuergesetzes ausgeschlossen ist.";
+
+        report.addParagraph(" ", "");
+        var tableTexts = report.addTable("table05");
+        tRow = tableTexts.addRow();
+        tRow.addCell(text06, "borderLeft borderRight borderTop");
+        tRow = tableTexts.addRow();
+        tRow.addCell(text07, "bold borderLeft borderRight");
+        tRow = tableTexts.addRow();
+        tRow.addCell(" ", "borderLeft borderRight");
+        tRow = tableTexts.addRow();
+        tRow.addCell(text08, "borderLeft borderRight");
+        tRow = tableTexts.addRow();
+        tRow.addCell(" ", "borderLeft borderRight");
+        tRow = tableTexts.addRow();
+        tRow.addCell(text09, "bold borderLeft borderRight");
+        tRow = tableTexts.addRow();
+        tRow.addCell(" ", "borderLeft borderRight");
+        tRow = tableTexts.addRow();
+        tRow.addCell(text10, "borderLeft borderRight borderBottom");
+
+        var text11 = "Es wird bestätigt, dass über die in der Gesamtsumme enthaltenen Zuwendungen keine weiteren Bestätigungen, weder formelle Zuwendungsbe- stätigungen noch Beitragsquittungen oder Ähnliches ausgestellt wurden und werden.";
+        report.addParagraph(" ", "");
+        report.addParagraph(text11, "");
+
+        var text12 = "Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anlage zur Sammelbestätigung zu entnehmen.";
+        report.addParagraph(" ", "");
+        report.addParagraph(text12, "");
+        
+
+        /*************************************
+        g) Adds Locality, date and signature.
+           It is possible to use an image as
+           signature (table Documents)
+        *************************************/
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        var table = report.addTable("table04");
+        tableRow = table.addRow();
+        tableRow.addCell(userParam.localityAndDate, "bold", 1);
+        tableRow.addCell(userParam.signature, "bold", 1);
+        if (userParam.printLogo) {
+            tableRow.addCell("","",1).addImage("documents:logo", "logoStyle");          
+        } else {
+            tableRow.addCell("                     ", "", 1);
+        }
+        tableRow = table.addRow();
+        tableRow.addCell("", "borderBottom", 3);
+        tableRow = table.addRow();
+        tableRow.addCell("(Ort, Datum und Unterschrift des Zuwendungsempfängers)", "", 3);
+
+
+        /*************************************
+        h) Footer
+        *************************************/
+        var text1 = "Hinweis:";
+        var text2 = "Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder wer veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG).";
+        var text3 = "Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungsbescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach";
+        var text4 = "§ 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO).";
+        report.addParagraph(" ", "");
+        report.addParagraph(text1, "bold");
+        report.addParagraph(text2, "");
+        report.addParagraph(" ", "");
+        report.addParagraph(text3, "");
+        report.addParagraph(" ", "");
+        report.addParagraph(text4, "");
+
+
+        /*************************************
+        i) Show donation transactions
+        *************************************/
+        report.addPageBreak();
+
+        var text1 = "Anlage zur Sammelbestätigung";
+        var text2 = "Gesamtsumme";
+
+        report.addParagraph(text1, "bold");
+        if (address.firstname && address.familyname) {
+            report.addParagraph(donorsToPrint[k].substring(1) + ": " + address.firstname + " " + address.familyname + ", " + address.street + ", " + address.postalcode + " " + address.locality, "");
+        } else {
+            report.addParagraph(donorsToPrint[k].substring(1) + ": " + address.familyname + ", " + address.street + ", " + address.postalcode + " " + address.locality, "");
+        }
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph(text2 + ": " + Banana.Converter.toLocaleNumberFormat(transactionsObj.total) + " " + banDoc.info("AccountingDataBase", "BasicCurrency"), "bold");
+        report.addParagraph(" ", "");
+        
+        //Print all the transactions for the selected CC3 account and period
+        printTransactionTable(banDoc, report, donorsToPrint[k], startDate, endDate);
+        
+        report.addParagraph(" ", "");
+        report.addParagraph(" ", "");
+        report.addParagraph("Summe in Worten (" + amountInWords + " " + c1 + c2 + "/100)", "bold");
     
-    tableRow = table.addRow();
-    var paragraph01 = tableRow.addCell("","");
-    paragraph01.addParagraph("Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung)", "");
-    paragraph01.addParagraph(userParam.text01, "bold");
-    paragraph01.addParagraph(userParam.text02, "bold");
-    paragraph01.addParagraph(userParam.text03, "bold");
-
-    report.addParagraph(" ", "");
-    report.addParagraph("Bestätigung über Geldzuwendungen/Mitgliedsbeitrag", "bold");
-    report.addParagraph("im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen", "");
-    report.addParagraph(" ", "");
-
-
-    /*************************************
-     c) Address of the Membership (donor)  
-    *************************************/
-    var table = report.addTable("table01");
-    tableRow = table.addRow();
-    var paragraph01 = tableRow.addCell("","");
-    paragraph01.addParagraph("Name und Anschrift des Zuwendenden:", "");
-    if (address.firstname && address.familyname) {
-        paragraph01.addParagraph(address.firstname + " " + address.familyname, "bold");
-    } else {
-        paragraph01.addParagraph(address.familyname, "bold");
-    }
-    paragraph01.addParagraph(address.street + ", " + address.postalcode + " " + address.locality, "bold");
-    report.addParagraph(" ", "");
-
-
-    /*************************************
-     d) Accounting data of the donation
-    *************************************/
-
-    /* Calculate the total of the Transactions */
-    var transactionsObj = calculateTotalTransactions(banDoc, userParam.costcenter, userParam.account, startDate, endDate);
-    
-    report.addParagraph(" ", "");
-    var table = report.addTable("table03");
-    tableRow = table.addRow();
-    var cell1 = tableRow.addCell("","");
-    cell1.addParagraph("Betrag der Zuwendung - in Ziffern -", "");
-    cell1.addParagraph(Banana.Converter.toLocaleNumberFormat(transactionsObj.total), "bold");
-
-    /* Retrieves the cents from the amount */
-    var digits = [];
-    var number = Banana.Converter.toLocaleNumberFormat(transactionsObj.total);
-    var numberString = number.toString();
-    var c1,c2 = '';
-    for (i = 0; i < numberString.length; i++) {
-        if (!isNaN(numberString[i])) {
-            digits.push(numberString[i]);
+        //Page break to all pages except the last
+        if (k < donorsToPrint.length-1) {
+            report.addPageBreak();
         }
     }
-    c1 = digits[digits.length-2]; //es. x.3x
-    c2 = digits[digits.length-1]; //es. x.x5 => x.35
 
-    /* Converts the amount in German words (cents excluded) */
-    var amountInWords = numToWords(transactionsObj.total);
-
-    var cell2 = tableRow.addCell("","");
-    cell2.addParagraph("- in Buchstaben -", "");
-    cell2.addParagraph(amountInWords + " " + c1 + c2 + "/100", "bold");
-
-    /* Date of the donation */
-    var cell3 = tableRow.addCell("","");
-    cell3.addParagraph("Tag der Zuwendung: ", "");
-    cell3.addParagraph(Banana.Converter.toLocaleDateFormat(startDate) + " - " + Banana.Converter.toLocaleDateFormat(endDate), "bold");
-    report.addParagraph(" ", "");
-
-
-    /*************************************
-     e) Show donation transactions
-    *************************************/
-    if (userParam.transactions) {
-        report.addParagraph(" ", "");
-        printTransactionTable(banDoc, report, userParam.costcenter, userParam.account, startDate, endDate);
-        report.addParagraph(" ", "");
-    }
-
-
-    /*************************************
-     f) Add Free texts
-    *************************************/
-    var bold = '';
-    var border = '';
-
-    if (userParam.text04 !== '') {
-        if (userParam.text04bold && userParam.text04border) {
-            bold = 'bold';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else if (userParam.text04bold && !userParam.text04border) {
-            bold = 'bold';
-            border = '';
-        }
-        else if (!userParam.text04bold && userParam.text04border) {
-            bold = '';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else {
-            bold = '';
-            border = '';      
-        }
-        report.addParagraph(" ", "");
-        report.addParagraph(userParam.text04, bold+" "+border);
-    }
-
-    if (userParam.text05 !== '') {
-        if (userParam.text05bold && userParam.text05border) {
-            bold = 'bold';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else if (userParam.text05bold && !userParam.text05border) {
-            bold = 'bold';
-            border = '';
-        }
-        else if (!userParam.text05bold && userParam.text05border) {
-            bold = '';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else {
-            bold = '';
-            border = '';      
-        }
-        report.addParagraph(" ", "");
-        report.addParagraph(userParam.text05, bold+" "+border);
-    }
-
-    if (userParam.text06 !== '') {
-        if (userParam.text06bold && userParam.text06border) {
-            bold = 'bold';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else if (userParam.text06bold && !userParam.text06border) {
-            bold = 'bold';
-            border = '';
-        }
-        else if (!userParam.text06bold && userParam.text06border) {
-            bold = '';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else {
-            bold = '';
-            border = '';      
-        }
-        report.addParagraph(" ", "");
-        report.addParagraph(userParam.text06, bold+" "+border);
-    }
-
-    if (userParam.text07 !== '') {
-        if (userParam.text07bold && userParam.text07border) {
-            bold = 'bold';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else if (userParam.text07bold && !userParam.text07border) {
-            bold = 'bold';
-            border = '';
-        }
-        else if (!userParam.text07bold && userParam.text07border) {
-            bold = '';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else {
-            bold = '';
-            border = '';      
-        }
-        report.addParagraph(" ", "");
-        report.addParagraph(userParam.text07, bold+" "+border);
-    }
-
-    if (userParam.text08 !== '') {
-        if (userParam.text08bold && userParam.text08border) {
-            bold = 'bold';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else if (userParam.text08bold && !userParam.text08border) {
-            bold = 'bold';
-            border = '';
-        }
-        else if (!userParam.text08bold && userParam.text08border) {
-            bold = '';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else {
-            bold = '';
-            border = '';      
-        }
-        report.addParagraph(" ", "");
-        report.addParagraph(userParam.text08, bold+" "+border);
-    }
-
-    if (userParam.text09 !== '') {
-        if (userParam.text09bold && userParam.text09border) {
-            bold = 'bold';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else if (userParam.text09bold && !userParam.text09border) {
-            bold = 'bold';
-            border = '';
-        }
-        else if (!userParam.text09bold && userParam.text09border) {
-            bold = '';
-            border = 'borderTop borderRight borderBottom borderLeft padding';
-        }
-        else {
-            bold = '';
-            border = '';      
-        }
-        report.addParagraph(" ", "");
-        report.addParagraph(userParam.text09, bold+" "+border);
-    }
-
-
-    /*************************************
-     g) Adds Locality, date and signature
-    *************************************/
-    report.addParagraph(" ", "");
-    report.addParagraph(" ", "");
-    report.addParagraph(" ", "");
-    var table = report.addTable("table04");
-    
-    tableRow = table.addRow();
-    tableRow.addCell(userParam.localityAndDate, "", 1);
-    tableRow.addCell(userParam.signature, "", 1);
-    tableRow.addCell("                     ", "", 1);
-    
-    tableRow = table.addRow();
-    tableRow.addCell("", "borderBottom", 3);
-    
-    tableRow = table.addRow();
-    tableRow.addCell("(Ort, Datum und Unterschrift des Zuwendungsempfängers)", "", 3);
-
-
-    /*************************************
-     h) Adds the footer
-    *************************************/
     addFooter(report);
-
 
     /* Return the report */
 	return report;
@@ -375,50 +352,23 @@ function getAddress(banDoc, accountNumber) {
     return address;
 }
 
-function countTransactions(banDoc, costcenter, account, startDate, endDate) {
-    var cntTransactions = 0;
-    var transTab = banDoc.table("Transactions");
-    costcenter = costcenter.substring(1); //remove first character . , ;
-    for (var i = 0; i < transTab.rowCount; i++) {
-        var tRow = transTab.row(i);
-        var date = tRow.value("Date");
-        var cc1 = tRow.value("Cc1");
-        var cc2 = tRow.value("Cc2");
-        var cc3 = tRow.value("Cc3");
-        if (date >= startDate && date <= endDate) {
-            if (costcenter && costcenter === cc1 || costcenter === cc2 || costcenter === cc3) {
-                cntTransactions++;
-            }
-        }
-    }
-    return cntTransactions;
-}
-
-function calculateTotalTransactions(banDoc, costcenter, account, startDate, endDate) {
+function calculateTotalTransactions(banDoc, costcenter, startDate, endDate) {
     var transTab = banDoc.table("Transactions");
     var date = "";
     var total = "";
     var transactionsObj = {};
-    costcenter = costcenter.substring(1); //remove first character . , ;
+    costcenter = costcenter.substring(1); //remove first character ;
 
     for (var i = 0; i < transTab.rowCount; i++) {
         var tRow = transTab.row(i);
         date = tRow.value("Date");
         transactionsObj.date = date;
-        var cc1 = tRow.value("Cc1");
-        var cc2 = tRow.value("Cc2");
         var cc3 = tRow.value("Cc3");
 
         if (date >= startDate && date <= endDate) {
 
-            if (costcenter && costcenter === cc1 || costcenter === cc2 || costcenter === cc3) {
-                
-                if (!account || account === "" || account === undefined) {
-                    total = Banana.SDecimal.add(total, tRow.value("Amount"));
-                }
-                else if (tRow.value("AccountDebit") === account || tRow.value("AccountCredit") === account) {
-                    total = Banana.SDecimal.add(total, tRow.value("Amount"));
-                }
+            if (costcenter && costcenter === cc3) {
+                total = Banana.SDecimal.add(total, tRow.value("Amount"));
             }
         }
     }
@@ -428,102 +378,422 @@ function calculateTotalTransactions(banDoc, costcenter, account, startDate, endD
     return transactionsObj;
 }
 
-function printTransactionTable(banDoc, report, costcenter, account, startDate, endDate) {
+function printTransactionTable(banDoc, report, costcenter, startDate, endDate) {
+    
+    //Get name and family name of the donor
+    var address = getAddress(banDoc, costcenter);
+    var name = "";
+    if (address.firstname && address.familyname) {
+        name = address.firstname + " " + address.familyname;
+    } else {
+        name = address.familyname;
+    }
+
     var transTab = banDoc.table("Transactions");
     var date = "";
     var total = "";
-    costcenter = costcenter.substring(1); //remove first character . , ;
+    costcenter = costcenter.substring(1); //remove first character ";"
 
     var table = report.addTable("table02");
     var t2col1 = table.addColumn("t2col1");
     var t2col2 = table.addColumn("t2col2");
     var t2col3 = table.addColumn("t2col3");
     var t2col4 = table.addColumn("t2col4");
-
+    var t2col5 = table.addColumn("t2col5");
+    var t2col6 = table.addColumn("t2col6");
 
     tableRow = table.addRow();
-    tableRow.addCell("Date", "bold headerStyle borderRight borderTop borderBottom", 1);
-    tableRow.addCell("Doc", "bold headerStyle borderRight borderTop borderBottom", 1);
-    tableRow.addCell("Description", "bold headerStyle borderRight borderTop borderBottom", 1);
-    tableRow.addCell("Amount " + banDoc.info("AccountingDataBase", "BasicCurrency"), "bold headerStyle borderRight borderTop borderBottom", 1);
+    tableRow.addCell("LfdNr", "bold headerStyle borderRight borderTop borderBottom", 1);
+    tableRow.addCell("Konto", "bold headerStyle borderRight borderTop borderBottom", 1);
+    tableRow.addCell("Datum", "bold headerStyle borderRight borderTop borderBottom", 1);
+    tableRow.addCell("Bezeichnung", "bold headerStyle borderRight borderTop borderBottom", 1);
+    tableRow.addCell("Betrag " + banDoc.info("AccountingDataBase", "BasicCurrency"), "bold headerStyle borderRight borderTop borderBottom", 1);
+    tableRow.addCell("Verzicht", "bold headerStyle borderRight borderTop borderBottom", 1);
 
+    var rowCnt = 0;
     for (var i = 0; i < transTab.rowCount; i++) {
         var tRow = transTab.row(i);
         tableRow = table.addRow();
 
         date = tRow.value("Date");
-        var cc1 = tRow.value("Cc1");
-        var cc2 = tRow.value("Cc2");
         var cc3 = tRow.value("Cc3");
 
         if (date >= startDate && date <= endDate) {
 
-            if (costcenter && costcenter === cc1 || costcenter === cc2 || costcenter === cc3) {
-                
-                if (!account || account === "" || account === undefined) {
-                    tableRow.addCell(Banana.Converter.toLocaleDateFormat(tRow.value("Date")), "borderRight", 1);
-                    tableRow.addCell(tRow.value("Doc"), "borderRight", 1);
-                    tableRow.addCell(tRow.value("Description"), "borderRight", 1);
-                    tableRow.addCell(Banana.Converter.toLocaleNumberFormat(tRow.value("Amount")), "right borderRight", 1);
-                    total = Banana.SDecimal.add(total, tRow.value("Amount"));
-                }
-                else if (tRow.value("AccountDebit") === account || tRow.value("AccountCredit") === account) {
-                    tableRow.addCell(Banana.Converter.toLocaleDateFormat(tRow.value("Date")), "borderRight", 1);
-                    tableRow.addCell(tRow.value("Doc"), "borderRight", 1);
-                    tableRow.addCell(tRow.value("Description"), "borderRight", 1);
-                    tableRow.addCell(Banana.Converter.toLocaleNumberFormat(tRow.value("Amount")), "right borderRight", 1);
-                    total = Banana.SDecimal.add(total, tRow.value("Amount"));
-                }
+            if (costcenter && costcenter === cc3) {
+                rowCnt++;
+                tableRow.addCell(rowCnt, "borderRight", 1); //sequencial numbers
+                tableRow.addCell(tRow.value("Description"), "borderRight", 1);
+                tableRow.addCell(Banana.Converter.toLocaleDateFormat(tRow.value("Date")), "borderRight", 1);
+                tableRow.addCell(name, "borderRight", 1);
+                tableRow.addCell(Banana.Converter.toLocaleNumberFormat(tRow.value("Amount")), "right borderRight", 1);
+                tableRow.addCell("Nein", "center borderRight", 1);
+                total = Banana.SDecimal.add(total, tRow.value("Amount"));
             }
         }
     }
 
     tableRow = table.addRow();
-    tableRow.addCell("", "borderTop borderBottom", 2);
+    tableRow.addCell("", "borderTop borderBottom", 3);
     tableRow.addCell("Summe", "bold right borderTop borderBottom", 1);
     tableRow.addCell(Banana.Converter.toLocaleNumberFormat(total), "bold right borderTop borderBottom", 1);
+    tableRow.addCell("", "bold right borderTop borderBottom", 1);
 }
 
-function getMemebershipList(banDoc) {
+function getCC3List(banDoc) {
     var membershipList = [];
     var accountsTable = banDoc.table("Accounts");
     for (var i = 0; i < accountsTable.rowCount; i++) {
         var tRow = accountsTable.row(i);
         var account = tRow.value("Account");
-        if (account.substring(0,1) === "." || account.substring(0,1) === "," || account.substring(0,1) === ";") {
+        if (account.substring(0,1) === ";") {
             membershipList.push(account);
         }
     }
     return membershipList;
 }
 
-function getMemebershipListWithDescription(banDoc) {
-    var membershipList = [];
-    var accountsTable = banDoc.table("Accounts");
-    for (var i = 0; i < accountsTable.rowCount; i++) {
-        var tRow = accountsTable.row(i);
-        var account = tRow.value("Account");
-        if (account.substring(0,1) === "." || account.substring(0,1) === "," || account.substring(0,1) === ";") {
-            membershipList.push(account + " " + tRow.value("Description"));
-        }
+function convertParam(userParam) {
+
+    var convertedParam = {};
+    convertedParam.version = '1.0';
+    convertedParam.data = []; /* array dei parametri dello script */
+
+    //Cc3 (donor)
+    var currentParam = {};
+    currentParam.name = 'costcenter';
+    currentParam.title = 'Mitgliedskonto eingeben (leer = alle ausdrucken)';
+    currentParam.type = 'string';
+    currentParam.value = '';
+    currentParam.readValue = function() {
+        userParam.costcenter = this.value;
     }
-    return membershipList;
+    convertedParam.data.push(currentParam);
+
+    // Address
+    var currentParam = {};
+    currentParam.name = 'address';
+    currentParam.title = 'Aussteller';
+    currentParam.type = 'string';
+    currentParam.value = '';
+    currentParam.readValue = function() {
+        userParam.address = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    // Address row 1
+    var currentParam = {};
+    currentParam.name = 'text01';
+    currentParam.parentObject = 'address';
+    currentParam.title = 'Aussteller Zeile 1';
+    currentParam.type = 'string';
+    currentParam.value = userParam.text01 ? userParam.text01 : '';
+    currentParam.readValue = function() {
+        userParam.text01 = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    // Address row 2
+    var currentParam = {};
+    currentParam.name = 'text02';
+    currentParam.parentObject = 'address';
+    currentParam.title = 'Aussteller Zeile 2';
+    currentParam.type = 'string';
+    currentParam.value = userParam.text02 ? userParam.text02 : '';
+    currentParam.readValue = function() {
+        userParam.text02 = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    // Address row 3
+    var currentParam = {};
+    currentParam.name = 'text03';
+    currentParam.parentObject = 'address';
+    currentParam.title = 'Aussteller Zeile 3';
+    currentParam.type = 'string';
+    currentParam.value = userParam.text03 ? userParam.text03 : '';
+    currentParam.readValue = function() {
+        userParam.text03 = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    // locality and date
+    var currentParam = {};
+    currentParam.name = 'localityAndDate';
+    currentParam.title = 'Ort und Datum';
+    currentParam.type = 'string';
+    currentParam.value = userParam.localityAndDate ? userParam.localityAndDate : '';
+    currentParam.readValue = function() {
+        userParam.localityAndDate = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    // signature
+    var currentParam = {};
+    currentParam.name = 'signature';
+    currentParam.title = 'Unterschrift';
+    currentParam.type = 'string';
+    currentParam.value = userParam.signature ? userParam.signature : '';
+    currentParam.readValue = function() {
+        userParam.signature = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    // image for signature
+    var currentParam = {};
+    currentParam.name = 'printLogo';
+    currentParam.parentObject = 'signature';
+    currentParam.title = 'Unterschrift mit Bild';
+    currentParam.type = 'bool';
+    currentParam.value = userParam.printLogo ? true : false;
+    currentParam.readValue = function() {
+     userParam.printLogo = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    // image height
+    var currentParam = {};
+    currentParam.name = 'imageHeight';
+    currentParam.parentObject = 'signature';
+    currentParam.title = 'Bildhöhe (mm)';
+    currentParam.type = 'number';
+    currentParam.value = userParam.imageHeight ? userParam.imageHeight : '10';
+    currentParam.readValue = function() {
+     userParam.imageHeight = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    return convertedParam;
 }
 
-function arrayContains(array, value) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] === value) {
-            return true;
-        }
-    }
-    return false;
+function initUserParam() {
+    var userParam = {};
+    userParam.costcenter = '';
+    userParam.address = '';
+    userParam.text01 = '';
+    userParam.text02 = '';
+    userParam.text03 = '';
+    userParam.localityAndDate = '';
+    userParam.signature = '';
+    userParam.printLogo = '';
+    userParam.imageHeight = '';
+    return userParam;
 }
 
-/**************************************************************************************
-*
-* CONVERSION NUMBER IN GERMAN WORDS
-*
-**************************************************************************************/
+function parametersDialog(userParam) {
+
+    var savedParam = Banana.document.getScriptSettings();
+    if (savedParam.length > 0) {
+        userParam = JSON.parse(savedParam);
+    }
+
+    if (typeof(Banana.Ui.openPropertyEditor) !== 'undefined') {
+        var dialogTitle = userParam.xmldialogtitle;
+        var convertedParam = convertParam(userParam);
+        var pageAnchor = 'dlgSettings';
+        if (!Banana.Ui.openPropertyEditor(dialogTitle, convertedParam, pageAnchor)) {
+            return;
+        }
+        
+        for (var i = 0; i < convertedParam.data.length; i++) {
+            // Read values to userParam (through the readValue function)
+            convertedParam.data[i].readValue();
+        }
+    }
+    // else {
+    //     userParam.costcenter = Banana.Ui.getText('', 'Mitgliedskonto', '');
+    //     if (userParam.costcenter) {
+    //         //removes the description text in order to have only the account (es. ";S001 Socio 1" => ";S001")
+    //         userParam.costcenter = userParam.costcenter.split(' ')[0];            
+    //     } else {
+    //         userParam.costcenter = getCC3List(Banana.document); //take the list of all CC3 accounts
+    //     }
+
+    //     userParam.text01 = Banana.Ui.getText('', 'Aussteller Zeile 1', '');
+    //     if (userParam.text01 === undefined) {
+    //         return;
+    //     }
+
+    //     userParam.text02 = Banana.Ui.getText('', 'Aussteller Zeile 2', '');
+    //     if (userParam.text02 === undefined) {
+    //         return;
+    //     }
+
+    //     userParam.text03 = Banana.Ui.getText('', 'Aussteller Zeile 3', '');
+    //     if (userParam.text03 === undefined) {
+    //         return;
+    //     }
+
+    //     userParam.localityAndDate = Banana.Ui.getText('', 'Ort und Datum', '');
+    //     if (userParam.localityAndDate === undefined) {
+    //         return;
+    //     }
+
+    //     userParam.signature = Banana.Ui.getText('', 'Unterschrift', '');
+    //     if (userParam.signature === undefined) {
+    //         return;
+    //     }
+
+    //     userParam.printLogo = Banana.Ui.getInt('', 'Unterschrift mit Bild (1=ja, 0=nein)', '');
+    //     if (userParam.printLogo === undefined) {
+    //         return;
+    //     }
+
+    //     userParam.image_height = Banana.Ui.getInt('', 'Bildhöhe (mm)', '');
+    //     if (userParam.image_height === undefined) {
+    //         return;
+    //     }   
+    // }
+
+    var paramToString = JSON.stringify(userParam);
+    var value = Banana.document.setScriptSettings(paramToString);
+    
+    return userParam;
+}
+
+function getScriptSettings() {
+   var data = Banana.document.getScriptSettings();
+   //Check if there are previously saved settings and read them
+   if (data.length > 0) {
+       try {
+           var readSettings = JSON.parse(data);
+           //We check if "readSettings" is not null, then we fill the formeters with the values just read
+           if (readSettings) {
+               return readSettings;
+           }
+       } catch (e) {
+       }
+   }
+
+   return {
+      "selectionStartDate": "",
+      "selectionEndDate": "",
+      "selectionChecked": "false"
+   }
+}
+
+/* Save the period for the next time the script is run */
+function settingsDialog() {
+    
+    //The formeters of the period that we need
+    var scriptform = getScriptSettings();
+
+    //We take the accounting "starting date" and "ending date" from the document. These will be used as default dates
+    var docStartDate = Banana.document.startPeriod();
+    var docEndDate = Banana.document.endPeriod();   
+    
+    //A dialog window is opened asking the user to insert the desired period. By default is the accounting period
+    var selectedDates = Banana.Ui.getPeriod('Spendenbescheinigung', docStartDate, docEndDate, 
+        scriptform.selectionStartDate, scriptform.selectionEndDate, scriptform.selectionChecked);
+        
+    //We take the values entered by the user and save them as "new default" values.
+    //This because the next time the script will be executed, the dialog window will contains the new values.
+    if (selectedDates) {
+        scriptform["selectionStartDate"] = selectedDates.startDate;
+        scriptform["selectionEndDate"] = selectedDates.endDate;
+        scriptform["selectionChecked"] = selectedDates.hasSelection;
+
+        //Save script settings
+        var formToString = JSON.stringify(scriptform);
+        var value = Banana.document.setScriptSettings(formToString);       
+    } else {
+        //User clicked cancel
+        return null;
+    }
+    return scriptform;
+}
+
+/* This function adds a Footer to the report */
+function addFooter(report) {
+    report.getFooter().addClass("footer");
+    //report.getFooter().addText("", "");
+    report.getFooter().addFieldPageNr();
+}
+
+/* Function that creates all the styles used to print the report */
+function createStyleSheet(userParam) {
+    var stylesheet = Banana.Report.newStyleSheet();
+    
+    stylesheet.addStyle("@page", "margin:20mm 10mm 10mm 20mm;") 
+    stylesheet.addStyle("body", "font-family:Helvetica; font-size:7pt");
+    stylesheet.addStyle(".footer", "font-size:8pt;text-align:right");
+    stylesheet.addStyle(".bold", "font-weight:bold;");
+    stylesheet.addStyle(".borderLeft", "border-left:thin solid black");
+    stylesheet.addStyle(".borderTop", "border-top:thin solid black");
+    stylesheet.addStyle(".borderRight", "border-right:thin solid black");
+    stylesheet.addStyle(".borderBottom", "border-bottom:thin solid black");
+    stylesheet.addStyle(".horizontalLine", "border-top:thin solid black");
+    stylesheet.addStyle(".right", "text-align:right;");
+    stylesheet.addStyle(".center", "text-align:center;");
+    stylesheet.addStyle(".headerStyle", "background-color:#E0EFF6; text-align:center; font-weight:bold;");
+    stylesheet.addStyle(".padding", "padding-bottom:2px; padding-top:3px; padding-left:2px; padding-right:2px;");
+    stylesheet.addStyle(".address", "font-size:11pt");
+
+    /* table01 */
+    var tableStyle = stylesheet.addStyle(".table01");
+    tableStyle.setAttribute("width", "100%");
+    stylesheet.addStyle("table.table01 td", "border:thin solid black;");
+
+    /* table02 */
+    var tableStyle = stylesheet.addStyle(".table02");
+    tableStyle.setAttribute("width", "100%");
+    stylesheet.addStyle(".t2col1", "");
+    stylesheet.addStyle(".t2col2", "");
+    stylesheet.addStyle(".t2col3", "");
+    stylesheet.addStyle(".t2col4", "");
+    stylesheet.addStyle(".t2col5", "");
+    stylesheet.addStyle(".t2col6", "");
+    //stylesheet.addStyle("table.table02 td", "border-right:thin solid black;");
+    // stylesheet.addStyle("table.table02 td", "border:thin solid black;");
+
+    /* table03 */
+    var tableStyle = stylesheet.addStyle(".table03");
+    tableStyle.setAttribute("width", "100%");
+    stylesheet.addStyle("table.table03 td", "border:thin solid black;");
+
+    /* table04 */
+    var tableStyle = stylesheet.addStyle(".table04");
+    tableStyle.setAttribute("width", "80%");
+
+    /* table05 */
+    var tableStyle = stylesheet.addStyle(".table05");
+    tableStyle.setAttribute("width", "100%");
+
+    //Style for the table titles
+    style = stylesheet.addStyle(".styleTableHeader");
+    style.setAttribute("font-weight", "bold");
+    style.setAttribute("padding-bottom", "5px");
+    style.setAttribute("background-color", "#ffd100");
+    style.setAttribute("color", "#1b365d");
+
+    //Style for account numbers
+    style = stylesheet.addStyle(".styleAccount");
+    style.setAttribute("padding-bottom", "5px");
+    style.setAttribute("text-align", "center");
+
+    //Style for amounts
+    style = stylesheet.addStyle(".styleAmount");
+    style.setAttribute("padding-bottom", "5px");
+    style.setAttribute("text-align", "right");
+
+    //Style for balances
+    style = stylesheet.addStyle(".styleBalance");
+    style.setAttribute("color", "red");
+
+    //Style for the total of the table
+    style = stylesheet.addStyle(".styleTotal");
+    style.setAttribute("font-weight", "bold");
+    style.setAttribute("padding-bottom", "5px");
+    style.setAttribute("background-color", "#b7c3e0");
+    style.setAttribute("border-bottom", "1px double black");
+
+    style = stylesheet.addStyle(".logoStyle");
+    style.setAttribute("height", userParam.imageHeight + "mm");
+
+    return stylesheet;
+}
+
+/* Conversion number in German words */
 function numToWords(number) {
 
     //Test number
@@ -1034,802 +1304,4 @@ function convertDigit_100000000_999999999(digit1, digit2, digit3, digit4, digit5
     }
  
     return converted;
-}
-
-
-/**************************************************************************************
-*
-* USER PARAMETERS
-*
-**************************************************************************************/
-function convertParam(userParam) {
-
-    var convertedParam = {};
-    convertedParam.version = '1.0';
-    convertedParam.data = []; /* array dei parametri dello script */
-
-    //Cost center (donor)
-    var currentParam = {};
-    currentParam.name = 'costcenter';
-    currentParam.title = 'Mitgliedkonto';
-    currentParam.type = 'string';
-    currentParam.value = cursorSelectedCostCenter;
-    currentParam.readValue = function() {
-        userParam.costcenter = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // //Account
-    // var currentParam = {};
-    // currentParam.name = 'account';
-    // currentParam.title = 'Konto';
-    // currentParam.type = 'string';
-    // currentParam.value = userParam.account ? userParam.account : '';
-    // currentParam.readValue = function() {
-    //     userParam.account = this.value;
-    // }
-    // convertedParam.data.push(currentParam);
-
-    // Transaction table
-    var currentParam = {};
-    currentParam.name = 'transactions';
-    currentParam.title = 'Buchungen anzeigen  (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.transactions ? true : false;
-    currentParam.readValue = function() {
-        userParam.transactions = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Address
-    var currentParam = {};
-    currentParam.name = 'address';
-    currentParam.title = 'Aussteller';
-    currentParam.type = 'string';
-    currentParam.value = '';
-    currentParam.readValue = function() {
-        userParam.address = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Address row 1
-    var currentParam = {};
-    currentParam.name = 'text01';
-    currentParam.parentObject = 'address';
-    currentParam.title = 'Aussteller Zeile 1';
-    currentParam.type = 'string';
-    currentParam.value = userParam.text01 ? userParam.text01 : '';
-    currentParam.readValue = function() {
-        userParam.text01 = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Address row 2
-    var currentParam = {};
-    currentParam.name = 'text02';
-    currentParam.parentObject = 'address';
-    currentParam.title = 'Aussteller Zeile 2';
-    currentParam.type = 'string';
-    currentParam.value = userParam.text02 ? userParam.text02 : '';
-    currentParam.readValue = function() {
-        userParam.text02 = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Address row 3
-    var currentParam = {};
-    currentParam.name = 'text03';
-    currentParam.parentObject = 'address';
-    currentParam.title = 'Aussteller Zeile 3';
-    currentParam.type = 'string';
-    currentParam.value = userParam.text03 ? userParam.text03 : '';
-    currentParam.readValue = function() {
-        userParam.text03 = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Free text 1
-    var currentParam = {};
-    currentParam.name = 'text04';
-    currentParam.title = 'Text 1';
-    currentParam.type = 'string';
-    currentParam.value = userParam.text04 ? userParam.text04 : '';
-    currentParam.readValue = function() {
-        userParam.text04 = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text04bold';
-    currentParam.parentObject = 'text04';
-    currentParam.title = 'Fett (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text04bold ? true : false;
-    currentParam.readValue = function() {
-     userParam.text04bold = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text04border';
-    currentParam.parentObject = 'text04';
-    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text04border ? true : false;
-    currentParam.readValue = function() {
-     userParam.text04border = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Free text 2
-    var currentParam = {};
-    currentParam.name = 'text05';
-    currentParam.title = 'Text 2';
-    currentParam.type = 'string';
-    currentParam.value = userParam.text05 ? userParam.text05 : '';
-    currentParam.readValue = function() {
-        userParam.text05 = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text05bold';
-    currentParam.parentObject = 'text05';
-    currentParam.title = 'Fett (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text05bold ? true : false;
-    currentParam.readValue = function() {
-     userParam.text05bold = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text05border';
-    currentParam.parentObject = 'text05';
-    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text05border ? true : false;
-    currentParam.readValue = function() {
-     userParam.text05border = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Free text 3
-    var currentParam = {};
-    currentParam.name = 'text06';
-    currentParam.title = 'Text 3';
-    currentParam.type = 'string';
-    currentParam.value = userParam.text06 ? userParam.text06 : '';
-    currentParam.readValue = function() {
-        userParam.text06 = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text06bold';
-    currentParam.parentObject = 'text06';
-    currentParam.title = 'Fett (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text06bold ? true : false;
-    currentParam.readValue = function() {
-     userParam.text06bold = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text06border';
-    currentParam.parentObject = 'text06';
-    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text06border ? true : false;
-    currentParam.readValue = function() {
-     userParam.text06border = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Free text 4
-    var currentParam = {};
-    currentParam.name = 'text07';
-    currentParam.title = 'Text 4';
-    currentParam.type = 'string';
-    currentParam.value = userParam.text07 ? userParam.text07 : '';
-    currentParam.readValue = function() {
-        userParam.text07 = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text07bold';
-    currentParam.parentObject = 'text07';
-    currentParam.title = 'Fett (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text07bold ? true : false;
-    currentParam.readValue = function() {
-     userParam.text07bold = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text07border';
-    currentParam.parentObject = 'text07';
-    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text07border ? true : false;
-    currentParam.readValue = function() {
-     userParam.text07border = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Free text 5
-    var currentParam = {};
-    currentParam.name = 'text08';
-    currentParam.title = 'Text 5';
-    currentParam.type = 'string';
-    currentParam.value = userParam.text08 ? userParam.text08 : '';
-    currentParam.readValue = function() {
-        userParam.text08 = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text08bold';
-    currentParam.parentObject = 'text08';
-    currentParam.title = 'Fett (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text08bold ? true : false;
-    currentParam.readValue = function() {
-     userParam.text08bold = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text08border';
-    currentParam.parentObject = 'text08';
-    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text08border ? true : false;
-    currentParam.readValue = function() {
-     userParam.text08border = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // Free text 6
-    var currentParam = {};
-    currentParam.name = 'text09';
-    currentParam.title = 'Text 6';
-    currentParam.type = 'string';
-    currentParam.value = userParam.text09 ? userParam.text09 : '';
-    currentParam.readValue = function() {
-        userParam.text09 = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text09bold';
-    currentParam.parentObject = 'text09';
-    currentParam.title = 'Fett (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text09bold ? true : false;
-    currentParam.readValue = function() {
-     userParam.text09bold = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    var currentParam = {};
-    currentParam.name = 'text09border';
-    currentParam.parentObject = 'text09';
-    currentParam.title = 'Rahmen (0=Nein; 1=Ja)';
-    currentParam.type = 'bool';
-    currentParam.value = userParam.text09border ? true : false;
-    currentParam.readValue = function() {
-     userParam.text09border = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // luogo e data
-    var currentParam = {};
-    currentParam.name = 'localityAndDate';
-    currentParam.title = 'Ort und Datum';
-    currentParam.type = 'string';
-    currentParam.value = userParam.localityAndDate ? userParam.localityAndDate : '';
-    currentParam.readValue = function() {
-        userParam.localityAndDate = this.value;
-    }
-    convertedParam.data.push(currentParam);
-
-    // signature
-    var currentParam = {};
-    currentParam.name = 'signature';
-    currentParam.title = 'Unterschrift';
-    currentParam.type = 'string';
-    currentParam.value = userParam.signature ? userParam.signature : '';
-    currentParam.readValue = function() {
-        userParam.signature = this.value;
-    }
-    convertedParam.data.push(currentParam);
-    return convertedParam;
-}
-
-function initUserParam() {
-    var userParam = {};
-
-    userParam.costcenter = '';
-    // userParam.account = '';
-    userParam.transactions = true;
-    userParam.address = '';
-    userParam.text01 = '';
-    userParam.text02 = '';
-    userParam.text03 = '';
-    userParam.text04 = '';
-    userParam.text04bold = false;
-    userParam.text04border = false;
-    userParam.text05 = '';
-    userParam.text05bold = false;
-    userParam.text05border = false;
-    userParam.text06 = '';
-    userParam.text06bold = false;
-    userParam.text06border = false;
-    userParam.text07 = '';
-    userParam.text07bold = false;
-    userParam.text07border = false;
-    userParam.text08 = '';
-    userParam.text08bold = false;
-    userParam.text08border = false;
-    userParam.text09 = '';
-    userParam.text09bold = false;
-    userParam.text09border = false;
-    userParam.localityAndDate = '';
-    userParam.signature = '';
-
-    //Takes the account from the cursor. If it is a cost center use it
-    var accountsTable = Banana.document.table('Accounts');
-    var selectedAccount = accountsTable.row(Banana.document.cursor.rowNr).value('Account');
-    if (selectedAccount.substring(0,1) === "." || selectedAccount.substring(0,1) === "," || selectedAccount.substring(0,1) === ";") {
-        cursorSelectedCostCenter = selectedAccount;
-        userParam.costcenter = cursorSelectedCostCenter;
-    }
-
-    return userParam;
-}
-
-function verifyUserParam(userParam) {
-
-    if (!userParam.costcenter) {
-        userParam.costcenter = '';
-    }
-
-    // if (!userParam.account) {
-    //     userParam.account = '';
-    // }
-
-    if (!userParam.transactions) {
-        userParam.transactions = false;
-    }
-
-    if (!userParam.address) {
-        userParam.address = '';
-    }
-
-    if (!userParam.text01) {
-        userParam.text01 = '';
-    }
-
-    if (!userParam.text02) {
-        userParam.text02 = '';
-    }
-
-    if (!userParam.text03) {
-        userParam.text03 = '';
-    }
-
-    //Free Text 1
-    if (!userParam.text04) {
-        userParam.text04 = '';
-    }
-    if (!userParam.text04bold) {
-        userParam.text04bold = false;
-    }
-    if (!userParam.text04border) {
-        userParam.text04border = false;
-    }
-
-    //Free Text 2
-    if (!userParam.text05) {
-        userParam.text05 = '';
-    }
-    if (!userParam.text05bold) {
-        userParam.text05bold = false;
-    }
-    if (!userParam.text05border) {
-        userParam.text05border = false;
-    }
-
-    //Free Text 3
-    if (!userParam.text06) {
-        userParam.text06 = '';
-    }
-    if (!userParam.text06bold) {
-        userParam.text06bold = false;
-    }
-    if (!userParam.text06border) {
-        userParam.text06border = false;
-    }
-
-    //Free Text 4
-    if (!userParam.text07) {
-        userParam.text07 = '';
-    }
-    if (!userParam.text07bold) {
-        userParam.text07bold = false;
-    }
-    if (!userParam.text07border) {
-        userParam.text07border = false;
-    }
-
-    //Free Text 5
-    if (!userParam.text08) {
-        userParam.text08 = '';
-    }
-    if (!userParam.text08bold) {
-        userParam.text08bold = false;
-    }
-    if (!userParam.text08border) {
-        userParam.text08border = false;
-    }
-
-    //Free Text 6
-    if (!userParam.text09) {
-        userParam.text09 = '';
-    }
-    if (!userParam.text09bold) {
-        userParam.text09bold = false;
-    }
-    if (!userParam.text09border) {
-        userParam.text09border = false;
-    }
-
-    //Signature
-    if (!userParam.localityAndDate) {
-        userParam.localityAndDate = '';
-    }
-
-    if (!userParam.signature) {
-        userParam.signature = '';
-    }
-
-    return userParam;
-}
-
-function parametersDialog(userParam) {
-
-    var savedParam = Banana.document.getScriptSettings();
-    if (savedParam.length > 0) {
-        userParam = JSON.parse(savedParam);
-    }
-
-    if (typeof(Banana.Ui.openPropertyEditor) !== 'undefined') {
-        var dialogTitle = userParam.xmldialogtitle;
-        var convertedParam = convertParam(userParam);
-        var pageAnchor = 'dlgSettings';
-        if (!Banana.Ui.openPropertyEditor(dialogTitle, convertedParam, pageAnchor)) {
-            return;
-        }
-        
-        for (var i = 0; i < convertedParam.data.length; i++) {
-            // Read values to userParam (through the readValue function)
-            convertedParam.data[i].readValue();
-        }
-    }
-    else {
-
-        //userParam.costcenter = Banana.Ui.getText('costcenter', 'Mitgliedkonto', cursorSelectedCostCenter);
-        var membershipList = getMemebershipListWithDescription(Banana.document);
-        var defaultItem = '';
-        for (var i = 0; i < membershipList.length; i++) {
-            if (membershipList[i].split(' ')[0] === cursorSelectedCostCenter) {
-                defaultItem = i;
-            }
-        } 
-        userParam.costcenter = Banana.Ui.getItem('', 'Mitgliedskonto', membershipList, defaultItem, false);
-        if (userParam.costcenter) {
-            //removes the description text in order to have only the account (es. ";S001 Socio 1" => ";S001")
-            userParam.costcenter = userParam.costcenter.split(' ')[0];            
-        } else {
-            return;
-        }
-
-        // userParam.account = Banana.Ui.getText('account', 'Account', '');
-        // if (userParam.account === undefined) {
-        //     return;
-        // }
-
-        userParam.transactions = Banana.Ui.getInt('', 'Buchungen anzeigen  (0=Nein; 1=Ja)', userParam.transactions);
-        if (userParam.transactions === undefined) {
-            return;
-        }
-
-        // userParam.address = Banana.Ui.getText('address', 'Aussteller', '');
-        // if (userParam.address === undefined) {
-        //     return;
-        // }
-
-        userParam.text01 = Banana.Ui.getText('', 'Aussteller Zeile 1', '');
-        if (userParam.text01 === undefined) {
-            return;
-        }
-
-        userParam.text02 = Banana.Ui.getText('', 'Aussteller Zeile 2', '');
-        if (userParam.text02 === undefined) {
-            return;
-        }
-
-        userParam.text03 = Banana.Ui.getText('', 'Aussteller Zeile 3', '');
-        if (userParam.text03 === undefined) {
-            return;
-        }
-
-        //Free text 1
-        userParam.text04 = Banana.Ui.getText('', 'Text 1', '');
-        if (userParam.text04 === undefined) {
-            return;
-        }
-        userParam.text04bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text04bold);
-        if (userParam.text04bold === undefined) {
-            return;
-        }
-        userParam.text04border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text04border);
-        if (userParam.text04border === undefined) {
-            return;
-        }
-
-        //Free text 2
-        userParam.text05 = Banana.Ui.getText('', 'Text 2', '');
-        if (userParam.text05 === undefined) {
-            return;
-        }
-        userParam.text05bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text05bold);
-        if (userParam.text05bold === undefined) {
-            return;
-        }
-        userParam.text05border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text05border);
-        if (userParam.text05border === undefined) {
-            return;
-        }
-
-        //Free text 3
-        userParam.text06 = Banana.Ui.getText('', 'Text 3', '');
-        if (userParam.text06 === undefined) {
-            return;
-        }
-        userParam.text06bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text06bold);
-        if (userParam.text06bold === undefined) {
-            return;
-        }
-        userParam.text06border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text06border);
-        if (userParam.text06border === undefined) {
-            return;
-        }
-
-        //Free text 4
-        userParam.text07 = Banana.Ui.getText('', 'Text 4', '');
-        if (userParam.text07 === undefined) {
-            return;
-        }
-        userParam.text07bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text07bold);
-        if (userParam.text07bold === undefined) {
-            return;
-        }
-        userParam.text07border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text07border);
-        if (userParam.text07border === undefined) {
-            return;
-        }
-
-        //Free text 5
-        userParam.text08 = Banana.Ui.getText('', 'Text 5', '');
-        if (userParam.text08 === undefined) {
-            return;
-        }
-        userParam.text08bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text08bold);
-        if (userParam.text08bold === undefined) {
-            return;
-        }
-        userParam.text08border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text08border);
-        if (userParam.text08border === undefined) {
-            return;
-        }
-
-        //Free text 6
-        userParam.text09 = Banana.Ui.getText('', 'Text 6', '');
-        if (userParam.text09 === undefined) {
-            return;
-        }
-        userParam.text09bold = Banana.Ui.getInt('', 'Fett (0=Nein; 1=Ja)', userParam.text09bold);
-        if (userParam.text09bold === undefined) {
-            return;
-        }
-        userParam.text09border = Banana.Ui.getInt('', 'Rahmen (0=Nein; 1=Ja)', userParam.text09border);
-        if (userParam.text09border === undefined) {
-            return;
-        }
-
-        userParam.localityAndDate = Banana.Ui.getText('', 'Ort und Datum', '');
-        if (userParam.localityAndDate === undefined) {
-            return;
-        }
-
-        userParam.signature = Banana.Ui.getText('', 'Unterschrift', '');
-        if (userParam.signature === undefined) {
-            return;
-        }        
-    }
-
-    var paramToString = JSON.stringify(userParam);
-    var value = Banana.document.setScriptSettings(paramToString);
-    
-    return userParam;
-}
-
-
-/**************************************************************************************
-*
-* SCRIPT SETTINGS
-*
-**************************************************************************************/
-function getScriptSettings() {
-   var data = Banana.document.getScriptSettings();
-   //Check if there are previously saved settings and read them
-   if (data.length > 0) {
-       try {
-           var readSettings = JSON.parse(data);
-           //We check if "readSettings" is not null, then we fill the formeters with the values just read
-           if (readSettings) {
-               return readSettings;
-           }
-       } catch (e) {
-       }
-   }
-
-   return {
-      "selectionStartDate": "",
-      "selectionEndDate": "",
-      "selectionChecked": "false"
-   }
-}
-
-/* The main purpose of this function is to allow the user to enter the accounting period desired and saving it for the next time the script is run
-   Every time the user runs of the script he has the possibility to change the date of the accounting period */
-function settingsDialog() {
-    
-    //The formeters of the period that we need
-    var scriptform = getScriptSettings();
-
-    //We take the accounting "starting date" and "ending date" from the document. These will be used as default dates
-    var docStartDate = Banana.document.startPeriod();
-    var docEndDate = Banana.document.endPeriod();   
-    
-    //A dialog window is opened asking the user to insert the desired period. By default is the accounting period
-    var selectedDates = Banana.Ui.getPeriod(param.reportName, docStartDate, docEndDate, 
-        scriptform.selectionStartDate, scriptform.selectionEndDate, scriptform.selectionChecked);
-        
-    //We take the values entered by the user and save them as "new default" values.
-    //This because the next time the script will be executed, the dialog window will contains the new values.
-    if (selectedDates) {
-        scriptform["selectionStartDate"] = selectedDates.startDate;
-        scriptform["selectionEndDate"] = selectedDates.endDate;
-        scriptform["selectionChecked"] = selectedDates.hasSelection;
-
-        //Save script settings
-        var formToString = JSON.stringify(scriptform);
-        var value = Banana.document.setScriptSettings(formToString);       
-    } else {
-        //User clicked cancel
-        return null;
-    }
-    return scriptform;
-}
-
-
-/**************************************************************************************
-*
-* FOOTER
-*
-**************************************************************************************/
-/* This function adds a Footer to the report */
-function addFooter(report) {
-    var date = new Date();
-    var d = Banana.Converter.toLocaleDateFormat(date);
-    report.getFooter().addClass("footer");
-    var textfield = report.getFooter();
-
-    //var text1 = "(Ort, Datum und Unterschrift des Zuwendungsempfängers)";
-    var text2 = "Hinweis:";
-    var text3 = "Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG).";
-    var text4 = "Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungs-bescheides länger als 5 Jahre bzw.";
-    var text5 = "das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO).";
-
-    //textfield.addParagraph("", "horizontalLine");
-    //textfield.addParagraph(text1, "");
-    textfield.addParagraph(" ", "");
-    textfield.addParagraph(text2, "bold");
-    textfield.addParagraph(text3, "");
-    textfield.addParagraph(" ", "");
-    textfield.addParagraph(text4 + " " + text5, "");
-}
-
-
-/**************************************************************************************
-*
-* STYLE
-*
-**************************************************************************************/
-/* Function that creates all the styles used to print the report */
-function createStyleSheet() {
-    var stylesheet = Banana.Report.newStyleSheet();
-    
-    stylesheet.addStyle("@page", "margin:20mm 10mm 10mm 20mm;") 
-    stylesheet.addStyle("body", "font-family:Helvetica; font-size:8pt");
-    stylesheet.addStyle(".footer", "font-size:8pt");
-    stylesheet.addStyle(".bold", "font-weight:bold;");
-    stylesheet.addStyle(".borderLeft", "border-left:thin solid black");
-    stylesheet.addStyle(".borderTop", "border-top:thin solid black");
-    stylesheet.addStyle(".borderRight", "border-right:thin solid black");
-    stylesheet.addStyle(".borderBottom", "border-bottom:thin solid black");
-    stylesheet.addStyle(".horizontalLine", "border-top:thin solid black");
-    stylesheet.addStyle(".right", "text-align:right;");
-    stylesheet.addStyle(".headerStyle", "background-color:#E0EFF6; text-align:center; font-weight:bold;");
-    stylesheet.addStyle(".padding", "padding-bottom:2px; padding-top:3px; padding-left:2px; padding-right:2px;");
-
-    /* table01 */
-    var tableStyle = stylesheet.addStyle(".table01");
-    tableStyle.setAttribute("width", "100%");
-    stylesheet.addStyle("table.table01 td", "border:thin solid black;");
-
-    /* table02 */
-    var tableStyle = stylesheet.addStyle(".table02");
-    tableStyle.setAttribute("width", "100%");
-    stylesheet.addStyle(".t2col1", "width:10%");
-    stylesheet.addStyle(".t2col2", "width:10%");
-    stylesheet.addStyle(".t2col3", "width:60%");
-    stylesheet.addStyle(".t2col4", "width:20%");
-    //stylesheet.addStyle("table.table02 td", "border-right:thin solid black;");
-    // stylesheet.addStyle("table.table02 td", "border:thin solid black;");
-
-    /* table03 */
-    var tableStyle = stylesheet.addStyle(".table03");
-    tableStyle.setAttribute("width", "100%");
-    stylesheet.addStyle("table.table03 td", "border:thin solid black;");
-
-    /* table04 */
-    var tableStyle = stylesheet.addStyle(".table04");
-    tableStyle.setAttribute("width", "80%");
-
-    //Style for the table titles
-    style = stylesheet.addStyle(".styleTableHeader");
-    style.setAttribute("font-weight", "bold");
-    style.setAttribute("padding-bottom", "5px");
-    style.setAttribute("background-color", "#ffd100");
-    style.setAttribute("color", "#1b365d");
-
-    //Style for account numbers
-    style = stylesheet.addStyle(".styleAccount");
-    style.setAttribute("padding-bottom", "5px");
-    style.setAttribute("text-align", "center");
-
-    //Style for amounts
-    style = stylesheet.addStyle(".styleAmount");
-    style.setAttribute("padding-bottom", "5px");
-    style.setAttribute("text-align", "right");
-
-    //Style for balances
-    style = stylesheet.addStyle(".styleBalance");
-    style.setAttribute("color", "red");
-
-    //Style for the total of the table
-    style = stylesheet.addStyle(".styleTotal");
-    style.setAttribute("font-weight", "bold");
-    style.setAttribute("padding-bottom", "5px");
-    style.setAttribute("background-color", "#b7c3e0");
-    style.setAttribute("border-bottom", "1px double black");
-
-    return stylesheet;
 }

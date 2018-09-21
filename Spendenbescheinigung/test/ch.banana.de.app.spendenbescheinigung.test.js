@@ -16,7 +16,7 @@
 
 // @id = ch.banana.de.app.spendenbescheinigung.test
 // @api = 1.0
-// @pubdate = 2018-06-13
+// @pubdate = 2018-09-19
 // @publisher = Banana.ch SA
 // @description = <TEST ch.banana.de.app.spendenbescheinigung.js>
 // @task = app.command
@@ -60,52 +60,61 @@ ReportTest.prototype.cleanup = function() {
 // Generate the expected (correct) file
 ReportTest.prototype.testBananaApp = function() {
 
-  //Open the banana document
-  var banDoc = Banana.application.openDocument("file:script/../test/testcases/test001.ac2");
-  Test.assert(banDoc);
-
-  //Set params (normally are taken from settings)
+  //Test file 1
+  var file = "file:script/../test/testcases/test001.ac2";
+  var donorsList = [";S001",";S002",";S003",";S004"];
+  
   var userParam = {};
-  userParam.costcenter = ';S001';
+  userParam.costcenter = donorsList;
   userParam.account = '';
   userParam.transactions = true;
-  userParam.text01 = 'Banana.ch SA';
-  userParam.text02 = 'Via Trevano 7a';
-  userParam.text03 = '6900 Lugano';
-  userParam.text04 = 'Prova testo 1';
-  userParam.text04bold = false;
-  userParam.text04border = false;
-  userParam.text05 = 'Prova testo 2';
-  userParam.text05bold = false;
-  userParam.text05border = false;
-  userParam.text06 = 'Prova testo 3';
-  userParam.text06bold = false;
-  userParam.text06border = false;
-  userParam.text07 = 'Prova testo 4';
-  userParam.text07bold = false;
-  userParam.text07border = false;
-  userParam.text08 = 'Prova testo 5';
-  userParam.text08bold = false;
-  userParam.text08border = false;
-  userParam.text09 = 'Prova testo 6';
-  userParam.text09bold = false;
-  userParam.text09border = false;
-  userParam.localityAndDate = 'Lugano, giugno 2018';
-  userParam.signature = 'Pinco Pallino';
+  userParam.text01 = 'Aaa Bbb SA';
+  userParam.text02 = 'Via Boschetto 3';
+  userParam.text03 = '6500 Bellinzona';
+  userParam.localityAndDate = 'Bellinzona, giugno 2018';
+  userParam.signature = 'Mario Rossi';
+  userParam.printLogo = 0;
 
-  this.report_test(banDoc, "2018-01-01", "2018-12-31", userParam, "Whole year report");
-  this.report_test(banDoc, "2018-01-01", "2018-06-30", userParam, "First semester report");
-  this.report_test(banDoc, "2018-07-01", "2018-12-31", userParam, "Second semester report");
-  this.report_test(banDoc, "2018-01-01", "2018-03-31", userParam, "First quarter report");
-  this.report_test(banDoc, "2018-04-01", "2018-06-30", userParam, "Second quarter report");
-  this.report_test(banDoc, "2018-07-01", "2018-09-30", userParam, "Third quarter report");
-  this.report_test(banDoc, "2018-10-01", "2018-12-31", userParam, "Fourth quarter report");
+  var banDoc = Banana.application.openDocument(file);
+  Test.assert(banDoc);
+  this.report_test(banDoc, "2018-01-01", "2018-12-31", userParam, donorsList, "Whole year report");
+  this.report_test(banDoc, "2018-01-01", "2018-06-30", userParam, donorsList, "First semester report");
+  this.report_test(banDoc, "2018-07-01", "2018-12-31", userParam, donorsList, "Second semester report");
+  this.report_test(banDoc, "2018-01-01", "2018-03-31", userParam, donorsList, "First quarter report");
+  this.report_test(banDoc, "2018-04-01", "2018-06-30", userParam, donorsList, "Second quarter report");
+  this.report_test(banDoc, "2018-07-01", "2018-09-30", userParam, donorsList, "Third quarter report");
+  this.report_test(banDoc, "2018-10-01", "2018-12-31", userParam, donorsList, "Fourth quarter report");
+  
+  //Test file 2
+  var file = "file:script/../test/testcases/test002.ac2";
+  var donorsList = [";MEYER",";10001",";BARTUSCH",";VOIT"];
+  
+  var userParam = {};
+  userParam.costcenter = donorsList;
+  userParam.account = '';
+  userParam.transactions = true;
+  userParam.text01 = 'Ursula Beier - Sri Lanka Hilfe e. V.';
+  userParam.text02 = 'Langschwander Weg 355';
+  userParam.text03 = '87477 Sulberg-Moostbach';
+  userParam.localityAndDate = 'Lugano, settembre 2018';
+  userParam.signature = 'Ursula Beier';
+  userParam.printLogo = 0;
+
+  var banDoc = Banana.application.openDocument(file);
+  Test.assert(banDoc);
+  this.report_test(banDoc, "2018-01-01", "2018-12-31", userParam, donorsList, "Whole year report");
+  this.report_test(banDoc, "2018-01-01", "2018-06-30", userParam, donorsList, "First semester report");
+  this.report_test(banDoc, "2018-07-01", "2018-12-31", userParam, donorsList, "Second semester report");
+  this.report_test(banDoc, "2018-01-01", "2018-03-31", userParam, donorsList, "First quarter report");
+  this.report_test(banDoc, "2018-04-01", "2018-06-30", userParam, donorsList, "Second quarter report");
+  this.report_test(banDoc, "2018-07-01", "2018-09-30", userParam, donorsList, "Third quarter report");
+  this.report_test(banDoc, "2018-10-01", "2018-12-31", userParam, donorsList, "Fourth quarter report");
 
 }
 
 //Function that create the report for the test
-ReportTest.prototype.report_test = function(banDoc, startDate, endDate, userParam, reportName) {
-  var report = createReport(banDoc, startDate, endDate, userParam);
+ReportTest.prototype.report_test = function(banDoc, startDate, endDate, userParam, donorsList, reportName) {
+  var report = createReport(banDoc, startDate, endDate, userParam, donorsList);
   Test.logger.addReport(reportName, report);
 }
 
