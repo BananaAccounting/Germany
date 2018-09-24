@@ -16,7 +16,7 @@
 
 // @id = ch.banana.de.app.spendenbescheinigung.test
 // @api = 1.0
-// @pubdate = 2018-09-19
+// @pubdate = 2018-09-24
 // @publisher = Banana.ch SA
 // @description = <TEST ch.banana.de.app.spendenbescheinigung.js>
 // @task = app.command
@@ -93,11 +93,11 @@ ReportTest.prototype.testBananaApp = function() {
   userParam.costcenter = donorsList;
   userParam.account = '';
   userParam.transactions = true;
-  userParam.text01 = 'Ursula Beier - Sri Lanka Hilfe e. V.';
-  userParam.text02 = 'Langschwander Weg 355';
-  userParam.text03 = '87477 Sulberg-Moostbach';
-  userParam.localityAndDate = 'Lugano, settembre 2018';
-  userParam.signature = 'Ursula Beier';
+  userParam.text01 = "Gemeinnütziger Sportverein 'MUSTER'";
+  userParam.text02 = 'Sportstrasse 52';
+  userParam.text03 = '10439 Berlin';
+  userParam.localityAndDate = 'Berlin, September 2018';
+  userParam.signature = 'Felix Muster';
   userParam.printLogo = 0;
 
   var banDoc = Banana.application.openDocument(file);

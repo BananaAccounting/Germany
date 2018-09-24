@@ -3334,7 +3334,7 @@ Borholmerstr. 24 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -3372,7 +3372,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -3436,7 +3436,7 @@ Goethestr. 5 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -3474,7 +3474,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -3538,7 +3538,7 @@ Mühlenstraße \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -3576,7 +3576,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -3640,7 +3640,7 @@ Dorfstr. 12 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -3678,7 +3678,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -3744,7 +3744,7 @@ Borholmerstr. 24 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -3782,7 +3782,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -3846,7 +3846,7 @@ Goethestr. 5 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -3884,7 +3884,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -3948,7 +3948,7 @@ Mühlenstraße \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -3986,7 +3986,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4050,7 +4050,7 @@ Dorfstr. 12 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -4088,7 +4088,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4154,7 +4154,7 @@ Borholmerstr. 24 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -4192,7 +4192,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4256,7 +4256,7 @@ Goethestr. 5 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -4294,7 +4294,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4358,7 +4358,7 @@ Mühlenstraße \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -4396,7 +4396,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4460,7 +4460,7 @@ Dorfstr. 12 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -4498,7 +4498,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4564,7 +4564,7 @@ Borholmerstr. 24 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -4602,7 +4602,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4666,7 +4666,7 @@ Goethestr. 5 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -4704,7 +4704,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4768,7 +4768,7 @@ Mühlenstraße \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -4806,7 +4806,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4870,7 +4870,7 @@ Dorfstr. 12 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -4908,7 +4908,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -4974,7 +4974,7 @@ Borholmerstr. 24 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5012,7 +5012,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5076,7 +5076,7 @@ Goethestr. 5 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5114,7 +5114,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5178,7 +5178,7 @@ Mühlenstraße \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5216,7 +5216,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5280,7 +5280,7 @@ Dorfstr. 12 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5318,7 +5318,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5384,7 +5384,7 @@ Borholmerstr. 24 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5422,7 +5422,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5486,7 +5486,7 @@ Goethestr. 5 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5524,7 +5524,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5588,7 +5588,7 @@ Mühlenstraße \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5626,7 +5626,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5690,7 +5690,7 @@ Dorfstr. 12 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5728,7 +5728,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5794,7 +5794,7 @@ Borholmerstr. 24 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5832,7 +5832,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5896,7 +5896,7 @@ Goethestr. 5 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -5934,7 +5934,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -5998,7 +5998,7 @@ Mühlenstraße \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -6036,7 +6036,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
@@ -6100,7 +6100,7 @@ Dorfstr. 12 \\
   \\
   \\
 \begin{longtable}[l]{ l }
-Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Ursula Beier - Sri Lanka Hilfe e. V. \newline Langschwander Weg 355 \newline 87477 Sulberg-Moostbach \newline \\
+Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
   \\
 Sammelbestätigung über Geldzuwendungen/Mitgliedsbeiträge \\
@@ -6138,7 +6138,7 @@ Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anla
   \\
   \\
 \begin{longtable}[l]{ l  l  l }
-Lugano, settembre 2018  & Ursula Beier  &                       \\
+Berlin, September 2018  & Felix Muster  &                       \\
 \multicolumn{3}{l}{}\\
 \multicolumn{3}{l}{(Ort, Datum und Unterschrift des Zuwendungsempfängers) }\\
 \end{longtable}
