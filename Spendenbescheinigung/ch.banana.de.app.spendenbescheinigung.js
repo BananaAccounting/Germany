@@ -95,7 +95,7 @@ function createReport(banDoc, startDate, endDate, userParam, donorsToPrint) {
         /*************************************
         a) Address of the sender
         *************************************/
-        var headerLeft = banDoc.info("Base","HeaderLeft");
+        var company = banDoc.info("AccountingDataBase","Company");
         var name = banDoc.info("AccountingDataBase","Name");
         var familyName = banDoc.info("AccountingDataBase","FamilyName");
         var address1 = banDoc.info("AccountingDataBase","Address1");
@@ -103,15 +103,23 @@ function createReport(banDoc, startDate, endDate, userParam, donorsToPrint) {
         var city = banDoc.info("AccountingDataBase","City");
         var country = banDoc.info("AccountingDataBase","Country");
 
-        if (name && familyName && headerLeft) {
-            report.addParagraph(name + " " + familyName + " - " + headerLeft, "");
-        } else if (name && familyName && !headerLeft) {
+        if (name && familyName && company) {
+            report.addParagraph(company + ", " + name + " " + familyName, "");
+        } else if (name && familyName && !company) {
             report.addParagraph(name + " " + familyName, "");
-        } else if (!name && familyName && !headerLeft) {
-        	report.addParagraph(familyName, "");
+        } else if (!name && !familyName && company) {
+        	report.addParagraph(company, "");
         }
 
-        report.addParagraph(address1 + ", " + zip + " " + city, "");
+        if (address1 && zip && city) {
+            report.addParagraph(address1 + ", " + zip + " " + city, "");
+        }
+        else if (!address1 && zip && city) {
+            report.addParagraph(zip + " " + city, "");
+        }
+        else if (!address1 && !zip && city) {
+            report.addParagraph(city, "");
+        }
         report.addParagraph("", "");
 
 

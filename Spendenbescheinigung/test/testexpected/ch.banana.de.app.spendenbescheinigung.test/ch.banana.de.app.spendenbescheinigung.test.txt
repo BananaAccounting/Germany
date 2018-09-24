@@ -18,7 +18,7 @@
 \newenvironment{testcase}[1]{\section*{Test: #1}}{\newpage}
 \newenvironment{test}[1]{\section*{Test case: #1}}{}
 %Begin test data
-%%SCRIPT{/Users/ivan/Desktop/Germany/modifiche_18.09.2018/test/ch.banana.de.app.spendenbescheinigung.test.js}
+%%SCRIPT{/Users/ivan/Documents/GitHub/Germany/Spendenbescheinigung/test/ch.banana.de.app.spendenbescheinigung.test.js}
 %
 \begin{testcase}{ReportTest}
 \begin{test}{testBananaApp}
@@ -31,7 +31,7 @@
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \\
 Via AaBb 12 \\
@@ -148,7 +148,7 @@ Summe in Worten (zwölftausend 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ditta SA \\
 Via Def 12 \\
@@ -265,7 +265,7 @@ Summe in Worten (neunhundertsechzig 75/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \\
 Via Ij 34 \\
@@ -382,7 +382,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \\
 Via Pqrs \\
@@ -501,7 +501,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \\
 Via AaBb 12 \\
@@ -618,7 +618,7 @@ Summe in Worten (sechstausend 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ditta SA \\
 Via Def 12 \\
@@ -735,7 +735,7 @@ Summe in Worten (dreihundertsechzig 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \\
 Via Ij 34 \\
@@ -852,7 +852,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \\
 Via Pqrs \\
@@ -971,7 +971,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \\
 Via AaBb 12 \\
@@ -1088,7 +1088,7 @@ Summe in Worten (sechstausend 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ditta SA \\
 Via Def 12 \\
@@ -1205,7 +1205,7 @@ Summe in Worten (sechshundert 75/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \\
 Via Ij 34 \\
@@ -1322,7 +1322,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \\
 Via Pqrs \\
@@ -1441,7 +1441,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \\
 Via AaBb 12 \\
@@ -1558,7 +1558,7 @@ Summe in Worten (dreitausend 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ditta SA \\
 Via Def 12 \\
@@ -1675,7 +1675,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \\
 Via Ij 34 \\
@@ -1792,7 +1792,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \\
 Via Pqrs \\
@@ -1911,7 +1911,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \\
 Via AaBb 12 \\
@@ -2028,7 +2028,7 @@ Summe in Worten (dreitausend 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ditta SA \\
 Via Def 12 \\
@@ -2145,7 +2145,7 @@ Summe in Worten (dreihundertsechzig 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \\
 Via Ij 34 \\
@@ -2262,7 +2262,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \\
 Via Pqrs \\
@@ -2381,7 +2381,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \\
 Via AaBb 12 \\
@@ -2498,7 +2498,7 @@ Summe in Worten (dreitausend 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ditta SA \\
 Via Def 12 \\
@@ -2615,7 +2615,7 @@ Summe in Worten (fünfhundertzehn 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \\
 Via Ij 34 \\
@@ -2732,7 +2732,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \\
 Via Pqrs \\
@@ -2851,7 +2851,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \\
 Via AaBb 12 \\
@@ -2968,7 +2968,7 @@ Summe in Worten (dreitausend 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ditta SA \\
 Via Def 12 \\
@@ -3085,7 +3085,7 @@ Summe in Worten (neunzig 75/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \\
 Via Ij 34 \\
@@ -3202,7 +3202,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Accounting Software \\
+Banana.ch SA, Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \\
 Via Pqrs \\
@@ -3321,7 +3321,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Klaus Meyer                                                             Mitgliedskonto: MEYER \\
 Borholmerstr. 24 \\
@@ -3423,7 +3423,7 @@ Summe in Worten (eintausendzweihundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Karin Schulze                                                             Mitgliedskonto: 10001 \\
 Goethestr. 5 \\
@@ -3525,7 +3525,7 @@ Summe in Worten (siebenhundert 35/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \\
 Mühlenstraße \\
@@ -3627,7 +3627,7 @@ Summe in Worten (zweihundertsiebzig 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Voit Ulrich                                                             Mitgliedskonto: VOIT \\
 Dorfstr. 12 \\
@@ -3731,7 +3731,7 @@ Summe in Worten (zweihundertfünfzig 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Klaus Meyer                                                             Mitgliedskonto: MEYER \\
 Borholmerstr. 24 \\
@@ -3833,7 +3833,7 @@ Summe in Worten (sechshundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Karin Schulze                                                             Mitgliedskonto: 10001 \\
 Goethestr. 5 \\
@@ -3935,7 +3935,7 @@ Summe in Worten (fünfhundert 35/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \\
 Mühlenstraße \\
@@ -4037,7 +4037,7 @@ Summe in Worten (sechzig 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Voit Ulrich                                                             Mitgliedskonto: VOIT \\
 Dorfstr. 12 \\
@@ -4141,7 +4141,7 @@ Summe in Worten (einhundertfünfzig 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Klaus Meyer                                                             Mitgliedskonto: MEYER \\
 Borholmerstr. 24 \\
@@ -4243,7 +4243,7 @@ Summe in Worten (sechshundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Karin Schulze                                                             Mitgliedskonto: 10001 \\
 Goethestr. 5 \\
@@ -4345,7 +4345,7 @@ Summe in Worten (zweihundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \\
 Mühlenstraße \\
@@ -4447,7 +4447,7 @@ Summe in Worten (zweihundertzehn 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Voit Ulrich                                                             Mitgliedskonto: VOIT \\
 Dorfstr. 12 \\
@@ -4551,7 +4551,7 @@ Summe in Worten (einhundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Klaus Meyer                                                             Mitgliedskonto: MEYER \\
 Borholmerstr. 24 \\
@@ -4653,7 +4653,7 @@ Summe in Worten (dreihundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Karin Schulze                                                             Mitgliedskonto: 10001 \\
 Goethestr. 5 \\
@@ -4755,7 +4755,7 @@ Summe in Worten (fünfhundert 35/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \\
 Mühlenstraße \\
@@ -4857,7 +4857,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Voit Ulrich                                                             Mitgliedskonto: VOIT \\
 Dorfstr. 12 \\
@@ -4961,7 +4961,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Klaus Meyer                                                             Mitgliedskonto: MEYER \\
 Borholmerstr. 24 \\
@@ -5063,7 +5063,7 @@ Summe in Worten (dreihundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Karin Schulze                                                             Mitgliedskonto: 10001 \\
 Goethestr. 5 \\
@@ -5165,7 +5165,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \\
 Mühlenstraße \\
@@ -5267,7 +5267,7 @@ Summe in Worten (sechzig 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Voit Ulrich                                                             Mitgliedskonto: VOIT \\
 Dorfstr. 12 \\
@@ -5371,7 +5371,7 @@ Summe in Worten (einhundertfünfzig 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Klaus Meyer                                                             Mitgliedskonto: MEYER \\
 Borholmerstr. 24 \\
@@ -5473,7 +5473,7 @@ Summe in Worten (dreihundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Karin Schulze                                                             Mitgliedskonto: 10001 \\
 Goethestr. 5 \\
@@ -5575,7 +5575,7 @@ Summe in Worten (zweihundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \\
 Mühlenstraße \\
@@ -5677,7 +5677,7 @@ Summe in Worten (zweihundertzehn 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Voit Ulrich                                                             Mitgliedskonto: VOIT \\
 Dorfstr. 12 \\
@@ -5781,7 +5781,7 @@ Summe in Worten (einhundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Klaus Meyer                                                             Mitgliedskonto: MEYER \\
 Borholmerstr. 24 \\
@@ -5883,7 +5883,7 @@ Summe in Worten (dreihundert 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Karin Schulze                                                             Mitgliedskonto: 10001 \\
 Goethestr. 5 \\
@@ -5985,7 +5985,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \\
 Mühlenstraße \\
@@ -6087,7 +6087,7 @@ Summe in Worten ( 00/100) \\
   \\
   \\
   \\
-Pinco Pallino - Mein Verein e.V. \\
+Pinco Pallino \\
 Via La Santa 7, 6962 Viganello \\
 Voit Ulrich                                                             Mitgliedskonto: VOIT \\
 Dorfstr. 12 \\
