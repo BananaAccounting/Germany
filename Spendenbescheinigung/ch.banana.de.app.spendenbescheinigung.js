@@ -14,13 +14,21 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2018-09-21
+// @pubdate = 2018-09-25
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung
 // @description.de = Spendenbescheinigung
 // @description.en = Donation receipt
 // @doctype = *
 // @task = app.command
+
+/*
+*   This BananaApp prints a donation receipt for all the selected donators and period.
+*   Donators can be:
+*   - a single donator (with or without ";") => (i.e. "10001" or  ";10011")
+*   - more donators (with or without ";") separated by "," => (i.e. "10001, ;10011,;10012")
+*   - all the donators (emty field) => (i.e. "")
+*/
 
 function exec(inData, options) {
     
@@ -53,19 +61,28 @@ function exec(inData, options) {
     var membershipList = getCC3List(Banana.document);
     var donorsToPrint = [];
 
-    //If user insert the Cc3 account without ";", we add it
-    if (userParam.costcenter && userParam.costcenter.substring(0,1) !== ";") {
-        userParam.costcenter = ";"+userParam.costcenter;
-    }
+    if (userParam.costcenter) {
+        var list = userParam.costcenter.split(",");
+        for (var i = 0; i < list.length; i++) {
+            list[i] = list[i].trim();
+            
+            //If user insert the Cc3 account without ";" we add it
+            if (list[i].substring(0,1) !== ";") {
+                list[i] = ";"+list[i];
+            }
 
-    if (userParam.costcenter && membershipList.indexOf(userParam.costcenter) > -1) { //CC3 exists
-        donorsToPrint.push(userParam.costcenter);
+            if (membershipList.indexOf(list[i]) > -1) { //Cc3 exists
+                donorsToPrint.push(list[i]);           
+            }
+            else { //Cc3 does not exists
+                Banana.document.addMessage("Ungültiges Mitgliedkonto Konto: <" + list[i] + ">");              
+            }
+        }
+        if (donorsToPrint.length < 1) {
+            return "@Cancel";
+        }
     }
-    else if (userParam.costcenter && membershipList.indexOf(userParam.costcenter) < 0) { //CC3 does not exists
-        Banana.document.addMessage("Ungültiges Mitgliedkonto Konto");
-        return "@Cancel";
-    }
-    else if (!userParam.costcenter || userParam.costcenter === "" || userParam.costcenter === undefined) { //Empty field, so we take all the CC3
+    else if (!userParam.costcenter || userParam.costcenter === "" || userParam.costcenter === undefined) { //Empty field, so we take all the Cc3
         donorsToPrint = membershipList;
     }
 
