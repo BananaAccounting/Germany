@@ -1,6 +1,12 @@
+# Hinweis
+
+Am 26.10.2018 informierte das Bayerisches Landesamt für Steuern, daß die von dieser App genutzte offene Schnittstelle zum Januar 2019 abgeschaltet wird. Das bedeutet, daß diese App ab 2019 nicht länger eingesetzt werden kann, um die erzeugten XML-Dateien direkt im ELSTER-Portal hochladen zu können.
+
+Weitere Informationen dazu finden Sie hier: https://github.com/stesie/geierlein/
+
 # Beschreibung
 
-Diese Banana App exportiert die für die Umsatzsteuervoranmeldung (UStVA) in Deutschland notwendigen Daten in Form einer XML-Datei. Die Datei kann im Elster Online Portal hochgeladen werden. Hilfestellung finden Sie unter folgender Webadresse:
+Diese Banana App exportiert die für die Umsatzsteuervoranmeldung (UStVA) in Deutschland notwendigen Daten in Form einer XML-Datei. Die Datei kann im Elster Online Portal bis Ende 2018 hochgeladen werden. Ab 2019 ist die dafür vorgesehene Funktion im Elster Online Portal nicht länger verfügbar. Hilfestellung finden Sie unter folgender Webadresse:
 
 https://www.elsteronline.de/hilfe/eop/private/formulare/leitfaden/ustva_upload.html
 
