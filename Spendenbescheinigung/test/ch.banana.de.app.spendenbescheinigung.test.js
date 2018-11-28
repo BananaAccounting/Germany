@@ -16,7 +16,7 @@
 
 // @id = ch.banana.de.app.spendenbescheinigung.test
 // @api = 1.0
-// @pubdate = 2018-09-24
+// @pubdate = 2018-09-28
 // @publisher = Banana.ch SA
 // @description = <TEST ch.banana.de.app.spendenbescheinigung.js>
 // @task = app.command
@@ -71,6 +71,7 @@ ReportTest.prototype.testBananaApp = function() {
   userParam.text01 = 'Aaa Bbb SA';
   userParam.text02 = 'Via Boschetto 3';
   userParam.text03 = '6500 Bellinzona';
+  userParam.printAccount = true;
   userParam.localityAndDate = 'Bellinzona, giugno 2018';
   userParam.signature = 'Mario Rossi';
   userParam.printLogo = 0;
@@ -96,6 +97,7 @@ ReportTest.prototype.testBananaApp = function() {
   userParam.text01 = "Gemeinnütziger Sportverein 'MUSTER'";
   userParam.text02 = 'Sportstrasse 52';
   userParam.text03 = '10439 Berlin';
+  userParam.printAccount = true;
   userParam.localityAndDate = 'Berlin, September 2018';
   userParam.signature = 'Felix Muster';
   userParam.printLogo = 0;

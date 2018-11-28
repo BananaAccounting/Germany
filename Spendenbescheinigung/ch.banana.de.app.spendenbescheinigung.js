@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2018-09-25
+// @pubdate = 2018-11-28
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung
 // @description.de = Spendenbescheinigung
@@ -145,7 +145,12 @@ function createReport(banDoc, startDate, endDate, userParam, donorsToPrint) {
         *************************************/
         var address = getAddress(banDoc, donorsToPrint[k]);
         if (address.firstname && address.familyname) {
-            report.addParagraph(address.firstname + " " + address.familyname + "                                                             Mitgliedskonto: " + donorsToPrint[k].substring(1), "address");
+            
+            if (userParam.printAccount) {
+                report.addParagraph(address.firstname + " " + address.familyname + "                                                             Mitgliedskonto: " + donorsToPrint[k].substring(1), "address");
+            } else {
+                report.addParagraph(address.firstname + " " + address.familyname, "address");
+            }
         } else {
             report.addParagraph(address.familyname, "address");
         }
@@ -191,7 +196,11 @@ function createReport(banDoc, startDate, endDate, userParam, donorsToPrint) {
             paragraph01.addParagraph(address.familyname, "bold");
         }
         paragraph01.addParagraph(address.street + ", " + address.postalcode + " " + address.locality, "bold");
-        paragraph01.addParagraph("Mitgliedskonto: " + donorsToPrint[k].substring(1), "bold");
+        
+        if (userParam.printAccount) {
+            paragraph01.addParagraph("Mitgliedskonto: " + donorsToPrint[k].substring(1), "bold");
+        }
+        
         report.addParagraph(" ", "");
 
 
@@ -393,7 +402,16 @@ function calculateTotalTransactions(banDoc, costcenter, startDate, endDate) {
         if (date >= startDate && date <= endDate) {
 
             if (costcenter && costcenter === cc3) {
-                total = Banana.SDecimal.add(total, tRow.value("Amount"));
+
+                /*  If simple accounting, amount=Income column of transaction
+                    If double accounting, amount=Amount column of transaction */
+                if (banDoc.table("Categories")) {
+                    var amount = tRow.value("Income");
+                } else {
+                    var amount = tRow.value("Amount");
+                }
+
+                total = Banana.SDecimal.add(total, amount);
             }
         }
     }
@@ -446,14 +464,23 @@ function printTransactionTable(banDoc, report, costcenter, startDate, endDate) 
         if (date >= startDate && date <= endDate) {
 
             if (costcenter && costcenter === cc3) {
+
+                /*  If simple accounting, amount=Income column of transaction
+                    If double accounting, amount=Amount column of transaction */
+                if (banDoc.table("Categories")) {
+                    var amount = tRow.value("Income");
+                } else {
+                    var amount = tRow.value("Amount");
+                }
+
                 rowCnt++;
                 tableRow.addCell(rowCnt, "borderRight", 1); //sequencial numbers
                 tableRow.addCell(tRow.value("Description"), "borderRight", 1);
                 tableRow.addCell(Banana.Converter.toLocaleDateFormat(tRow.value("Date")), "borderRight", 1);
                 tableRow.addCell(name, "borderRight", 1);
-                tableRow.addCell(Banana.Converter.toLocaleNumberFormat(tRow.value("Amount")), "right borderRight", 1);
+                tableRow.addCell(Banana.Converter.toLocaleNumberFormat(amount), "right borderRight", 1);
                 tableRow.addCell("Nein", "center borderRight", 1);
-                total = Banana.SDecimal.add(total, tRow.value("Amount"));
+                total = Banana.SDecimal.add(total, amount);
             }
         }
     }
@@ -542,6 +569,17 @@ function convertParam(userParam) {
     }
     convertedParam.data.push(currentParam);
 
+    // print account number
+    var currentParam = {};
+    currentParam.name = 'printAccount';
+    currentParam.title = 'Mitgliedskonto ausdrucken';
+    currentParam.type = 'bool';
+    currentParam.value = userParam.printAccount ? true : false;
+    currentParam.readValue = function() {
+        userParam.printAccount = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
     // locality and date
     var currentParam = {};
     currentParam.name = 'localityAndDate';
@@ -598,6 +636,7 @@ function initUserParam() {
     userParam.text01 = '';
     userParam.text02 = '';
     userParam.text03 = '';
+    userParam.printAccount = true;
     userParam.localityAndDate = '';
     userParam.signature = '';
     userParam.printLogo = '';
@@ -625,50 +664,6 @@ function parametersDialog(userParam) {
             convertedParam.data[i].readValue();
         }
     }
-    // else {
-    //     userParam.costcenter = Banana.Ui.getText('', 'Mitgliedskonto', '');
-    //     if (userParam.costcenter) {
-    //         //removes the description text in order to have only the account (es. ";S001 Socio 1" => ";S001")
-    //         userParam.costcenter = userParam.costcenter.split(' ')[0];            
-    //     } else {
-    //         userParam.costcenter = getCC3List(Banana.document); //take the list of all CC3 accounts
-    //     }
-
-    //     userParam.text01 = Banana.Ui.getText('', 'Aussteller Zeile 1', '');
-    //     if (userParam.text01 === undefined) {
-    //         return;
-    //     }
-
-    //     userParam.text02 = Banana.Ui.getText('', 'Aussteller Zeile 2', '');
-    //     if (userParam.text02 === undefined) {
-    //         return;
-    //     }
-
-    //     userParam.text03 = Banana.Ui.getText('', 'Aussteller Zeile 3', '');
-    //     if (userParam.text03 === undefined) {
-    //         return;
-    //     }
-
-    //     userParam.localityAndDate = Banana.Ui.getText('', 'Ort und Datum', '');
-    //     if (userParam.localityAndDate === undefined) {
-    //         return;
-    //     }
-
-    //     userParam.signature = Banana.Ui.getText('', 'Unterschrift', '');
-    //     if (userParam.signature === undefined) {
-    //         return;
-    //     }
-
-    //     userParam.printLogo = Banana.Ui.getInt('', 'Unterschrift mit Bild (1=ja, 0=nein)', '');
-    //     if (userParam.printLogo === undefined) {
-    //         return;
-    //     }
-
-    //     userParam.image_height = Banana.Ui.getInt('', 'Bildhöhe (mm)', '');
-    //     if (userParam.image_height === undefined) {
-    //         return;
-    //     }   
-    // }
 
     var paramToString = JSON.stringify(userParam);
     var value = Banana.document.setScriptSettings(paramToString);

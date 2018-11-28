@@ -1,6 +1,0 @@
-<!DOCTYPE RCC><RCC version="1.0">
- <qresource>
-	<file alias="manifest.json">ch.banana.de.app.spendenbescheinigung.manifest.json</file>
- 	<file>ch.banana.de.app.spendenbescheinigung.js</file>
- </qresource>
- </RCC>

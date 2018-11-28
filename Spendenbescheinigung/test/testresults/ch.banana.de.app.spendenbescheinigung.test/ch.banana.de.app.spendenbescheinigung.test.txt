@@ -491,7 +491,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten ( 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{First semester report}
   \\
   \\
@@ -961,7 +961,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten ( 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{Second semester report}
   \\
   \\
@@ -1431,7 +1431,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten ( 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{First quarter report}
   \\
   \\
@@ -1901,7 +1901,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten ( 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{Second quarter report}
   \\
   \\
@@ -2371,7 +2371,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten ( 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{Third quarter report}
   \\
   \\
@@ -2841,7 +2841,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten ( 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{Fourth quarter report}
   \\
   \\
@@ -3311,7 +3311,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten ( 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{Whole year report}
   \\
   \\
@@ -3721,7 +3721,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten (zweihundertfünfzig 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{First semester report}
   \\
   \\
@@ -4131,7 +4131,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten (einhundertfünfzig 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{Second semester report}
   \\
   \\
@@ -4541,7 +4541,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten (einhundert 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{First quarter report}
   \\
   \\
@@ -4951,7 +4951,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten ( 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{Second quarter report}
   \\
   \\
@@ -5361,7 +5361,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten (einhundertfünfzig 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{Third quarter report}
   \\
   \\
@@ -5771,7 +5771,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten (einhundert 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \begin{reportvalue}{Fourth quarter report}
   \\
   \\
@@ -6181,7 +6181,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
   \\
   \\
 Summe in Worten ( 00/100) \\
-\#page-nr \end{reportvalue}
+\end{reportvalue}
 \keyvalue{Result}{Passed}
 \end{test}
 \begin{test}{testVerifyMethods}
