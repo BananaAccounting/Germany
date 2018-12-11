@@ -1034,7 +1034,7 @@ function parametersDialog(userParam) {
         var convertedParam = convertParam(userParam);
         var pageAnchor = 'dlgSettings';
         if (!Banana.Ui.openPropertyEditor(dialogTitle, convertedParam, pageAnchor)) {
-            return;
+            return userParam;
         }
         
         for (var i = 0; i < convertedParam.data.length; i++) {
