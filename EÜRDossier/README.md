@@ -3,7 +3,7 @@
 ## Roadmap
 Step to create support for Einnahmenüberschussrechnung in Banana Accounting
 
-- Create a complete accounting file Einnhamen/Ausgaben including:
+- Create a complete accounting file Einnhamen/Ausgaben including::
   - All accounts that may be related.
   - Headers and Groups for structucturing the report.
   - VAT Codes, for all the possible cases. Also Datev Code for the export in Datev format.
