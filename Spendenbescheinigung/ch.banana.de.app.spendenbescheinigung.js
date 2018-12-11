@@ -841,7 +841,7 @@ function convertParam(userParam) {
     // Texts
     var currentParam = {};
     currentParam.name = 'texts';
-    currentParam.title = 'Texts';
+    currentParam.title = 'Texte';
     currentParam.type = 'string';
     currentParam.value = userParam.texts ? userParam.texts : '';
     currentParam.readValue = function() {
