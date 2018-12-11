@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
-
 // @id = ch.banana.de.app.spendenbescheinigung.test
 // @api = 1.0
-// @pubdate = 2018-09-28
+// @pubdate = 2018-12-11
 // @publisher = Banana.ch SA
 // @description = <TEST ch.banana.de.app.spendenbescheinigung.js>
 // @task = app.command
@@ -60,63 +58,127 @@ ReportTest.prototype.cleanup = function() {
 // Generate the expected (correct) file
 ReportTest.prototype.testBananaApp = function() {
 
-  //Test file 1
-  var file = "file:script/../test/testcases/test001.ac2";
-  var donorsList = [";S001",";S002",";S003",";S004"];
-  
+  var file1 = "file:script/../test/testcases/test001.ac2";
+  var file2 = "file:script/../test/testcases/test002.ac2"
   var userParam = {};
-  userParam.costcenter = donorsList;
-  userParam.account = '';
-  userParam.transactions = true;
-  userParam.text01 = 'Aaa Bbb SA';
-  userParam.text02 = 'Via Boschetto 3';
-  userParam.text03 = '6500 Bellinzona';
+  var banDoc;
+
+  // Test #1
+  Test.logger.addComment("****************************************************************************** TEST #1 ******************************************************************************");
+  userParam.costcenter = ";S001,;S002,;S003,;S004";
   userParam.printAccount = true;
+  userParam.address = '';
+  userParam.addressText1 = 'Aaa Bbb SA';
+  userParam.addressText2 = 'Via Boschetto 3';
+  userParam.addressText3 = '6500 Bellinzona';
+  userParam.texts = '';
+  userParam.useDefaultTexts = false;
+  userParam.text1 = 'abc **xyz** mnp';
+  userParam.text2 = '**blah blah blah';
+  userParam.text3 = '[x] ddd **ddd** ddd';
+  userParam.text4 = '[x] ddd ******ddd***** ddd';
+  userParam.text5 = '**asdfasdfda dfdsf fdfdsf sfasdf**';
   userParam.localityAndDate = 'Bellinzona, giugno 2018';
   userParam.signature = 'Mario Rossi';
-  userParam.printLogo = 0;
+  userParam.printUnterschrift = false;
+  userParam.signatureImage = '';
+  userParam.imageHeight = '';
 
-  var banDoc = Banana.application.openDocument(file);
+  banDoc = Banana.application.openDocument(file1);
   Test.assert(banDoc);
-  this.report_test(banDoc, "2018-01-01", "2018-12-31", userParam, donorsList, "Whole year report");
-  this.report_test(banDoc, "2018-01-01", "2018-06-30", userParam, donorsList, "First semester report");
-  this.report_test(banDoc, "2018-07-01", "2018-12-31", userParam, donorsList, "Second semester report");
-  this.report_test(banDoc, "2018-01-01", "2018-03-31", userParam, donorsList, "First quarter report");
-  this.report_test(banDoc, "2018-04-01", "2018-06-30", userParam, donorsList, "Second quarter report");
-  this.report_test(banDoc, "2018-07-01", "2018-09-30", userParam, donorsList, "Third quarter report");
-  this.report_test(banDoc, "2018-10-01", "2018-12-31", userParam, donorsList, "Fourth quarter report");
-  
-  //Test file 2
-  var file = "file:script/../test/testcases/test002.ac2";
-  var donorsList = [";MEYER",";10001",";BARTUSCH",";VOIT"];
-  
-  var userParam = {};
-  userParam.costcenter = donorsList;
-  userParam.account = '';
-  userParam.transactions = true;
-  userParam.text01 = "Gemeinnütziger Sportverein 'MUSTER'";
-  userParam.text02 = 'Sportstrasse 52';
-  userParam.text03 = '10439 Berlin';
+  this.report_test(banDoc, "2018-01-01", "2018-12-31", userParam, "Whole year report");
+  this.report_test(banDoc, "2018-01-01", "2018-03-31", userParam, "1. Quarter report");
+  this.report_test(banDoc, "2018-07-01", "2018-12-31", userParam, "2. Semester report");
+  this.report_test(banDoc, "2018-01-01", "2018-01-31", userParam, "January report");
+
+  // Test #2
+  Test.logger.addComment("****************************************************************************** TEST #2 ******************************************************************************");
+  userParam.costcenter = "S001";
   userParam.printAccount = true;
+  userParam.address = '';
+  userParam.addressText1 = 'Aaa Bbb SA';
+  userParam.addressText2 = 'Via Boschetto 3';
+  userParam.addressText3 = '6500 Bellinzona';
+  userParam.texts = '';
+  userParam.useDefaultTexts = false;
+  userParam.text1 = 'abc **xyz** mnp';
+  userParam.text2 = '**blah blah blah';
+  userParam.text3 = '[x] ddd **ddd** ddd';
+  userParam.text4 = '[x] ddd ******ddd***** ddd';
+  userParam.text5 = '**asdfasdfda dfdsf fdfdsf sfasdf**';
+  userParam.localityAndDate = 'Bellinzona, giugno 2018';
+  userParam.signature = 'Mario Rossi';
+  userParam.printUnterschrift = false;
+  userParam.signatureImage = '';
+  userParam.imageHeight = '';
+
+  banDoc = Banana.application.openDocument(file1);
+  Test.assert(banDoc);
+  this.report_test(banDoc, "2018-01-01", "2018-12-31", userParam, "Whole year report");
+  this.report_test(banDoc, "2018-01-01", "2018-03-31", userParam, "1. Quarter report");
+  this.report_test(banDoc, "2018-07-01", "2018-12-31", userParam, "2. Semester report");
+  this.report_test(banDoc, "2018-01-01", "2018-01-31", userParam, "January report");
+  
+  // Test #3
+  Test.logger.addComment("****************************************************************************** TEST #3 ******************************************************************************");
+  userParam.costcenter = "MEYER,10001,;BARTUSCH,VOIT";
+  userParam.printAccount = false;
+  userParam.address = '';
+  userParam.addressText1 = "Gemeinnütziger Sportverein 'MUSTER'";
+  userParam.addressText2 = 'Sportstrasse 52';
+  userParam.addressText3 = '10439 Berlin';
+  userParam.texts = '';
+  userParam.useDefaultTexts = true;
+  userParam.text1 = t1;
+  userParam.text2 = t2;
+  userParam.text3 = t3;
+  userParam.text4 = t4;
+  userParam.text5 = t5;
   userParam.localityAndDate = 'Berlin, September 2018';
   userParam.signature = 'Felix Muster';
-  userParam.printLogo = 0;
+  userParam.printUnterschrift = false;
+  userParam.signatureImage = '';
+  userParam.imageHeight = '';
 
-  var banDoc = Banana.application.openDocument(file);
+  banDoc = Banana.application.openDocument(file2);
   Test.assert(banDoc);
-  this.report_test(banDoc, "2018-01-01", "2018-12-31", userParam, donorsList, "Whole year report");
-  this.report_test(banDoc, "2018-01-01", "2018-06-30", userParam, donorsList, "First semester report");
-  this.report_test(banDoc, "2018-07-01", "2018-12-31", userParam, donorsList, "Second semester report");
-  this.report_test(banDoc, "2018-01-01", "2018-03-31", userParam, donorsList, "First quarter report");
-  this.report_test(banDoc, "2018-04-01", "2018-06-30", userParam, donorsList, "Second quarter report");
-  this.report_test(banDoc, "2018-07-01", "2018-09-30", userParam, donorsList, "Third quarter report");
-  this.report_test(banDoc, "2018-10-01", "2018-12-31", userParam, donorsList, "Fourth quarter report");
+  this.report_test(banDoc, "2018-01-01", "2018-12-31", userParam, "Whole year report");
+  this.report_test(banDoc, "2018-01-01", "2018-03-31", userParam, "1. Quarter report");
+  this.report_test(banDoc, "2018-07-01", "2018-12-31", userParam, "2. Semester report");
+  this.report_test(banDoc, "2018-01-01", "2018-01-31", userParam, "January report");
 
+  // Test #4
+  Test.logger.addComment("****************************************************************************** TEST #4 ******************************************************************************");
+  userParam.costcenter = ""; //empty: all cc3 accounts are taken
+  userParam.printAccount = true;
+  userParam.address = '';
+  userParam.addressText1 = 'xxxx';
+  userParam.addressText2 = 'yyyy';
+  userParam.addressText3 = 'zzzz';
+  userParam.texts = '';
+  userParam.useDefaultTexts = false;
+  userParam.text1 = '';
+  userParam.text2 = '**blah blah blah';
+  userParam.text3 = '';
+  userParam.text4 = '';
+  userParam.text5 = '**asdfasdfda dfdsf fdfdsf sfasdf**';
+  userParam.localityAndDate = 'Lugano, dicembre 2018';
+  userParam.signature = 'Mario Rossi';
+  userParam.printUnterschrift = true;
+  userParam.signatureImage = 'documents:unterschrift';
+  userParam.imageHeight = '';
+
+  banDoc = Banana.application.openDocument(file2);
+  Test.assert(banDoc);
+  this.report_test(banDoc, "2018-01-01", "2018-12-31", userParam, "Whole year report");
+  this.report_test(banDoc, "2018-01-01", "2018-03-31", userParam, "1. Quarter report");
+  this.report_test(banDoc, "2018-07-01", "2018-12-31", userParam, "2. Semester report");
+  this.report_test(banDoc, "2018-01-01", "2018-01-31", userParam, "January report");
 }
 
 //Function that create the report for the test
-ReportTest.prototype.report_test = function(banDoc, startDate, endDate, userParam, donorsList, reportName) {
-  var report = createReport(banDoc, startDate, endDate, userParam, donorsList);
+ReportTest.prototype.report_test = function(banDoc, startDate, endDate, userParam, reportName) {
+  var report = createReport(banDoc, startDate, endDate, userParam);
   Test.logger.addReport(reportName, report);
 }
 
@@ -319,8 +381,4 @@ ReportTest.prototype.testVerifyMethods = function() {
   Test.assertIsEqual(numToWords(101010101),"einhunderteine Millionen zehntausendeinhunderteins");
   Test.assertIsEqual(numToWords(999999999),"neunhundertneunundneunzig Millionen neunhundertneunundneunzigtausendneunhundertneunundneunzig");
 }
-
-
-
-
 
