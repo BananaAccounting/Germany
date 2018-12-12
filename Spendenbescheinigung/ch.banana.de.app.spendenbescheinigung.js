@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2018-12-11
+// @pubdate = 2018-12-12
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung für Vereine in Deutschland
 // @description.de = Spendenbescheinigung für Vereine in Deutschland
@@ -59,7 +59,7 @@ function exec(inData, options) {
         return "@Cancel";
     }
 
-	/* 3) Creates the report */
+	// Creates the report
 	var report = createReport(Banana.document, userParam.selectionStartDate, userParam.selectionEndDate, userParam);            
 	var stylesheet = createStyleSheet(userParam);
 	Banana.Report.preview(report, stylesheet);
@@ -1034,7 +1034,7 @@ function parametersDialog(userParam) {
         var convertedParam = convertParam(userParam);
         var pageAnchor = 'dlgSettings';
         if (!Banana.Ui.openPropertyEditor(dialogTitle, convertedParam, pageAnchor)) {
-            return userParam;
+            return null;
         }
         
         for (var i = 0; i < convertedParam.data.length; i++) {
@@ -1080,9 +1080,11 @@ function settingsDialog() {
     }
 
     scriptform = parametersDialog(scriptform); // From propertiess
-    var paramToString = JSON.stringify(scriptform);
-    Banana.document.setScriptSettings(paramToString);
-
+    if (scriptform) {
+        var paramToString = JSON.stringify(scriptform);
+        Banana.document.setScriptSettings(paramToString);
+    }
+    
     return scriptform;
 }
 
