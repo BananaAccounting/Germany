@@ -522,42 +522,42 @@ function convertFields(banDoc, text, address, trDate, startDate, endDate, totalO
 
     if (text.indexOf("<Period>") > -1) {
         var period = getPeriod(banDoc, startDate, endDate);
-        text = text.replace("<Period>",period);
+        text = text.replace(/<Period>/g,period);
     }
     if (text.indexOf("<Account>") > -1) {
-        text = text.replace("<Account>",account);
+        text = text.replace(/<Account>/g,account);
     }
     if (text.indexOf("<FirstName>") > -1) {
         var firstname = address.firstname;
-        text = text.replace("<FirstName>",firstname);
+        text = text.replace(/<FirstName>/g,firstname);
     }
     if (text.indexOf("<FamilyName>") > -1) {
         var familyname = address.familyname;
-        text = text.replace("<FamilyName>",familyname);
+        text = text.replace(/<FamilyName>/g,familyname);
     }    
     if (text.indexOf("<Address>") > -1) {
         var address = address.street + ", " + address.postalcode + " " + address.locality;
-        text = text.replace("<Address>",address);
+        text = text.replace(/<Address>/g,address);
     }
     if (text.indexOf("<TrDate>") > -1) {
         var trdate = Banana.Converter.toLocaleDateFormat(trDate);
-        text = text.replace("<TrDate>",trdate);
+        text = text.replace(/<TrDate>/g,trdate);
     }
     if (text.indexOf("<StartDate>") > -1) {
         var startdate = Banana.Converter.toLocaleDateFormat(startDate);
-        text = text.replace("<StartDate>",startdate);
+        text = text.replace(/<StartDate>/g,startdate);
     }
     if (text.indexOf("<EndDate>") > -1) {
         var enddate = Banana.Converter.toLocaleDateFormat(endDate);
-        text = text.replace("<EndDate>",enddate);
+        text = text.replace(/<EndDate>/g,enddate);
     }
     if (text.indexOf("<Currency>") > -1) {
         var currency = banDoc.info("AccountingDataBase", "BasicCurrency");
-        text = text.replace("<Currency>",currency);
+        text = text.replace(/<Currency>/g,currency);
     }
     if (text.indexOf("<Amount>") > -1) {
         var amount = Banana.Converter.toLocaleNumberFormat(totalOfDonations);
-        text = text.replace("<Amount>",amount);
+        text = text.replace(/<Amount>/g,amount);
     }
     return text;
 }
