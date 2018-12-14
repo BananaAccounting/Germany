@@ -1030,7 +1030,7 @@ function initUserParam() {
 function parametersDialog(userParam) {
 
     if (typeof(Banana.Ui.openPropertyEditor) !== 'undefined') {
-        var dialogTitle = userParam.xmldialogtitle;
+        var dialogTitle = "Einstellungen";
         var convertedParam = convertParam(userParam);
         var pageAnchor = 'dlgSettings';
         if (!Banana.Ui.openPropertyEditor(dialogTitle, convertedParam, pageAnchor)) {
