@@ -5,5 +5,7 @@
   <file>ch.banana.filter.export.datev.buchungsstapel.js</file>
   <file>ch.banana.filter.export.datev.debitorenkreditoren.dialog.ui</file>
   <file>ch.banana.filter.export.datev.debitorenkreditoren.js</file>
+  <file>ch.banana.filter.export.datev.kontenbeschriftungen.js</file>
+  <file>ch.banana.filter.export.datev.kontenbeschriftungen.dialog.ui</file>
  </qresource>
 </RCC>

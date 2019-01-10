@@ -15,7 +15,7 @@
 //
 // @api = 1.0
 // @id = ch.banana.filter.export.datev.buchungsstapel
-// @description = DATEV Export / Buchungsdaten und Sachkontenbeschriftungen
+// @description = DATEV Export / Buchungsdaten
 // @doctype = *.*
 // @encoding = Windows-1252
 // @exportfilename = EXTF_Buchungstapel_<Date>
@@ -184,10 +184,6 @@ function settingsDialog() {
    else
       dialog.zeitraumGroupBox.datumRadioButton.checked = false;
    dialog.zeitraumGroupBox.selektionskriteriumComboBox.currentIndex = datevBuchungsstapel.param["selektionskriteriumValue"];
-   if (datevBuchungsstapel.param["datenKategorie"] && datevBuchungsstapel.param["datenKategorie"] == "20")
-      dialog.kategorieGroupBox.kontenRadioButton.checked = true;
-   else
-      dialog.kategorieGroupBox.buchungenRadioButton.checked = true;
 
    //check if dates are valid
    var vonDate = Banana.Converter.stringToDate(datevBuchungsstapel.param["vonDate"], "DD.MM.YYYY");
@@ -236,10 +232,6 @@ function settingsDialog() {
    datevBuchungsstapel.param["vonDate"] = dialog.zeitraumGroupBox.vonDateEdit.text < 10 ? "0" + dialog.zeitraumGroupBox.vonDateEdit.text : dialog.zeitraumGroupBox.vonDateEdit.text;
    datevBuchungsstapel.param["bisDate"] = dialog.zeitraumGroupBox.bisDateEdit.text < 10 ? "0" + dialog.zeitraumGroupBox.bisDateEdit.text : dialog.zeitraumGroupBox.bisDateEdit.text;
    datevBuchungsstapel.param["selektionskriteriumValue"] = dialog.zeitraumGroupBox.selektionskriteriumComboBox.currentIndex.toString();
-   if (dialog.kategorieGroupBox.kontenRadioButton.checked)
-      datevBuchungsstapel.param["datenKategorie"] = "20";
-   else
-      datevBuchungsstapel.param["datenKategorie"] = "21";
 
    /* set period */
    if (datevBuchungsstapel.param["datumSelected"] == "true" || datevBuchungsstapel.param["quartalSelected"] == "true" || datevBuchungsstapel.param["monatSelected"] == "true") {
@@ -553,7 +545,6 @@ DatevBuchungsstapel.prototype.initParam = function () {
    this.param.periodSelected = false;
    this.param.periodBegin = '';
    this.param.periodEnd = '';
-   this.param.datenKategorie = "21"; //20=Sachkontenbeschriftungen, 21=Buchungsstapel
 }
 
 /**
@@ -574,6 +565,12 @@ DatevBuchungsstapel.prototype.isAutomaticAccount = function (accountId) {
          if (value && value == 1)
             return true;
       }
+      row = tableAccounts.findRowByValue("DatevAccount", accountId);
+      if (row) {
+         var value = row.value("DatevAuto");
+         if (value && value == 1)
+            return true;
+      }
    }
    var tableCategories = this.banDocument.table("Categories");
    if (tableCategories) {
@@ -583,124 +580,17 @@ DatevBuchungsstapel.prototype.isAutomaticAccount = function (accountId) {
          if (value && value == 1)
             return true;
       }
+      row = tableCategories.findRowByValue("DatevAccount", accountId);
+      if (row) {
+         var value = row.value("DatevAuto");
+         if (value && value == 1)
+            return true;
+      }
    }
    return false;
 }
 
-DatevBuchungsstapel.prototype.loadAccounts = function () {
-
-   var transactions = [];
-   //get period selected
-   var accountingData = this.readAccountingData();
-   var vonDate = Banana.Converter.stringToDate(accountingData.accountingOpeningDate, "YYYY-MM-DD");
-   var bisDate = Banana.Converter.stringToDate(accountingData.accountingClosureDate, "YYYY-MM-DD");
-   var isPeriodSelected = false;
-   if (this.param["periodSelected"] && (this.param["periodSelected"] == true || this.param["periodSelected"].toLowerCase() == 'true')) {
-      vonDate = Banana.Converter.stringToDate(this.param["periodBegin"], "DD.MM.YYYY");
-      bisDate = Banana.Converter.stringToDate(this.param["periodEnd"], "DD.MM.YYYY");
-      isPeriodSelected = true;
-   }
-
-   //load data
-   var tableTransactions = this.banDocument.table("Transactions");
-   var journal = this.banDocument.journal(
-      this.banDocument.ORIGINTYPE_CURRENT, this.banDocument.ACCOUNTTYPE_NORMAL);
-   var filteredRows = journal.findRows(this.filterTransactions);
-   
-   if (tableTransactions && filteredRows) {
-      var fieldsHeader = this.loadAccountsFields();
-      transactions.push(fieldsHeader);
-
-      var accounts = [];
-
-      for (var i = 0; i < filteredRows.length; i++) {
-
-         //Original number of row in table transaction
-         var originalRowNumber = filteredRows[i].value("JRowOrigin");
-
-         //Check period
-         var validPeriod = false;
-         var value = "";
-         if (parseInt(this.param["selektionskriteriumValue"]) == 0) {
-            //"Buchungsdatum"
-            value = filteredRows[i].value("Date");
-            fieldName = "Date";
-         }
-         else if (parseInt(this.param["selektionskriteriumValue"]) == 1) {
-            //"Belegdatum"
-            value = filteredRows[i].value("DateDocument");
-            fieldName = "DateDocument";
-         }
-
-         if (value.length <= 0) {
-            var msg = this.getErrorMessage(this.ID_ERR_DATEV_NODATE);
-            tableTransactions.addMessage(msg, originalRowNumber, fieldName, this.ID_ERR_DATEV_NODATE);
-            continue;
-         }
-
-         var valueDate = Banana.Converter.stringToDate(value, "YYYY-MM-DD");
-         if (valueDate >= vonDate && valueDate <= bisDate)
-            validPeriod = true;
-
-         if (!validPeriod) {
-            if (!isPeriodSelected) {
-               var msg = this.getErrorMessage(this.ID_ERR_DATEV_PERIODNOTVALID);
-               tableTransactions.addMessage(msg, originalRowNumber, fieldName, this.ID_ERR_DATEV_PERIODNOTVALID);
-            }
-            continue;
-         }
-         
-         //Konto
-         value = filteredRows[i].value("JAccount");
-         if (value.length > 0 && accounts.indexOf(value) < 0) {
-            accounts.push(value);
-         }
-
-         //Gegenkonto
-         value = filteredRows[i].value("JContraAccount");
-         if (value.length > 0 && accounts.indexOf(value) < 0) {
-            accounts.push(value);
-         }
-      }
-      
-      var tableAccounts = this.banDocument.table('Accounts');
-      if (tableAccounts) {
-         for (var i=0; i < accounts.length;i++) {
-            var row = tableAccounts.findRowByValue('Account', accounts[i]);
-            if (row) {
-               var description = row.value("Description");
-               var line = [];
-               line.push(accounts[i]);
-               line.push(description);
-               transactions.push(line);
-            }
-         }
-      }
-   }
-
-   var header = this.loadDataHeader(accountingData);
-   if (transactions.length)
-      return this.tableToCsv(header.concat(transactions));
-
-   return "@Cancel";
-}
-
-/**
-* The method loadDataFields return an array
-* with the field names
-*/
-DatevBuchungsstapel.prototype.loadAccountsFields = function () {
-   var fieldsHeader = [];
-   fieldsHeader.push("Konto");
-   fieldsHeader.push("Kontenbeschriftung");
-   return fieldsHeader;
-}
-
 DatevBuchungsstapel.prototype.loadData = function () {
-
-   if (this.param["datenKategorie"] && this.param["datenKategorie"] == "20") {
-      return this.loadAccounts();
-   }
 
    var transactions = [];
    //get period selected
@@ -850,16 +740,14 @@ DatevBuchungsstapel.prototype.loadData = function () {
 
          //7. Konto
          valueAccount = filteredRows[i].value("JAccount");
-         valueAccount = this.getDatevAccount(valueAccount);
-         if (valueAccount == "@Cancel")
-            return "@Cancel";
+         if (this.param["kontenzuordnungSelected"])
+            valueAccount = this.getDatevAccount(valueAccount);
          line.push(valueAccount);
 
          //8. Gegenkonto
          valueContraAccount = filteredRows[i].value("JContraAccount");
-         valueContraAccount = this.getDatevAccount(valueContraAccount);
-         if (valueContraAccount == "@Cancel")
-            return "@Cancel";
+         if (this.param["kontenzuordnungSelected"])
+            valueContraAccount = this.getDatevAccount(valueContraAccount);
          line.push(valueContraAccount);
 
          //9. BU-Schlüssel
@@ -1086,18 +974,12 @@ DatevBuchungsstapel.prototype.loadDataHeader = function (accountingData) {
    // vom Datev angegeben
    // Buchungsstapel = 21
    // Sachkontenbeschriftungen = 20
-   var datenKategorie = this.param["datenKategorie"];
-   if (!datenKategorie)
-      datenKategorie = "21";
-   var field3 = datenKategorie;
+   var field3 = "21";
 
    // Headr-Feld Nr. 4 Formatname
    // Länge:	 Typ:Text
    // vom Datev angegeben
-   var formatName = "\"Buchungsstapel\"";
-   if (datenKategorie == "20")
-      formatName = "\"Kontenbeschriftungen\"";
-   var field4 = formatName;
+   var field4 = "\"Buchungsstapel\"";
 
    // Headr-Feld Nr. 5 Formatversion
    // Länge:3 Typ:Zahl
@@ -1358,8 +1240,6 @@ DatevBuchungsstapel.prototype.toTextFormat = function (string) {
 }
 
 DatevBuchungsstapel.prototype.verifyParam = function () {
-   if (!this.param.tipoRegistro)
-      this.param.tipoRegistro = 0;
    if (!this.param.mandanten)
       this.param.mandanten = '';
    if (!this.param.berater)
@@ -1390,8 +1270,6 @@ DatevBuchungsstapel.prototype.verifyParam = function () {
       this.param.periodBegin = '';
    if (!this.param.periodEnd)
       this.param.periodEnd = '';
-   if (!this.param.datenKategorie)
-      this.param.datenKategorie = '21';
 }
 
 /**
