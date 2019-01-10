@@ -60,8 +60,6 @@ function settingsDialog() {
    if (savedParam.length > 0) {
       datevKontenbeschriftungen.setParam(JSON.parse(savedParam));
    }
-   var accountingData = datevKontenbeschriftungen.readAccountingData();
-
    var dialog = Banana.Ui.createUi("ch.banana.filter.export.datev.kontenbeschriftungen.dialog.ui");
    dialog.enableButtons = function () {
    }
@@ -140,6 +138,8 @@ function DatevKontenbeschriftungen(banDocument) {
    this.initParam();
 
    this.ID_ERR_DATEV_LONGTEXT = "ERR_DATEV_LONGTEXT";
+   this.ID_ERR_CUSTOMERSGROUP_NOTDEFINED = "ID_ERR_CUSTOMERSGROUP_NOTDEFINED";
+   this.ID_ERR_SUPPLIERSGROUP_NOTDEFINED = "ID_ERR_SUPPLIERSGROUP_NOTDEFINED";
 }
 
 /**
@@ -163,6 +163,10 @@ DatevKontenbeschriftungen.prototype.getErrorMessage = function (errorId) {
    switch (errorId) {
       case this.ID_ERR_DATEV_LONGTEXT:
          return "Der Text vom Feld %1 ist zu lang und er wird geschnitten. Maximale Länge %2 Zeichen";
+      case this.ID_ERR_CUSTOMERSGROUP_NOTDEFINED:
+         return "Die Gruppe Kunden ist nicht definiert. Verwenden Sie den Befehl Buch2-Kunden-Einstellungen, um die Gruppe zu definieren";
+      case this.ID_ERR_SUPPLIERSGROUP_NOTDEFINED:
+         return "Die Gruppe Lieferanten ist nicht definiert. Verwenden Sie den Befehl Buch2-Lieferanten-Einstellungen, um die Gruppe zu definieren";
    }
    return "";
 }
@@ -189,9 +193,20 @@ DatevKontenbeschriftungen.prototype.loadData = function () {
    if (tableAccounts) {
       for (var i=0; i<tableAccounts.rowCount; i++) {
          var row = tableAccounts.row(i);
-         var accountId = row.value('Account');
+         var accountId = row.value("Account");
          if (!accountId || accountId.length<=0)
             continue;
+
+         //debitoren- kreditorenkonten are not added
+         var isCustomerSupplier = false;
+         var gr = row.value('Gr');
+         if (accountingData.customersGroup.length>0 && gr == accountingData.customersGroup)
+            isCustomerSupplier = true;
+         if (accountingData.suppliersGroup.length>0 && gr == accountingData.suppliersGroup)
+            isCustomerSupplier = true;
+         if (isCustomerSupplier)
+            continue;
+            
          if (this.param["kontenzuordnungSelected"]) {
             var accountDatev = row.value("DatevAccount");
             if (accountDatev && accountDatev.length) {
@@ -199,8 +214,8 @@ DatevKontenbeschriftungen.prototype.loadData = function () {
             }
          }
          var accountDescription = row.value("Description");
-         //debitoren- kreditorenkonten are not added
-         
+         accountDescription = this.checkTextLength(accountDescription, 40, tableAccounts, "Description", i);
+         accountId = this.checkTextLength(accountId, 8, tableAccounts, "Account", i);
          var line = [];
          line.push(accountId);
          line.push(this.toTextFormat(accountDescription));
@@ -212,9 +227,20 @@ DatevKontenbeschriftungen.prototype.loadData = function () {
    if (tableCategories) {
       for (var i=0; i<tableCategories.rowCount; i++) {
          var row = tableCategories.row(i);
-         var accountId = row.value('Category');
+         var accountId = row.value("Category");
          if (!accountId || accountId.length<=0)
             continue;
+            
+         //debitoren- kreditorenkonten are not added
+         var isCustomerSupplier = false;
+         var gr = row.value('Gr');
+         if (accountingData.customersGroup.length>0 && gr == accountingData.customersGroup)
+            isCustomerSupplier = true;
+         if (accountingData.suppliersGroup.length>0 && gr == accountingData.suppliersGroup)
+            isCustomerSupplier = true;
+         if (isCustomerSupplier)
+            continue;
+
          if (this.param["kontenzuordnungSelected"]) {
             var accountDatev = row.value("DatevAccount");
             if (accountDatev && accountDatev.length) {
@@ -222,6 +248,8 @@ DatevKontenbeschriftungen.prototype.loadData = function () {
             }
          }
          var accountDescription = row.value("Description");
+         accountDescription = this.checkTextLength(accountDescription, 40, tableCategories, "Description", i);
+         accountId = this.checkTextLength(accountId, 8, tableCategories, "Category", i);
          var line = [];
          line.push(accountId);
          line.push(this.toTextFormat(accountDescription));
@@ -406,10 +434,14 @@ DatevKontenbeschriftungen.prototype.readAccountingData = function () {
    param.accountingOpeningDate = '';
    param.accountingClosureDate = '';
    param.accountingYear = 0;
+   param.customersGroup = '';
+   param.suppliersGroup = '';
 
    param.accountingBasicCurrency = this.banDocument.info("AccountingDataBase", "BasicCurrency");
    param.accountingOpeningDate = this.banDocument.info("AccountingDataBase", "OpeningDate");
    param.accountingClosureDate = this.banDocument.info("AccountingDataBase", "ClosureDate");
+   param.customersGroup = this.banDocument.info("AccountingDataBase", "CustomersGroup");
+   param.suppliersGroup = this.banDocument.info("AccountingDataBase", "SuppliersGroup");
 
    var openingYear = 0;
    var closureYear = 0;
@@ -419,6 +451,16 @@ DatevKontenbeschriftungen.prototype.readAccountingData = function () {
       closureYear = param.accountingClosureDate.substring(0, 4);
    if (openingYear > 0 && openingYear === closureYear)
       param.accountingYear = openingYear;
+   if (!param.customersGroup) {
+      param.customersGroup = '';   
+      var msg = this.getErrorMessage(this.ID_ERR_CUSTOMERSGROUP_NOTDEFINED);
+      this.banDocument.addMessage( msg, this.ID_ERR_CUSTOMERSGROUP_NOTDEFINED);
+   }
+   if (!param.suppliersGroup) {
+      param.suppliersGroup = '';   
+      var msg = this.getErrorMessage(this.ID_ERR_SUPPLIERSGROUP_NOTDEFINED);
+      this.banDocument.addMessage( msg, this.ID_ERR_SUPPLIERSGROUP_NOTDEFINED);
+   }
    return param;
 }
 
