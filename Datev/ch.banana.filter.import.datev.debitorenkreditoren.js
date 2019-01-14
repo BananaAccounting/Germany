@@ -1,29 +1,14 @@
-// Copyright [2019] [Banana.ch SA - Lugano Switzerland]
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//     http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-// @id = ch.banana.filter.import.datev.buchungsstapel.js
+// @id = ch.banana.filter.import.datev.debitorenkreditoren
 // @api = 1.0
 // @pubdate = 2019-01-14
 // @publisher = Banana.ch SA
-// @description = DATEV Import Buchungsstapel (*.csv)
-// @task = import.transactions
-// @doctype = 100.*; 130.*
-// @docproperties = 
-// @outputformat = transactions.simple
+// @description = DATEV Import Kontendaten von Kunden und Lieferanten (*.csv)
+// @task = import.accounts
+// @doctype = *
+// @docproperties =
 // @inputdatasource = openfiledialog
-// @timeout = -1
-// @inputfilefilter = Text files (*.txt *.csv);;All files (*.*)
+// @inputfilefilter = CSV (*.csv);;All files (*.*)
+// @inputfilefilter.de = CSV (*.csv);;Alle Dateien (*.*)
 
 /**
  * Parse the data and return the data to be imported as a tab separated file.
