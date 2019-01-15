@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.filter.import.datev.buchungsstapel.js
 // @api = 1.0
-// @pubdate = 2019-01-14
+// @pubdate = 2019-01-15
 // @publisher = Banana.ch SA
 // @description = DATEV Import Buchungsstapel (*.csv)
 // @task = import.transactions
@@ -26,7 +26,8 @@
 // @inputfilefilter = Text files (*.txt *.csv);;All files (*.*)
 
 /**
- * Parse the data and return the data to be imported as a tab separated file.
+ * Please copy changes to class DatevImport to all scripts (import.datev.*.js)
+ * At the moment it is not possible to use sbaa files for importing accounting data
  */
 
 //Main function
@@ -205,16 +206,87 @@ DatevImport.prototype.defineConversionParamAccounts = function(inData) {
       /*   Field that start with the underscore "_" will not be exported
       *    Create this fields so that you can use-it in the postprocessing function */
 
-      //Konto
+      //1. Konto
       convertedRow["Account"] = inputRow[0] ? inputRow[0] : "";
-      //Description
+      //2. Name (Adressattyp Unternehmen)
       convertedRow["Description"] = inputRow[1] ? inputRow[1].replace(/  +/g, ", ") : "";
+      convertedRow["OrganisationName"] = inputRow[1] ? inputRow[1] : "";
+      //3. Unternehmensgegenstand
+      //4. Name (Adressattyp natürl. Person)
+      convertedRow["FamilyName"] = inputRow[3] ? inputRow[3] : "";
+      //5. Vorname (Adressattyp natürl. Person)
+      convertedRow["FirstName"] = inputRow[4] ? inputRow[4] : "";
+      if (convertedRow["Description"].length<=0) {
+         convertedRow["Description"] = convertedRow["FirstName"] + " " + convertedRow["FamilyName"];
+      }
+      //6. Name (Adressattyp keine Angabe)
+      //7. Adressattyp
+      //8. Kurzbezeichnung
+      //9. EU-Land
+      //10.EU-UStID
+      //11. Anrede
+      convertedRow["NamePrefix"] = inputRow[10] ? inputRow[10] : "";
+      //12. Titel/Akad. Grad
+      //13. Adelstitel
+      //14. Namensvorsatz
+      //15. Adressart
+      //16. Strasse
+      convertedRow["Street"] = inputRow[15] ? inputRow[15] : "";
+      //17. Postfach
+      //18. Postleitzahl
+      convertedRow["PostalCode"] = inputRow[17] ? inputRow[17] : "";
+      //19. Ort
+      convertedRow["Locality"] = inputRow[18] ? inputRow[18] : "";
+      //20. Land
+      convertedRow["Country"] = inputRow[19] ? inputRow[19] : "";
+      //21. Versandzusatz
+      //22. Adresszusatz
+      //23. Abweichende Anrede
+      //24. Abw. Zustellbezeichnung 1
+      //25. Abw. Zustellbezeichnung 2
+      //26. Kennz. Korrespondenzadresse
+      //27. Adresse Gültig von
+      //28. Adresse Gültig bis
+      //29. Telefon
+      convertedRow["PhoneMain"] = inputRow[28] ? inputRow[28] : "";
+      //30. Bemerkung (Telefon)
+      //31. Telefon GL
+      //32. Bemerkung (Telefon GL)
+      //33. E-Mail
+      convertedRow["EmailWork"] = inputRow[32] ? inputRow[32] : "";
+      //34. Bemerkung (E-Mail)
+      //35. Internet
+      convertedRow["Website"] = inputRow[34] ? inputRow[34] : "";
+      //36. Bemerkung (Internet)
+      //37. Fax
+      convertedRow["Fax"] = inputRow[36] ? inputRow[36] : "";
+      //38. Bemerkung (Fax)
+      //39. Sonstige
+      //40. Bemerkung (Sonstige)
+      convertedRow["Notes"] = inputRow[39] ? inputRow[39] : "";
+      //41. Bankleitzahl 1
+      //42. Bankbezeichnung 1
+      convertedRow["BankName"] = inputRow[41] ? inputRow[41] : "";
+      //43. Bank-Kontonummer 1
+      convertedRow["BankAccount"] = inputRow[42] ? inputRow[42] : "";
+      //44. Länderkennzeichen 1
+      //45. IBAN-Nr. 1
+      convertedRow["BankClearing"] = inputRow[44] ? inputRow[44] : "";
+      //46. IBAN1 korrekt
+      //47. SWIFT-Code 1
+      //48. Abw. Kontoinhaber 1
+      //49. Kennz. Hauptbankverb. 1
+      //50. Bankverb 1 Gültig von
+      //51. Bankverb 1 Gültig bis
+      //220. Nummer Fremdsystem
+   
       //Gr
       var nAccount = parseInt(convertedRow["Account"]);
       if (nAccount>= 10000 && nAccount < 70000)
          convertedRow["Gr"] = this.customersGroup;
       else
          convertedRow["Gr"] = this.suppliersGroup;
+
       /** END */
 
       return convertedRow;
@@ -483,7 +555,6 @@ DatevImport.prototype.importAccounts = function (inData) {
 }
 
 DatevImport.prototype.importTransactions = function (inData) {
-Banana.console.debug("inDataXX " + inData);
    //1. Function call to define the conversion parameters
    var conversionParam = this.defineConversionParamTransactions(inData);
 
