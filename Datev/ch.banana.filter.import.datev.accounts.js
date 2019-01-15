@@ -1,8 +1,22 @@
-// @id = ch.banana.filter.import.datev.debitorenkreditoren
+// Copyright [2019] [Banana.ch SA - Lugano Switzerland]
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// @id = ch.banana.filter.import.datev.accounts
 // @api = 1.0
 // @pubdate = 2019-01-15
 // @publisher = Banana.ch SA
-// @description = DATEV Import Kontendaten von Kunden und Lieferanten (*.csv)
+// @description = DATEV Import Konten (*.csv)
 // @task = import.accounts
 // @doctype = *
 // @docproperties =
@@ -30,10 +44,10 @@ function exec(inData) {
       var datevImport = new DatevImport(Banana.document);
       output = datevImport.importTransactions(inData);
    }
-   
+
    //TO DEBUG SHOW THE INTERMEDIARY TEXT
-   Banana.Ui.showText(output);
-	
+   //Banana.Ui.showText(output);
+
    return output;
 
 }
@@ -47,15 +61,16 @@ function DatevImport(banDocument) {
    this.ID_ERR_DATEV_LONGTEXT = "ERR_DATEV_LONGTEXT";
    this.ID_ERR_CUSTOMERSGROUP_NOTDEFINED = "ID_ERR_CUSTOMERSGROUP_NOTDEFINED";
    this.ID_ERR_SUPPLIERSGROUP_NOTDEFINED = "ID_ERR_SUPPLIERSGROUP_NOTDEFINED";
-   this.ID_ERR_NOTSUPPORTED_FORMAT = "ID_ERR_NOTSUPPORTED_FORMAT";
+   this.ID_ERR_ACCOUNTS_NOTVALID = "ID_ERR_ACCOUNTS_NOTVALID";
+   this.ID_ERR_TRANSACTIONS_NOTVALID = "ID_ERR_TRANSACTIONS_NOTVALID";
 }
 
 // Convert to an array of objects where each object property is the banana columnNameXml
-DatevImport.prototype.convertCsvToIntermediaryData = function(inData, conversionParam) {
+DatevImport.prototype.convertCsvToIntermediaryData = function (inData, conversionParam) {
 
    var form = [];
    var intermediaryData = [];
-      
+
    //Read the CSV file and create an array with the data
    var csvFile = Banana.Converter.csvToArray(inData, conversionParam.separator, conversionParam.textDelim);
 
@@ -79,18 +94,18 @@ DatevImport.prototype.convertCsvToIntermediaryData = function(inData, conversion
 }
 
 //The purpose of this function is to convert all the data into a format supported by Banana
-DatevImport.prototype.convertToBananaFormat = function(intermediaryData) {
+DatevImport.prototype.convertToBananaFormat = function (intermediaryData) {
 
    //Example: ['Account','Description','BClass','Opening'];
    var accountHeaders = [];
 
    //Create titles only for fields not starting with "_"
    for (var name in intermediaryData[0]) {
-      if (name.substring(0,1) !== "_") {
+      if (name.substring(0, 1) !== "_") {
          accountHeaders.push(name);
       }
    }
-   
+
    /*var accounting = { // readen data
       'accounts' : [],
       'categories' : [],
@@ -107,31 +122,26 @@ DatevImport.prototype.convertToBananaFormat = function(intermediaryData) {
                accounting['categories'],
                accounting['costcenters'],
                accounting['segments']);*/
-      
+
    //Function call Banana.Converter.objectArrayToCsv() to create a CSV with new data just converted
    var convertedCsv = Banana.Converter.objectArrayToCsv(accountHeaders, intermediaryData, "\t");
 
    return convertedCsv;
 }
 
-
-//The purpose of this function is to let the users define:
-// - the parameters for the conversion of the CSV file;
-// - the fields of the csv/table
-DatevImport.prototype.defineConversionParamAccounts = function(inData) {
-
+DatevImport.prototype.defineHeader = function (inData) {
    var conversionParam = {};
 
    /** SPECIFY THE SEPARATOR AND THE TEXT DELIMITER USED IN THE CSV FILE */
    conversionParam.format = "csv";
    conversionParam.separator = ';';
    conversionParam.textDelim = '"';
-   
+
    /** SPECIFY AT WHICH ROW OF THE CSV FILE IS THE HEADER (COLUMN TITLES)
    We suppose the data will always begin right away after the header line */
    conversionParam.headerLineStart = 1;
    conversionParam.dataLineStart = 2;
-   
+
    /** SPECIFY THE VERSION OF DATEV-FORMAT
    Available at the first line of imported data */
    conversionParam.header = {};
@@ -142,9 +152,9 @@ DatevImport.prototype.defineConversionParamAccounts = function(inData) {
    conversionParam.header.fromDate = "";     //Datum von des Buchungsstapels
    conversionParam.header.toDate = "";       //Datum bis des Buchungsstapels
    var csvFile = Banana.Converter.csvToArray(inData, conversionParam.separator, conversionParam.textDelim);
-   if (csvFile.length>0) {
+   if (csvFile.length > 0) {
       var headerLine = csvFile[0];
-      if (headerLine.length>15) {
+      if (headerLine.length > 15) {
          conversionParam.header.datevformat = headerLine[0];
          conversionParam.header.version = headerLine[1];
          conversionParam.header.category = headerLine[2];
@@ -155,20 +165,75 @@ DatevImport.prototype.defineConversionParamAccounts = function(inData) {
          conversionParam.header.toDate = headerLine[15];
       }
    }
+   return conversionParam;
+}
+
+//The purpose of this function is to let the users define:
+// - the parameters for the conversion of the CSV file;
+// - the fields of the csv/table
+// 20. Sachkontenbeschriftung
+DatevImport.prototype.defineRowsAccounts = function (inData, conversionParam) {
+   if (!conversionParam)
+      conversionParam = {};
 
    /** SPECIFY THE COLUMN TO USE FOR SORTING
    If sortColums is empty the data are not sorted */
    conversionParam.sortColums = [] // ["Date", "ExternalReference"];
    conversionParam.sortDescending = false;
    /** END */
-   
+
+   /* rowConvert is a function that convert the inputRow (passed as parameter)
+   *  to a convertedRow object
+   * - inputRow is an object where the properties is the column name found in the CSV file
+   * - convertedRow is an  object where the properties are the column name to be exported in Banana
+   * For each column that you need to export in Banana create a line that create convertedRow column
+   * The right part can be any fuction or value
+   * Remember that in Banana
+   * - Date must be in the format "yyyy-mm-dd"
+   * - Number decimal separator must be "." and there should be no thousand separator */
+   conversionParam.rowConverter = function (inputRow) {
+      var convertedRow = {};
+
+      /** MODIFY THE FIELDS NAME AND THE CONVERTION HERE
+      *   The right part is a statements that is then executed for each inputRow
+
+      /*   Field that start with the underscore "_" will not be exported
+      *    Create this fields so that you can use-it in the postprocessing function */
+
+      //1. Konto
+      convertedRow["Account"] = inputRow[0] ? inputRow[0] : "";
+     //2. Kontobeschriftung
+     convertedRow["Description"] = inputRow[1] ? inputRow[1] : "";
+
+      /** END */
+
+      return convertedRow;
+   };
+   return conversionParam;
+}
+
+//The purpose of this function is to let the users define:
+// - the parameters for the conversion of the CSV file;
+// - the fields of the csv/table
+// 16. DebitorenKreditoren
+DatevImport.prototype.defineRowsCustomersSuppliers = function (inData, conversionParam) {
+
+   if (!conversionParam)
+      conversionParam = {};
+
+   /** SPECIFY THE COLUMN TO USE FOR SORTING
+   If sortColums is empty the data are not sorted */
+   conversionParam.sortColums = [] // ["Date", "ExternalReference"];
+   conversionParam.sortDescending = false;
+   /** END */
+
    /** ACCOUNTING DATA INFORMATION */
    conversionParam = this.getAccountingInfo(conversionParam);
-   if (conversionParam.customersGroup.length<=0 && this.banDocument) {
+   if (conversionParam.customersGroup.length <= 0 && this.banDocument) {
       var msg = this.getErrorMessage(this.ID_ERR_CUSTOMERSGROUP_NOTDEFINED);
       this.banDocument.addMessage(msg, this.ID_ERR_CUSTOMERSGROUP_NOTDEFINED);
    }
-   if (conversionParam.suppliersGroup.length<=0 && this.banDocument) {
+   if (conversionParam.suppliersGroup.length <= 0 && this.banDocument) {
       var msg = this.getErrorMessage(this.ID_ERR_SUPPLIERSGROUP_NOTDEFINED);
       this.banDocument.addMessage(msg, this.ID_ERR_SUPPLIERSGROUP_NOTDEFINED);
    }
@@ -182,7 +247,7 @@ DatevImport.prototype.defineConversionParamAccounts = function(inData) {
    * Remember that in Banana
    * - Date must be in the format "yyyy-mm-dd"
    * - Number decimal separator must be "." and there should be no thousand separator */
-   conversionParam.rowConverter = function(inputRow) {
+   conversionParam.rowConverter = function (inputRow) {
       var convertedRow = {};
 
       /** MODIFY THE FIELDS NAME AND THE CONVERTION HERE
@@ -201,7 +266,7 @@ DatevImport.prototype.defineConversionParamAccounts = function(inData) {
       convertedRow["FamilyName"] = inputRow[3] ? inputRow[3] : "";
       //5. Vorname (Adressattyp natürl. Person)
       convertedRow["FirstName"] = inputRow[4] ? inputRow[4] : "";
-      if (convertedRow["Description"].length<=0) {
+      if (convertedRow["Description"].length <= 0) {
          convertedRow["Description"] = convertedRow["FirstName"] + " " + convertedRow["FamilyName"];
       }
       //6. Name (Adressattyp keine Angabe)
@@ -264,14 +329,13 @@ DatevImport.prototype.defineConversionParamAccounts = function(inData) {
       //50. Bankverb 1 Gültig von
       //51. Bankverb 1 Gültig bis
       //220. Nummer Fremdsystem
-   
+
       //Gr
       var nAccount = parseInt(convertedRow["Account"]);
-      if (nAccount>= 10000 && nAccount < 70000)
+      if (nAccount >= 10000 && nAccount < 70000)
          convertedRow["Gr"] = this.customersGroup;
       else
          convertedRow["Gr"] = this.suppliersGroup;
-
       /** END */
 
       return convertedRow;
@@ -282,53 +346,20 @@ DatevImport.prototype.defineConversionParamAccounts = function(inData) {
 //The purpose of this function is to let the users define:
 // - the parameters for the conversion of the CSV file;
 // - the fields of the csv/table
-DatevImport.prototype.defineConversionParamTransactions = function(inData) {
+DatevImport.prototype.defineRowsTransactions = function (inData, conversionParam) {
 
-   var conversionParam = {};
-
-   /** SPECIFY THE SEPARATOR AND THE TEXT DELIMITER USED IN THE CSV FILE */
-   conversionParam.format = "csv";
-   conversionParam.separator = ';';
-   conversionParam.textDelim = '"';
-   
-   /** SPECIFY AT WHICH ROW OF THE CSV FILE IS THE HEADER (COLUMN TITLES)
-   We suppose the data will always begin right away after the header line */
-   conversionParam.headerLineStart = 1;
-   conversionParam.dataLineStart = 2;
-   
-   /** SPECIFY THE VERSION OF DATEV-FORMAT
-   Available at the first line of imported data */
-   conversionParam.header = {};
-   conversionParam.header.datevformat = "";  //EXTF externe Programme, DTVF Datev reserviert
-   conversionParam.header.version = "";      //300 for version 3.00
-   conversionParam.header.category = "";     //16=Debitoren/Kreditoren 21=Buchungsstapel
-   conversionParam.header.year = "";         //WJ-Beginn
-   conversionParam.header.fromDate = "";     //Datum von des Buchungsstapels
-   conversionParam.header.toDate = "";       //Datum bis des Buchungsstapels
-   var csvFile = Banana.Converter.csvToArray(inData, conversionParam.separator, conversionParam.textDelim);
-   if (csvFile.length>0) {
-      var headerLine = csvFile[0];
-      if (headerLine.length>15) {
-         conversionParam.header.datevformat = headerLine[0];
-         conversionParam.header.version = headerLine[1];
-         conversionParam.header.category = headerLine[2];
-         conversionParam.header.year = headerLine[12];
-         if (conversionParam.header.year.length >= 4)
-            conversionParam.header.year = conversionParam.header.year.substring(0, 4);
-         conversionParam.header.fromDate = headerLine[14];
-         conversionParam.header.toDate = headerLine[15];
-      }
-   }
+   if (!conversionParam)
+      conversionParam = {};
 
    /** SPECIFY THE COLUMN TO USE FOR SORTING
    If sortColums is empty the data are not sorted */
    conversionParam.sortColums = [] // ["Date", "ExternalReference"];
    conversionParam.sortDescending = false;
    /** END */
-   
+
    /** ACCOUNTING DATA INFORMATION */
    conversionParam = this.getAccountingInfo(conversionParam);
-   
+   conversionParam.getVatCode = this.getVatCode.bind(this);
    /* rowConvert is a function that convert the inputRow (passed as parameter)
    *  to a convertedRow object
    * - inputRow is an object where the properties is the column name found in the CSV file
@@ -338,7 +369,7 @@ DatevImport.prototype.defineConversionParamTransactions = function(inData) {
    * Remember that in Banana
    * - Date must be in the format "yyyy-mm-dd"
    * - Number decimal separator must be "." and there should be no thousand separator */
-   conversionParam.rowConverter = function(inputRow) {
+   conversionParam.rowConverter = function (inputRow) {
       var convertedRow = {};
 
       /** MODIFY THE FIELDS NAME AND THE CONVERTION HERE
@@ -362,15 +393,15 @@ DatevImport.prototype.defineConversionParamTransactions = function(inData) {
       convertedRow["Expenses"] = "";
       if (transactionCode == "S") {
          if (basisCurrency.length)
-            convertedRow["Income"] = Banana.Converter.toInternalNumberFormat(inputRow[4]?inputRow[4]:"", ",");
-         if (convertedRow["Income"].length<=0)   
-            convertedRow["Income"] = Banana.Converter.toInternalNumberFormat(inputRow[0]?inputRow[0]:"", ",");
+            convertedRow["Income"] = Banana.Converter.toInternalNumberFormat(inputRow[4] ? inputRow[4] : "", ",");
+         if (convertedRow["Income"].length <= 0)
+            convertedRow["Income"] = Banana.Converter.toInternalNumberFormat(inputRow[0] ? inputRow[0] : "", ",");
       }
       else {
          if (basisCurrency.length)
-            convertedRow["Expenses"] = Banana.Converter.toInternalNumberFormat(inputRow[4]?inputRow[4]:"", ",");
-         if (convertedRow["Expenses"].length<=0)   
-            convertedRow["Expenses"] = Banana.Converter.toInternalNumberFormat(inputRow[0]?inputRow[0]:"", ",");
+            convertedRow["Expenses"] = Banana.Converter.toInternalNumberFormat(inputRow[4] ? inputRow[4] : "", ",");
+         if (convertedRow["Expenses"].length <= 0)
+            convertedRow["Expenses"] = Banana.Converter.toInternalNumberFormat(inputRow[0] ? inputRow[0] : "", ",");
       }
       //Konto
       convertedRow["Account"] = inputRow[6] ? inputRow[6] : "";
@@ -378,19 +409,17 @@ DatevImport.prototype.defineConversionParamTransactions = function(inData) {
       convertedRow["ContraAccount"] = inputRow[7] ? inputRow[7] : "";
       //BU-Schlüssel
       if (conversionParam.withVat) {
-         convertedRow["VatCode"] = inputRow[8] ? inputRow[8] : "";
-         var vatCode = "";
-         if (convertedRow["VatCode"].length)
-            vatCode = this.getVatCode(convertedRow["VatCode"]);
-         convertedRow["VatCode"] = vatCode;
-         //Banana.console.debug(withVat + " buSchluessel " + convertedRow["VatCode"] + " vatCode " + convertedRow["VatCode"]);      
+         var buSchlussel = inputRow[8] ? inputRow[8] : "";
+         if (buSchlussel.length)
+            convertedRow["VatCode"] = this.getVatCode(buSchlussel);
+         //Banana.console.debug(conversionParam.withVat + " buSchluessel " + buSchlussel + " VatCode " + convertedRow["VatCode"]);      
       }
       //Belegdatum
       convertedRow["Date"] = inputRow[9] ? inputRow[9] : "";
-      if (convertedRow["Date"] && convertedRow["Date"].length==4 ) {
-         var day = convertedRow["Date"].substr(0,2);
-         var month = convertedRow["Date"].substr(2,2);
-         convertedRow["Date"] = conversionParam.header.year+month+day;
+      if (convertedRow["Date"] && convertedRow["Date"].length == 4) {
+         var day = convertedRow["Date"].substr(0, 2);
+         var month = convertedRow["Date"].substr(2, 2);
+         convertedRow["Date"] = conversionParam.header.year + month + day;
          //Banana.Converter.toInternalDateFormat(inputRow["Date"], "dd.mm.yyyy");
       }
       //Belegfeld1
@@ -404,7 +433,7 @@ DatevImport.prototype.defineConversionParamTransactions = function(inData) {
    return conversionParam;
 }
 
-DatevImport.prototype.getAccountingInfo = function(param) {
+DatevImport.prototype.getAccountingInfo = function (param) {
    if (!param)
       return param;
 
@@ -412,11 +441,11 @@ DatevImport.prototype.getAccountingInfo = function(param) {
    param.withVat = false;
    param.customersGroup = "";
    param.suppliersGroup = "";
-   
+
    if (this.banDocument) {
-      var fileType = this.banDocument.info("Base","FileType");
-      var fileGroup = this.banDocument.info("Base","FileTypeGroup");
-      var fileNumber = this.banDocument.info("Base","FileTypeNumber");
+      var fileType = this.banDocument.info("Base", "FileType");
+      var fileGroup = this.banDocument.info("Base", "FileTypeGroup");
+      var fileNumber = this.banDocument.info("Base", "FileTypeNumber");
       if (fileNumber == "110") {
          param.withVat = true;
       }
@@ -432,7 +461,7 @@ DatevImport.prototype.getAccountingInfo = function(param) {
       if (this.banDocument.info("AccountingDataBase", "SuppliersGroup"))
          param.suppliersGroup = this.banDocument.info("AccountingDataBase", "SuppliersGroup");
    }
-   return param;   
+   return param;
 }
 
 /**
@@ -446,14 +475,16 @@ DatevImport.prototype.getErrorMessage = function (errorId) {
          return "Die Gruppe Kunden ist nicht definiert. Verwenden Sie den Befehl Buch2-Kunden-Einstellungen, um die Gruppe zu definieren";
       case this.ID_ERR_SUPPLIERSGROUP_NOTDEFINED:
          return "Die Gruppe Lieferanten ist nicht definiert. Verwenden Sie den Befehl Buch2-Lieferanten-Einstellungen, um die Gruppe zu definieren";
-      case this.ID_ERR_NOTSUPPORTED_FORMAT:
-         return "%1 is a wrong format. Requested format: %2";
+      case this.ID_ERR_ACCOUNTS_NOTVALID:
+         return "Die Daten sind keine gültigen Konten";
+      case this.ID_ERR_TRANSACTIONS_NOTVALID:
+         return "Die Daten sind keine gültigen Buchungen";
    }
    return "";
 }
 
 //The purpose of this function is to return all the titles of the columns
-DatevImport.prototype.getHeaderData = function(csvFile, startLineNumber) {
+DatevImport.prototype.getHeaderData = function (csvFile, startLineNumber) {
    if (!startLineNumber) {
       startLineNumber = 0;
    }
@@ -481,7 +512,7 @@ DatevImport.prototype.getHeaderData = function(csvFile, startLineNumber) {
 
 
 //The purpose of this function is to return all the data of the rows
-DatevImport.prototype.getRowData = function(csvFile, startLineNumber) {
+DatevImport.prototype.getRowData = function (csvFile, startLineNumber) {
    if (!startLineNumber) {
       startLineNumber = 1;
    }
@@ -494,7 +525,7 @@ DatevImport.prototype.getRowData = function(csvFile, startLineNumber) {
 
 DatevImport.prototype.getVatCode = function (buSchluessel) {
    var vatCode = "";
-   if (buSchluessel.length<=0 || !this.banDocument)
+   if (buSchluessel.length <= 0 || !this.banDocument)
       return vatCode;
    var tableVatCodes = this.banDocument.table('VatCodes');
    if (!tableVatCodes)
@@ -502,71 +533,55 @@ DatevImport.prototype.getVatCode = function (buSchluessel) {
    var row = tableVatCodes.findRowByValue('Gr1', buSchluessel);
    if (row)
       vatCode = row.value("VatCode");
-   
+
    return vatCode;
 }
 
 DatevImport.prototype.importAccounts = function (inData) {
-   //1. Function call to define the conversion parameters
-   var conversionParam = this.defineConversionParamAccounts(inData);
 
-   //2. we can eventually process the input text
-   inData = this.preProcessInData(inData);
-
-   //3. intermediaryData is an array of objects where the property is the banana column name
+   var conversionParam = this.defineHeader(inData);
    var intermediaryData = [];
    if (conversionParam.header.category === "16") {
+      conversionParam = this.defineRowsCustomersSuppliers(inData, conversionParam);
+      intermediaryData = this.convertCsvToIntermediaryData(inData, conversionParam);
+   }
+   else if (conversionParam.header.category === "20") {
+      conversionParam = this.defineRowsAccounts(inData, conversionParam);
       intermediaryData = this.convertCsvToIntermediaryData(inData, conversionParam);
    }
    else {
-      var msg = this.getErrorMessage(this.ID_ERR_NOTSUPPORTED_FORMAT);
-      msg = msg.replace("%1", conversionParam.header.category);
-      msg = msg.replace("%2", "16");
+      var msg = this.getErrorMessage(this.ID_ERR_ACCOUNTS_NOTVALID);
       if (this.banDocument)
-         this.banDocument.addMessage(msg, this.ID_ERR_NOTSUPPORTED_FORMAT);
-   } 
+         this.banDocument.addMessage(msg, this.ID_ERR_ACCOUNTS_NOTVALID);
+      return "@Cancel";   
+   }
 
-   //4. can define as much postProcessIntermediaryData function as needed
-   intermediaryData = this.postProcessIntermediaryData(intermediaryData);
-
-   //5. sort data
    intermediaryData = this.sortData(intermediaryData, conversionParam);
 
-   //6. convert to banana format
-   //column that start with "_" are not converted
+   //column that start with "_" are not readen
    var text = this.convertToBananaFormat(intermediaryData);
 
    return text;
 }
 
 DatevImport.prototype.importTransactions = function (inData) {
-   //1. Function call to define the conversion parameters
-   var conversionParam = this.defineConversionParamTransactions(inData);
 
-   //2. we can eventually process the input text
-   inData = this.preProcessInData(inData);
-
-   //3. intermediaryData is an array of objects where the property is the banana column name
+   var conversionParam = this.defineHeader(inData);
    var intermediaryData = [];
    if (conversionParam.header.category === "21") {
+      conversionParam = this.defineRowsTransactions(inData, conversionParam);
       intermediaryData = this.convertCsvToIntermediaryData(inData, conversionParam);
    }
    else {
-      var msg = this.getErrorMessage(this.ID_ERR_NOTSUPPORTED_FORMAT);
-      msg = msg.replace("%1", conversionParam.header.category);
-      msg = msg.replace("%2", "21");
+      var msg = this.getErrorMessage(this.ID_ERR_TRANSACTIONS_NOTVALID);
       if (this.banDocument)
-         this.banDocument.addMessage(msg, this.ID_ERR_NOTSUPPORTED_FORMAT);
-   } 
+         this.banDocument.addMessage(msg, this.ID_ERR_TRANSACTIONS_NOTVALID);
+      return "@Cancel";   
+   }
 
-   //4. can define as much postProcessIntermediaryData function as needed
-   intermediaryData = this.postProcessIntermediaryData(intermediaryData);
-
-   //5. sort data
    intermediaryData = this.sortData(intermediaryData, conversionParam);
 
-   //6. convert to banana format
-   //column that start with "_" are not converted
+   //column that start with "_" are not readen
    var text = this.convertToBananaFormat(intermediaryData);
 
    return text;
@@ -581,10 +596,10 @@ DatevImport.prototype.initParam = function () {
 
 //The purpose of this function is to load all the data (titles of the columns and rows) and create a list of objects.
 //Each object represents a row of the csv file
-DatevImport.prototype.loadForm = function(form, columns, rows) {
-   for(var j = 0; j < rows.length; j++){
+DatevImport.prototype.loadForm = function (form, columns, rows) {
+   for (var j = 0; j < rows.length; j++) {
       var obj = {};
-      for(var i = 0; i < columns.length; i++){
+      for (var i = 0; i < columns.length; i++) {
          //obj[columns[i]] = rows[j][i];
          obj[i] = rows[j][i];
       }
@@ -592,26 +607,17 @@ DatevImport.prototype.loadForm = function(form, columns, rows) {
    }
 }
 
-//The purpose of this function is to let the user specify how to convert the categories
-DatevImport.prototype.postProcessIntermediaryData = function(intermediaryData) {
-   return intermediaryData;
-}
-
-DatevImport.prototype.preProcessInData = function(inData) {
-   return inData;
-}
-
 DatevImport.prototype.setParam = function (param) {
-   if (param && typeof(param) === 'object') {
+   if (param && typeof (param) === 'object') {
       this.param = param;
-   } else if (param && typeof(param) === 'string') {
+   } else if (param && typeof (param) === 'string') {
       this.param = JSON.parse(param)
    }
    this.verifyParam();
 }
 
 // The purpose of this function is to sort the data
-DatevImport.prototype.sortData = function(intermediaryData, conversionParam) {
+DatevImport.prototype.sortData = function (intermediaryData, conversionParam) {
    return intermediaryData;
 }
 
