@@ -37,8 +37,12 @@ function createInstance(param, contextList)
     xbrlContent += '\n' + xml_createElement("xbrli:context", xbrlString, attrsDuration);
   }   
 
-  var accountingBasicCurrency = Banana.document.info("AccountingDataBase", "BasicCurrency");
-  var accountingDecimals = Banana.document.info("Base", "DecimalsAmounts");
+  var accountingBasicCurrency = "";
+  var accountingDecimals = "";
+  if (contextList[i].document) {
+     accountingBasicCurrency= contextList[i].document.info("AccountingDataBase", "BasicCurrency");
+     accountingDecimals = contextList[i].document.info("Base", "DecimalsAmounts");
+  }
   var xbrlMeasure = '\n' + xml_createElement("xbrli:measure", "iso4217:"+accountingBasicCurrency) + '\n';
   var xbrlUnit = '\n' + xml_createElement("xbrli:unit", xbrlMeasure, {'id':'BaseCurrency'}) + '\n';
   xbrlContent += xbrlUnit;
