@@ -1,5 +1,5 @@
 # Common German tax forms (ELSTER)
-In this folder you find the most important forms for small companies (einfache Buchhaltung)  
+In this folder you find the most important forms for small companies (einfache Buchhaltung). More forms exist, depending on income types. Here are the most commom ones:  
 2 categories: monthly/ quaterly and end-of-year
 
 ## 1. UST Voranmeldung 2019 monthly/ quaterly
