@@ -3,14 +3,14 @@ In this folder you find the most important forms for small and 1-Person business
 
 ## Formular UST Voranmeldung 2019 monthly/ quaterly
 
-#### mandatory for VAT liable businesses
+#### -->mandatory for VAT liable businesses
 
 ***Formular zur Umsatzsteuer-Voranmeldung 2019***
 
 
 ## Formulare Jahresabschluss (annual financial statement at end of year) 2018
 
-#### mandatory for all businesses
+#### -->mandatory for all businesses
 
 ***1 Mantelbogen - Mandatory to ANY income tax statement***
 Basic form for the personal income tax statement. 
@@ -27,7 +27,7 @@ Profit/Loss statement
 Anlagenspiegel
 
 
-#### mandatory for VAT liable businesses
+#### -->mandatory for VAT liable businesses
 
 ***4 Umsatzsteuer Erklärung***
 TVA Statement
@@ -36,7 +36,7 @@ TVA Statement
 Statement of all types of income that do not appear in Umsatzsteuer Erklärung, especially for EU incomes
 
 
-#### mandatory for "Gewerbebetriebe" (Commercial Businesses)
+#### -->mandatory for "Gewerbebetriebe" (Commercial Businesses)
 
 Gewerbebetriebe are not only liable to income tax but additionally to "Gewerbesteuer" (local businesses tax)
 - 2/3 of all Businesses are "Gewerbebetriebe"
