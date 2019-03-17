@@ -5,47 +5,48 @@ In this folder you find the most important forms for small and 1-Person business
 
 #### mandatory for VAT liable businesses
 
-***Formular zur Umsatzsteuer-Voranmeldung 2019
+***Formular zur Umsatzsteuer-Voranmeldung 2019***
 
 
 ## Formulare Jahresabschluss (annual financial statement at end of year) 2018
 
 #### mandatory for all businesses
 
-***1 Mantelbogen - Mandatory to ANY income tax statement
+***1 Mantelbogen - Mandatory to ANY income tax statement***
 Basic form for the personal income tax statement. 
 Here are declared special expenses that refer personally to the tax payer and his family.
 Those expenses usually are not related to a business (payments for divorced wife, childrens' education, household help etc.)
 
-***2 Anlage Vorsorgeaufwendungen - Mandatory to ANY income tax statement
+***2 Anlage Vorsorgeaufwendungen - Mandatory to ANY income tax statement***
 Form for deducting expenses for personal health or pension insurance
 
-***3 Anlage EÜR - Mandatory for ANY Businesses
+***3 Anlage EÜR - Mandatory for ANY Businesses***
 Profit/Loss statement
 
-***3a Anlage AV zur EÜR - necessary for calculating amortisations/depreciations
+***3a Anlage AV zur EÜR - necessary for calculating amortisations/depreciations***
 Anlagenspiegel
 
 
 #### mandatory for VAT liable businesses
 
-***4 Umsatzsteuer Erklärung
+***4 Umsatzsteuer Erklärung***
+TVA Statement
 
-***5 Anlage UR zur Umsatzsteuer Erklärung
+***5 Anlage UR zur Umsatzsteuer Erklärung***
 Statement of all types of income that do not appear in Umsatzsteuer Erklärung, especially for EU incomes
 
 
 #### mandatory for "Gewerbebetriebe" (Commercial Businesses)
 
-Those are not only liable to income tax but additionally they are liable to "Gewerbesteuer" (local businesses tax)
+Gewerbebetriebe are not only liable to income tax but additionally to "Gewerbesteuer" (local businesses tax)
 - 2/3 of all Businesses are "Gewerbebetriebe"
 - the others 1/3 are so called "Freie Berufe", a special status for self-employed businesses (eg. doctors, journalists, lawers etc.)
 - For more information https://www.ifm-bonn.org/statistiken/selbststaendigefreie-berufe/#%20
 
-****6 Anlage G
+***6 Anlage G***
 Statement of income from a Commercial business
 
-****7 Gewerbesteuererklärung
+***7 Gewerbesteuererklärung***
 Form for calculating the local business tax duty
 
 
