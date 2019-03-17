@@ -11,7 +11,7 @@ In this folder you find the most important forms for small companies (einfache B
 
 ## 2. Jahresabschluss/ annual financial statement at end of year
 
-#### -->mandatory for all personal income statement
+#### -->mandatory for all personal income statements
 
 ***1 Mantelbogen***   
 Basic form for the personal income tax statement. 
