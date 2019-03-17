@@ -21,7 +21,7 @@ Form for deducting expenses for personal health or pension insurance
 ***3 Anlage EÜR 2018***   
 Profit/Loss statement
 
-***3a Anlage AV zur EÜR 2018 - necessary for calculating amortisations/depreciations***   
+***3a Anlage AV zur EÜR 2018 - necessary for calculating amortisations/depreciations (only if you have assets acivated***   
 Anlagenspiegel
 
 #### -->mandatory for VAT liable businesses/ companies
