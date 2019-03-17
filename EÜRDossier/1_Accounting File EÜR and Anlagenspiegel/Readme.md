@@ -41,6 +41,8 @@ Furthermore, there is EÜR_Catalog.ac2, a working file which contains even more 
 
 DATEV tax codes (BU-Schlüssel) for automatic accounts: 1- or more digits
 
+!(https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/Datev%20code%20for%20automatic%20accounts%20comparison%201%20and%20more%20digits.html)
+
 You asked for VAT codes for all possible cases plus DATEV codes for the export in DATEV format.
 In the above accounting files, DATEV tax codes are included in the 1-digit version only. These type of tax codes perform a functionality equal to the corresponding Banana tax code functionality.
 However, DATEV also uses 2-digit and since 2018 3- and 4-digit tax codes (see Excel-file List of DATEV Buchungs-Schlüssel).
