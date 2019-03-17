@@ -1,40 +1,32 @@
-Roadmap Accounting files
+# Roadmap Accounting files
 
-First issue on the initial roadmap are the account plans. A lot of work has been done to do this already in 2014. The result from that effort basically is the account plan that we put on Github while I was in Lugano in December 2018 (EÜR_reference_income_VAT-ac2)
+* Revised the proposed selection of accounts and updated it to the 2019 DATEV account plan
+*	Headers and groupings correspond to the DATEV/ Steuerberater headers/ groupings for generating the EÜR report
+*	Extended the VAT table to include all possible cases for cross-border transactions that require to address particular VAT accounts
+*	Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
+*	Automatic accounts correspond now to DATEV standard list of automatic accounts (marked in row “DATEV Autom.”
+*	Added/ updated Elster Kennzeichen for USt-VA 2019 and EÜR 2018 (more on this in Folder “Elster EÜR Reports”)
+*	Generated a template for Anlagenbuchhaltung that corresponds to the data structure proposed in the DATEV/ ELSTER EÜR Anlagenspiegel
+*	I added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
 
-In the last weeks, I have worked over and updated the account plan:
-
-•	Revised the proposed selection of accounts and updated it to the 2019 DATEV account plan
-•	Headers and groupings correspond to the DATEV/ Steuerberater headers/ groupings for generating the EÜR report
-•	Extended the VAT table to include all possible cases for cross-border transactions that require to address particular VAT accounts
-•	Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
-•	Automatic accounts correspond now to DATEV standard list of automatic accounts (marked in row “DATEV Autom.”
-•	Added/ updated Elster Kennzeichen for USt-VA 2019 and EÜR 2018 (more on this in Folder “Elster EÜR Reports”)
-•	Generated a template for Anlagenbuchhaltung that corresponds to the data structure proposed in the DATEV/ ELSTER EÜR Anlagenspiegel
-
-Another issue was to generate a printed EÜR Report, so 
-•	I added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
-
-
-
-Accounting files
+## Accounting files
 
 I have produced two accounting files
 
-EÜR_REFERENCE.ac2
-•	Contains a vast collection of accounts for all types of business and the most common cross-border transaction in and outside EU (see “Wichtige Buchungssätze CrossBorder.doc”). The collection is merely based on the 2014 Heiko selection of accounts. I added some accounts for plausibility reasons, and deleted revenue accounts that refer to rare cross-border transactions
-•	This account plan should be fine for the vast majority of relevant users
-•	Number of Kategorien/Konten: 187/54
+### EÜR_REFERENCE.ac2
+*	Contains a vast collection of accounts for all types of business and the most common cross-border transaction in and outside EU (see “Wichtige Buchungssätze CrossBorder.doc”). The collection is merely based on the 2014 Heiko selection of accounts. I added some accounts for plausibility reasons, and deleted revenue accounts that refer to rare cross-border transactions
+*	This account plan should be fine for the vast majority of relevant users
+*	Number of Kategorien/Konten: 187/54
 
-EÜR_MINIMAL.ac2
-•	is a heavily compressed version of a DATEV compatible account plan. It represents all accounts that a typical 1-Person Professional Service Business with private car for business usage and homeoffice would need. It’s to show how simple it can be in the end
-•	This account plan should be fine for the vast majority of 1-Person business
-•	Number of Kategorien/Konten: 48/26
+### EÜR_MINIMAL.ac2
+*	is a heavily compressed version of a DATEV compatible account plan. It represents all accounts that a typical 1-Person Professional Service Business with private car for business usage and homeoffice would need. It’s to show how simple it can be in the end
+*	This account plan should be fine for the vast majority of 1-Person business
+*	Number of Kategorien/Konten: 48/26
 
-As the account plan is organized corresponding to the DATEV EÜR structure, the standard Banana print-out “Formatierter Bericht” delivers a report that resembles the DATEV EÜR print-out scheme from a Steuerberater (Template “Kontennachweis für Einnahmeüberschußrechnung §4 Abs. 3 EStG“).  This is a good thing, as a user can easily compare the Banana to the Steuerberater results.
+As the account plan is organized corresponding to the DATEV EÜR structure, the standard Banana print-out “Formatierter Bericht” delivers a report that resembles the DATEV EÜR print-out scheme from a Steuerberater (Template “Kontennachweis für Einnahmeüberschußrechnung §4 Abs. 3 EStG“).  With this print-out, a user can easily compare the Banana to the Steuerberater results.
 
-ANL_REFERENCE.ac2
-•	is a template for Anlagenbuchhaltung with headers and groupings corresponding to EÜR/ DATEV systematics
+### ANL_REFERENCE.ac2
+*	is a template for Anlagenbuchhaltung with headers and groupings corresponding to EÜR/ DATEV systematics
 
 Furthermore, there is EÜR_Catalog.ac2, a working file which contains even more revenue and VAT accounts for particular rare cross-border transactions (212/54 Kategorien/Konten).
 
