@@ -1,14 +1,15 @@
 # Common German tax forms (ELSTER)
-In this folder you find the most important forms for small and 1-Person business (einfache Buchhaltung)
+In this folder you find the most important forms for small companies (einfache Buchhaltung)
+2 categories: monthly/ quaterly and end-of-year
 
-## UST Voranmeldung 2019 monthly/ quaterly
+## 1. UST Voranmeldung 2019 monthly/ quaterly
 
 #### -->mandatory for VAT liable businesses
 
 ***Formular zur Umsatzsteuer-Voranmeldung 2019***
 
 
-## Jahresabschluss/ annual financial statement at end of year
+## 2. Jahresabschluss/ annual financial statement at end of year
 
 #### -->mandatory for all personal income statement
 
