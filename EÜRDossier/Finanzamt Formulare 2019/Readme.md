@@ -1,33 +1,35 @@
 # Common German tax forms (ELSTER)
 In this folder you find the most important forms for small and 1-Person business (einfache Buchhaltung)
 
-## Formular UST Voranmeldung 2019 monthly/ quaterly
+## UST Voranmeldung 2019 monthly/ quaterly
 
 #### -->mandatory for VAT liable businesses
 
 ***Formular zur Umsatzsteuer-Voranmeldung 2019***
 
 
-## Formulare Jahresabschluss (annual financial statement at end of year) 2018
+## Jahresabschluss/ annual financial statement at end of year
 
-#### -->mandatory for all businesses
+#### -->mandatory for all personal income statement
 
-***1 Mantelbogen - Mandatory to ANY income tax statement***   
+***1 Mantelbogen***   
 Basic form for the personal income tax statement. 
 Here are declared special expenses that refer personally to the tax payer and his family.
 Those expenses usually are not related to a business (payments for divorced wife, childrens' education, household help etc.)
 
-***2 Anlage Vorsorgeaufwendungen - Mandatory to ANY income tax statement***   
+***2 Anlage Vorsorgeaufwendungen***   
 Form for deducting expenses for personal health or pension insurance
 
-***3 Anlage EÜR - Mandatory for ANY Businesses***   
+#### -->mandatory for businesses/ companies
+
+***3 Anlage EÜR***   
 Profit/Loss statement
 
 ***3a Anlage AV zur EÜR - necessary for calculating amortisations/depreciations***   
 Anlagenspiegel
 
 
-#### -->mandatory for VAT liable businesses
+#### -->mandatory for VAT liable businesses/ companies
 
 ***4 Umsatzsteuer Erklärung***   
 TVA Statement
