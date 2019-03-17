@@ -12,27 +12,27 @@ In this folder you find the most important forms for small and 1-Person business
 
 #### -->mandatory for all businesses
 
-***1 Mantelbogen - Mandatory to ANY income tax statement***
+***1 Mantelbogen - Mandatory to ANY income tax statement***   
 Basic form for the personal income tax statement. 
 Here are declared special expenses that refer personally to the tax payer and his family.
 Those expenses usually are not related to a business (payments for divorced wife, childrens' education, household help etc.)
 
-***2 Anlage Vorsorgeaufwendungen - Mandatory to ANY income tax statement***
+***2 Anlage Vorsorgeaufwendungen - Mandatory to ANY income tax statement***   
 Form for deducting expenses for personal health or pension insurance
 
-***3 Anlage EÜR - Mandatory for ANY Businesses***
+***3 Anlage EÜR - Mandatory for ANY Businesses***   
 Profit/Loss statement
 
-***3a Anlage AV zur EÜR - necessary for calculating amortisations/depreciations***
+***3a Anlage AV zur EÜR - necessary for calculating amortisations/depreciations***   
 Anlagenspiegel
 
 
 #### -->mandatory for VAT liable businesses
 
-***4 Umsatzsteuer Erklärung***
+***4 Umsatzsteuer Erklärung***   
 TVA Statement
 
-***5 Anlage UR zur Umsatzsteuer Erklärung***
+***5 Anlage UR zur Umsatzsteuer Erklärung***   
 Statement of all types of income that do not appear in Umsatzsteuer Erklärung, especially for EU incomes
 
 
@@ -43,10 +43,10 @@ Gewerbebetriebe are not only liable to income tax but additionally to "Gewerbest
 - the others 1/3 are so called "Freie Berufe", a special status for self-employed businesses (eg. doctors, journalists, lawers etc.)
 - For more information https://www.ifm-bonn.org/statistiken/selbststaendigefreie-berufe/#%20
 
-***6 Anlage G***
+***6 Anlage G***   
 Statement of income from a Commercial business
 
-***7 Gewerbesteuererklärung***
+***7 Gewerbesteuererklärung***   
 Form for calculating the local business tax duty
 
 
