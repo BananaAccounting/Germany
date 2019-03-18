@@ -1,4 +1,4 @@
-# Common German tax forms (ELSTER)
+# List of most common German tax forms (ELSTER)
 In this folder you find the most important forms for small companies (EÜR/ einfache Buchhaltung). More forms exist, depending on income types (eg. income from financial investments, income from rental etc.). Here are the most recent versions of the most commom ones:  
 2 categories: monthly/ quaterly and end-of-year
 
