@@ -55,6 +55,4 @@ another example is **BU-Schlüssel 94** for reverse charge transactions which al
 * Further considerations: How important are the more-digit booking codes for DATEV export/import? Are they necessary to be implemented or can bookings be handed over without using automatic tax codes but in seperate manual bookings?
 * It could be useful to test various DATEV export/ import files with different types of EU-transactions (Steuerberater?)  
     
-## Workload Robert
-To be discussed
 
