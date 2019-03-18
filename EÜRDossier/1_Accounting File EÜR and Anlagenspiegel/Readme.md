@@ -3,7 +3,7 @@
 
 * Revised the proposed selection of accounts and updated it to the 2019 DATEV account plan
 *	Headers and groupings correspond to the DATEV/ Steuerberater headers/ groupings for generating the EÜR report
-*	Extended the VAT table to include all possible cases for cross-border transactions that require to address particular VAT accounts
+*	The VAT table includes all possible cases for cross-border transactions that require to address particular VAT accounts
 *	Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
 *	Automatic accounts correspond now to DATEV standard list of automatic accounts (marked in row “DATEV Autom.”
 *	Added/ updated Elster Kennzeichen for USt-VA 2019 and EÜR 2018 (more on this in Folder “Elster EÜR Reports”)
@@ -12,8 +12,12 @@
 
 ## Accounting files
 #### EÜR_REFERENCE.ac2
-*	Contains a vast collection of accounts for all types of business and the most common cross-border transaction in and outside EU (see “Wichtige Buchungssätze CrossBorder.doc”). The collection is merely based on the 2014 Heiko selection of accounts. I added some accounts for plausibility reasons, and deleted revenue accounts that refer to rare cross-border transactions
-*	This account plan should be fine for the vast majority of relevant users
+*	Contains a vast collection of accounts for all types of business and cross-border transaction in and outside EU. The collection is  based on the 2014 Heiko selection of accounts. I added some accounts for plausibility reasons and updated headers and groups 
+*	This account plan should contain all accounts relevant for the greatest majority of relevant users
+*	Number of Kategorien/Konten: 213/54  
+
+#### EÜR_MOST COMMON.ac2
+*	Reduced list of revenue accounts, limited to most common EU cross-border transactions
 *	Number of Kategorien/Konten: 187/54
 
 #### EÜR_MINIMAL.ac2
@@ -46,7 +50,7 @@ It is not trivial to allocate them to the corresponding automatic/ VAT accounts,
 another example is **BU-Schlüssel 94** for reverse charge transactions which also performs 2 VAT bookings
 
 ## To Dos
-* In my view the Reference accounting files are ready to use and to be tested by users. For most users the 1-digit DATEV tax code should be sufficient
+* Reference accounting files are ready to use and to be tested by users. For most users the 1-digit DATEV tax code should be sufficient
 * Further considerations: How important are the more-digit booking codes for DATEV export/import? Are they necessary to be implemented or can bookings be handed over without using automatic tax codes but in seperate manual bookings?
 * It could be useful to test various DATEV export/ import files with different types of EU-transactions (Steuerberater?)  
     
