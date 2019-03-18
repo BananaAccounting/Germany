@@ -10,7 +10,7 @@
 *	Generated a template for Anlagenbuchhaltung that corresponds to the data structure proposed in the DATEV/ ELSTER EÜR Anlagenspiegel
 *	I added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
 
-### Accounting files
+## Accounting files
 #### EÜR_REFERENCE.ac2
 *	Contains a vast collection of accounts for all types of business and the most common cross-border transaction in and outside EU (see “Wichtige Buchungssätze CrossBorder.doc”). The collection is merely based on the 2014 Heiko selection of accounts. I added some accounts for plausibility reasons, and deleted revenue accounts that refer to rare cross-border transactions
 *	This account plan should be fine for the vast majority of relevant users
@@ -27,7 +27,7 @@ As the account plan is organized corresponding to the DATEV EÜR structure, the 
 #### ANL_REFERENCE.ac2
 *	is a template for Anlagenbuchhaltung with headers and groupings corresponding to EÜR/ DATEV systematics
 
-### Considerations concerning DATEV tax codes (BU-Schlüssel) for automatic accounts: 1- or more digits
+## Considerations concerning DATEV tax codes (BU-Schlüssel) for automatic accounts: 1- or more digits
 
 In the proposed accounting files, DATEV tax codes are included in the **1-digit version only**. In my personal case of data exchange with Steuerberater, the 1-digt codes were sufficient and worked well. These type of tax codes perform in DATEV a functionality equal to the corresponding Banana tax code functionality.  
 
