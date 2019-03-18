@@ -43,7 +43,7 @@ In the proposed accounting files, DATEV tax codes are included in the **1-digit 
 However, for certain EU cross-border transactions, DATEV also uses 2-digit and since 2018 3- and 4-digit tax codes (see Excel-file List of DATEV Buchungs-Schlüssel).  
 It is not trivial to allocate them to the corresponding automatic/ VAT accounts, as some of the 2/3/4-digit DATEV codes perform more complex functionalities in the DATEV software than the 1-digit tax codes. 
 
-**Example for BU-Schlüssel 19** 
+**Example for BU-Schlüssel 19**   
 *Transaction case:*	innergemeinschaftlicher Erwerb zum vollen Steuersatz 19%USt/19%VSt, eg. Lieferungen from EU firm (Buyer deduces input tax AND is liable to pay sales tax)   
 *Functionality in DATEV:* Enter net amount, 19% VAT is booked account 1574 (VSt EU Erwerb) AND to VAT account 1774 (USt EU-Erwerb)  
 *Functionality in Banana:* No automatic functionality available, 2 bookings necessary  
