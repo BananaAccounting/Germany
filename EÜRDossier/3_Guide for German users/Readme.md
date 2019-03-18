@@ -12,20 +12,20 @@ In the following I present a detailed structure of what I think is necessary and
 **Guiding priciples**  
 *	Chapters would be structured like a tutorial, from a process perspective start to end
 * Explanations will be done mainly via text, screenshots, links
-•	Taking into account that the mere functionalities of Banana are well described in the documentation. So the tutorial won’t repeat what is in there
-•	The focus is on how to get done the whole accounting process as a user in Germany in a DATEV/ ELSTER environment
-•	Cooperation with a Steuerberater for End-of-year operations and data transfer is an option. Another is that users take care of the whole tax process themselves, including transferring data via ELSTER
-•	It’s assumed that a typical user has some basic accounting knowledge
+*	Taking into account that the mere functionalities of Banana are well described in the documentation. So the tutorial won’t repeat what is in there
+*	The focus is on how to get done the whole accounting process as a user in Germany in a DATEV/ ELSTER environment
+*	Cooperation with a Steuerberater for End-of-year operations and data transfer is an option. Another is that users take care of the whole tax process themselves, including transferring data via ELSTER
+*	It’s assumed that a typical user has some basic accounting knowledge
 
 
 
 #### Overview of how to best work with Banana as a German based user
 
-•	Explain tutorial structure of this guide
-•	Many ways to work with Banana, form “free-style” to DATEV/ ELSTER compatible
-•	Most important Banana advantages as compared to traditional accounting software
-•	Advantages in using Banana AND cooperating with a Steuerberater
-•	Reference to structure accounting data in a DATEV compatible way and to transfer data to ELSTER 
+*	Explain tutorial structure of this guide
+*	Many ways to work with Banana, form “free-style” to DATEV/ ELSTER compatible
+*	Most important Banana advantages as compared to traditional accounting software
+*	Advantages in using Banana AND cooperating with a Steuerberater
+*	Reference to structure accounting data in a DATEV compatible way and to transfer data to ELSTER 
 
 
 #### Adapt Kontenpläne to personal needs
