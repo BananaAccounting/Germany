@@ -39,6 +39,7 @@ In the proposed accounting files, DATEV tax codes are included in the **1-digit 
 *Transaction case:* 19% Vorsteuer, eg. for domestic Lieferungen (Buyer deduces input tax)  
 *Functionality in DATEV:* Enter gross amount. 19% VAT is booked to account 1576 (VSt)
 *Functionality in Banana:* Code in table "MwSt/USt Codes" works equally when entered appropiately  
+
 . 
 However, for certain EU cross-border transactions, DATEV also uses 2-digit and since 2018 3- and 4-digit tax codes (see Excel-file List of DATEV Buchungs-Schlüssel).  
 It is not trivial to allocate them to the corresponding automatic/ VAT accounts, as some of the 2/3/4-digit DATEV codes perform more complex functionalities in the DATEV software than the 1-digit tax codes. 
