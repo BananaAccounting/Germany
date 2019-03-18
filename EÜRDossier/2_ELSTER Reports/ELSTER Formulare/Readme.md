@@ -42,4 +42,4 @@ Gewerbebetriebe are not only liable to income tax but additionally to "Gewerbest
 Statement of income from a Commercial business
 
 ***7 Gewerbesteuererklärung 2018***   
-Form for calculating the local business tax duty
+Form for calculating the local business tax charge
