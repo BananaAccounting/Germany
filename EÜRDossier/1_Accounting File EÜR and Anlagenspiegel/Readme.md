@@ -30,19 +30,30 @@ As the account plan is organized corresponding to the DATEV EÜR structure, the 
 ## Considerations concerning DATEV tax codes (BU-Schlüssel) for automatic accounts: 1- or more digits
 
 In the proposed accounting files, DATEV tax codes are included in the **1-digit version only**. In my personal case of data exchange with my Steuerberater for my own purposes, the 1-digt codes were sufficient. These type of tax codes perform in DATEV a functionality equal to the corresponding Banana tax code functionality.  
+
 **Example for BU-Schlüssel 9**  
 Transaction case: 19% Vorsteuer, eg. for domestic Lieferungen (Buyer deduces input tax)  
 Functionality in DATEV: Enter gross amount. 19% VAT is booked to account 1576 (VSt)
 Functionality in Banana: Code in table "MwSt/USt Codes" works equally when entered accordingly  
 . 
 However, for certain EU cross-border transactions, DATEV also uses 2-digit and since 2018 3- and 4-digit tax codes (see Excel-file List of DATEV Buchungs-Schlüssel).  
-It is not trivial to allocate them to the corresponding automatic/ VAT accounts, as some of the 2/3/4-digit DATEV codes perform more complex functionalities in the DATEV software than the 1-digit tax codes.  
+It is not trivial to allocate them to the corresponding automatic/ VAT accounts, as some of the 2/3/4-digit DATEV codes perform more complex functionalities in the DATEV software than the 1-digit tax codes. 
+
 **Example for BU-Schlüssel 19** 
 Transaction case:	innergemeinschaftlicher Erwerb zum vollen Steuersatz 19%USt/19%VSt, eg. Lieferungen from EU firm (Buyer deduces input tax AND is liable to pay sales tax)  
 Functionality in DATEV: Enter net amount, 19% VAT is booked account 1574 (VSt EU Erwerb) AND to VAT account 1774 (USt EU-Erwerb)
 Functionality in Banana: No automatic functionality available, 2 bookings necessary
 **BU-Schlüssel 94** for reverse charge transactions works similarly with two VAT bookings.
 
-I do not know, from a programmers’ perspective, how important it is to implement 2- or more digit DATEV codes in the export function. Nor do I know, if these issues are clarified in any DATEV documentations for interface programmers.
+## To Dos
+
+* Clarify importance of more-digit booking codes. Are they necessary to be implemented in the DATEV export/ import or can bookings be handed over without using automatic tax codes? It could be useful to test various DATEV export/ import files with different types of EU-transactions
+    *Could be an issue to be clarified with a Steuerberater
+
+
+In my view the proposed accounting files are ready to use. In a first step, they could be published in version without the Elter Information
+
+It could be useful
+
 
 
