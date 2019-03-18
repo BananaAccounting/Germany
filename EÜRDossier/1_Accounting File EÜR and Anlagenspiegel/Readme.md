@@ -44,9 +44,10 @@ However, for certain EU cross-border transactions, DATEV also uses 2-digit and s
 It is not trivial to allocate them to the corresponding automatic/ VAT accounts, as some of the 2/3/4-digit DATEV codes perform more complex functionalities in the DATEV software than the 1-digit tax codes. 
 
 **Example for BU-Schlüssel 19** 
-*Transaction case:*	innergemeinschaftlicher Erwerb zum vollen Steuersatz 19%USt/19%VSt, eg. Lieferungen from EU firm (Buyer deduces input tax AND is liable to pay sales tax)  
-*Functionality in DATEV:* Enter net amount, 19% VAT is booked account 1574 (VSt EU Erwerb) AND to VAT account 1774 (USt EU-Erwerb)
-*Functionality in Banana:* No automatic functionality available, 2 bookings necessary
+*Transaction case:*	innergemeinschaftlicher Erwerb zum vollen Steuersatz 19%USt/19%VSt, eg. Lieferungen from EU firm (Buyer deduces input tax AND is liable to pay sales tax)   
+*Functionality in DATEV:* Enter net amount, 19% VAT is booked account 1574 (VSt EU Erwerb) AND to VAT account 1774 (USt EU-Erwerb)  
+*Functionality in Banana:* No automatic functionality available, 2 bookings necessary  
+
 another example is **BU-Schlüssel 94** for reverse charge transactions which also performs 2 VAT bookings
 
 ## Next steps
