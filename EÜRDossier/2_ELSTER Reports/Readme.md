@@ -2,7 +2,7 @@
 
 ### BananaApp ELSTER Umsatzsteuervoranmeldung 2016/2018
 
-Banana has already implemented a Banana app for UStVA. ELSTER recently changed the interface so that the app apparantly doesn't work anymore or is no longer in use. (See file einf_mwst_selbständige_ORIGINAL_TEMPLATE.ac2: It's the current standard template from Banana with 2 TVA relevant bookings. The App Elster Umsatzsteuervoranmeldung 2016/2018 does not produce the Kennzahlen document).
+Banana has already implemented a Banana app for UStVA. ELSTER recently changed the interface so that the app apparantly doesn't work anymore or is no longer in use. See file **einf_mwst_selbständige_ORIGINAL_TEMPLATE.ac2**: It's the current standard template from Banana with 2 TVA relevant bookings. The App Elster Umsatzsteuervoranmeldung 2016/2018 does not produce the Kennzahlen document).
 StVA.
 
 ### EÜR_Reference_with UStVA.ac2
