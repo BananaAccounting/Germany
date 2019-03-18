@@ -1,3 +1,3 @@
 ## Examples for DATEV EÜR Print-outs
-* Print-outs published by DATEV
-* Print-outs by Steuerberater
+* Print-out examples published by DATEV
+* Print-outs by divers Steuerberater
