@@ -2,13 +2,13 @@
 ### Changes since December
 
 * Revised the proposed selection of accounts and updated it to the 2019 DATEV account plan
-*	Headers and groupings correspond to the DATEV/ Steuerberater headers/ groupings for generating the EÜR report
-*	The VAT table includes all possible cases for cross-border transactions that require to address particular VAT accounts
-*	Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
-*	Automatic accounts correspond now to DATEV standard list of automatic accounts (marked in row “DATEV Autom.”
-*	Added/ updated Elster Kennzeichen for USt-VA 2019 and EÜR 2018 (more on this in Folder “Elster EÜR Reports”)
-*	Generated a template for Anlagenbuchhaltung that corresponds to the data structure proposed in the DATEV/ ELSTER EÜR Anlagenspiegel
-*	I added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
+* Revised groupings and headers so that they correspond to the DATEV Kontenplan and Steuerberater EÜR reports
+* Redesigned the VAT table as compared to an actual Banana standard EÜR accountplan template, listing all possible VAT account numbers
+* Standard DATEV Automatic accounts are marked in row “DATEV Autom.”
+* Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
+* Generated a template for Anlagenbuchhaltung that corresponds to the data structure proposed in the DATEV/ ELSTER EÜR Anlagenspiegel
+* I added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
+* Added/ updated Elster Kennzeichen for USt-VA 2019 and EÜR 2018 (more on this in Folder “Elster EÜR Reports”)
 
 ## Accounting files
 #### EÜR_REFERENCE.ac2
