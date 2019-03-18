@@ -7,12 +7,12 @@ In this folder you find the most important forms for small companies (EÜR/ einf
 ***Formular zur Umsatzsteuer-Voranmeldung 2019***
 
 
-## 2. Jahresabschluss/ annual financial statement at end of year
+## 2. Jahresabschluss/ annual financial statement
 #### -->mandatory for all personal income statements
 ***1 Mantelbogen 2018***   
-Basic form for the personal income tax statement. 
+Base form for the personal income tax statement. 
 Here are declared special expenses that refer personally to the tax payer and his family.
-Those expenses usually are not related to a business (payments for divorced wife, childrens' education, household help etc.)
+Those expenses usually are not related to a business (eg. payments for divorced wife, childrens' education, household help etc.)
 
 ***2 Anlage Vorsorgeaufwendungen 2018***   
 Form for deducting expenses for personal health or pension insurance
