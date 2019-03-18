@@ -49,7 +49,7 @@ It is not trivial to allocate them to the corresponding automatic/ VAT accounts,
 *Functionality in Banana:* No automatic functionality available, 2 bookings necessary
 another example is **BU-Schlüssel 94** for reverse charge transactions which also performs 2 VAT bookings
 
-## To Dos
+## Next steps
 * Reference accounting files are ready to use and to be tested by users. For most users the 1-digit DATEV tax code should be sufficient
 * Further considerations: How important are the more-digit booking codes for DATEV export/import? Are they necessary to be implemented or can bookings be handed over without using automatic tax codes but in seperate manual bookings?
 * It could be useful to test various DATEV export/ import files with different types of EU-transactions (Steuerberater?)  
