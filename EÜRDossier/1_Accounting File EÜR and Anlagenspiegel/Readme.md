@@ -26,7 +26,7 @@
 *	Number of Kategorien/Konten: 48/26
 
 #### EÜR Print-outs from Banana
-As the account plan is organized corresponding to the DATEV EÜR structure, the standard Banana print-out “Formatierter Bericht” delivers a report that resembles the DATEV EÜR print-out scheme from a Steuerberater (Template “Kontennachweis für Einnahmeüberschußrechnung §4 Abs. 3 EStG“).  With this print-out, a user can easily compare the Banana to the Steuerberater results.
+As the account plan is organized corresponding to the DATEV EÜR structure, the standard Banana print-out “Formatierter Bericht” delivers a report that resembles the DATEV EÜR print-out scheme from a Steuerberater (see template “Kontennachweis für Einnahmeüberschußrechnung §4 Abs. 3 EStG“)   
 
 #### ANL_REFERENCE.ac2
 *	is a template for Anlagenbuchhaltung with headers and groupings corresponding to EÜR/ DATEV systematics
