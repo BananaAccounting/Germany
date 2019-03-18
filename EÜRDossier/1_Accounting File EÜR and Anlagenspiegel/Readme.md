@@ -29,7 +29,7 @@ As the account plan is organized corresponding to the DATEV EÜR structure, the 
 
 ### Considerations concerning DATEV tax codes (BU-Schlüssel) for automatic accounts: 1- or more digits
 
-In the proposed accounting files, DATEV tax codes are included in the **1-digit version only**. In my personal case of data exchange with my Steuerberater for my own purposes, the 1-digt codes were sufficient. These type of tax codes perform in DATEV a functionality equal to the corresponding Banana tax code functionality.  
+In the proposed accounting files, DATEV tax codes are included in the **1-digit version only**. In my personal case of data exchange with Steuerberater, the 1-digt codes were sufficient and worked well. These type of tax codes perform in DATEV a functionality equal to the corresponding Banana tax code functionality.  
 
 **Example for BU-Schlüssel 9**  
 Transaction case: 19% Vorsteuer, eg. for domestic Lieferungen (Buyer deduces input tax)  
