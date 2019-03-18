@@ -4,7 +4,7 @@
 Step to create support for Einnahmenüberschussrechnung in Banana Accounting
 
  ***Accounting files and EÜR Printouts -->see Folder 1_Accounting Files...***
- -----------------------------------------------------------------------------------------------
+ 
   
 - Create a complete accounting file Einnhamen/Ausgaben including:
   - All accounts that may be related.
@@ -21,9 +21,9 @@ Step to create support for Einnahmenüberschussrechnung in Banana Accounting
   - Selbständiger very simple
   - Selbständiger with cars
   - Selbständiger with employee
+  
  
  ***ELSTER related issues -->see Folder 2_ELSTER reports***
- -----------------------------------------------------------------------------------------------
 
 - Have a list of reports that are needed
   - USt. Voranmeldung (quarterly or every month)
