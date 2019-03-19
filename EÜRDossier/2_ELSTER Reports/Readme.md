@@ -7,7 +7,9 @@ Banana has already implemented a Banana app for UStVA. ELSTER recently changed t
 
 **EÜR_Reference_with UStVA.ac2**
 
-is the reference accounting file where I additionally added a seperate table to illustrate an idea for an alternative way to implement ELSTER reports in Banana. Please consider this idea as purely conceptual, from a user perspective. I cannot judge if this idea is realistic to be implemented: Instead of a Banana App a user would add new tables for the ELSTER report desired (Werkzeuge-->Neue Funktion hinzufügen). Each tables would represent an ELSTER form (eg. EÜR, UStVA, USt Erklärung etc). The table would link Kennzahlen to the corresponding accounts in Kategorien and calculate the sums/ amounts for each Kennzahl (is this possible?). The print-out would be done from this table.
+is the reference accounting file. In table Kategorien ELSTER Kennzahlen for EÜR and UStVA are related to accounts.
+
+In this version, I additionally added a seperate table to illustrate an idea for an alternative way to implement ELSTER reports in Banana. Please consider this idea as purely conceptual, from a user perspective. I cannot judge if this idea is realistic to be implemented: Instead of a Banana App a user would add new tables for the ELSTER report desired (Werkzeuge-->Neue Funktion hinzufügen). Each tables would represent an ELSTER form (eg. EÜR, UStVA, USt Erklärung etc). The table would link Kennzahlen to the corresponding accounts in Kategorien and calculate the sums/ amounts for each Kennzahl (is this possible?). The print-out would be done from this table.
 
 
 
