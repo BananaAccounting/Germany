@@ -16,5 +16,6 @@ https://www.reweco.de/infos/themenschwerpunkte/
 
 ## Next steps
 
-* to be discussed
+* get in contact with multiplier sites to chaeck possibilities to be mentioned/ listed
+* to be discussed more in detail
 
