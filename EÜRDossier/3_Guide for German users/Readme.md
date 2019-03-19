@@ -89,10 +89,11 @@ In the following I present a detailed structure of what I think is necessary and
 *	Examples, use cases for different business types like Consulting, Engineering, Training, Production, Event-Management etc.
 
 
-
 ### Estimated workload
 
 15-20 working days
 
 
+### Further content: Vereine
 
+Besides what is published for Vereine in the Germany region section on Banana website, Banana presents a tutorial/ guide under https://www.banana.ch/de/node/9595. Further discussions to clarify if or what is required for Vereine.
