@@ -1,8 +1,7 @@
 ## Einnahmeüberschussrechnung
 ### Project understanding and Roadmap
 
-#### Objective
-Create a complete offering for DATEV/ Steuerberater dominated German market
+#### Objective Create a complete offering for DATEV/ Steuerberater dominated German market
 #### User story epic
 Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in order to self-reliantly control, analyse and plan financial activities. A typical user would want to cooperate end-of-year with a Steuerberater for tax purposes. 
 ### Product backlog (03/19)
