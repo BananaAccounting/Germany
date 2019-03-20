@@ -1,4 +1,7 @@
 ## Einnahmeüberschussrechnung
+
+The following shall give an overview of the current status of what we discussed before christmas in Lugano
+
 ### Project understanding
 
 #### Objective
