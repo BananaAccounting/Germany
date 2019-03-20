@@ -10,7 +10,7 @@ Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in ord
 #### Current Product backlog
 1. Get accounting plans
 2. Bananaapp
-3. Presentation of the product completed
+3. Presentation of the product completed   
 all tested that they are what people need
 
 ### Roadmap
