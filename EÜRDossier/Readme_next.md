@@ -49,7 +49,8 @@ Each folder contains a readme presenting
     * start developping App for UStVA report
     * finish developmet of DATEV export/import app using DATEV codes  
     
-* Testing of accounting files and DATEV export/app for divers user scenarios and transaction cases, and, if necessary, to remove bugs
+* Testing of accounting files and DATEV export/app for divers user scenarios and transaction cases
+    * if necessary, remove errors/ answer questions in code-account attribution/ usage or remove software bugs
     * Involve Steuerberater to get access to DATEV software and get feedback/ approval that all data exchange works fine  
     
 * Start develop/ write content/ guide for German users
