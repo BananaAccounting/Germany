@@ -1,21 +1,11 @@
 # Roadmap Accounting files
 
-In the folder you find 3 versions of an accouting plan and a file for Anlagenbuchhaltung:
+In the folder you find 3 versions of an accouting plan, a EÜR printout and a template file for Anlagenbuchhaltung:
 
-#### Changes since December
-
-* Revised the proposed selection of accounts and updated it to the 2019 DATEV account plan
-* Revised groupings and headers so that they correspond to the DATEV Kontenplan and Steuerberater EÜR reports
-* Standard DATEV Automatic accounts are marked in row “DATEV Autom.”
-* Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
-* Added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
-* Generated a template for Anlagenbuchhaltung that corresponds to the data structure proposed in the DATEV/ ELSTER EÜR Anlagenspiegel
-
-## Accounting files
 #### EÜR_REFERENCE.ac2
 *	Contains a vast collection of accounts for all types of business and cross-border transaction in and outside EU. The collection is  based on the 2014 Heiko selection of accounts. I added some accounts for plausibility reasons and updated headers and groups 
 *	This account plan should contain all accounts relevant for the greatest majority of relevant users
-*	Number of Kategorien/Konten: 213/54  
+*	Number of Kategorien/Konten: 216/54  
 
 #### EÜR_MOST COMMON.ac2
 *	Reduced list of revenue accounts, limited to most common EU cross-border transactions
@@ -32,17 +22,23 @@ As the account plan is organized corresponding to the DATEV EÜR structure, the 
 #### ANL_REFERENCE.ac2
 *	is a template for Anlagenbuchhaltung with headers and groupings corresponding to EÜR/ DATEV systematics
 
+#### Changes since December
+
+* Revised the proposed selection of accounts and updated it to the 2019 DATEV account plan
+* Revised groupings and headers so that they correspond to the DATEV Kontenplan and Steuerberater EÜR reports
+* Standard DATEV Automatic accounts are marked in row “DATEV Autom.”
+* Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
+* Added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
+* Generated a template for Anlagenbuchhaltung that corresponds to the data structure proposed in the DATEV/ ELSTER EÜR Anlagenspiegel
+
+Therefore, I use a simplified VAT table (as compared to the current standard templates) that does not list ELSTER Kennzahlen. The VAT table lists all possible UST and VST accounts with account numbers for automatic VAT bookings in Banana. Where appropriate, they relate to 1-digit DATEV tax code.
+
 ### Considerations concerning TVA table in accounting files
 
 All the current standard templates (Schweiz, Österreich and Germany), that Banana provides for the users, are structured in a way that the TVA table contains the Kennziffern for the UStVA and relates them to MwSt/USt codes. As far as I understand, the idea is, that a user enters bookings always with the appropiate MwSt/USt code. The apps' algorithm then sums up bookings that use a certain MwSt/USt code and then sums these up to a Kennziffer, as some Kennziffern refer to more than one MsSt/USt code. The USt Apps (for Switzerland this works perfectly!, for Autria it doesn't seem to work) then produce the TVA tax report form with Kennzifftern and the corresponding amounts.
 
 As you asked to create a file with Elster Kennzahlen and SKR Zuordnung, I have, in the versions above, added Elster Kennzeichen for USt-VA 2019 and EÜR 2018 in table Kategorien so that they refer to corresponding accounts.
 
-Therefore, I use a simplified VAT table (as compared to the current standard templates) that does not list ELSTER Kennzahlen. The VAT table lists all possible UST and VST accounts with account numbers for automatic VAT bookings in Banana. Where appropriate, they relate to 1-digit DATEV tax code.
-
-I would like to understand more about the details of how the UStVA apps are actually programmed and how the TVA table and the Kennziffern information needs to be arranged before I redisign it for use with a BananaApp.
-
-Nevertheless, in the Folder 2_ELSTER reports, I present an alternative idea for implementing a functionality for creating Elster UStVA reports.
 
 
 ### Considerations concerning DATEV tax codes (BU-Schlüssel) for automatic accounts: 1- or more digits
