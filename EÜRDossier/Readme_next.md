@@ -1,8 +1,8 @@
-## Einnahmeüberschussrechnung
+# Einnahmeüberschussrechnung
 
 The following shall give an overview of the current status of what we discussed before christmas in Lugano
 
-### Project understanding
+## Project understanding
 
 #### Objective
 Create a complete offering for DATEV/ Steuerberater dominated German market  
@@ -17,7 +17,7 @@ Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in ord
 
 all tested that they are what people need
 
-### Roadmap
+## Roadmap
 
 #### Results form last work period
 * Complete accounting files for Einnahmeüberschußrechnung, with different versions of accounting plans incl. headers and groups, a comprehensive VAT table and a printed EÜR report
@@ -42,7 +42,7 @@ Each folder contains a readme presenting
 * proposal next steps
 * further info on working tasks
 
-#### Proposal for next steps, to be dicussed
+## Proposal for next steps, to be dicussed
 
 * Organize resources for app development
     * get involved with developper(s) about implementation concept
