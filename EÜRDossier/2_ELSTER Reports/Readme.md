@@ -1,5 +1,33 @@
 # Roadmap ELSTER Reports
 
+Typical user: Steuerberater for year end, UStVA himself
+UStVA form is a priority
+Elsterkennziffern
+
+## Considerations for integrating Elster Kennziffern and report
+
+Complextiy increases with less common cross-border transactions
+Most users use few Kennzahlen only
+Elster transfer easily can be done manually via personal online-access
+Potentially an easy solution is possible
+
+## How it's done so far
+
+switzerland: TVA table and report
+few Kennziffern only, data for Bemessungsgrundlagen and tax amounts needed
+
+
+
+All the current standard templates (Schweiz, Österreich and Germany), are structured in a way that the TVA table contains the Kennziffern for the UStVA and relates them to MwSt/USt codes. As far as I understand, the idea is, that a user enters bookings always with the appropiate MwSt/USt code. The apps' algorithm then sums up bookings that use a certain MwSt/USt code and then sums these up to a Kennziffer, as some Kennziffern refer to more than one MsSt/USt code. The USt Apps (for Switzerland this works perfectly!, for Autria it doesn't seem to work) then produce the TVA tax report form with Kennzifftern and the corresponding amounts.
+
+accordingly in Germany
+
+
+## 
+
+
+
+
 ### BananaApp ELSTER Umsatzsteuervoranmeldung 2016/2018 and current accounting files templates for Germany
 
 Banana has already implemented a Banana app for UStVA (ELSTER Umsatzsteuervoranmeldung 2016/2018). There is a message on Github, saying that ELSTER recently changed the interface so that the app apparantly doesn't work anymore for 2019.
