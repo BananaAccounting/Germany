@@ -19,7 +19,7 @@ all tested that they are what people need
 
 ### Roadmap
 
-#### Results form last work period ("potenially shippable product increment from last sprint)
+#### Results form last work period
 * Complete accounting files for Einnahmeüberschußrechnung, with different versions of accounting plans incl. headers and groups, a comprehensive VAT table and a printed EÜR report
 * The file contains all the relevant DATEV and ELSTER data/information for creating UStVA and EÜR reports. It is ready for starting developping the apps. The files also show ELSTER-SKR03 Zuordnung.
 * A set of relevant information concering ELSTER forms, DATEV systematics or account funcionality attributions
