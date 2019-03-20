@@ -22,8 +22,10 @@ All the current standard templates (Schweiz, Österreich and Germany), are struc
 
 accordingly in Germany
 
+All the current standard templates (Schweiz, Österreich and Germany), that Banana provides for the users, are structured in a way that the TVA table contains the Kennziffern for the UStVA and relates them to MwSt/USt codes. As far as I understand, the idea is, that a user enters bookings always with the appropiate MwSt/USt code. The apps' algorithm then sums up bookings that use a certain MwSt/USt code and then sums these up to a Kennziffer, as some Kennziffern refer to more than one MsSt/USt code. The USt Apps (for Switzerland this works perfectly!, for Autria it doesn't seem to work) then produce the TVA tax report form with Kennzifftern and the corresponding amounts.
 
-## 
+As you asked to create a file with Elster Kennzahlen and SKR Zuordnung, I have, in the versions above, added Elster Kennzeichen for USt-VA 2019 and EÜR 2018 in table Kategorien so that they refer to corresponding accounts.
+
 
 
 
