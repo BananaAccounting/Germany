@@ -10,12 +10,12 @@ Create a complete offering for DATEV/ Steuerberater dominated German market
 #### User story epic
 Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in order to self-reliantly control, analyse and plan financial activities. A typical user would want to cooperate end-of-year with a Steuerberater for tax purposes.  
 
-#### Current Product backlog
+#### Product backlog
 1. Get accounting plans
 2. Bananaapp
 3. Presentation of the product completed  
 
-all tested that they are what people need
+--> all tested that they are what people need
 
 ## Roadmap
 
@@ -45,16 +45,21 @@ Each folder contains a readme presenting
 ## Proposal for next steps
 
 * Organize resources for app development
-    * get involved with developper(s) about implementation concept
+    * get involved with developper(s) about implementation concept, mutual briefing and information exchange
     * start developping App for UStVA report
     * finish developmet of DATEV export/import app using DATEV codes  
     
-* Testing of accounting files and DATEV export/app for divers user scenarios and transaction cases
-    * if necessary, remove errors/ answer questions in code-account attribution/ usage or remove software bugs
+* Testing of accounting files
+    * Test DATEV export/app for diverse user scenarios and booking cases under real-life conditions 
+    * Test Elster report UStVA for diverse user scenarios and booking cases
     * Involve Steuerberater to get access to DATEV software and get feedback/ approval that all data exchange works fine  
+    * if necessary, remove errors/ answer questions in Kennzahlen-code-account attribution or account usage, remove software bugs
+    * Test accounting files in user community and get feedback
     
 * Start develop/ write content/ guide for German users
-
+    * Text descriptions and explanations, create user szenarios, examples, screenshots
+    * research and integrate tax and accounting specific know-how and external resources
+    
 #### Time line, budget, involved resources
 
 to be discussed/ detailed
