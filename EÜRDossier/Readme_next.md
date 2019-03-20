@@ -25,11 +25,11 @@ all tested that they are what people need
 
 Working results and materials are organized in 4 folders, each representing a seperate project branch
 
-**1. Accounting files
-**2. EÜR Reports (BananaApps)
-**3. Guide/ Content for German users (presentation of product)**
-and
-**4. Considerations for promoting Banana in Germany (without paying for ads)**
+**1. Accounting files    
+**2. EÜR Reports (BananaApps)    
+**3. Guide/ Content for German users (presentation of product)**    
+and    
+**4. Considerations for promoting Banana in Germany (without paying for ads)**   
 
 Each folder contains a readme presenting
 
