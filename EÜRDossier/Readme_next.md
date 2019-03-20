@@ -21,7 +21,7 @@ all tested that they are what people need
 
 #### Results form last work period
 * Complete accounting files for Einnahmeüberschußrechnung, with different versions of accounting plans incl. headers and groups, a comprehensive VAT table and a printed EÜR report
-* The file contains all the relevant DATEV and ELSTER data/information for creating UStVA and EÜR reports. It is ready for starting developping the apps. The files also show ELSTER-SKR03 Zuordnung.
+* The file contains all the relevant DATEV and ELSTER data/information for creating UStVA and EÜR reports. It is ready so that app development could start any time. The files also show ELSTER-SKR03 Zuordnung.
 * A set of relevant information concering ELSTER forms, DATEV systematics or account funcionality attributions
 * A structure and detailed agenda for a user tutorial/ guide for German market region
 
@@ -43,6 +43,20 @@ Each folder contains a readme presenting
 * further info on working tasks
 
 #### Proposal for next steps, to be dicussed
+
+* Organize resources for app development
+    * get involved with developper(s) about implementation concept
+    * start developping App for UStVA report
+    * finish developmet of DATEV export/import app using DATEV codes  
+    
+* Testing of accounting files and DATEV export/app for divers user scenarios and transaction cases, and, if necessary, to remove bugs
+    * Involve Steuerberater to get access to DATEV software and get feedback/ approval that all data exchange works fine  
+    
+* Start develop/ write content/ guide for German users
+
+#### Time line, budget, involved resources
+
+to be discussed
 
 
 
