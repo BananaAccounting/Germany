@@ -13,7 +13,8 @@ Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in ord
 #### Current Product backlog
 1. Get accounting plans
 2. Bananaapp
-3. Presentation of the product completed   
+3. Presentation of the product completed  
+
 all tested that they are what people need
 
 ### Roadmap
@@ -28,10 +29,9 @@ all tested that they are what people need
 
 Working results and materials are organized in 4 folders, each representing a seperate project branch
 
-**1. Accounting files    
-**2. EÜR Reports (BananaApps)    
-**3. Guide/ Content for German users (presentation of product)**    
-and    
+**1. Accounting files**      
+**2. EÜR Reports (BananaApps)**      
+**3. Guide/ Content for German users (presentation of product)** and       
 **4. Considerations for promoting Banana in Germany (without paying for ads)**   
 
 Each folder contains a readme presenting
@@ -39,7 +39,7 @@ Each folder contains a readme presenting
 * roadmap for the project branch
 * current working status
 * discussion issues
-* next steps
+* proposal next steps
 * further info on working tasks
 
 #### Proposal for next steps, to be dicussed
