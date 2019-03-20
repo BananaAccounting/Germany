@@ -57,7 +57,7 @@ Each folder contains a readme presenting
 
 #### Time line, budget, involved resources
 
-to be discussed
+to be discussed/ detailed
 
 
 
