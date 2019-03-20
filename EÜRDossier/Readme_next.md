@@ -12,15 +12,15 @@ Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in ord
 #### Current Product backlog
 1. Get accounting plans
 2. Bananaapp
-4. Presentation of the product completed
-5. Tested that they are what people need
+3. Presentation of the product completed
+4. Tested that they are what people need
 
-#### Potentially shippable product increment
+#### Potentially shippable product increment (results form last working period)
 
 1. Complete accounting files for Einnahmeüberschußrechnung, with different versions of accounting plans incl. headers and groups, a comprehensive VAT table and a printed EÜR report
 2. The file contains all the relevant DATEV and ELSTER data/information for creating UStVA and EÜR reports. It is ready for starting developping the apps. The files also show ELSTER-SKR03 Zuordnung.
-3. A set of relevant information concering ELSTER forms, DATEV systematics or account funcionality attributions
-4. A structure and detailed agenda for a user tutorial/ guide for German market region
+2a. A set of relevant information concering ELSTER forms, DATEV systematics or account funcionality attributions
+3. A structure and detailed agenda for a user tutorial/ guide for German market region
 
 #### Next
 
