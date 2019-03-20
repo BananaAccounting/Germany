@@ -53,7 +53,7 @@ Each folder contains a readme presenting
     * Test DATEV export/app for diverse user scenarios and booking cases under real-life conditions 
     * Test Elster report UStVA for diverse user scenarios and booking cases
     * Involve Steuerberater to get access to DATEV software and get feedback/ approval that all data exchange works fine  
-    * if necessary, remove errors/ answer questions in Kennzahlen-code-account attribution or account usage, remove software bugs
+    * if necessary, remove errors in account usage or Kennzahlen-code-account attribution, or remove software bugs
     * Test accounting files in user community and get feedback
     
 * Start develop/ write content/ guide for German users
