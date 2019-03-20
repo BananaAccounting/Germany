@@ -42,7 +42,7 @@ Each folder contains a readme presenting
 * proposal next steps
 * further info on working tasks
 
-## Proposal for next steps, to be dicussed
+## Proposal for next steps
 
 * Organize resources for app development
     * get involved with developper(s) about implementation concept
