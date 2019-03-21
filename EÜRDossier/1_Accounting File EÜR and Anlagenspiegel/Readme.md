@@ -36,7 +36,7 @@ is completely implemented. It works ***analog to the swiss version of the TVA ta
 
 **2. MwSt/USt Kto (Kz)** For some cases, I provide in this additional column information about a second VAT booking (VAT account and corresponding Elster Kennzahl), which is implied in some of the DATEV tax codes. Banana user might also find this information helpful, as a reminder how to correctly book these kind of transactions.   
 Typical invoices for these would only display net amounts excl. taxes. Therefore, in the VAT table, the attribute "1" is set in column **Art Betrag** for the relevant transaction types.   
-In column **Nicht warnen"** the attribute is set to "ja" for some rows, so it would allow certain (necessary) bookings without error message. (-->More information on all this in section "Considerations on multi-digit DATEV code").
+In column **Nicht warnen** the attribute is set to "ja" for some rows, so it would allow certain (necessary) bookings without error message. (-->More information on all this in section "Considerations on multi-digit DATEV code").
 
 ### ANL_REFERENCE.ac2
 is a template for Anlagenbuchhaltung. Structure, headers and groupings as well as sorting and names of the columns coorespond to the data structure proposed in the EÜR/DATEV/ELSTER systematics (eg. Sammelposten). Entries in Konto is aligned with EÜR_REFERENCE
