@@ -1,6 +1,6 @@
 # Einnahmeüberschussrechnung
 
-The following shall give an overview of the current status of the initial roadmap [Initial roadmap](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/README_Roadmap_12_18.md "see Initial Roadmap") we defined in Lugano in december
+The following shall give an overview of the current status of the [initial roadmap](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/README_Roadmap_12_18.md "see README_Roadmap_12_18.md") we defined in Lugano in december
 
 ## Project understanding
 
