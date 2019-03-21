@@ -1,15 +1,21 @@
 # Roadmap Accounting files
 
-## Accounting files created
+### EÜR_REFERENCE_VAT_DATEV_ELSTER.ac2
+...is s the complete implentation of an EÜR structured accounting file. The account plan contains a vast collection of accounts for all types of SME businesses, integrating all kinds of cross-border transaction in and outside EU and should. Therefore, it should satisfy the greatest majority of relevant users. The collection is based on the 2014 Heiko selection of accounts. Number of Kategorien/Konten: 216/54
 
-#### EÜR_REFERENCE_VAT_DATEV_ELTER.ac2
-...is s the complete implentation of an EÜR structured account plan. The account plan contains a vast collection of accounts for all types of SME businesses, integrating all kinds of cross-border transaction in and outside EU and should. Therefore, it should satisfiy the greatest majority of relevant users. The collection is based on the 2014 Heiko selection of accounts. Number of Kategorien/Konten: 216/54
+Please use the **view “Nutzer”** in each file
 
-* I revised the account plan, added accounts for reasons of completeness and plausibilty and updated headers and groups to 2019 DATEV nomenclature. 
-* Revised groupings and headers so that they correspond to the DATEV Kontenplan and Steuerberater EÜR reports
-* Standard DATEV Automatic accounts are marked in row “DATEV Autom.”
-* Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
-* Added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
+#### Konten/ Kategorien tables
+* Revised account plan, added accounts for reasons of completeness and plausibilty, updated descriptions
+* Updated groupings and headers so that they correspond to the 2019 DATEV/ Steuerberater nomenclature
+* DATEV Automatic accounts are marked in row **“DATEV Autom.”**. They correspond to standard DATEV settings without Steuerberater customizations
+* Related a standard Banana **VAT code** to corresponding accounts (see VAT table)
+
+    As the account plan is organized corresponding to the DATEV EÜR structure, the standard Banana print-out “**Formatierter Bericht nach Gruppen**” delivers a report that resembles the DATEV EÜR print-out scheme from a Steuerberater (see template “Kontennachweis für Einnahmeüberschußrechnung §4 Abs. 3 EStG“)
+
+This file also contains information for ELSTER Kennzahlen/ SKR03 Zuordnung. You find these in the new rows "ELSTER UStVA 2019" and "ELSTER EÜR 2019".
+
+
 
 
 
