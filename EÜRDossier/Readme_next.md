@@ -8,7 +8,7 @@ The following shall give an overview of the current status of the initial roadma
 Create a complete offering for DATEV/ Steuerberater dominated German market  
 
 #### User story epic
-Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in order to self-reliantly control, analyse and plan financial activities. A typical user would want to cooperate end-of-year with a Steuerberater for tax purposes.  
+Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in order to self-reliantly control, analyse and plan financial activities. A typical user would want to cooperate with a Steuerberater for end of year tax purposes.  
 
 #### Product backlog
 1. Get accounting plans
