@@ -1,6 +1,6 @@
 # Einnahmeüberschussrechnung
 
-The following shall give an overview of the current status of the initial roadmap we defined in Lugano in december
+The following shall give an overview of the current status of the initial roadmap (README_Initial_Roadmap.md) we defined in Lugano in december
 
 ## Project understanding
 
