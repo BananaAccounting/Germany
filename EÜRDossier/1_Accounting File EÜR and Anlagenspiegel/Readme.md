@@ -12,8 +12,9 @@ Please use the **view “Nutzer”** in each file to see all entered information
 ### Konten/ Kategorien tables
 **DATEV Autom.** accounts are marked in this. They correspond to standard DATEV settings in any DATEV system before a Steuerberater makes his owns customizations to the system
 
-**VAT code** relates a Banana VAT code (see VAT table) to corresponding automatic accounts
-In **Formatierter Bericht nach Gruppen**, I added the template “Kontennachweis für EÜR §4 Abs. 3 EStG“. As the account plan is organized corresponding to DATEV EÜR structure, the standard Banana print-out delivers a report that corresponds the DATEV EÜR print-out scheme from a Steuerberater
+**VAT code** relates a Banana VAT code (see VAT table) to corresponding automatic accounts  
+
+In **Formatierter Bericht nach Gruppen**, I added the template “Kontennachweis für EÜR §4 Abs. 3 EStG“. As the account plan is organized corresponding to DATEV EÜR structure, the [standard Banana print-out](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/E%C3%9CR%20Printout%20from%20Banana.pdf "Example") delivers a report that corresponds the [DATEV EÜR print-out scheme from a Steuerberater](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/DATEV%20E%C3%9CR%20Examples/E%C3%9CR%20DATEV%20Beispiel%20StB%20Heiko%20Primas.pdf "Example Heiko Primas")
 
 Table Kategorien also contains information on **ELSTER Kennzahlen/ SKR03** Zuordnung. You find these in the new colums "ELSTER UStVA 2019" and "ELSTER EÜR 2019".
 
