@@ -9,26 +9,34 @@ Please use the **view “Nutzer”** in each file
 * Revised account plan, added accounts for reasons of completeness and plausibilty, updated descriptions
 * Updated groupings and headers so that they correspond to the 2019 DATEV/ Steuerberater nomenclature
 * DATEV Automatic accounts are marked in row **“DATEV Autom.”**. They correspond to standard DATEV settings without Steuerberater customizations
-* Related a standard Banana **VAT code** to corresponding accounts (see VAT table)
+* Related a standard Banana **VAT code** to corresponding automatic accounts (see VAT table)
 
     As the account plan is organized corresponding to the DATEV EÜR structure, the standard Banana print-out “**Formatierter Bericht nach Gruppen**” delivers a report that resembles the DATEV EÜR print-out scheme from a Steuerberater (see template “Kontennachweis für Einnahmeüberschußrechnung §4 Abs. 3 EStG“)
 
-This file also contains information for ELSTER Kennzahlen/ SKR03 Zuordnung. You find these in the new rows "ELSTER UStVA 2019" and "ELSTER EÜR 2019".
+Table Kategorien also contains information on ELSTER Kennzahlen/ SKR03 Zuordnung. You find these in the new rows "ELSTER UStVA 2019" and "ELSTER EÜR 2019".
 
 
+#### TVA table
+is completely implemented. It works ***analog to the swiss version of the TVA table*** and is ***based on the current German Banana standard template***. I have updated it to 2019 contents and completed all information necessary for app programming and usage:
 
-
-
-The **TVA table** is completely implemented. It works analog to the swiss version of the table and is based on the German Banana standard template. I have updated it to 2019 contents and completed all necessary information for practical usage and app programming:
-
-**MwSt/USt Code** The structure represents the ELSTER form for UStVA 2019. I have added/ completed relevant transaction cases to represent relevant transaction cases/ booking.
+**MwSt/USt Code** The structure represents the ELSTER form for UStVA 2019. I have added/ completed transaction cases in accordance with DATEV standard funktionality codes.
 
 **Gr** 0=Statistical accounts/ Assesment base (Bemessungsgrundlage), 1=Sales tax amout (USt-Betrag), 2=Input tax amount (VSt Betrag)
 
-**Gr1** Complete attribution of 1- and 2-digit DATEV tax codes
+**Gr1** Complete attribution of 1- and 2-digit DATEV tax codes.   
+    In DATEV, the 2-digit DATEV codes 17, 18, 19, 91, 92, 94, 95 initiate TWO (USt AND VSt) consecutive TVA bookings instead of ONE (USt or VSt). Please refer further down to the section "Considerations on 3/4 digit DATEV code". See also **2. MwSt/USt Kto (Kz)**.
 
 **Gr2** Elster Kennzahlen UStVA 2019  
-2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount
+    + Kennzahlen in USt refer to Assesment base. 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount   
+    + Kennzahlen in VSt refer to Tax amounts
+
+**MwSt/USt-Konto** relates the corresponding MsST/USt-codes (transaction cases) to the different TVA accounts which are used in DATEV. This represents DATEV standard accounting rules.
+
+**2. MwSt/USt Kto (Kz)** In this additional row I store/ provide information about how DATEV operates in case of in the file, I have added a seperate row .
+
+
+In oder to mark 
+
 
 attributed all Kennzahlen
 DATEV codes are attributed in the 1- and 2-digit version
