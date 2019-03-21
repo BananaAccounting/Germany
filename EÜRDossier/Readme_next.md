@@ -20,9 +20,9 @@ Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in ord
 ## Roadmap
 
 #### Results form last work period
-* Complete accounting file for Einnahmeüberschußrechnung, with headers and groups for structuring the report, a comprehensive VAT table eith codes for all the possible cases and a printed EÜR report. The accounting plan comes in different versions.
-* The file contains all the relevant DATEV and ELSTER data/information for creating UStVA and EÜR reports. It is ready so that app development could start any time. The files also show ELSTER-SKR03 Zuordnung.
-* A structure and detailed agenda for a user tutorial/ guide for German market region
+* Complete accounting files for Einnahmeüberschußrechnung, with headers and groups for structuring the report, a comprehensive VAT table with codes for all the possible cases and a printed EÜR report. The accounting plan comes in different versions. Also a template for Anlagenbuchhaltung
+* The files contains all the relevant DATEV and ELSTER data/information for creating reports/ exports. It is ready so that app development could start any time. The files also show ELSTER-SKR03 Zuordnung for EÜR/UStVA
+* A proposal for a structure and a detailed agenda for a user tutorial/ guide for German market region
 
 Moreover, I have put together relevant information concering end of year ELSTER forms, DATEV systematics, account funcionality attributions or marketing issues
 
@@ -42,7 +42,10 @@ Each folder contains a readme presenting a roadmap for the project branch, with
 * to dos
 * further info on working tasks
 
+Pending your feedback, meanwhile I propose following
+
 ## Next steps (summary)
+for discussion
 
 * Organize resources for app development
     * get involved with developper(s) about implementation concept, mutual briefing and information exchange
