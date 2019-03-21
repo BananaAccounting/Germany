@@ -25,12 +25,12 @@ is completely implemented. It works ***analog to the swiss version of the TVA ta
 
 **Gr** 0=Statistical accounts/ Assesment base (Bemessungsgrundlage), 1=Sales tax amout (USt-Betrag), 2=Input tax amount (VSt Betrag)
 
-**Gr1** Complete attribution of 1- and 2-digit DATEV tax codes
+**Gr1** displays the complete attribution of 1- and 2-digit DATEV tax codes
 
- **Gr2** Elster Kennzahlen UStVA 2019  
-    - Kennzahlen in lines with Gr=0 refer to Assesment base   
-    - With Gr=1, there are 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount. In some cases, the 2 numbers are identical. This means, the ELSTER form provides 2 fields for the same Kennzeichen, and the tax amount is calculated automatically by ELSTER    
-    - Kennzahlen in VSt (Gr=2) refer to tax amounts   
+ **Gr2** displays Elster Kennzahlen for UStVA 2019  
+    * USt Kennzahlen in lines with Gr=0 refer to Assesment bases      
+    * USt Kennzahlen in lines With Gr=1 show 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount. In some cases, the 2 numbers are identical. This means, the ELSTER form provides 2 fields for the same Kennzeichen, and the tax amount is calculated automatically by ELSTER    
+    * VSt Kennzahlen (Gr=2) refer to tax amounts   
     
 **MwSt/USt-Konto** relates the corresponding MwSt/USt-codes (transaction cases) to the different VAT accounts, representing DATEV standard accounting procedures
 
