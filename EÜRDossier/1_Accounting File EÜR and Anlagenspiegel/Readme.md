@@ -62,7 +62,7 @@ These accounting plans are ready to be published. It would be interesting to get
 
 ## Considerations on multi-digit DATEV tax codes
 
-In the proposed accounting files, DATEV tax codes are included in the **1- and 2-digit version**. In a DATEV system, the 2-digit codes 17, 18, 19, 91, 92, 94, 95 initiate TWO TVA bookings (USt AND VSt, eg. for reverse charge transactions) instead of just ONE (USt or VSt). In Banana, a user would have to book 3 steps/ bookings instead of just one (see eg. https://www.banana.ch/area/de/node/11145). All this is illustrated here:
+In the proposed accounting files, DATEV tax codes are included in the **1- and 2-digit version**. In a DATEV system, the 2-digit codes 17, 18, 19, 91, 92, 94, 95 initiate TWO TVA bookings (USt AND VSt, eg. for reverse charge transactions) instead of just ONE (USt or VSt). With Banana type of automatic accounts, a user would have to book this transactions in 2 or 3 steps/ bookings, instead of just one (see eg. https://www.banana.ch/area/de/node/11145). All this is illustrated here:
 
 ![here](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/DATEV%20SKR03%20Kontenpl%C3%A4ne/1_2_digit%20tax%20code%20comparison.png "table")                       
 
