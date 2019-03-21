@@ -27,9 +27,9 @@ is completely implemented. It works ***analog to the swiss version of the TVA ta
 **Gr1** Complete attribution of 1- and 2-digit DATEV tax codes
 
  **Gr2** Elster Kennzahlen UStVA 2019  
-    - Kennzahlen in lines with Gr=0 refer to Assesment base
-    - With Gr=1, there are 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount. In some cases, the 2 numbers are identical. This means, the ELSTER form provides 2 fields for the same Kennzeichen, and the tax amount is calculated automatically by ELSTER 
-    - Kennzahlen in VSt (Gr=2) refer to tax amounts
+    - Kennzahlen in lines with Gr=0 refer to Assesment base   
+    - With Gr=1, there are 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount. In some cases, the 2 numbers are identical. This means, the ELSTER form provides 2 fields for the same Kennzeichen, and the tax amount is calculated automatically by ELSTER    
+    - Kennzahlen in VSt (Gr=2) refer to tax amounts   
     
 **MwSt/USt-Konto** relates the corresponding MwSt/USt-codes (transaction cases) to the different VAT accounts, representing DATEV standard accounting procedures
 
@@ -54,9 +54,9 @@ I have added two more files, with reduced account plans. Of course, more specifi
 * This account plan should be fine for the vast majority of 1-Person business
 * Number of Kategorien/Konten: 48/26
 
-Unless a BananaApp for producing ELSTER report with Kennzahlen isn't finished yet, I have used a simplified VAT tables (as compared to the current standard templates) that does not list the ELSTER Kennzahlen and are not structured like the UStVA form. Yet, the ELSTER Kennzahlen for UStVA and EÜR are entered in table Kategorien so that a user could already derive the amounts for each Kennzahlen via Excel or alike.
+Unless a BananaApp for ELSTER report with Kennzahlen isn't finished, I have used in these versions a simplified VAT table (as compared to the standard template) that does not list the ELSTER Kennzahlen, and is not structured like the UStVA form. Yet, the ELSTER Kennzahlen for UStVA and EÜR are displayed in table Kategorien so that a user could easily derive the amounts for each Kennzahl via Excel or alike.
 
-These latter accounting plans are ready to be published. It would be interesting to get feedback from German users how useful they find the EÜR adaptations.
+These accounting plans are ready to be published. It would be interesting to get feedback from German users how useful they find the adaptations for EÜR structure.
 
 
 ## Considerations on multi-digit DATEV tax codes
