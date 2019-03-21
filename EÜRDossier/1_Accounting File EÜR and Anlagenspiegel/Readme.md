@@ -1,11 +1,37 @@
 # Roadmap Accounting files
 
-In the folder you find 3 versions of an accouting plan, a EÜR printout and a template file for Anlagenbuchhaltung:
+## Accounting files created
 
-#### EÜR_REFERENCE.ac2
-*	Contains a vast collection of accounts for all types of business and cross-border transaction in and outside EU. The collection is  based on the 2014 Heiko selection of accounts. I added some accounts for plausibility reasons and updated headers and groups 
-*	This account plan should contain all accounts relevant for the greatest majority of relevant users
-*	Number of Kategorien/Konten: 216/54  
+#### EÜR_REFERENCE_VAT_DATEV_ELTER.ac2
+...is s the complete implentation of an EÜR structured account plan. The account plan contains a vast collection of accounts for all types of SME businesses, integrating all kinds of cross-border transaction in and outside EU and should. Therefore, it should satisfiy the greatest majority of relevant users. The collection is based on the 2014 Heiko selection of accounts. Number of Kategorien/Konten: 216/54
+
+* I revised the account plan, added accounts for reasons of completeness and plausibilty and updated headers and groups to 2019 DATEV nomenclature. 
+* Revised groupings and headers so that they correspond to the DATEV Kontenplan and Steuerberater EÜR reports
+* Standard DATEV Automatic accounts are marked in row “DATEV Autom.”
+* Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
+* Added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
+
+
+
+The **TVA table** is completely implemented. It works analog to the swiss version of the table and is based on the German Banana standard template. I have updated it to 2019 contents and completed all necessary information for practical usage and app programming:
+
+**MwSt/USt Code** The structure represents the ELSTER form for UStVA 2019. I have added/ completed relevant transaction cases to represent relevant transaction cases/ booking.
+
+**Gr** 0=Statistical accounts/ Assesment base (Bemessungsgrundlage), 1=Sales tax amout (USt-Betrag), 2=Input tax amount (VSt Betrag)
+
+**Gr1** Complete attribution of 1- and 2-digit DATEV tax codes
+
+**Gr2** Elster Kennzahlen UStVA 2019  
+2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount
+
+attributed all Kennzahlen
+DATEV codes are attributed in the 1- and 2-digit version
+* All ELSTER Kennzahlen for
+
+* Generated a template for Anlagenbuchhaltung that corresponds to the data structure proposed in the DATEV/ ELSTER EÜR Anlagenspiegel
+
+Therefore, I use a simplified VAT table (as compared to the current standard templates) that does not list ELSTER Kennzahlen. The VAT table lists all possible UST and VST accounts with account numbers for automatic VAT bookings in Banana. Where appropriate, they relate to 1-digit DATEV tax code.
+
 
 #### EÜR_MOST COMMON.ac2
 *	Reduced list of revenue accounts, limited to most common EU cross-border transactions
@@ -22,16 +48,6 @@ As the account plan is organized corresponding to the DATEV EÜR structure, the 
 #### ANL_REFERENCE.ac2
 *	is a template for Anlagenbuchhaltung with headers and groupings corresponding to EÜR/ DATEV systematics
 
-#### Changes since December
-
-* Revised the proposed selection of accounts and updated it to the 2019 DATEV account plan
-* Revised groupings and headers so that they correspond to the DATEV Kontenplan and Steuerberater EÜR reports
-* Standard DATEV Automatic accounts are marked in row “DATEV Autom.”
-* Added the view “Nutzer” to do the customizations in the files. In Anlagenbuchhaltung I additionally renamed some of the rows to adapt them to Steuerberater/ DATEV terminology
-* Added a template “Formatierter Bericht nach Gruppen” for a DATEV/ Steuerberater compatible EÜR report printout
-* Generated a template for Anlagenbuchhaltung that corresponds to the data structure proposed in the DATEV/ ELSTER EÜR Anlagenspiegel
-
-Therefore, I use a simplified VAT table (as compared to the current standard templates) that does not list ELSTER Kennzahlen. The VAT table lists all possible UST and VST accounts with account numbers for automatic VAT bookings in Banana. Where appropriate, they relate to 1-digit DATEV tax code.
 
 
 ### Considerations concerning DATEV tax codes (BU-Schlüssel) for automatic accounts: 1- or more digits
