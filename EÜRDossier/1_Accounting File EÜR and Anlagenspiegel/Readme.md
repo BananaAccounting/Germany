@@ -33,7 +33,9 @@ is completely implemented. It works ***analog to the swiss version of the TVA ta
     
 **MwSt/USt-Konto** relates the corresponding MwSt/USt-codes (transaction cases) to the different VAT accounts, representing DATEV standard accounting procedures
 
-**2. MwSt/USt Kto (Kz)** For some cases, I provide in this additional column information about a second VAT booking (VAT account and corresponding Elster Kennzahl), which is implied in some of the DATEV tax codes. Typical invoices for this kind of transactions would only display net amounts excl. taxes. Therefore, in the VAT table, the attribute "1" is set in column **Art Betrag** for the relevant transaction types. In column **Nicht warnen"** the attribute is set to "ja" for some rows, so it would allow certain (necessary) bookings without error message. (-->More information on all this in section "Considerations on multi-digit DATEV code").
+**2. MwSt/USt Kto (Kz)** For some cases, I provide in this additional column information about a second VAT booking (VAT account and corresponding Elster Kennzahl), which is implied in some of the DATEV tax codes. Banana user might also find this information helpful, as a reminder how to correctly book these kind of transactions.   
+Typical invoices for these would only display net amounts excl. taxes. Therefore, in the VAT table, the attribute "1" is set in column **Art Betrag** for the relevant transaction types.   
+In column **Nicht warnen"** the attribute is set to "ja" for some rows, so it would allow certain (necessary) bookings without error message. (-->More information on all this in section "Considerations on multi-digit DATEV code").
 
 ### ANL_REFERENCE.ac2
 is a template for Anlagenbuchhaltung. Structure, headers and groupings as well as sorting and names of the columns coorespond to the data structure proposed in the EÜR/DATEV/ELSTER systematics (eg. Sammelposten). Entries in Konto is aligned with EÜR_REFERENCE
@@ -59,11 +61,9 @@ These accounting plans are ready to be published. It would be interesting to get
 
 ## Considerations on multi-digit DATEV tax codes
 
-In the proposed accounting files, DATEV tax codes are included in the **1- and 2-digit version**. In a DATEV system, the 2-digit codes 17, 18, 19, 91, 92, 94, 95 initiate TWO TVA bookings (USt AND VSt, eg. for reverse charge transactions) instead of just ONE (USt or VSt). 
+In the proposed accounting files, DATEV tax codes are included in the **1- and 2-digit version**. In a DATEV system, the 2-digit codes 17, 18, 19, 91, 92, 94, 95 initiate TWO TVA bookings (USt AND VSt, eg. for reverse charge transactions) instead of just ONE (USt or VSt). In Banana, a user would have to book 3 steps/ bookings instead of just one (see eg. https://www.banana.ch/area/de/node/11145). All this is illustrated here:
 
-In Banana, a user would have to book 3 steps/ bookings instead of just one (see eg. https://www.banana.ch/area/de/node/11145).  Hence, the information in column "2. MwSt/USt Kto (Kz)" can also be useful for a Banana user, as a reminder how to correctly perform the accounting records.
-
-All this is illustrated ![here](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/DATEV%20SKR03%20Kontenpl%C3%A4ne/1_2_digit%20tax%20code%20comparison.png "table")                       
+![here](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/DATEV%20SKR03%20Kontenpl%C3%A4ne/1_2_digit%20tax%20code%20comparison.png "table")                       
 
 Now, certain EU cross-border transaction types have even more variations. Therefore, in 2019, DATEV introduced 3- and 4-digit tax codes  [see list of DATEV tax codes](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/DATEV%20SKR03%20Kontenpl%C3%A4ne/Steuerschl%C3%BCsseltabelle%20f%C3%BCr%20die%20Regelbesteuerung%202019.pdf "DATEV Steuerschlüssel"). Until then, eg. for tax code 91, the DATEV system would open a dialog window where the transaction type would be selected so the system would choose the appropriate expense and VAT accounts. More digits now allow more specialised codes.
 
