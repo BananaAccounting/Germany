@@ -1,6 +1,6 @@
 # Einnahmeüberschussrechnung
 
-The following shall give an overview of the current status of what we discussed before christmas in Lugano
+The following shall give an overview of the current status of the initial roadmap we defined in Lugano in december
 
 ## Project understanding
 
@@ -25,7 +25,7 @@ Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in ord
 * A set of relevant information concering ELSTER forms, DATEV systematics or account funcionality attributions
 * A structure and detailed agenda for a user tutorial/ guide for German market region
 
-#### File directory overview with working output
+#### Working output, overview of repository
 
 Working results and materials are organized in 4 folders, each representing a seperate project branch
 
@@ -34,28 +34,29 @@ Working results and materials are organized in 4 folders, each representing a se
 **3. Guide/ Content for German users (presentation of product)** and       
 **4. Considerations for promoting Banana in Germany (without paying for ads)**   
 
-Each folder contains a readme presenting
+Each folder contains a readme presenting a roadmap for the project branch, with
 
-* roadmap for the project branch
 * current working status
 * discussion issues
-* proposal next steps
+* to dos
 * further info on working tasks
 
-## Proposal for next steps
+## Next steps (summary)
+(more detailed information see project branch roadmaps)
 
 * Organize resources for app development
     * get involved with developper(s) about implementation concept, mutual briefing and information exchange
-    * start developping App for UStVA report
-    * finish developmet of DATEV export/import app using DATEV codes  
-    
-* Testing of accounting files
-    * Test DATEV export/app for diverse user scenarios and booking cases under real-life conditions 
+    * start developping App for Elster UStVA report (and upload file?)   
+       
+* DATEV/ ELSTER Testing of new accounting files
+    * Involve Steuerberater to get access to DATEV software and get input/ feedback/ approval how/ that all data exchanges work fine  
+    * Test DATEV export/import apps with 2-digit DATEV codes for diverse user scenarios and booking cases under real-life conditions 
     * Test Elster report UStVA for diverse user scenarios and booking cases
-    * Involve Steuerberater to get access to DATEV software and get feedback/ approval that all data exchange works fine  
     * if necessary, remove errors in account usage or Kennzahlen-code-account attribution, or remove software bugs
-    * Test accounting files in user community and get feedback
-    
+
+* Test EÜR accounting files in user community
+    * Publish/ send a version of new EÜR accounting file to existing Banana users in Germany and get feedback   
+ 
 * Start develop/ write content/ guide for German users
     * Text descriptions and explanations, create user szenarios, examples, screenshots
     * research and integrate tax and accounting specific know-how and external resources
