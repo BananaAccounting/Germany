@@ -68,8 +68,8 @@ In the proposed accounting files, DATEV tax codes are included in the **1- and 2
 
 Now, certain EU cross-border transaction types have even more variations. Therefore, in 2019, DATEV introduced 3- and 4-digit tax codes  [see list of DATEV tax codes](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/DATEV%20SKR03%20Kontenpl%C3%A4ne/Steuerschl%C3%BCsseltabelle%20f%C3%BCr%20die%20Regelbesteuerung%202019.pdf "DATEV Steuerschlüssel"). Until then, eg. for tax code 91, the DATEV system would open a dialog window where the transaction type would be selected so the system would choose the appropriate expense and VAT accounts. More digits now allow more specialised codes.
 
-However, any transaction can be recorded without using any tax code, simply by seperate bookings. In my personal case of data exchange with Steuerberater, the 1-digt codes were sufficient and worked well. Moreover, 3-/4-digit tax codes refer often to very particular accounting records. Also, it is unclear, if all Steuerberater work with these kind of tax codes. 
+However, any transaction can be recorded without using any tax code, simply by seperate bookings. In my personal case of data exchange with Steuerberater, the 1-digt codes were sufficient and worked well. Moreover, 3-/4-digit tax codes refer often to very particular accounting records corresponding to rare transaction types. Also, it is unclear, if all Steuerberater already work with these kind of tax codes.
 
-We should check/ discuss their relevance before implementing them in the VAT table.
+For these reasons, I haven't implemented yet 3-/4-digit DATEV codes, but I can do it when we are sure that we need them for the export/import. We should check/ discuss their relevance before implementing them in the VAT table.
 
 
