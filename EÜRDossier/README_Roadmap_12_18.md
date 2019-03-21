@@ -1,8 +1,3 @@
-for overview of project status, see 
-## Readme_next.md
-
-
-
 # Einnahmenüberschussrechnung
 
 ## Roadmap
