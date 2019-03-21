@@ -3,17 +3,17 @@
 ### EÜR_REFERENCE_VAT_DATEV_ELSTER.ac2
 ...is s the complete implentation of an EÜR structured accounting file. The account plan contains a vast collection of accounts for all types of SME businesses, integrating all kinds of cross-border transaction in and outside EU and should. Therefore, it should satisfy the greatest majority of relevant users. The collection is based on the 2014 Heiko selection of accounts. Number of Kategorien/Konten: 216/54
 
-Please use the **view “Nutzer”** in each file
+Please refer to the **view “Nutzer”** in each file to see entries
 
 #### Konten/ Kategorien tables
 * Revised account plan, added accounts for reasons of completeness and plausibilty, updated descriptions
 * Updated groupings and headers so that they correspond to the 2019 DATEV/ Steuerberater nomenclature
-* DATEV Automatic accounts are marked in row **“DATEV Autom.”**. They correspond to standard DATEV settings without Steuerberater customizations
-* Related a standard Banana **VAT code** to corresponding automatic accounts (see VAT table)
 
-    As the account plan is organized corresponding to the DATEV EÜR structure, the standard Banana print-out “**Formatierter Bericht nach Gruppen**” delivers a report that resembles the DATEV EÜR print-out scheme from a Steuerberater (see template “Kontennachweis für Einnahmeüberschußrechnung §4 Abs. 3 EStG“)
+**DATEV Autom.** DATEV Automatic accounts are marked in this. They correspond to standard DATEV settings in any DATEV system before Steuerberater customizations
+**VAT code** relates a Banana VAT code to corresponding automatic accounts (see VAT table)
+In **Formatierter Bericht nach Gruppen**, I added the template “Kontennachweis für Einnahmeüberschußrechnung §4 Abs. 3 EStG“. As the account plan is organized corresponding to DATEV EÜR structure, the standard Banana print-out isable to delivers a report that corresponds the DATEV EÜR print-out scheme from a Steuerberater
 
-Table Kategorien also contains information on ELSTER Kennzahlen/ SKR03 Zuordnung. You find these in the new rows "ELSTER UStVA 2019" and "ELSTER EÜR 2019".
+Table Kategorien also contains information on **ELSTER Kennzahlen/ SKR03** Zuordnung. You find these in the new colums "ELSTER UStVA 2019" and "ELSTER EÜR 2019". However, all ELSTER Kennzahlen are provided in the VAT table.
 
 
 #### TVA table
@@ -24,15 +24,25 @@ is completely implemented. It works ***analog to the swiss version of the TVA ta
 **Gr** 0=Statistical accounts/ Assesment base (Bemessungsgrundlage), 1=Sales tax amout (USt-Betrag), 2=Input tax amount (VSt Betrag)
 
 **Gr1** Complete attribution of 1- and 2-digit DATEV tax codes.   
-    In DATEV, the 2-digit DATEV codes 17, 18, 19, 91, 92, 94, 95 initiate TWO (USt AND VSt) consecutive TVA bookings instead of ONE (USt or VSt). Please refer further down to the section "Considerations on 3/4 digit DATEV code". See also **2. MwSt/USt Kto (Kz)**.
-
+ 
 **Gr2** Elster Kennzahlen UStVA 2019  
     + Kennzahlen in USt refer to Assesment base. 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount   
     + Kennzahlen in VSt refer to Tax amounts
 
 **MwSt/USt-Konto** relates the corresponding MsST/USt-codes (transaction cases) to the different TVA accounts which are used in DATEV. This represents DATEV standard accounting rules.
 
-**2. MwSt/USt Kto (Kz)** In this additional row I store/ provide information about how DATEV operates in case of in the file, I have added a seperate row .
+**2. MwSt/USt Kto (Kz)** In DATEV, the 2-digit DATEV codes 17, 18, 19, 91, 92, 94, 95 initiate TWO TVA bookings (USt AND VSt, eg. reverse charge transactions) instead of just ONE (USt or VSt). In this additional column, I provide information about the second TVA booking (VAT account and corresponding Elster Kennzahl), so you can see how DATEV operates in these cases. (-->Please refer further down to the section "Considerations on multi-digit DATEV code").
+
+This information can also be used for a Banana user, as a reminder how to correctly perform the accounting records for these kind of transactions. In Banana, a user would have to book 3 steps/ bookings instead of just one (see eg. https://www.banana.ch/area/de/node/11145). Attribute "ja" in **Nicht warnen"** allows to do it in 2 steps/ bookings
+
+Typical invoices for these (and some other) transactions will display net amounts excl. taxes. Therefore, the attribute "1" is set in **Art Betrag**.
+
+
+
+
+
+
+
 
 
 In oder to mark 
