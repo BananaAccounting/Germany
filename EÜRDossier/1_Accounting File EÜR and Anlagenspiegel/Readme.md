@@ -15,7 +15,7 @@ Please use the **view “Nutzer”** in each file to see all entered information
 **VAT code** relates a Banana VAT code (see VAT table) to corresponding automatic accounts
 In **Formatierter Bericht nach Gruppen**, I added the template “Kontennachweis für EÜR §4 Abs. 3 EStG“. As the account plan is organized corresponding to DATEV EÜR structure, the standard Banana print-out delivers a report that corresponds the DATEV EÜR print-out scheme from a Steuerberater
 
-Table Kategorien also contains information on **ELSTER Kennzahlen/ SKR03** Zuordnung. You find these in the new colums "ELSTER UStVA 2019" and "ELSTER EÜR 2019". However, all ELSTER Kennzahlen are provided in the VAT table yet.
+Table Kategorien also contains information on **ELSTER Kennzahlen/ SKR03** Zuordnung. You find these in the new colums "ELSTER UStVA 2019" and "ELSTER EÜR 2019".
 
 ### VAT table
 is completely implemented. It works ***analog to the swiss version of the TVA table*** and is ***based on the current German Banana standard template***. I have updated it to 2019 UStVA Kennzahlen/ descriptions and completed all information necessary for app programming and usage:
