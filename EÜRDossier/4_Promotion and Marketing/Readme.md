@@ -7,7 +7,7 @@ In a first step, it's not about paying for ads. It's about getting mentioned and
 
 ### Get Banana mentioned for free on multiplier sites:
 
-In file [Multiplikatoren_Websites.xls](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/4_Promotion%20and%20Marketing/Multiplikatoren_Websites.xls "Multipliers"), I have compiled intesting Website that seem to be frequented by our target group or simply publishes about accounting/ financial software. A lot of these information I have collected 2014, but I have updated some of it.
+In file [Multiplikatoren_Websites.xls](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/4_Promotion%20and%20Marketing/Multiplikatoren_Websites.xls "Multipliers"), I have compiled intesting Website that seem to be frequented by our target group or simply publishes about accounting/ financial software. A lot of these information I have collected 2014, and I have updated some of it, especially resellers
 
 Priority list for contact targets
 
