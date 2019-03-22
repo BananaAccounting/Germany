@@ -16,6 +16,7 @@ I have tested the App with 2 different accounting files. All examples can be fou
 
 2-SKR03_mit_allen_USt_Kennzahlen from the Github repository VatReportGermany2016. I added TVA bookings and in this case the app seems to provide a correct Kennzahlen document (see [UStVA Printout from Github file.pdf](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/2_ELSTER%20Reports/BananaApp%20UStVA%20current%20status/UStVA_ELSTER%20printout%20from%20Github%20file.pdf "Printout"). The print-out format from this file delivers a listing with all not zero Kennzahlen and the corresponding amounts. This kind of document ssems to be very well suited to help a user to easily transfer the data manually to ELSTER. A Steuerberater would produce for the records a print-out that containes the same information.
 
+**--> what is the current status of the VAT app for Germany? If it doesn't work as upload file, does it work to print out an ELSTER report?
 
 The file
 ### EÜR_with alternate tax form implementation.ac2
