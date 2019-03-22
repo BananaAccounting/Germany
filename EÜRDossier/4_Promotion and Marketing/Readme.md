@@ -19,5 +19,5 @@ https://www.reweco.de/infos/themenschwerpunkte/
 ## Propsal for Next steps
 to be discussed more in detail
 
-* get in contact with multiplier sites to chaeck possibilities that Banana is mentioned/ listed
+* get in contact with multiplier sites to check possibilities/ conditions that Banana is mentioned/ listed
 
