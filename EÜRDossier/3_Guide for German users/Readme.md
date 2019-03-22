@@ -2,7 +2,7 @@
 
 I understand from our discussions that you imagine a kind of Banana introduction for German users. It would be placed in the regional section for Germany on the Banana webstite.
 
-In the following I present a detailed structure of what I think is necessary and useful for a German users to get as information - in order to get quick started with Banana in a DATEV/Steuerberater conform way. 
+In the following I present a detailed structure of what I think is necessary and useful for a German users to get as information - in order to get quick started with Banana in a DATEV/Steuerberater conform way. You will also find here an agenda of the contents, so you can better imagine what I propose to produce.
 
 ## Content structure of the German guide  
 
@@ -96,4 +96,4 @@ In the following I present a detailed structure of what I think is necessary and
 
 ### Further content: Vereine
 
-Besides what is published for Vereine in the Germany region section on Banana website, Banana presents a tutorial/ guide under https://www.banana.ch/de/node/9595. Further discussions to clarify if or what is required for Vereine.
+Besides what is published for Vereine in the Germany region section, Banana presents a tutorial/ guide under https://www.banana.ch/de/node/9595. In order to propose a content structure, we should have some further discussions to clarify if or what is required for Vereine
