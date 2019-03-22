@@ -1,4 +1,4 @@
-# Branch Roadmap - Promotion and Marketing in Germany without paying advertising
+# Branch Roadmap - Promotion and Marketing in Germany (without paying advertising)
 
 
 ## Objective
