@@ -85,13 +85,17 @@ My proposal is to get the Steuerberater, I am currently working with, officially
 
 My task would be to outline to her what we are doing, what the concept of Banana is and what kind of cooperation we are looking for. At best, she would provide the ressources to thoroughly test the Banana/ DATEV data exchange eg. by working directly with a Steuerberater clerk/ assistant on the DATEV terminal, with my computer aside, testing all kinds of variations
 
-I expect any any changes/ corrections in accounting plan or Code/ Kennzahlen attribution to be minor. Also creating other versions for different business types shall be done quickly.
+I expect any any changes/ corrections in accounting plan or Code/ Kennzahlen attribution to be minor.
 
 
 ## Estimated workload
-Appointment/ talks with Steuerberater, discussions over best-practice working process Banana user/Steuerberater, exchange file testing, information gathering
+Appointment/ talks with Steuerberater, discussions over best-practice working process Banana user/Steuerberater, exchange file testing, information gathering, communications involved
 
 2-3 working days (16-24 hours)
+
+## Longterm perspective
+* EÜR DATEV/ ELSTER-compatible Account plans for particular purposes/ business
+* Bilanzierer?
 
 
 
