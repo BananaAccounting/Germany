@@ -42,7 +42,8 @@ https://www.reweco.de/infos/themenschwerpunkte/
 ## Estimated workload
 * for contacting 20 addresses (phone/mail), get through to the right counterpart, plus subsequent communication process. Where possible, achieve getting listed
 * Contact professors for accounting and get at least 1 to test and give feedback on Banana software in the context of learning/ university purposes. Investigate more closely at one universitiy among students
-* presentation of results of this first step
+* presentation of results of this first step    
+
 5 Working days (ca. 40h)
 
 
