@@ -27,9 +27,9 @@ is completely implemented. It works ***analog to the swiss version of the TVA ta
 
 **Gr1** displays the complete attribution of 1- and 2-digit DATEV tax codes
 
- **Gr2** displays Elster Kennzahlen for UStVA 2019  
-    * USt Kennzahlen in lines with Gr=0 refer to Assesment bases      
-    * USt Kennzahlen in lines With Gr=1 show 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount. In some cases, the 2 numbers are identical. This means, the ELSTER form provides 2 fields for the same Kennzeichen, and the tax amount is calculated automatically by ELSTER    
+**Gr2** displays Elster Kennzahlen for UStVA 2019   
+    * USt Kennzahlen in lines with Gr=0 refer to Assesment bases       
+    * USt Kennzahlen in lines With Gr=1 show 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount. In some cases, the 2 numbers are identical. This means, the ELSTER form provides 2 fields for the same Kennzeichen, and the tax amount is calculated automatically by ELSTER     
     * VSt Kennzahlen (Gr=2) refer to tax amounts   
     
 **MwSt/USt-Konto** relates the corresponding MwSt/USt-codes (transaction cases) to the different VAT accounts, representing DATEV standard accounting procedures
@@ -75,4 +75,26 @@ However, any transaction can be recorded without using any tax code at all, simp
 
 * DATEV Kontenpläne and relevant information from DATEV homepage
 * DATEV EÜR examples are printouts from different sources to illustrate a finished EÜR report from a DATEV Steuerberater
+
+## Issues
+* The working process between a Banana user and a Steuerberater now needs to be tested, approved and documented. The issue of 3-/4-digit tax codes hss to be addressed and clarified
+* Also, the DATEV exchange files should be tested with all kinds of transactions and booking (cross border, reverse charge etc.), involving 2-digit tax codes
+* Furthermore, some types of bookings have to be alined with usual DATEV Steuerberater practice: What type of accounts for which transaction case etc. Here we need some (not too much) expertise from a daily practitioner
+
+My proposal is to get the Steuerberater, I am currently working with, officially involved in this project. My feeling is that she is open and she has the ressources in terms of personnel that she might be interested in such type of cooperation.
+
+My task would be to outline to her what we are doing, what the concept of Banana is and what kind of cooperation we are looking for. At best, she would provide the ressources to thoroughly test the Banana/ DATEV data exchange eg. by working directly with a Steuerberater clerk/ assistant on the DATEV terminal, with my computer aside, testing all kinds of variations
+
+I expect any any changes/ corrections in accounting plan or Code/ Kennzahlen attribution to be minor. Also creating other versions for different business types shall be done quickly.
+
+
+## Estimated workload
+Appointment/ talks with Steuerberater, discussions over best-practice working process Banana user/Steuerberater, exchange file testing, information gathering
+
+2-3 working days (16-24 hours)
+
+
+
+
+
 
