@@ -16,13 +16,15 @@ I have tested the App with 2 different accounting files. They can be found in th
 
 2. SKR03_mit_allen_USt_Kennzahlen from the Github repository VatReportGermany2016. I added TVA bookings and in this case the app seems to provide a correct Kennzahlen document (see [UStVA Printout from Github file.pdf](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/2_ELSTER%20Reports/BananaApp%20UStVA%20current%20status/UStVA_ELSTER%20printout%20from%20Github%20file.pdf "Printout"). The print-out format from this file delivers a listing with all not-zero Kennzahlen and the corresponding amounts. If it works correctly, this kind of document is very well suited to help a user to easily transfer the data manually to ELSTER. By the way: A Steuerberater would produce for the records a print-out that containes the same information, namely amounts for all not-zero Kz.
 
-**--> what actually is the current status of the VAT app for Germany? If it doesn't work as upload file, does it work to print out an ELSTER report?
+**--> what actually is the current status of the VAT app for Germany? If it doesn't work as upload file, does it work to print out an ELSTER report?**
 
 The file
 ## EÜR_with alternate tax form implementation.ac2
 proposes to deliver tax forms in a seperate table. It's just ideas, purely conceptual. The file illustrates how this could look like.  
 
-Instead of using a Banana App, a user would add for each ELSTER report desired a new table through Werkzeuge-->Neue Funktion hinzufügen. Each table would represent an ELSTER form (eg. EÜR, UStVA, USt Erklärung etc). The table would contain a column in which all accounts would be listed that correspond to the Kennzahl from the report. A user could easily add accounts to be included in the Kennzahlen amount, when his Steuerberater tells him to do so. The standard VAT table would just list those VAT accounts necessary for automatic VAT bookings in Banana, not more.
+Instead of using a Banana App, a user would add for each ELSTER report desired a new table through Werkzeuge-->Neue Funktion hinzufügen. Each of these extra, addable tables would represent an ELSTER form (eg. EÜR, UStVA, USt Erklärung etc).
+
+The table would contain a column in which all accounts would be listed that correspond to the Kennzahl from the report. A user could easily add accounts to be included in the Kennzahlen amount, when his Steuerberater tells him to do so. The standard VAT table would just list those VAT accounts necessary for automatic VAT bookings in Banana, not more.
 
 The idea is, that that table would calculate the sums/ amounts for each Kennzahl. I don't know if, from a programmer's perspective, it is possibles that the table performs this operation (In Excel this would be done with a function or a script). The print-out would be done from this table.
 
@@ -46,7 +48,7 @@ can be found in the corresponding folder
 ## Estimated workload
 depends on how much involvement from my side is needed for the App programming. As the file I created is designed according to the swiss version, it's quite self explanatory for developpers from your team. A new developper probably would have to be briefed, what I could do from the concepttual/ requirements perspective: 0-1 working day
 
-Another thing is testing the output. Once the app is able to produce reports or upload files, the outputs should be checked, also with involvement of a Steuerberater. Workload should be defined once the app is ready.
+Another thing is testing the output. Once the app is able to produce reports or upload files, the outputs should be checked, also with involvement of a Steuerberater. To be discussed further once the app is ready.
 
 ## Longterm perspective
 * Elster information in the file (and in the app?) has to be crosschecked and updated from year to year, as forms often change (this is particuraly true for UStVA)
