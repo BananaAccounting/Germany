@@ -81,6 +81,7 @@ In the following I present a detailed structure of what I think is necessary and
 *	Advantages to standard DATEV reports, possibilities
 *	Examples, use cases for different business types like Consulting, Engineering, Training, Production, Event-Management etc.
 
+
 ## Further content
 #### Bilanzierer
 A lot of work has been done already concerning EBilanz etc. A next step could be to integrate this and have an extended version of the user tutorial/ guide including information for Bilanzierer. To be discussed 
@@ -88,12 +89,14 @@ A lot of work has been done already concerning EBilanz etc. A next step could be
 #### Vereine
 Besides what is published for Vereine in the Germany region section, Banana presents a tutorial/ guide under https://www.banana.ch/de/node/9595. In order to propose a content structure, we should have some further discussions to clarify if or what is required for Vereine
 
+
 ## Estimated workload
-for creating EÜR relevant content
+for creating EÜR relevant content as outlined here
+
 15-20 working days (120-160 hours)
 
 ## Longterm perspective
-* Actively search for user interactions, get feedback on usage
-* Refine contents following user feedback
-* Keep contents up to date
+* Actively search for user interactions, get more concrete feedback on usage, exchange about user issues
+* Refine contents according to user feedback
+* Review and keep contents up to date, from time to time
 
