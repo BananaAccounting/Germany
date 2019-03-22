@@ -37,10 +37,10 @@ Working results and materials are organized in 4 folders, each representing a se
 
 Each folder contains a readme presenting a roadmap for the project branch, with
 
-* current working status
+* current working status/ what has been done so far
+* description/ documentation of delivered items
 * discussion issues
-* to dos
-* further info on working tasks
+* proposal for how to proceed, further info on working tasks
 
 Pending your feedback, meanwhile I propose following
 
