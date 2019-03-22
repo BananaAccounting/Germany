@@ -63,7 +63,7 @@ Unless a BananaApp for ELSTER report with Kennzahlen isn't finished, I have used
 
 In the proposed accounting files, DATEV tax codes are included in the **1- and 2-digit version**. In a DATEV system, the 2-digit codes 17, 18, 19, 91, 92, 94, 95 initiate TWO TVA bookings (USt AND VSt, eg. for reverse charge transactions) instead of just ONE (USt or VSt). With Banana type of automatic accounts, a user would have to book this transactions in 2 or 3 steps/ bookings, instead of just one (see eg. https://www.banana.ch/area/de/node/11145). All this is illustrated here:
 
-![here](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/DATEV%20SKR03%20Kontenpl%C3%A4ne/1_2_digit%20tax%20code%20comparison.png "table")                       
+![here](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/DATEV%20SKR03%20Kontenpl%C3%A4ne/1_2_digit%20tax%20code%20comparison.png "Table")                       
 
 Now, certain EU cross-border transaction types have even more variations. Therefore, in 2019, DATEV introduced 3- and 4-digit tax codes  [see list of DATEV tax codes](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/1_Accounting%20File%20E%C3%9CR%20and%20Anlagenspiegel/DATEV%20SKR03%20Kontenpl%C3%A4ne/Steuerschl%C3%BCsseltabelle%20f%C3%BCr%20die%20Regelbesteuerung%202019.pdf "DATEV Steuerschlüssel"). Until then, eg. for tax code 91, the DATEV system would open a dialog window where the transaction type would be selected so the system would choose the appropriate expense and VAT accounts. More digits now allow more specialised codes.
 
