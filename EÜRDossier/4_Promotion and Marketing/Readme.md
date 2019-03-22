@@ -34,12 +34,12 @@ for contacting 20 addresses, get through to the right counterpart, plus subseque
 
 ## Lomgterm perspective
 * Banana placed in all relevant sources (1+2)
-* Banana among competitors when relevant software is tested and compared. Others would then write about Banana
-* Watch and study user feedback on these sites, draw recommendations for further development of the offering
+* Banana always listed among competitors like Lexware, Monkey etc. when relevant software is tested and compared. Others would then write about Banana
+* Watch, study, follow carefully user feedback on these sites. Draw recommendations for further developping the German Banana offering
 
 Lateron
 * SEO
-* Banner advertising on sites where entrepreneurs and small business owners research for information (3)
+* Banner advertising (paid) on sites where entrepreneurs and small business owners research for information (3)
 
 
 
