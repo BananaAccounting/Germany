@@ -35,9 +35,9 @@ Working results and materials are organized in 4 folders, each representing a se
 **3. Guide/ Content for German users (presentation of product)** and       
 **4. Considerations for promoting Banana in Germany (without paying for ads)**   
 
-Each folder contains a readme presenting the current working status for the project branch, with
+Each folder contains a readme presenting a refined roadmap for the project branch, with
 
-* what has been done so far
+* the current working status/ what has been done so far
 * description/ documentation of delivered items
 * discussion issues
 
