@@ -1,4 +1,4 @@
-# Einnahmeüberschussrechnung
+# Project: Einnahmeüberschussrechnung
 
 The following shall give an overview of the current status of the [initial roadmap](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/README_Roadmap_12_18.md "see README_Roadmap_12_18.md") we defined in Lugano in december
 
@@ -19,7 +19,7 @@ Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in ord
 
 ## Roadmap
 
-#### Results form last work period
+#### Potentially shippable product increments
 * Complete accounting files for Einnahmeüberschußrechnung, with headers and groups for structuring the report, a comprehensive VAT table with codes for all the possible cases and a printed EÜR report. The accounting plan comes in different versions. Also a template for Anlagenbuchhaltung
 * The files contains all the relevant DATEV and ELSTER data/information for creating reports/ exports. It is ready so that app development could start any time. The files also show ELSTER-SKR03 Zuordnung for EÜR/UStVA
 * A proposal for a structure and a detailed agenda for a user tutorial/ guide for German market region
@@ -39,18 +39,20 @@ Each folder contains a readme presenting a refined roadmap for the project branc
 
 * the current working status/ what has been done so far
 * description/ documentation of delivered items
-* discussion issues
+* discussion/ open issues
+* Estimated workload for next step
+* Longterm perspective
 
 Pending your feedback, meanwhile I propose following
 
 ## Next steps
-for discussion
+for discussion. You find more detailed information in the branch roadmaps
 
 * Organize resources for app development
     * get involved with developper(s) about implementation concept, mutual briefing and information exchange
     * start developping App for Elster UStVA report (and upload file?)   
        
-* DATEV/ ELSTER Testing of new accounting files
+* DATEV/ ELSTER Testing of new accounting files with a Steuerberater
     * Involve Steuerberater to get access to DATEV software and get input/ feedback/ approval how/ that all data exchanges work fine  
     * Test DATEV export/import apps with 2-digit DATEV codes for diverse user scenarios and booking cases under real-life conditions 
     * Test Elster report UStVA for diverse user scenarios and booking cases
@@ -59,13 +61,11 @@ for discussion
 * Test EÜR accounting files in user community
     * Publish/ send a version of new EÜR accounting file to existing Banana users in Germany and get feedback   
  
-* Start develop/ write content/ guide for German users
+* Start to develop/ write/ create content/ guide for German users
     * Text descriptions and explanations, create user szenarios, examples, screenshots
     * research and integrate tax and accounting specific know-how and external resources
     
-#### Time line, budget, involved resources
-
-to be discussed/ detailed
+   
 
 
 
