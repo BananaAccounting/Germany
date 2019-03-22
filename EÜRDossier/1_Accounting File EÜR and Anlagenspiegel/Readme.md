@@ -57,6 +57,8 @@ I have added two more files, with reduced account plans. Of course, more specifi
 
 Unless a BananaApp for ELSTER report with Kennzahlen isn't finished, I have used in these versions a simplified VAT table (as compared to the standard template) that does not list the ELSTER Kennzahlen, and is not structured like the UStVA form. Yet, the ELSTER Kennzahlen for UStVA and EÜR are displayed in table Kategorien so that a user could easily derive the amounts for each Kennzahl via Excel or alike.
 
+**--> In my view, the simplified accounting plans (with simple VAT tables) are ready to be published. It would be interesting to get feedback from German users how useful they find the adaptations for EÜR structure**
+
 ## Considerations on multi-digit DATEV tax codes
 
 In the proposed accounting files, DATEV tax codes are included in the **1- and 2-digit version**. In a DATEV system, the 2-digit codes 17, 18, 19, 91, 92, 94, 95 initiate TWO TVA bookings (USt AND VSt, eg. for reverse charge transactions) instead of just ONE (USt or VSt). With Banana type of automatic accounts, a user would have to book this transactions in 2 or 3 steps/ bookings, instead of just one (see eg. https://www.banana.ch/area/de/node/11145). All this is illustrated here:
@@ -67,13 +69,10 @@ Now, certain EU cross-border transaction types have even more variations. Theref
 
 However, any transaction can be recorded without using any tax code at all, simply by performing seperate bookings. In my personal case of data exchange with Steuerberater, the 1-digt codes were sufficient, as I have no complex cross-boarder issues. Moreover, 3-/4-digit tax codes refer often to very particular accounting records corresponding to rare transaction types. Also, it is unclear, if all Steuerberater already work with these kind of tax codes.
 
+**-->For these reasons, I haven't implemented yet 3-/4-digit DATEV codes. I can do it when we are sure that we need them for the export/import. We should check/ discuss their relevance before implementing them in the VAT table**
+
 ## Further information in this folder
 
 * DATEV Kontenpläne and relevant information from DATEV homepage
 * DATEV EÜR examples are printouts from different sources to illustrate a finished EÜR report from a DATEV Steuerberater
-
-## Proposal what to do next
-
-* In my view, the simplified accounting plans (with simple VAT tables) are ready to be published. It would be interesting to get feedback from German users how useful they find the adaptations for EÜR structure
-* For the above listed reasons, I haven't implemented yet 3-/4-digit DATEV codes. I can do it when we are sure that we need them for the export/import. We should check/ discuss their relevance before implementing them in the VAT table
 
