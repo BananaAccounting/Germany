@@ -4,7 +4,7 @@ I understand from our discussions that you imagine a kind of Banana introduction
 
 In the following I present a detailed structure of what I think is necessary and useful for a German users to get as information - in order to get quick started with Banana in a DATEV/Steuerberater conform way. You will also find here an agenda of the contents, so you can better imagine what I propose to produce.
 
-## Content structure of the German guide  
+## Content structure of the German guide (EÜR)  
 
 
 ![Content Structure](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/3_Guide%20for%20German%20users/Chart_content%20structure.png "Chart")  
@@ -29,7 +29,6 @@ In the following I present a detailed structure of what I think is necessary and
 *	Advantages in using Banana AND cooperating with a Steuerberater
 *	Reference to structure accounting data in a DATEV compatible way and to transfer data to ELSTER 
 
-
 #### Adapt Kontenpläne to personal needs
 
 *	Available Kontenpläne on Banana
@@ -38,7 +37,6 @@ In the following I present a detailed structure of what I think is necessary and
 *	EÜR systematics, calculation of Betrieblicher Gewinn/ Steuerlicher Gewinn
 *	Adapt Kontenplan to personal needs from Master Kontenplan
 *	How to separate business/ private in a combined account plan in a DATEV/Steuerberater-compatible way
-
 
 #### Booking accounting transactions
 
@@ -49,7 +47,6 @@ In the following I present a detailed structure of what I think is necessary and
 *	Useful references to external sources for further information on tax and DATEV conform booking of transaction cases
 *	Booking of private transactions, usage of private accounts
 
-
 #### Assets and Amortisations
 
 *	Basic functionalities of the Banana Anlagen-Tabelle, Rough introduction to how it works and how to get started from the scratch
@@ -57,13 +54,11 @@ In the following I present a detailed structure of what I think is necessary and
 *	How to generate which amortization bookings and how to transfer the asset-table from year to year
 *	Some basics about German legislation concerning Amortisations (GWG, Pool- und Einzelabschreibung), typical amortization periods
 
-
 #### Umsatzsteuer-Voranmeldungen
 
 *	Banana App? (or table?) to generate the Elster-Kennziffern, transfer to Elster manually or with interface?
 *	Reference to Banana standard VAT reporting (MwSt Zusammenfassung etc.)
 *	and more things depending on how exactly Banana will provide the Elster Kennziffern or interface (see Roadmap Elster)
-
 
 #### Preparing the annual financial statement and some tipps for entrepreneurs
 
@@ -73,13 +68,11 @@ In the following I present a detailed structure of what I think is necessary and
 *	If available: How to generate the Elster Kennziffern, transfer data to Elster
 *	Reference to external sources for relevant tax legislation for entrepreneurs
 
-
 #### Data exchange with tax advisor
 
 *	Datev export file and reimport file. Learning from experience and exchange
 *	Issues to clarify with the Steuerberater concerning account plan, bookings, amortisations etc.
 *	Avoiding errors in the Kontenplan concerning Datev- and Elster-relevant information when changing or adding accounts
-
 
 #### Individual business reports
 
@@ -88,12 +81,19 @@ In the following I present a detailed structure of what I think is necessary and
 *	Advantages to standard DATEV reports, possibilities
 *	Examples, use cases for different business types like Consulting, Engineering, Training, Production, Event-Management etc.
 
+## Further content
+#### Bilanzierer
+A lot of work has been done already concerning EBilanz etc. A next step could be to integrate this and have an extended version of the user tutorial/ guide including information for Bilanzierer. To be discussed 
 
-### Estimated workload
-
-15-20 working days
-
-
-### Further content: Vereine
-
+#### Vereine
 Besides what is published for Vereine in the Germany region section, Banana presents a tutorial/ guide under https://www.banana.ch/de/node/9595. In order to propose a content structure, we should have some further discussions to clarify if or what is required for Vereine
+
+## Estimated workload
+for creating EÜR relevant content
+15-20 working days (120-160 hours)
+
+## Longterm perspective
+* Actively search for user interactions, get feedback on usage
+* Refine contents following user feedback
+* Keep contents up to date
+
