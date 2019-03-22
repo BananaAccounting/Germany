@@ -7,7 +7,7 @@ Increase publicity (Bekanntheit) of Banana in Deutschland. Simply increase the l
 In a first step, it's not about paying for ads. It's about getting mentioned and displayed for free where it's appropriate and where the target group hangs around and researches information.
 
 
-## Get Banana mentioned for free on multiplier sites:
+## Get Banana mentioned for free on multiplier sites
 
 In file [Multiplikatoren_Websites.xls](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/4_Promotion%20and%20Marketing/Multiplikatoren_Websites.xls "Multipliers"), I have compiled intesting Website that seem to be frequented by our target group or simply publishes about accounting/ financial software. A lot of these information I have collected 2014, and I have updated some of it, especially resellers
 
@@ -44,7 +44,7 @@ https://www.reweco.de/infos/themenschwerpunkte/
 * Contact professors for accounting and get at least 1 to test and give feedback on Banana software in the context of learning/ university purposes. Investigate more closely at one universitiy among students
 * presentation of results of this first step    
 
-5 Working days (ca. 40h)
+4-5 Working days (ca. 30-40h)
 
 
 ## Lomgterm perspective
