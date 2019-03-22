@@ -40,11 +40,10 @@ Each folder contains a readme presenting a roadmap for the project branch, with
 * current working status/ what has been done so far
 * description/ documentation of delivered items
 * discussion issues
-* proposal for how to proceed, further info on working tasks
 
 Pending your feedback, meanwhile I propose following
 
-## Next steps (summary)
+## Next steps
 for discussion
 
 * Organize resources for app development
