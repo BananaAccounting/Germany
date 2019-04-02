@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2018-12-11
+// @pubdate = 2018-12-12
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung für Vereine in Deutschland
 // @description.de = Spendenbescheinigung für Vereine in Deutschland
@@ -59,7 +59,7 @@ function exec(inData, options) {
         return "@Cancel";
     }
 
-	/* 3) Creates the report */
+	// Creates the report
 	var report = createReport(Banana.document, userParam.selectionStartDate, userParam.selectionEndDate, userParam);            
 	var stylesheet = createStyleSheet(userParam);
 	Banana.Report.preview(report, stylesheet);
@@ -522,42 +522,42 @@ function convertFields(banDoc, text, address, trDate, startDate, endDate, totalO
 
     if (text.indexOf("<Period>") > -1) {
         var period = getPeriod(banDoc, startDate, endDate);
-        text = text.replace("<Period>",period);
+        text = text.replace(/<Period>/g,period);
     }
     if (text.indexOf("<Account>") > -1) {
-        text = text.replace("<Account>",account);
+        text = text.replace(/<Account>/g,account);
     }
     if (text.indexOf("<FirstName>") > -1) {
         var firstname = address.firstname;
-        text = text.replace("<FirstName>",firstname);
+        text = text.replace(/<FirstName>/g,firstname);
     }
     if (text.indexOf("<FamilyName>") > -1) {
         var familyname = address.familyname;
-        text = text.replace("<FamilyName>",familyname);
+        text = text.replace(/<FamilyName>/g,familyname);
     }    
     if (text.indexOf("<Address>") > -1) {
         var address = address.street + ", " + address.postalcode + " " + address.locality;
-        text = text.replace("<Address>",address);
+        text = text.replace(/<Address>/g,address);
     }
     if (text.indexOf("<TrDate>") > -1) {
         var trdate = Banana.Converter.toLocaleDateFormat(trDate);
-        text = text.replace("<TrDate>",trdate);
+        text = text.replace(/<TrDate>/g,trdate);
     }
     if (text.indexOf("<StartDate>") > -1) {
         var startdate = Banana.Converter.toLocaleDateFormat(startDate);
-        text = text.replace("<StartDate>",startdate);
+        text = text.replace(/<StartDate>/g,startdate);
     }
     if (text.indexOf("<EndDate>") > -1) {
         var enddate = Banana.Converter.toLocaleDateFormat(endDate);
-        text = text.replace("<EndDate>",enddate);
+        text = text.replace(/<EndDate>/g,enddate);
     }
     if (text.indexOf("<Currency>") > -1) {
         var currency = banDoc.info("AccountingDataBase", "BasicCurrency");
-        text = text.replace("<Currency>",currency);
+        text = text.replace(/<Currency>/g,currency);
     }
     if (text.indexOf("<Amount>") > -1) {
         var amount = Banana.Converter.toLocaleNumberFormat(totalOfDonations);
-        text = text.replace("<Amount>",amount);
+        text = text.replace(/<Amount>/g,amount);
     }
     return text;
 }
@@ -841,7 +841,7 @@ function convertParam(userParam) {
     // Texts
     var currentParam = {};
     currentParam.name = 'texts';
-    currentParam.title = 'Texts';
+    currentParam.title = 'Texte';
     currentParam.type = 'string';
     currentParam.value = userParam.texts ? userParam.texts : '';
     currentParam.readValue = function() {
@@ -1030,11 +1030,11 @@ function initUserParam() {
 function parametersDialog(userParam) {
 
     if (typeof(Banana.Ui.openPropertyEditor) !== 'undefined') {
-        var dialogTitle = userParam.xmldialogtitle;
+        var dialogTitle = "Einstellungen";
         var convertedParam = convertParam(userParam);
         var pageAnchor = 'dlgSettings';
         if (!Banana.Ui.openPropertyEditor(dialogTitle, convertedParam, pageAnchor)) {
-            return;
+            return null;
         }
         
         for (var i = 0; i < convertedParam.data.length; i++) {
@@ -1080,9 +1080,11 @@ function settingsDialog() {
     }
 
     scriptform = parametersDialog(scriptform); // From propertiess
-    var paramToString = JSON.stringify(scriptform);
-    Banana.document.setScriptSettings(paramToString);
-
+    if (scriptform) {
+        var paramToString = JSON.stringify(scriptform);
+        Banana.document.setScriptSettings(paramToString);
+    }
+    
     return scriptform;
 }
 

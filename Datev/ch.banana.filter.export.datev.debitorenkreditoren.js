@@ -249,7 +249,7 @@ DatevDebitorenKreditoren.prototype.initParam = function () {
 }
 
 DatevDebitorenKreditoren.prototype.loadData = function () {
-   Banana.console.debug(JSON.stringify(this.param));
+   //Banana.console.debug(JSON.stringify(this.param));
    var transactions = [];
    var fieldsHeader = this.loadDataFields();
    transactions.push(fieldsHeader);

@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>355</width>
-    <height>397</height>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string notr="true">DATEV Export</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <spacer name="verticalSpacer_5">
      <property name="orientation">
@@ -71,7 +71,7 @@
           <set>Qt::ImhNone</set>
          </property>
          <property name="inputMask">
-          <string notr="true">99999; </string>
+          <string notr="true">99999</string>
          </property>
          <property name="text">
           <string notr="true"/>
@@ -194,7 +194,7 @@
           <set>Qt::ImhNone</set>
          </property>
          <property name="inputMask">
-          <string notr="true">9999999; </string>
+          <string notr="true">9999999</string>
          </property>
          <property name="text">
           <string notr="true"/>

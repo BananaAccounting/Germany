@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2018-08-10
+// @pubdate = 2019-01-10
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -565,10 +565,22 @@ DatevBuchungsstapel.prototype.isAutomaticAccount = function (accountId) {
          if (value && value == 1)
             return true;
       }
+      row = tableAccounts.findRowByValue("DatevAccount", accountId);
+      if (row) {
+         var value = row.value("DatevAuto");
+         if (value && value == 1)
+            return true;
+      }
    }
    var tableCategories = this.banDocument.table("Categories");
    if (tableCategories) {
       var row = tableCategories.findRowByValue("Category", accountId);
+      if (row) {
+         var value = row.value("DatevAuto");
+         if (value && value == 1)
+            return true;
+      }
+      row = tableCategories.findRowByValue("DatevAccount", accountId);
       if (row) {
          var value = row.value("DatevAuto");
          if (value && value == 1)
@@ -579,6 +591,7 @@ DatevBuchungsstapel.prototype.isAutomaticAccount = function (accountId) {
 }
 
 DatevBuchungsstapel.prototype.loadData = function () {
+
    var transactions = [];
    //get period selected
    var accountingData = this.readAccountingData();
@@ -596,7 +609,7 @@ DatevBuchungsstapel.prototype.loadData = function () {
    var journal = this.banDocument.journal(
       this.banDocument.ORIGINTYPE_CURRENT, this.banDocument.ACCOUNTTYPE_NORMAL);
    var filteredRows = journal.findRows(this.filterTransactions);
-
+   
    if (tableTransactions && filteredRows) {
       var fieldsHeader = this.loadDataFields();
       transactions.push(fieldsHeader);
@@ -727,16 +740,14 @@ DatevBuchungsstapel.prototype.loadData = function () {
 
          //7. Konto
          valueAccount = filteredRows[i].value("JAccount");
-         valueAccount = this.getDatevAccount(valueAccount);
-         if (valueAccount == "@Cancel")
-            return "@Cancel";
+         if (this.param["kontenzuordnungSelected"])
+            valueAccount = this.getDatevAccount(valueAccount);
          line.push(valueAccount);
 
          //8. Gegenkonto
          valueContraAccount = filteredRows[i].value("JContraAccount");
-         valueContraAccount = this.getDatevAccount(valueContraAccount);
-         if (valueContraAccount == "@Cancel")
-            return "@Cancel";
+         if (this.param["kontenzuordnungSelected"])
+            valueContraAccount = this.getDatevAccount(valueContraAccount);
          line.push(valueContraAccount);
 
          //9. BU-Schlüssel
@@ -962,6 +973,7 @@ DatevBuchungsstapel.prototype.loadDataHeader = function (accountingData) {
    // Länge:2 Typ:Zahl
    // vom Datev angegeben
    // Buchungsstapel = 21
+   // Sachkontenbeschriftungen = 20
    var field3 = "21";
 
    // Headr-Feld Nr. 4 Formatname
@@ -1228,8 +1240,6 @@ DatevBuchungsstapel.prototype.toTextFormat = function (string) {
 }
 
 DatevBuchungsstapel.prototype.verifyParam = function () {
-   if (!this.param.tipoRegistro)
-      this.param.tipoRegistro = 0;
    if (!this.param.mandanten)
       this.param.mandanten = '';
    if (!this.param.berater)
