@@ -1,4 +1,4 @@
-# Project: Einnahmeüberschussrechnung
+# Project: Einnahmeüberschussrechnung (updated 26.4.2019)
 
 The following shall give an overview of the current status of the [initial roadmap](https://github.com/RobertUlb/Germany/blob/patch-1/E%C3%9CRDossier/README_Roadmap_12_18.md "see README_Roadmap_12_18.md") we defined in Lugano in december
 
@@ -20,11 +20,9 @@ Use Banana for small business/ Vereins-/ private bookkeeping/ accounting, in ord
 ## Roadmap
 
 #### Potentially shippable product increments
-* Complete accounting files for Einnahmeüberschußrechnung, with headers and groups for structuring the report, a comprehensive VAT table with codes for all the possible cases and a printed EÜR report. The accounting plan comes in different versions. Also a template for Anlagenbuchhaltung
-* The files contains all the relevant DATEV and ELSTER data/information for creating reports/ exports. It is ready so that app development could start any time. The files also show ELSTER-SKR03 Zuordnung for EÜR/UStVA
-* A proposal for a structure and a detailed agenda for a user tutorial/ guide for German market region
-
-Moreover, I have put together relevant information concering end of year ELSTER forms, DATEV systematics, account funcionality attributions or marketing issues
+* Complete accounting files for Einnahmeüberschußrechnung, with headers and groups for structuring the report, a complete VAT table with 3/4-digit tax codes for all the possible cases
+* The files contains all the relevant DATEV and ELSTER data/information for creating reports/ exports. It is ready so that app development could start any time. The file also show ELSTER-SKR03 Zuordnung for creating a EÜR-report
+* Also a template for Anlagenbuchhaltung  
 
 #### Working output, overview of repository
 
@@ -48,20 +46,22 @@ Pending your feedback, meanwhile I propose following
 ## Next steps
 for discussion. You find more detailed information in the branch roadmaps
 
-* Organize resources for app development
-    * get involved with developper(s) about implementation concept, mutual briefing and information exchange
-    * start developping App for Elster UStVA report (and upload file?)   
-       
-* DATEV/ ELSTER Testing of new accounting files with a Steuerberater
-    * Involve Steuerberater to get access to DATEV software and get input/ feedback/ approval how/ that all data exchanges work fine  
-    * Test DATEV export/import apps with 2-digit DATEV codes for diverse user scenarios and booking cases under real-life conditions 
-    * Test Elster report UStVA for diverse user scenarios and booking cases
-    * if necessary, remove errors in account usage or Kennzahlen-code-account attribution, or remove software bugs
+* App development --> by Banana
+    * UStVA print out, displaying Kz and correponding amout (maybe xmö-upload file)
+    * DATEV export/ import with 3/4 digit tax codes
 
-* Test EÜR accounting files in user community
-    * Publish/ send a version of new EÜR accounting file to existing Banana users in Germany and get feedback   
+* DATEV/ ELSTER Testing of new accounting files with a Steuerberater --> by RU
+    * Involve Steuerberater to get access to DATEV software and get input/ feedback/ approval how/ that all data exchanges work fine  
+    * Test DATEV export/import apps with 3/4-digit DATEV codes for diverse user scenarios and booking cases under real-life conditions 
+    * Test Elster report UStVA for diverse user scenarios and booking cases
+    * if necessary, remove errors in account usage or Kennzahlen-code-account attribution
+
+* Test EÜR accounting files in user community --> by Banana
+    * Actively ask for and collect feedback on new EÜR accounting file from German users    
+    
+* Start placing Banana on multiplier's websites in Germany --> by RU
  
-* Start to develop/ write/ create content/ guide for German users
+* Start to develop/ write/ create content/ guide for German users --> by RU
     * Text descriptions and explanations, create user szenarios, examples, screenshots
     * research and integrate tax and accounting specific know-how and external resources
     
