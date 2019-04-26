@@ -33,7 +33,9 @@ However, 5 Kennziffern (62, 63, 64, 65, partly 69) do not relate to DATEV tax co
 **Gr2** displays Elster Kennzahlen for UStVA 2019   
     * USt Kennzahlen in lines with Gr=0 refer to Assesment bases       
     * USt Kennzahlen in lines With Gr=1 show 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount. In some cases, the 2 numbers are identical. This means, the ELSTER form provides 2 fields for the same Kennzeichen, and the tax amount is calculated automatically by ELSTER     
-    * VSt Kennzahlen (Gr=2) refer to tax amounts   
+    * VSt Kennzahlen (in lines with Gr=2) refer to tax amounts
+    * andere Steuerbeträge (in lines with Gr=3) refer to tax amounts
+    * 3 Kennzahlen come with ;ZM. This means, that these amounts (additionally to UStVA) need to be transmitted to the ELSTER form "Zusammenfassende Meldung"
     
 **MwSt/USt-Konto** relates the corresponding tax code to the different VAT accounts, representing DATEV standard accounting procedures
 
