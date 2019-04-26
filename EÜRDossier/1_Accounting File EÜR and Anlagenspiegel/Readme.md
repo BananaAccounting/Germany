@@ -80,8 +80,7 @@ Appointment/ talks with Steuerberater, discussions over best-practice working pr
 1-2 working days (8-16 hours)
 
 ## Longterm perspective
-* EÜR DATEV/ ELSTER-compatible Account plans for particular purposes/ business
-* Bilanzierer?
+* DATEV/ ELSTER compatible file for Bilanzierer
 
 
 
