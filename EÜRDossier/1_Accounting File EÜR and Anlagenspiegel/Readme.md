@@ -10,8 +10,6 @@
     * VAT calculation parting from gross or net amounts
     * ELSTER Kennzahl for UStVA relating to each tax code (according to "Steuerschlüsseltabelle")
     * as bespoken, DATEV automated double VAT bookings are split into A and B tax code versions 
-* table Kategorien has been extended to contain all standard automatic DATEV accounts (according to "Kontenrahmenbeschreibung")
-* every automatic SKR03 account shows its associated DATEV tax code corresponding to DATEV standard functionalities    
 
 Pending your decision, it should also be possible to completely implement the 4-digit tax codes starting with 9 (aufzuteilende Vorsteuer). In these cases, DATEV performs an additional booking for each tax codes which seperates deductable from non-deductable input tax according to a defined percentage (so called "Faktor-2 Buchung"). With an additional booking a Banana user could simulate these tax code functionalities, too
 
@@ -45,6 +43,8 @@ In column **Nicht warnen** the attribute is set to "ja" for 4-digit tax code sta
 
 
 ### Konten/ Kategorien tables
+
+Table Kategorien has been extended to contain all standard automatic DATEV accounts (according to "Kontenrahmenbeschreibung"). Moreover, very automatic SKR03 account shows its associated DATEV tax code corresponding to DATEV standard functionalities    
 
 Table Kategorien also contains information on **ELSTER EÜR** Zuordnung. You find these in the colums "ELSTER EÜR 2019"
 
