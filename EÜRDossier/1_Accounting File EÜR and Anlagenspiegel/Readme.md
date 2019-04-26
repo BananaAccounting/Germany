@@ -77,7 +77,7 @@ As soon as you approve the new file, I will derive simplified variations from th
 ## Estimated workload
 Appointment/ talks with Steuerberater, discussions over best-practice working process Banana user/Steuerberater, exchange file testing, information gathering, communications involved
 
-2-3 working days (16-24 hours)
+1-2 working days (8-16 hours)
 
 ## Longterm perspective
 * EÜR DATEV/ ELSTER-compatible Account plans for particular purposes/ business
