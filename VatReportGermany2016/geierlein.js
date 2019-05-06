@@ -703,7 +703,7 @@ var validationRules = {
 
     jahr: [
         rules.required,
-        rules.range(2010, 2018)
+        rules.range(2010, 2019)
     ],
 
     zeitraum: [

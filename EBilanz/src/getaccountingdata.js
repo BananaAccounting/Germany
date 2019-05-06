@@ -28,7 +28,7 @@ function checkAccounts(context, accounts)
         var msg = getErrorMessage(ID_ERR_XBRL_MISSING);
         msg = msg.replace("%1", accountId );
         msg = msg.replace("%2", fileName);
-        Banana.document.table('Accounts').addMessage(msg, i, "Account", ID_ERR_XBRL_MISSING);
+        currentDocument.table('Accounts').addMessage(msg, i, "Account", ID_ERR_XBRL_MISSING);
 	  }
 	}
   }
