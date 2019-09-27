@@ -798,13 +798,6 @@ function init_schemarefs()
   var schemaRefs = [
     '/de-gaap-ci-2017-04-01-shell.xsd',
     '/de-gaap-ci-2017-04-01.xsd',
-    '/hgbrole-2017-04-01.xsd',
-    '/de-gaap-ci-2017-04-01-dimensions.xsd',
-    'http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd',
-    'http://www.xbrl.org/2005/xbrldt-2005.xsd',
-    'http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd',
-    'http://www.xbrl.org/2003/xl-2003-12-31.xsd',
-    'http://www.xbrl.org/2003/xlink-2003-12-31.xsd',
   ];
   return schemaRefs;
 };
@@ -15526,6 +15519,53 @@ function init_taxonomy()
 function init_accounts()
 {
   var accounts = [];
+    accounts.push( {accountid: '2',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '3',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '4',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '5',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '6',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '7',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '8',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '9',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '10',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '11',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '12',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '13',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '14',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '15',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '16',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '17',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '18',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '19',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '20',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '21',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '22',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '23',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '24',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '25',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '26',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '27',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '28',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '29',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '30',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '31',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '32',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '33',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '34',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '35',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '36',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '37',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '38',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '39',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '41',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '42',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '43',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '44',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '45',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '46',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '47',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '48',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
+    accounts.push( {accountid: '49',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop'    });
     accounts.push( {accountid: '95',     description: 'Aufwendungen für die Ingangsetzung und Erweiterung des Geschäftsbetriebs',     debit: 'de-gaap-ci_bs.ass.accountingConvenience.startUpCost'    });
     accounts.push( {accountid: '96',     description: 'Aufwendungen für die Ingangsetzung und Erweiterung des Geschäftsbetriebs',     debit: 'de-gaap-ci_bs.ass.accountingConvenience.startUpCost'    });
     accounts.push( {accountid: '97',     description: 'Aufwendungen für die Ingangsetzung und Erweiterung des Geschäftsbetriebs',     debit: 'de-gaap-ci_bs.ass.accountingConvenience.startUpCost'    });
@@ -16898,6 +16938,10 @@ function init_accounts()
     accounts.push( {accountid: '1502',     description: 'Anteile an verbundenen Unternehmen (Umlaufvermögen)',     debit: 'de-gaap-ci_bs.ass.currAss.securities.affil'    });
     accounts.push( {accountid: '1503',     description: 'Anteile an verbundenen Unternehmen (Umlaufvermögen)',     debit: 'de-gaap-ci_bs.ass.currAss.securities.affil'    });
     accounts.push( {accountid: '1504',     description: 'Anteile an herrschender oder mit Mehrheit beteiligter Gesellschaft',     debit: 'de-gaap-ci_bs.ass.currAss.securities.affil'    });
+    accounts.push( {accountid: '1506',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.currAss.securities.other.shares'    });
+    accounts.push( {accountid: '1507',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.currAss.securities.other.shares'    });
+    accounts.push( {accountid: '1508',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.currAss.securities.other.shares'    });
+    accounts.push( {accountid: '1509',     description: 'Freies Konto',     debit: 'de-gaap-ci_bs.ass.currAss.securities.other.shares'    });
     accounts.push( {accountid: '1510',     description: 'Sonstige Wertpapiere',     debit: 'de-gaap-ci_bs.ass.currAss.securities.other'    });
     accounts.push( {accountid: '1511',     description: 'Sonstige Wertpapiere',     debit: 'de-gaap-ci_bs.ass.currAss.securities.other'    });
     accounts.push( {accountid: '1512',     description: 'Sonstige Wertpapiere',     debit: 'de-gaap-ci_bs.ass.currAss.securities.other'    });
