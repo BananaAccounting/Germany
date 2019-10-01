@@ -18,7 +18,7 @@
 \newenvironment{testcase}[1]{\section*{Test: #1}}{\newpage}
 \newenvironment{test}[1]{\section*{Test case: #1}}{}
 %Begin test data
-%%SCRIPT{/Users/ivan/Documents/GitHub/Germany/Spendenbescheinigung/./test/ch.banana.de.app.spendenbescheinigung.test.js}
+%%SCRIPT{/Users/ivan/Documents/GitHub/Germany/Spendenbescheinigung/test/ch.banana.de.app.spendenbescheinigung.test.js}
 %
 \begin{testcase}{ReportTest}
 \begin{test}{testBananaApp}

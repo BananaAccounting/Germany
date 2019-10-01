@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2018-12-12
+// @pubdate = 2019-10-01
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung für Vereine in Deutschland
 // @description.de = Spendenbescheinigung für Vereine in Deutschland
@@ -737,7 +737,7 @@ function printTransactionTable(banDoc, report, costcenter, startDate, endDate) 
                 tableRow.addCell(Banana.Converter.toLocaleDateFormat(tRow.value("Date")), "borderRight", 1);
                 tableRow.addCell(name, "borderRight", 1);
                 tableRow.addCell(Banana.Converter.toLocaleNumberFormat(amount), "right borderRight", 1);
-                tableRow.addCell("Nein", "center borderRight", 1);
+                tableRow.addCell(getVerzichtColumnValue(banDoc, costcenter), "center borderRight", 1);
                 total = Banana.SDecimal.add(total, amount);
             }
         }
@@ -748,6 +748,27 @@ function printTransactionTable(banDoc, report, costcenter, startDate, endDate) 
     tableRow.addCell("Summe", "bold right borderTop borderBottom", 1);
     tableRow.addCell(Banana.Converter.toLocaleNumberFormat(total), "bold right borderTop borderBottom", 1);
     tableRow.addCell("", "bold right borderTop borderBottom", 1);
+}
+
+function getVerzichtColumnValue(banDoc, costcenter) {
+	/* If exists, return the value of the "Verzicht" column of the Accounts table (view address) => Ja/Nein (true/false).
+	   If does not exists, return "Nein" value as default
+	*/
+	var verzicht = "";
+	var accountsTable = banDoc.table("Accounts");
+    for (var i = 0; i < accountsTable.rowCount; i++) {
+    	var tRow = accountsTable.row(i);
+	    if (tRow.value("Account") === ";"+costcenter) {
+			if (tRow.value("Verzicht")) {
+				verzicht = "Ja";
+				//Banana.console.log(costcenter + ": " + verzicht);
+			} else {
+				verzicht = "Nein";
+				//Banana.console.log(costcenter + ": " + verzicht);
+			}
+		}
+    }
+    return verzicht;
 }
 
 function getCc3Accounts(banDoc) {
