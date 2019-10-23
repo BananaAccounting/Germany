@@ -168,9 +168,12 @@ function createVatReport(banDoc, startDate, endDate) {
 
 	for (var i=0; i<param.gr2List.length; i++) {
 		var gr = [];
+		gr.push("0");
 		gr.push("1");
 		gr.push("2");
 		gr.push("3");
+		gr.push("4");
+		gr.push("5");
 		var gr2 = [];
 		gr2.push(param.gr2List[i]);
 		var vatCodes = findVatCodes(gr, gr2);
@@ -182,23 +185,23 @@ function createVatReport(banDoc, startDate, endDate) {
         var gr2List = param.gr2List[i].split(";");
 		if (gr2List.length>0) {
 			if (gr2List[0] == "ZM") {
-				vatAmountCol3 = formatNumber(Banana.SDecimal.invert(vatAmounts.vatTaxable));
+				vatAmountCol3 = formatNumber(vatAmounts.vatTaxable);
 			}
 			else {
-				vatAmountCol1 = formatNumber(Banana.SDecimal.invert(vatAmounts.vatTaxable));
+				vatAmountCol1 = formatNumber(vatAmounts.vatTaxable);
 			}
 		}
 		if (gr2List.length>1) {
 			if (gr2List[1] == "ZM") {
-				vatAmountCol3 = formatNumber(Banana.SDecimal.invert(vatAmounts.vatPosted));
+				vatAmountCol3 = formatNumber(vatAmounts.vatPosted);
 			}
 			else {
-				vatAmountCol2 = formatNumber(Banana.SDecimal.invert(vatAmounts.vatPosted));
+				vatAmountCol2 = formatNumber(vatAmounts.vatPosted);
 			}
 		}
 
-		if (vatAmountCol1.length<=0 && vatAmountCol2.length<=0 && vatAmountCol3.length<=0)
-			continue;
+		//if (vatAmountCol1.length<=0 && vatAmountCol2.length<=0 && vatAmountCol3.length<=0)
+		//	continue;
 			
 		var tableRow = table.addRow();
 		tableRow.addCell(param.gr2List[i],"description",1);
@@ -244,7 +247,8 @@ function loadData() {
 			continue;
 		if (param.gr2List.indexOf(gr2)<=0)
 			param.gr2List.push(gr2);
-	}
+    }
+    //param.gr2List.sort();
 }
 
 /* Function that loads some parameters */
