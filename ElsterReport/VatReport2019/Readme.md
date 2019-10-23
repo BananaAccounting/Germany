@@ -58,37 +58,3 @@ Table Kategorien also contains information on **ELSTER EÜR** Zuordnung. You fin
 is a template for Anlagenbuchhaltung. Structure, headers and groupings as well as sorting and names of the columns coorespond to the data structure proposed in the EÜR/DATEV/ELSTER systematics (eg. Sammelposten). Entries in Konto is aligned with EÜR_REFERENCE
 
 
-## Account plan variations
-As soon as you approve the new file, I will derive simplified variations from the account plan, eg.
-
-#### EÜR_MOST COMMON.ac2
-* Reduced list of revenue accounts, limited to most common EU cross-border transactions
-* Account plan should be fine for all entrepreneuers with office premises, company car and employees
-* Number of Kategorien/Konten: 187/54
-
-#### EÜR_MINIMAL.ac2
-* is a heavily compressed version of a DATEV compatible account plan. It represents all accounts that a typical 1-Person Professional Service Business, no cross-border transactions, with a private car for business usage, homeoffice and no employees would need. It’s to show how simple it can be
-* This account plan should be fine for the vast majority of 1-Person business
-* Number of Kategorien/Konten: 48/26
-
-
----------------------------------------------------------------------------------------------------------------------------------------
-## Issues
-* When apps are ready (export/ import/ UStVA), the file should be tested under real world conditions
-* The working process between a Banana user and a Steuerberater now needs to be tested, approved and documented
-
-
-## Estimated workload
-Appointment/ talks with Steuerberater, discussions over best-practice working process Banana user/Steuerberater, exchange file testing, information gathering, communications involved
-
-1-2 working days (8-16 hours)
-
-## Longterm perspective
-* DATEV/ ELSTER compatible file for Bilanzierer
-* keeping it up-to-date from year to year
-
-
-
-
-
-
