@@ -1,17 +1,18 @@
-# Branch Roadmap Accounting files (updated 26.4.2019)
+## Accounting files (updated 6.05.2019)
 
-## EÜR_REFERENCE_3_digit.ac2
+### EÜR_REFERENCE_3_digit.ac2
 
-* has implemented all DATEV 3-digit tax codes into the MwSt/USt table
-* not implemented are 5 tax codes used by "Land- und Forstwirtschaftliche" Betriebe only (special LuF codes for "Pauschalbesteuerung"= 310, 311, 312, 350, 352, 381). In DATEV, these codes need to be used in combination with SKR14 (7-digit account numbers) only
-* For reasons of consistency, I also added 4-digit tax codes starting with 6 (innergemeinschatfliche Lieferungen/ Leistungsempfänger als Steuerschuldner §13b, mit USt OHNE VSt)
+* has implemented all xxx and 6xxx tax codes into the MwSt/USt table
+* not implemented are 2 tax codes only used in combination with SKR14 (350, 352)
+* not implemented are 9xxx codes (aufzuteilende Vorsteuer)
+
+* contains a sample booking for every tax code. A+B where required
+
 * all tax codes work consistent with DATEV/ ELSTER functionalities in terms of:
     * corresponding VAT account (according to "Funktionsnummernbeschreibung")
     * VAT calculation parting from gross or net amounts
     * ELSTER Kennzahl for UStVA relating to each tax code (according to "Steuerschlüsseltabelle")
     * as bespoken, DATEV automated double VAT bookings are split into A and B tax code versions 
-
-Pending your decision, it should also be possible to completely implement the 4-digit tax codes starting with 9 (aufzuteilende Vorsteuer). In these cases, DATEV performs an additional booking for each tax codes which seperates deductable from non-deductable input tax according to a defined percentage (so called "Faktor-2 Buchung"). With an additional booking a Banana user could simulate these tax code functionalities, too
 
 Please use the **view “Nutzer”** in each file to see all entered information    
 
@@ -19,29 +20,29 @@ Please use the **view “Nutzer”** in each file to see all entered information
 
 The order of lines correponds to the order proposed in the ELSTER form for UStVA 2019
 
-**MwSt/USt Code** now contains the DATEV 3-/4-digit tax codes (except 4-digit codes for "aufzuteilende Vorsteuer" starting with 9)
-However, 5 Kennziffern (62, 63, 64, 65, partly 69) do not relate to DATEV tax codes. They are addressed via bookings. To simulate this functionality in Banana, I have named them tax codes starting with "KZ" (KZ62, KZ63 etc.). You can find an example for such a booking in table "Buchungen"
+**MwSt/USt Code** contains the 3-/4-digit tax codes
+5 Kennziffern (62, 63, 64, 65, partly 69) do not relate to DATEV tax codes. They are addressed via manual bookings. Tax codes starting "KZ" (KZ62, KZ63 etc.) work with ArtBetrag "2" 
 
-**Gr** displays the type of data to appear in the UStVA:
-    * 0=Statistical accounts/ Assesment base (Bemessungsgrundlage). No tax amount calculated
-    * 1=Sales tax amout (USt-Betrag)
-    * 2=Input tax amount (VSt Betrag)
-    * 3=other tax amounts (andere Steuerbeträge)
+**Gr** group the data to totals appearing in Elster-Online:
+    * 0=Statistical accounts/ Assesment base (Bemessungsgrundlage). No tax amount/ no totals calculated
+    * 1, 2, 3 =Subtotals for three categories of sales tax amounts (USt-Beträge)
+    * 4 =Total input tax amount (VSt Betrag)
+    * 5 =other tax amounts (andere Steuerbeträge)
+    * ZXX =Subtotals USt-Zahlung/Guthaben in Zeile XX in Elster-Online
 
 **Gr1** still displays the complete attribution of 1- and 2-digit DATEV tax codes. (Can be deleted)
 
 **Gr2** displays Elster Kennzahlen for UStVA 2019   
-    * USt Kennzahlen in lines with Gr=0 refer to Assesment bases       
-    * USt Kennzahlen in lines With Gr=1 show 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount. In some cases, the 2 numbers are identical. This means, the ELSTER form provides 2 fields for the same Kennzeichen, and the tax amount is calculated automatically by ELSTER     
-    * VSt Kennzahlen (in lines with Gr=2) refer to tax amounts
-    * andere Steuerbeträge (in lines with Gr=3) refer to tax amounts
+    * Kennzahlen in lines with Gr=0 refer to Assesment bases. No tax is calculated     
+    * Kennzahlen in lines With Gr=1, 2, 3 show 2 numbers seperated by semicoloon: 1) Assesment base, 2) Tax amount. In some cases, the 2 numbers are identical. This means, the ELSTER form provides 2 fields for the same Kennzeichen, and the tax amount is calculated automatically by ELSTER     
+    * Kennzahlen in lines with Gr=4, 5 refer to tax amounts. No assesment base is displayed
     * 3 Kennzahlen come with ;ZM. This means, that these amounts (additionally to UStVA) need to be transmitted to the ELSTER form "Zusammenfassende Meldung"
     
-**MwSt/USt-Konto** relates the corresponding tax code to the different VAT accounts, representing DATEV standard accounting procedures
+**MwSt/USt-Konto** relates the corresponding tax code to the different VAT accounts, representing DATEV standard
 
-**Art Betrag** is set corresponding to DATEV functionality (analog "Funktionsnummernbeschreibung")
+**Art Betrag** is set corresponding to DATEV functionality
 
-In column **Nicht warnen** the attribute is set to "ja" for 4-digit tax code starting with 6 as they define cross-border buyings with USt but without VSt
+In column **Nicht warnen** the attribute is set to "ja" for 6xxx tax codes (cross-border buyings taxable and not recoverable)
 
 
 ### Konten/ Kategorien tables
@@ -71,8 +72,9 @@ As soon as you approve the new file, I will derive simplified variations from th
 * Number of Kategorien/Konten: 48/26
 
 
+---------------------------------------------------------------------------------------------------------------------------------------
 ## Issues
-* When apps are ready (export/ import/ UStVA), the file should be tested under real world conditions. My proposal is to create a set of bookings addressing each of the tax codes, export it to DATEV and compare the result to the BANANA result
+* When apps are ready (export/ import/ UStVA), the file should be tested under real world conditions
 * The working process between a Banana user and a Steuerberater now needs to be tested, approved and documented
 
 
@@ -83,6 +85,7 @@ Appointment/ talks with Steuerberater, discussions over best-practice working pr
 
 ## Longterm perspective
 * DATEV/ ELSTER compatible file for Bilanzierer
+* keeping it up-to-date from year to year
 
 
 
