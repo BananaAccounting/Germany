@@ -4,6 +4,7 @@
 * Check if EUR VAT report is the same as Balance.
 * Create a reference file with the VAT Table with new Codes.
 * Create VAT Table documentation on the Banana.ch web site.
+* Create VAT Table documentation for calculation in [readme.md](https://github.com/BananaAccounting/Germany/blob/master/ElsterReport/VatReport2019/Readme.md)
 
 
 ## Templates

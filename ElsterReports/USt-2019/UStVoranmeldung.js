@@ -1,4 +1,4 @@
-// Copyright [2018] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2019] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// @id = ch.banana.de.elster_kontrollansicht
+// @id = ch.banana.de.elster_USt_Vornamedlung_2019
 // @api = 1.0
-// @pubdate = 2019-10-23
+// @pubdate = 2019-10-24
 // @publisher = Banana.ch SA
-// @description = Elster Kontrollansicht Report
+// @description = Elster Umsatzsteuer Voranmeldung 2019
 // @task = app.command
 // @doctype = 100.110;110.110;130.110;100.130
 // @docproperties = 
