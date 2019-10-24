@@ -130,7 +130,7 @@ function createStyleSheet() {
     stylesheet.addStyle("table td", "border:thin solid black;");
     stylesheet.addStyle("table td.amount", "text-align:right;");
     stylesheet.addStyle("table td.first", "padding-top: 10px");
-    stylesheet.addStyle("table td.total", "padding-top: 5px;padding-bottom: 5px;border-bottom:1px double black;");
+    stylesheet.addStyle("table td.total", "padding-top: 5px;padding-bottom: 5px;");
     stylesheet.addStyle(".col1", "width:50%");
     stylesheet.addStyle(".col2", "width:17%");
     stylesheet.addStyle(".col3", "width:16%");
@@ -162,16 +162,16 @@ function createVatReport(startDate, endDate) {
     headerRow.addCell("Steuer (vatPosted)", "bold amount");
     headerRow.addCell("ZM", "bold amount");
 
-    var elsterCodes = [];
-
+	var totals = {};
     var mainSumCol1 = "";
     var mainSumCol2 = "";
     var mainSumCol3 = "";
 
     for (var group in param.gr2List) {
-        var sumCol1 = "";
-        var sumCol2 = "";
-        var sumCol3 = "";
+		var sumGroup = {};
+        sumGroup.sumCol1 = "";
+        sumGroup.sumCol2 = "";
+        sumGroup.sumCol3 = "";
         for (var i = 0; i < param.gr2List[group].length; i++) {
             var gr = [];
             gr.push(group);
@@ -207,9 +207,9 @@ function createVatReport(startDate, endDate) {
             //if (vatAmountCol1.length<=0 && vatAmountCol2.length<=0 && vatAmountCol3.length<=0)
             //	continue;
 
-            sumCol1 = Banana.SDecimal.add(sumCol1, Banana.Converter.toInternalNumberFormat(vatAmountCol1));
-            sumCol2 = Banana.SDecimal.add(sumCol2, Banana.Converter.toInternalNumberFormat(vatAmountCol2));
-            sumCol3 = Banana.SDecimal.add(sumCol3, Banana.Converter.toInternalNumberFormat(vatAmountCol3));
+            sumGroup.sumCol1 = Banana.SDecimal.add(sumGroup.sumCol1, Banana.Converter.toInternalNumberFormat(vatAmountCol1));
+            sumGroup.sumCol2 = Banana.SDecimal.add(sumGroup.sumCol2, Banana.Converter.toInternalNumberFormat(vatAmountCol2));
+            sumGroup.sumCol3 = Banana.SDecimal.add(sumGroup.sumCol3, Banana.Converter.toInternalNumberFormat(vatAmountCol3));
 
             var tableRow = table.addRow();
             var firstRow = " first";
@@ -220,7 +220,12 @@ function createVatReport(startDate, endDate) {
             tableRow.addCell(formatNumber(vatAmountCol2), "amount" + firstRow, 1);
             tableRow.addCell(formatNumber(vatAmountCol3), "amount" + firstRow, 1);
         }
+		totals[group] = sumGroup;
+    }
+	
+    table.addPageBreak();
 
+    for (var group in totals) {
         // Group Description
         var description = group;
         var tableVatCodes = Banana.document.table("VatCodes");
@@ -229,23 +234,21 @@ function createVatReport(startDate, endDate) {
             if (row)
                 description = row.value("Description").toString();
         }
-
         // Group Total
         var tableTotalRow = table.addRow();
         tableTotalRow.addCell(description, "description bold total", 1);
-        tableTotalRow.addCell(formatNumber(sumCol1), "amount bold total", 1);
-        tableTotalRow.addCell(formatNumber(sumCol2), "amount bold total", 1);
-        tableTotalRow.addCell(formatNumber(sumCol3), "amount bold total", 1);
+        tableTotalRow.addCell(formatNumber(totals[group].sumCol1), "amount bold total", 1);
+        tableTotalRow.addCell(formatNumber(totals[group].sumCol2), "amount bold total", 1);
+        tableTotalRow.addCell(formatNumber(totals[group].sumCol3), "amount bold total", 1);
 
-        mainSumCol1 = Banana.SDecimal.add(mainSumCol1, Banana.Converter.toInternalNumberFormat(sumCol1));
-        mainSumCol2 = Banana.SDecimal.add(mainSumCol2, Banana.Converter.toInternalNumberFormat(sumCol2));
-        mainSumCol3 = Banana.SDecimal.add(mainSumCol3, Banana.Converter.toInternalNumberFormat(sumCol3));
-
-    }
+        mainSumCol1 = Banana.SDecimal.add(mainSumCol1, Banana.Converter.toInternalNumberFormat(totals[group].sumCol1));
+        mainSumCol2 = Banana.SDecimal.add(mainSumCol2, Banana.Converter.toInternalNumberFormat(totals[group].sumCol2));
+        mainSumCol3 = Banana.SDecimal.add(mainSumCol3, Banana.Converter.toInternalNumberFormat(totals[group].sumCol3));
+	}
 
     // Main Total
     var tableMainTotalRow = table.addRow();
-    tableMainTotalRow.addCell("Main Total", "description bold total", 1);
+    tableMainTotalRow.addCell("Total", "description bold total", 1);
     tableMainTotalRow.addCell(formatNumber(mainSumCol1), "amount bold total", 1);
     tableMainTotalRow.addCell(formatNumber(mainSumCol2), "amount bold total", 1);
     tableMainTotalRow.addCell(formatNumber(mainSumCol3), "amount bold total", 1);
@@ -284,15 +287,18 @@ function loadData() {
         var tRow = tableVatCodes.row(i);
         var gr = tRow.value('Gr').toString();
         var gr2 = tRow.value('Gr2').toString();
-        if (gr.length <= 0 || gr2.length <= 0)
+        if (gr.length <= 0)
             continue;
+        /*if (gr.length <= 0 || gr2.length <= 0)
+            continue;*/
         if (!param.gr2List[gr]) {
             param.gr2List[gr] = [];
         }
-        if (param.gr2List[gr].indexOf(gr2) < 0) {
+        if (gr2.length > 0 && param.gr2List[gr].indexOf(gr2) < 0) {
             param.gr2List[gr].push(gr2);
         }
     }
+	//Banana.console.debug(JSON.stringify(param.gr2List, null, 2));
 }
 
 /* Function that loads some parameters */
