@@ -56,7 +56,7 @@ function exec(inData, options) {
 }
 
 /* This function adds a Footer to the report */
-function addFooter(report, param) {
+function addFooter(report) {
     var date = new Date();
     var d = Banana.Converter.toLocaleDateFormat(date);
     report.getFooter().addClass("footer");
@@ -74,7 +74,7 @@ function addHeader(report) {
     pageHeader.addParagraph(param.title, "heading");
     pageHeader.addParagraph(param.version, "");
     pageHeader.addParagraph(" ", "");
-    pageHeader.addParagraph("Elster Umsatzsteuer-Voranmeldung 2019 (gemäß Formular USt 1 A Version 08.18)", "h1");
+    pageHeader.addParagraph("Elster Umsatzsteuer-Voranmeldung 2019", "h1");
 
     if (param.headerLeft) {
         pageHeader.addParagraph(param.headerLeft, "bold");
@@ -90,6 +90,8 @@ function addHeader(report) {
 
 /* The purpose of this function is to check if an array contains the given value */
 function arrayContains(array, value) {
+    if (!array || !value)
+        return false;
     for (var i = 0; i < array.length; i++) {
         if (array[i] === value) {
             return true;
@@ -124,17 +126,27 @@ function createStyleSheet() {
     stylesheet.addStyle(".italic", "font-style:italic;");
 
     /* Table */
-    var tableStyle = stylesheet.addStyle("table");
+    var tableStyle = stylesheet.addStyle("table.codes");
     tableStyle.setAttribute("width", "100%");
-    stylesheet.addStyle("table td", "padding-bottom: 2px; padding-top: 3px");
-    stylesheet.addStyle("table td", "border:thin solid black;");
-    stylesheet.addStyle("table td.amount", "text-align:right;");
-    stylesheet.addStyle("table td.first", "padding-top: 10px");
-    stylesheet.addStyle("table td.total", "padding-top: 5px;padding-bottom: 5px;");
     stylesheet.addStyle(".col1", "width:50%");
     stylesheet.addStyle(".col2", "width:17%");
     stylesheet.addStyle(".col3", "width:16%");
     stylesheet.addStyle(".col4", "width:15%");
+    stylesheet.addStyle("table td", "padding-bottom: 2px; padding-top: 3px");
+    stylesheet.addStyle("table td", "border:thin solid black;");
+    stylesheet.addStyle("table td.amount", "text-align:right;");
+    stylesheet.addStyle("table td.first", "padding-top: 10px");
+    stylesheet.addStyle("table td.headerRow", "font-size:10pt;font-weight:bold;padding-top: 5px;padding-bottom: 5px;");
+    stylesheet.addStyle("table td.total", "padding-top: 5px;padding-bottom: 5px;");
+
+    var summaryStyle = stylesheet.addStyle("table.summary");
+    summaryStyle.setAttribute("width", "100%");
+    summaryStyle.setAttribute("margin-top", "50px");
+    summaryStyle.setAttribute("border", "none");
+    stylesheet.addStyle(".summaryCol1", "width:5%");
+    stylesheet.addStyle(".summaryCol2", "width:65%");
+    stylesheet.addStyle(".summaryCol3", "width:5%");
+    stylesheet.addStyle(".summaryCol4", "width:25%");
 
     return stylesheet;
 }
@@ -150,7 +162,7 @@ function createVatReport(startDate, endDate) {
 
     /* 3) Create the report */
     var report = Banana.Report.newReport(param.reportName);
-    var table = report.addTable("table");
+    var table = report.addTable("codes");
     var col1 = table.addColumn("col1");
     var col2 = table.addColumn("col2");
     var col3 = table.addColumn("col3");
@@ -162,17 +174,10 @@ function createVatReport(startDate, endDate) {
     headerRow.addCell("Steuer (vatPosted)", "bold amount");
     headerRow.addCell("ZM", "bold amount");
 
-	var totals = {};
-    var mainSumCol1 = "";
-    var mainSumCol2 = "";
-    var mainSumCol3 = "";
+    var totals = {};
 
     for (var group in param.gr2List) {
-		var sumGroup = {};
-        sumGroup.sumCol1 = "";
-        sumGroup.sumCol2 = "";
-        sumGroup.sumCol3 = "";
-        for (var i = 0; i < param.gr2List[group].length; i++) {
+         for (var i = 0; i < param.gr2List[group].length; i++) {
             var gr = [];
             gr.push(group);
             var gr2 = [];
@@ -207,9 +212,12 @@ function createVatReport(startDate, endDate) {
             //if (vatAmountCol1.length<=0 && vatAmountCol2.length<=0 && vatAmountCol3.length<=0)
             //	continue;
 
-            sumGroup.sumCol1 = Banana.SDecimal.add(sumGroup.sumCol1, Banana.Converter.toInternalNumberFormat(vatAmountCol1));
-            sumGroup.sumCol2 = Banana.SDecimal.add(sumGroup.sumCol2, Banana.Converter.toInternalNumberFormat(vatAmountCol2));
-            sumGroup.sumCol3 = Banana.SDecimal.add(sumGroup.sumCol3, Banana.Converter.toInternalNumberFormat(vatAmountCol3));
+            if (!totals[group])
+                totals[group] = {};
+        
+            totals[group].vatTaxable = Banana.SDecimal.add(totals[group].vatTaxable, Banana.Converter.toInternalNumberFormat(vatAmountCol1));
+            totals[group].vatPosted = Banana.SDecimal.add(totals[group].vatPosted, Banana.Converter.toInternalNumberFormat(vatAmountCol2));
+            totals[group].vatZM = Banana.SDecimal.add(totals[group].vatZM, Banana.Converter.toInternalNumberFormat(vatAmountCol3));
 
             var tableRow = table.addRow();
             var firstRow = " first";
@@ -220,55 +228,213 @@ function createVatReport(startDate, endDate) {
             tableRow.addCell(formatNumber(vatAmountCol2), "amount" + firstRow, 1);
             tableRow.addCell(formatNumber(vatAmountCol3), "amount" + firstRow, 1);
         }
-		totals[group] = sumGroup;
-    }
-	
-    table.addPageBreak();
 
-    for (var group in totals) {
-        // Group Description
-        var description = group;
-        var tableVatCodes = Banana.document.table("VatCodes");
-        if (tableVatCodes) {
-            var row = tableVatCodes.findRowByValue('Group', group);
-            if (row)
-                description = row.value("Description").toString();
-        }
         // Group Total
-        var tableTotalRow = table.addRow();
-        tableTotalRow.addCell(description, "description bold total", 1);
-        tableTotalRow.addCell(formatNumber(totals[group].sumCol1), "amount bold total", 1);
-        tableTotalRow.addCell(formatNumber(totals[group].sumCol2), "amount bold total", 1);
-        tableTotalRow.addCell(formatNumber(totals[group].sumCol3), "amount bold total", 1);
+        if (param.printCheckTotals) {
+            var tableTotalRow = table.addRow();
+            tableTotalRow.addCell(getVatGroupDescription(group), "description bold total", 1);
+            tableTotalRow.addCell(formatNumber(totals[group].vatTaxable), "amount bold total", 1);
+            tableTotalRow.addCell(formatNumber(totals[group].vatPosted), "amount bold total", 1);
+            tableTotalRow.addCell(formatNumber(totals[group].vatZM), "amount bold total", 1);
+        }
 
-        mainSumCol1 = Banana.SDecimal.add(mainSumCol1, Banana.Converter.toInternalNumberFormat(totals[group].sumCol1));
-        mainSumCol2 = Banana.SDecimal.add(mainSumCol2, Banana.Converter.toInternalNumberFormat(totals[group].sumCol2));
-        mainSumCol3 = Banana.SDecimal.add(mainSumCol3, Banana.Converter.toInternalNumberFormat(totals[group].sumCol3));
-	}
+        if (!totals["_tot_"])
+            totals["_tot_"] = {};
+
+        totals["_tot_"].vatTaxable = Banana.SDecimal.add(totals["_tot_"].vatTaxable, Banana.Converter.toInternalNumberFormat(totals[group].vatTaxable));
+        totals["_tot_"].vatPosted = Banana.SDecimal.add(totals["_tot_"].vatPosted, Banana.Converter.toInternalNumberFormat(totals[group].vatPosted));
+        totals["_tot_"].vatZM = Banana.SDecimal.add(totals["_tot_"].vatZM, Banana.Converter.toInternalNumberFormat(totals[group].vatZM));
+
+    }
 
     // Main Total
-    var tableMainTotalRow = table.addRow();
-    tableMainTotalRow.addCell("Total", "description bold total", 1);
-    tableMainTotalRow.addCell(formatNumber(mainSumCol1), "amount bold total", 1);
-    tableMainTotalRow.addCell(formatNumber(mainSumCol2), "amount bold total", 1);
-    tableMainTotalRow.addCell(formatNumber(mainSumCol3), "amount bold total", 1);
+    if (param.printCheckTotals) {
+        var tableMainTotalRow = table.addRow();
+        tableMainTotalRow.addCell("Total", "description bold total", 1);
+        tableMainTotalRow.addCell(formatNumber(totals["_tot_"].vatTaxable), "amount bold total", 1);
+        tableMainTotalRow.addCell(formatNumber(totals["_tot_"].vatPosted), "amount bold total", 1);
+        tableMainTotalRow.addCell(formatNumber(totals["_tot_"].vatZM), "amount bold total", 1);
+    }
+
+    //Create summary table
+    createVatReportSummary(totals, report);
 
     //Add Header and footer
     addHeader(report);
-    addFooter(report, param);
+    addFooter(report);
 
     return report;
 }
 
-function findVatCodes(code1, code2) {
+function createVatReportSummary(totals, report) {
+    var table = report.addTable("summary");
+    var col1 = table.addColumn("summaryCol1");
+    var col2 = table.addColumn("summaryCol2");
+    var col3 = table.addColumn("summaryCol3");
+    var col4 = table.addColumn("summaryCol4");
+    
+    //Header Berechnungen aus
+    createVatReportSummaryHeader("Berechnungen aus", table);
+
+    //Row 30
+    var vatPosted = "";
+    if (totals["1"])
+        vatPosted = totals["1"].vatPosted;
+    var sum = vatPosted;
+    var tableRow = table.addRow();
+    tableRow.addCell("30", "description", 1);
+    tableRow.addCell("Steuerpflichtige Umsätze (Summe)", "description", 1);
+    tableRow.addCell("", "amount", 1);
+    tableRow.addCell(formatNumber(vatPosted), "amount", 1);
+
+    //Row 36
+    vatPosted = "";
+    if (totals["2"])
+        vatPosted = totals["2"].vatPosted;
+    sum = Banana.SDecimal.add(sum, vatPosted);
+    tableRow = table.addRow();
+    tableRow.addCell("36", "description", 1);
+    tableRow.addCell("Innergemeinschaftliche Erwerbe (Summe)", "description", 1);
+    tableRow.addCell("+", "amount", 1);
+    tableRow.addCell(formatNumber(vatPosted), "amount", 1);
+
+    //Row 51
+    vatPosted = "";
+    if (totals["3"])
+        vatPosted = totals["3"].vatPosted;
+    sum = Banana.SDecimal.add(sum, vatPosted);
+    tableRow = table.addRow();
+    tableRow.addCell("51", "description", 1);
+    tableRow.addCell("Leistungsempfänger geschuldete Umsatzsteuer (Summe)", "description", 1);
+    tableRow.addCell("+", "amount", 1);
+    tableRow.addCell(formatNumber(vatPosted), "amount", 1);
+
+    //Row 51
+    // "1" + "2" + "3"
+    tableRow = table.addRow();
+    tableRow.addCell("51", "description", 1);
+    tableRow.addCell("Aufsummierung Umsatzsteuer (Summe)", "description", 1);
+    tableRow.addCell("=", "amount", 1);
+    tableRow.addCell(formatNumber(sum), "amount", 1);
+
+    //Row 60
+    vatPosted = "";
+    if (totals["4"])
+        vatPosted = totals["4"].vatPosted;
+    sum = Banana.SDecimal.add(sum, vatPosted);
+    tableRow = table.addRow();
+    tableRow.addCell("60", "description", 1);
+    tableRow.addCell("abziehbare Vorsteuer (Summe)", "description", 1);
+    tableRow.addCell("-", "amount", 1);
+    tableRow.addCell(formatNumber(vatPosted), "amount", 1);
+
+    //Row 60
+    // "1" + "2" + "3" + "4"
+    tableRow = table.addRow();
+    tableRow.addCell("60", "description", 1);
+    tableRow.addCell("verbleibender Betrag (Steuer)", "description", 1);
+    tableRow.addCell("=", "amount", 1);
+    tableRow.addCell(formatNumber(sum), "amount", 1);
+
+    //Header Andere Steuerbeträge
+    createVatReportSummaryHeader("Andere Steuerbeträge", table);
+
+    //Row 62
+    var vatCodes = findVatCodes([], ["65"]);
+    vatAmounts = Banana.document.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
+    sum = Banana.SDecimal.add(sum, Banana.Converter.toInternalNumberFormat(vatAmounts.vatPosted));
+    tableRow = table.addRow();
+    tableRow.addCell("62", "description", 1);
+    tableRow.addCell("Steuer infolge Wechsel der Besteuerungsform sowie Nachsteuer auf verteuerte Anzahlungen und ähnlichem egen Steuersatzänderung", "description", 1);
+    tableRow.addCell("", "amount", 1);
+    tableRow.addCell(formatNumber(vatAmounts.vatPosted), "amount", 1);
+
+    //Row 63
+    vatCodes = findVatCodes([], ["69"]);
+    vatAmounts = Banana.document.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
+    sum = Banana.SDecimal.add(sum, Banana.Converter.toInternalNumberFormat(vatAmounts.vatPosted));
+    tableRow = table.addRow();
+    tableRow.addCell("63", "description", 1);
+    tableRow.addCell("In Rechnungen unrichtig oder unberechtigt ausgewiesene Seuerbeträge (§ 14c UStG) sowie Steuerbeträge, die nach § 6a Absatz 4 Satz 2, § 17 Absatz 1 Satz 6, § 2rb Absatz 2 UStG oder von einem Auslagerer oder Lagehalter nach § 13a Absatz 1 Nummer 6 UStG geschuldet werden", "description", 1);
+    tableRow.addCell("+", "amount", 1);
+    tableRow.addCell(formatNumber(vatAmounts.vatPosted), "amount", 1);
+
+    //Row 64
+    tableRow = table.addRow();
+    tableRow.addCell("64", "description", 1);
+    tableRow.addCell("Umsatzsteuer-Vorauszahlung / Überschuss (Steuer)", "description", 1);
+    tableRow.addCell("=", "amount", 1);
+    tableRow.addCell(formatNumber(sum), "amount", 1);
+
+    //Row 65
+    vatCodes = findVatCodes([], ["39"]);
+    vatAmounts = Banana.document.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
+    sum = Banana.SDecimal.add(sum, Banana.Converter.toInternalNumberFormat(vatAmounts.vatPosted));
+    tableRow = table.addRow();
+    tableRow.addCell("65", "description", 1);
+    tableRow.addCell("Abzug der festgesetzten Sondervorauszahlung für Dauerverlängerung (in der Regel nur in denr letzten Voranmeldung des Besteuerungszeitraums auszufüllen)", "description", 1);
+    tableRow.addCell("-", "amount", 1);
+    tableRow.addCell(formatNumber(vatAmounts.vatPosted), "amount", 1);
+
+    //Header Verbleibende Umsatzsteuer-Vorauszahlung
+    createVatReportSummaryHeader("Verbleibende Umsatzsteuer-Vorauszahlung, Verbleibender Überschuss", table);
+
+    //Row 66
+    tableRow = table.addRow();
+    tableRow.addCell("66", "description", 1);
+    tableRow.addCell("Verbleibende Umsatzsteuer-Vorauszahlung beziehungsweise verbleibender Überschuss", "description", 1);
+    tableRow.addCell("=", "amount", 1);
+    tableRow.addCell(formatNumber(sum), "amount", 1);
+
+    //Row 66
+    tableRow = table.addRow();
+    tableRow.addCell("66", "description", 1);
+    tableRow.addCell("Manuelle Berechnung: Verbleibende Umsatzsteuer-Vorauszhalung beziehungsweise verbleibender Überschuss", "description", 1);
+    tableRow.addCell("=", "amount", 1);
+    tableRow.addCell("", "amount", 1);
+
+    //Checksum
+    var tableVatReport = Banana.document.vatReport(param.startDate, param.endDate);
+    var totalRow = tableVatReport.findRowByValue("Group", "_tot_");
+    vatPosted = totalRow.value("VatPosted");
+    
+    tableRow = table.addRow();
+    tableRow.addCell("Checksum with Banana vat report", "description", 2);
+    tableRow.addCell("", "amount", 1);
+    tableRow.addCell(formatNumber(vatPosted), "amount", 1);
+
+    tableRow = table.addRow();
+    tableRow.addCell("Difference", "description", 2);
+    tableRow.addCell("", "amount", 1);
+    var diff = Banana.SDecimal.subtract(sum, Banana.Converter.toInternalNumberFormat(vatPosted));
+    tableRow.addCell(formatNumber(diff), "amount", 1);
+ 
+}
+
+function createVatReportSummaryHeader(text, table) {
+    var tableRow = table.addRow();
+    tableRow.addCell(text, "headerRow", 4);
+
+    tableRow = table.addRow();
+    tableRow.addCell("", "bold");
+    tableRow.addCell("", "bold amount");
+    tableRow.addCell("", "bold amount");
+    tableRow.addCell("Steuer (Euro, Cent)", "bold amount");
+}
+
+function findVatCodes(arrayGr, arrayGr2) {
     var vatCodes = [];
     var tableVatCodes = Banana.document.table("VatCodes");
     if (!tableVatCodes)
         return vatCodes;
+    if (!arrayGr)
+        arrayGr = [];
+    if (!arrayGr2)
+        arrayGr2 = [];
     for (var rowNr = 0; rowNr < tableVatCodes.rowCount; rowNr++) {
-        var rowValue1 = tableVatCodes.value(rowNr, "Gr").toString();
-        var rowValue2 = tableVatCodes.value(rowNr, "Gr2").toString();
-        if ((arrayContains(code1, rowValue1) || code1.length <= 0) && (arrayContains(code2, rowValue2) || code2.length <= 0)) {
+        var rowValueGr = tableVatCodes.value(rowNr, "Gr").toString();
+        var rowValueGr2 = tableVatCodes.value(rowNr, "Gr2").toString();
+        if ((arrayContains(arrayGr, rowValueGr) || arrayGr.length <= 0) && (arrayContains(arrayGr2, rowValueGr2) || arrayGr2.length <= 0)) {
             var vatCode = tableVatCodes.value(rowNr, "VatCode");
             vatCodes.push(vatCode);
         }
@@ -276,29 +442,40 @@ function findVatCodes(code1, code2) {
     return vatCodes;
 }
 
+function getVatGroupDescription(group) {
+    var description = group;
+    if (description.length <= 0)
+        return description;
+    var tableVatCodes = Banana.document.table("VatCodes");
+    if (tableVatCodes) {
+        var row = tableVatCodes.findRowByValue('Group', group);
+        if (row)
+            description = row.value("Description").toString();
+    }
+    return description;
+}
+
 function loadData() {
     var tableVatCodes = Banana.document.table("VatCodes");
     if (!tableVatCodes)
         return;
 
-    //Look at column Gr2 for codes
+    //Load Gr2 groups and associated vat codes
     param.gr2List = {};
     for (var i = 0; i < tableVatCodes.rowCount; i++) {
         var tRow = tableVatCodes.row(i);
         var gr = tRow.value('Gr').toString();
         var gr2 = tRow.value('Gr2').toString();
-        if (gr.length <= 0)
+        if (gr.length <= 0 || gr2.length <= 0)
             continue;
-        /*if (gr.length <= 0 || gr2.length <= 0)
-            continue;*/
         if (!param.gr2List[gr]) {
             param.gr2List[gr] = [];
         }
-        if (gr2.length > 0 && param.gr2List[gr].indexOf(gr2) < 0) {
+        if (param.gr2List[gr].indexOf(gr2) < 0) {
             param.gr2List[gr].push(gr2);
         }
     }
-	//Banana.console.debug(JSON.stringify(param.gr2List, null, 2));
+    //Banana.console.debug(JSON.stringify(param.gr2List, null, 2));
 }
 
 /* Function that loads some parameters */
@@ -318,6 +495,8 @@ function loadParam(startDate, endDate) {
             "rounding": 2
         };
     }
+    param.reportName = "USt Voranmeldung";
+    param.printCheckTotals = true;
 }
 
 /* The purpose of this function is to convert the value to local format */
