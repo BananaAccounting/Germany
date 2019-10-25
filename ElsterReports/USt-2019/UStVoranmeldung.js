@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.elster_USt_Vornamedlung_2019
 // @api = 1.0
-// @pubdate = 2019-10-24
+// @pubdate = 2019-10-25
 // @publisher = Banana.ch SA
 // @description = Elster Umsatzsteuer Voranmeldung 2019
 // @task = app.command
@@ -30,8 +30,8 @@ var param = {};
 /* Main function */
 function exec(inData, options) {
 
-    //Check the version of Banana. If < than 9.0.0.171128 the script does not start
-    var requiredVersion = "9.0.0.171128";
+    //Check the version of Banana. If < than 9.0.4 the script does not start
+    var requiredVersion = "9.0.4";
     if (Banana.compareVersion && Banana.compareVersion(Banana.application.version, requiredVersion) >= 0) {
 
         var dateform = null;
