@@ -183,7 +183,7 @@ function createVatReport(startDate, endDate) {
     var title = "Steuerfreie Umsätze mit Vorsteuerabzug";
     table.addRow().addCell(title, "headerRow", 5);
 
-    createVatReportAddRow("41;ZM", "IgL (§ 4 Nr. 1b UStG) an Abnehmer mit USt-ID", table, totals);
+    createVatReportAddRow("41;ZM", "IgL (§ 4 Nr. 1b UStG) an Abnehmer mit USt-ID (ZM)", table, totals);
     createVatReportAddRow("44", "IgL (§ 4 Nr. 1b UStG) neuer Fahrzeuge an Abnehmer ohne USt-ID", table, totals);
     createVatReportAddRow("49", "IgL (§ 4 Nr. 1b UStG) neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG)", table, totals);
 
@@ -220,9 +220,9 @@ function createVatReport(startDate, endDate) {
     title = "Ergänzende Angaben zu Umsätzen";
     table.addRow().addCell(title, "headerRow", 5);
 
-    createVatReportAddRow("42", "Lieferungen des ersten Abnehmers bei innergemeinschaftlichen Dreiecksgeschäften (§ 25b UStG)", table, totals);
+    createVatReportAddRow("42;ZM", "Lieferungen des ersten Abnehmers bei innergemeinschaftlichen Dreiecksgeschäften (§ 25b UStG) (ZM)", table, totals);
 	createVatReportAddRow("60", "Steuerpflichtige Umsätze, für die der Leistungsempfänger die Steuer nach § 13b Abs. 5 UStG schuldet", table, totals);
-	createVatReportAddRow("21", "Nicht steuerbare sonstige Leistungen gemäß § 18b Satz 1 Nr. 2 UStG", table, totals);
+	createVatReportAddRow("21;ZM", "Nicht steuerbare sonstige Leistungen gemäß § 18b Satz 1 Nr. 2 UStG (ZM)", table, totals);
 	createVatReportAddRow("45", "Übrige nicht steuerbare Umsätze (Leistungsort nicht im Inland)", table, totals);
 
     title = "Leistungsempfänger als Steuerschuldner (§ 13b UStG)";
