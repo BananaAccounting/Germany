@@ -136,7 +136,7 @@ function createStyleSheet() {
     stylesheet.addStyle("table td", "padding-bottom: 2px; padding-top: 3px");
     stylesheet.addStyle("table td", "border:thin solid black;");
     stylesheet.addStyle("table td.amount", "text-align:right;");
-    stylesheet.addStyle(".checkTotals", "border:0ox solid white;");
+    stylesheet.addStyle(".noBorder", "border:0ox solid white;");
     stylesheet.addStyle("table td.headerRow", "font-size:10pt;font-weight:bold;padding-top: 8px;padding-bottom: 4px;");
     stylesheet.addStyle("table td.total", "padding-top: 5px;padding-bottom: 5px;");
 
@@ -478,25 +478,35 @@ function createVatReportSummary(report, totals) {
     var totalRow = tableVatReport.findRowByValue("Group", "_tot_");
     vatPosted = totalRow.value("VatPosted");
     vatPosted = Banana.SDecimal.invert(vatPosted);
-    
-    tableRow = table.addRow();
-    tableRow.addCell("","checkTotals", 4);
-    tableRow = table.addRow();
-    tableRow.addCell("VAT/Sales tax report in Banana (for checksum)", "description checkTotals", 2);
-    tableRow.addCell("", "amount checkTotals", 1);
-    tableRow.addCell(formatNumber(vatPosted), "amount checkTotals", 1);
 
+    //empty row
     tableRow = table.addRow();
-    tableRow.addCell("Difference", "description  checkTotals", 2);
-    tableRow.addCell("", "amount  checkTotals", 1);
-    var diff = Banana.SDecimal.subtract(vatPosted, sum);
-    tableRow.addCell(formatNumber(diff), "amount  checkTotals", 1);
+    tableRow.addCell("", "noBorder", 4);
+
+    if (param.printCheckTotals) {
+        tableRow = table.addRow();
+        tableRow.addCell("", "noBorder", 4);
+        tableRow = table.addRow();
+        tableRow.addCell("VAT/Sales tax report in Banana (for checksum)", "description noBorder", 2);
+        tableRow.addCell("", "amount noBorder", 1);
+        tableRow.addCell(formatNumber(vatPosted), "amount noBorder", 1);
+
+        tableRow = table.addRow();
+        tableRow.addCell("Difference", "description  noBorder", 2);
+        tableRow.addCell("", "amount  noBorder", 1);
+        var diff = Banana.SDecimal.subtract(vatPosted, sum);
+        tableRow.addCell(formatNumber(diff), "amount  noBorder", 1);
+    }
 
     for (var m = 0; m < vatCodesList.length; m++) {
         var vatCode = vatCodesList[m];
+        //if the vat code is excluded from printout, no warning is printed
+        if (param.excludedVatCodes.indexOf(vatCode) >= 0)
+            continue;
+        //if the vat code is not found in the printout, warning is printed
         if (param.vatCodes.indexOf(vatCode) < 0) {
             tableRow = table.addRow();
-            tableRow.addCell("The vat code " + vatCode + " is not included in this printout", "description  checkTotals", 4);
+            tableRow.addCell("The vat code " + vatCode + " is not included in this printout", "description  noBorder", 4);
         }
     }
 }
@@ -556,7 +566,7 @@ function loadData() {
     if (!tableVatCodes)
         return;
 
-    //Load Gr2 groups and associated vat codes
+    //Load data from column Gr2, grouped by column Gr
 	if (!param)
 	    param = {};
     param.gr2List = {};
@@ -573,6 +583,7 @@ function loadData() {
             param.gr2List[gr].push(gr2);
         }
     }
+
     //Banana.console.debug(JSON.stringify(param.gr2List, null, 2));
 }
 
@@ -594,9 +605,18 @@ function loadParam(startDate, endDate) {
         };
     }
     param.reportName = "USt Voranmeldung";
-    param.printCheckTotals = false;
+    param.printCheckTotals = true;
     param.gr2List = {};
     param.vatCodes = [];
+
+    // Not used vat codes
+    // These vat codes aren't printed in the vat report and excluded from sum check
+    param.excludedVatCodes = [];
+    param.excludedVatCodes.push("240-352");
+    param.excludedVatCodes.push("240-355");
+    param.excludedVatCodes.push("250-352");
+    param.excludedVatCodes.push("250-355");
+
 }
 
 /* The purpose of this function is to convert the value to local format */
