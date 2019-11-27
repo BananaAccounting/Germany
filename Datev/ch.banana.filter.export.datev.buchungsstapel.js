@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2019-01-10
+// @pubdate = 2019-11-27
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -740,13 +740,13 @@ DatevBuchungsstapel.prototype.loadData = function () {
 
          //7. Konto
          valueAccount = filteredRows[i].value("JAccount");
-         if (this.param["kontenzuordnungSelected"])
+         if (this.param["kontenzuordnungSelected"] === "true")
             valueAccount = this.getDatevAccount(valueAccount);
          line.push(valueAccount);
 
          //8. Gegenkonto
          valueContraAccount = filteredRows[i].value("JContraAccount");
-         if (this.param["kontenzuordnungSelected"])
+         if (this.param["kontenzuordnungSelected"] === "true")
             valueContraAccount = this.getDatevAccount(valueContraAccount);
          line.push(valueContraAccount);
 
