@@ -26,7 +26,6 @@ var ID_ERR_VERSION_NOTSUPPORTED = "ID_ERR_VERSION_NOTSUPPORTED";
 
 var ID_PAYMENT_METHOD_SEPA_DIRECTDEBIT = "SEPADIRECTDEBIT";
 
-
 function createTransferFile(msgId, executionDate, accountData, paymentData) {
 
     /*Banana.console.debug("msgId: " + msgId);
