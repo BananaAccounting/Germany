@@ -1,0 +1,21 @@
+{
+	"country":"germany",
+	"countryCode":"de",
+	"description": "SEPA PAIN.001 Credit Transactions (ISO 20022)",
+	"docUri": "",
+	"fileExtension": "xml",
+	"mimeType": "text/xml",
+	"script": {
+		"function": "exec",
+		"uri": "ch.banana.eu.pain001.sbaa/creator.js"
+	},
+	"xml": {
+		"namespace": [
+		"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03",
+		"urn:iso:std:iso:20022:tech:xsd:pain.001.002.03",
+		"urn:iso:std:iso:20022:tech:xsd:pain.001.003.03",
+		"http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd"
+		],
+		"rootItem": "Document"
+	}
+}

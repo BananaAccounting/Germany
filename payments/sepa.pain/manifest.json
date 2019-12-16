@@ -1,0 +1,11 @@
+{
+    "category": "productivity",
+    "country":"germany",
+    "countryCode":"de",
+    "description": "Payment extension for european countries SEPA PAIN.001-ISO 20022 (.xml)",
+    "id": "ch.banana.europe.iso20022.pain",
+    "language":"de",
+    "publisher": "Banana.ch",
+    "title": "Payment extension for european countries SEPA PAIN.001-ISO 20022 (.xml)",
+    "version": "1.0"
+}

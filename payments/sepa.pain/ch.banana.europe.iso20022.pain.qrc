@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+ <qresource>
+    <file>ch.banana.europe.iso20022.pain.js</file>
+    <file>ch.banana.europe.iso20022.pain.qrc</file>
+    <file>converter.json</file>
+    <file>creator.js</file>
+    <file>manifest.json</file>
+ </qresource>
+</RCC>
