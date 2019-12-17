@@ -61,8 +61,7 @@ function createTransferFile(msgId, executionDate, accountData, paymentData) {
 
     // Create a transfer file which contains all data to transfer
     //...
-
-    return "@cancel";
+	return "<?xml version='1.0' encoding='utf-8'?><Document></Document>";
 }
 
 function getEditorParams(paymentData) {
