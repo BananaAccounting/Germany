@@ -17,7 +17,7 @@
 // @pubdate = 2019-12-04
 // @publisher = Banana.ch SA
 // @description =   Credit transfer files creation for european countries (SEPA PAIN.001)
-// @task = payment
+// @task = accounting.payment
 // @doctype = *
 
 var ID_ERR_ELEMENT_EMPTY = "ID_ERR_ELEMENT_EMPTY";
