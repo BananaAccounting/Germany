@@ -75,7 +75,10 @@ function getEditorParams(paymentData) {
     if (methodId == ID_PAYMENT_METHOD_SEPA_DIRECTDEBIT) {
         convertedParam = getEditorParamsSepaDirectDebit(paymentData);
     }
-
+	else {
+		return convertedParam;
+	}
+	
     convertedParam.readValues = function () {
         for (var i = 0; i < convertedParam.data.length; i++) {
             if (typeof (convertedParam.data[i].readValue) !== 'undefined') {
