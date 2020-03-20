@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// @id = ch.banana.de.elster_USt_Vornamedlung_2019
+// @id = ch.banana.de.elster_USt_Vornamedlung_ab_2019
 // @api = 1.0
 // @pubdate = 2019-11-12
 // @publisher = Banana.ch SA
-// @description = Elster Umsatzsteuer Voranmeldung 2019
+// @description = Elster Umsatzsteuer Voranmeldung ab 2019
 // @task = app.command
 // @doctype = 100.110;110.110;130.110;100.130
 // @docproperties = 
@@ -74,7 +74,7 @@ function addHeader(report) {
     pageHeader.addParagraph(param.title, "heading");
     pageHeader.addParagraph(param.version, "");
     pageHeader.addParagraph(" ", "");
-    pageHeader.addParagraph("Elster Umsatzsteuer-Voranmeldung 2019", "h1");
+    pageHeader.addParagraph("Elster Umsatzsteuer-Voranmeldung", "h1");
 
     if (param.headerLeft) {
         pageHeader.addParagraph(param.headerLeft, "bold");
