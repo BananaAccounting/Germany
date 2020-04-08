@@ -1,4 +1,4 @@
-﻿// Copyright [2018] [Banana.ch SA - Lugano Switzerland]
+﻿// Copyright [2020] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2019-11-27
+// @pubdate = 2020-04-08
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -330,16 +330,19 @@ DatevBuchungsstapel.prototype.filterTransactions = function (row, index, table) 
    if (operationType && operationType != 3)
       return false;
 
-   //vat transactions are excluded
+   //vat transactions are excluded, except those with tax amount type=2 (VAT sales tax amounts)
+   //because the amount in the contra account is empty (no amount in JAmount and neither in JAmountAccountCurrency ). 
+   var vatType = row.value("VatAmountType");
    var isVatOperation = row.value("JVatIsVatOperation");
-   if (isVatOperation && !isVatOperation.isEmpty)
+   if (isVatOperation && !isVatOperation.isEmpty && vatType !== '2')
       return false;
-
+   if ((!isVatOperation || isVatOperation.isEmpty) && vatType == '2')
+      return false;
    //rows with ContraAccountMultipleFirst and  ContraAccountVat are excluded
    //ContraAccountNone = 0, ContraAccountDirect = 1, ContraAccountMultipleFirst = 2,
    //ContraAccountMultipleFollow = 4, ContraAccountVat = 8,
    var contraAccountType = row.value("JContraAccountType");
-   if (contraAccountType && contraAccountType == 8)
+   if (contraAccountType && contraAccountType == 8 && vatType !== '2')
       return false;
    if (contraAccountType && contraAccountType == 2)
       return false;
@@ -471,8 +474,10 @@ DatevBuchungsstapel.prototype.getErrorMessage = function (errorId) {
 DatevBuchungsstapel.prototype.getSteuerSchlussel = function (transactionRow, valueAccount, valueContraAccount) {
 
    //get vatcode from table Transactions
+   //transactions with only vat amount (tax amount type=2) has no steuerschlüssel
    var vatCode = transactionRow.value("VatCode");
-   if (!vatCode || vatCode.length <= 0)
+   var vatType = transactionRow.value("VatAmountType");
+   if (!vatCode || vatCode.length <= 0 || vatType === '2')
       return "";
 
    //check if it is a reversal transaction with minus vatcode
@@ -679,14 +684,16 @@ DatevBuchungsstapel.prototype.loadData = function () {
                amountIsValid = true;
             }
          }
+         var vatType = filteredRows[i].value("VatAmountType");
          var amountSign = Banana.SDecimal.sign(value);
          var transactionCurrency = filteredRows[i].value("JTransactionCurrency");
          value = Banana.SDecimal.abs(value);
          if (amountIsValid) {
             //if transaction has vatcode takes gross amount
+			//if vat type=2 (only vat amount) prints only vat amount because net amount is in a different row
             var vatCode = filteredRows[i].value("VatCode");
             if (vatCode && vatCode.length > 0
-               && transactionCurrency === accountingData.accountingBasicCurrency) {
+               && transactionCurrency === accountingData.accountingBasicCurrency && vatType !== '2') {
                var valueTax = filteredRows[i].value("VatTaxable");
                value = filteredRows[i].value("VatAmount");
                value = Banana.SDecimal.add(Banana.SDecimal.abs(valueTax), Banana.SDecimal.abs(value));
