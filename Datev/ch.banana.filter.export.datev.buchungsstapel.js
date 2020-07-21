@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2020-04-08
+// @pubdate = 2020-07-20
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -506,6 +506,19 @@ DatevBuchungsstapel.prototype.getSteuerSchlussel = function (transactionRow, val
    if (!steuerkey)
       return "";
 
+   //if steuerschlüssel contains '-' the string will be splitted, the second part is Funktionsergänzung
+   // Beispiel: 100-160 
+   // *	100 muss in der Spalte „BU-Schlüssel“ eingetragen werden.
+   // *	160 muss in der Spalte „Funktionsergänzung L&L“ eingetragen werden
+   var functionL = "";
+   if (steuerkey.indexOf("-")>0) {
+      var steuerkeyList = steuerkey.split("-");
+	  if (steuerkeyList.length==2) {
+         steuerkey = steuerkeyList[0];
+         functionL = steuerkeyList[1];
+      }
+   }
+
    //aufhebung der automatik
    if (parseInt(steuerkey) == 40)
       return "40";
@@ -522,6 +535,10 @@ DatevBuchungsstapel.prototype.getSteuerSchlussel = function (transactionRow, val
          steuerkey = "2" + steuerkey;
       }
    }
+
+   //Add Funktionsergänzung to steuerkey
+   if (functionL.length>0)
+      steuerkey = steuerkey + "-" + functionL;
 
    if (!this.isAutomaticAccount(valueAccount) && !this.isAutomaticAccount(valueContraAccount)) {
       return steuerkey;
@@ -651,7 +668,6 @@ DatevBuchungsstapel.prototype.loadData = function () {
             tableTransactions.addMessage(msg, originalRowNumber, fieldName, this.ID_ERR_DATEV_NODATE);
             continue;
          }
-
          var valueDate = Banana.Converter.stringToDate(value, "YYYY-MM-DD");
          if (valueDate >= vonDate && valueDate <= bisDate)
             validPeriod = true;
@@ -758,10 +774,19 @@ DatevBuchungsstapel.prototype.loadData = function () {
          line.push(valueContraAccount);
 
          //9. BU-Schlüssel
+		 // getSteuerSchlussel() returns BU-Schlüssel + value 44. Funktionsergänzung L+L
+		 var functionL = "";
          value = this.getSteuerSchlussel(filteredRows[i], valueAccount, valueContraAccount);
          if (value == "@Cancel") {
             line = [];
             continue;
+         }
+         if (value.indexOf("-")>0) {
+            var steuerkeyList = value.split("-");
+            if (steuerkeyList.length==2) {
+               value = steuerkeyList[0];
+               functionL = steuerkeyList[1];
+            }
          }
          line.push(this.toTextFormat(value));
 
@@ -808,7 +833,6 @@ DatevBuchungsstapel.prototype.loadData = function () {
          value = "";
          line.push(value);
 
-
          //18. Sachverhalt
          value = "";
          line.push(value);
@@ -821,67 +845,86 @@ DatevBuchungsstapel.prototype.loadData = function () {
          value = "";
          line.push(this.toTextFormat(value));
 
-         //empty fields
+         //Beleginfo - Art
+		 //Beleginfo - Inhalt
          value = "";
-         for (var j = 21; j <= 38; j++)
+         for (var j = 21; j <= 36; j++)
             line.push(this.toTextFormat(value));
 
-         //empty field
-         //39.
+         //37. KOST1 - Kostenstelle 
+         value = "";
+         line.push(value);
+
+         //38. KOST2 - Kostenstelle
+         value = "";
+         line.push(value);
+
+		 //39. Kost-Menge
          value = "";
          line.push(value);
 
          //40. EU-Land u. UStID
          value = filteredRows[i].value("VatNumber");
-         /*if (value.length > 0)
-         {
+         /*if (value.length > 0) {
              value = this.getCountry(tableAccounts, value) + value;
          }*/
          line.push(this.toTextFormat(value));
 
-         //41.
+         //41. EU-Steuersatz
          value = "";
          line.push(value);
-         //42.
+		 
+         //42. Abw. Versteuerungsart
          value = "";
          line.push(this.toTextFormat(value));
-         //43.
+		 
+         //43. Sachverhalt L+L
          value = "";
          line.push(value);
-         //44.
+		 
+         //44. Funktionsergänzung L+L
+         value = functionL;
+         line.push(value);
+		 
+         //45. BU 49 Hauptfunktionstyp
          value = "";
          line.push(value);
-         //45.
+		 
+         //46. BU 49 Hauptfunktionsnummer
          value = "";
          line.push(value);
-         //46.
-         value = "";
-         line.push(value);
-         //47.
+		 
+         //47. BU 49 Funktionsergänzung
          value = "";
          line.push(value);
 
-         //empty fields
+         //Zusatzinformation - Art
+		 //Zusatzinformation - Inhalt
          value = "";
          for (var j = 48; j <= 87; j++)
             line.push(this.toTextFormat(value));
 
-         //88.
+         //88. Stück
          value = "";
          line.push(value);
-         //89.
+		 
+         //89. Gewicht
          value = "";
          line.push(value);
-         //90.
+		 
+         //90. Zahlweise
          value = "";
          line.push(value);
-         //91.
+		 
+         //91. Forderungsart
          value = "";
          line.push(this.toTextFormat(value));
-         //92.
+		 
+         //92. Veranlagungsjahr
          value = "";
          line.push(value);
-         //93.
+		 
+         //93. Zugeordnete Fälligkeit
          value = "";
          line.push(value);
 
