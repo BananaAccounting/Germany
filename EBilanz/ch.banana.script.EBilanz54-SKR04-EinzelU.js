@@ -475,7 +475,9 @@ function printEBilanzReport(report, stylesheet, param, context)
   //Footer
   var reportFooter = report.getFooter();
   reportFooter.addClass("center");
-  reportFooter.addParagraph(Banana.Converter.toLocaleDateFormat(new Date()) + " Page ").addFieldPageNr();
+  var pFooter = reportFooter.addParagraph(Banana.Converter.toLocaleDateFormat(new Date()) + " Page ");
+  pFooter.addFieldPageNr();
+  pFooter.excludeFromTest();
   
   //Header 
   var reportHeader = report.getHeader();
