@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2020-07-20
+// @pubdate = 2021-05-20
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -638,6 +638,7 @@ DatevBuchungsstapel.prototype.loadData = function () {
 
       var line = [];
       var value = "";
+      var fieldDate = "";
       var fieldName = "";
       var valueAccount = "";
       var valueContraAccount = "";
@@ -655,17 +656,17 @@ DatevBuchungsstapel.prototype.loadData = function () {
          if (parseInt(this.param["selektionskriteriumValue"]) == 0) {
             //"Buchungsdatum"
             value = filteredRows[i].value("Date");
-            fieldName = "Date";
+            fieldDate = "Date";
          }
          else if (parseInt(this.param["selektionskriteriumValue"]) == 1) {
             //"Belegdatum"
             value = filteredRows[i].value("DateDocument");
-            fieldName = "DateDocument";
+            fieldDate = "DateDocument";
          }
 
          if (value.length <= 0) {
             var msg = this.getErrorMessage(this.ID_ERR_DATEV_NODATE);
-            tableTransactions.addMessage(msg, originalRowNumber, fieldName, this.ID_ERR_DATEV_NODATE);
+            tableTransactions.addMessage(msg, originalRowNumber, fieldDate, this.ID_ERR_DATEV_NODATE);
             continue;
          }
          var valueDate = Banana.Converter.stringToDate(value, "YYYY-MM-DD");
@@ -681,7 +682,7 @@ DatevBuchungsstapel.prototype.loadData = function () {
          if (!validPeriod) {
             if (!isPeriodSelected) {
                var msg = this.getErrorMessage(this.ID_ERR_DATEV_PERIODNOTVALID);
-               tableTransactions.addMessage(msg, originalRowNumber, fieldName, this.ID_ERR_DATEV_PERIODNOTVALID);
+               tableTransactions.addMessage(msg, originalRowNumber, fieldDate, this.ID_ERR_DATEV_PERIODNOTVALID);
             }
             continue;
          }
@@ -791,11 +792,7 @@ DatevBuchungsstapel.prototype.loadData = function () {
          line.push(this.toTextFormat(value));
 
          //10. Belegdatum
-         value = filteredRows[i].value("DateDocument");
-         if (!value)
-            value = "";
-         if (value.length <= 0)
-            value = filteredRows[i].value("Date");
+         value = filteredRows[i].value(fieldDate);
          if (!value)
             value = "";
          line.push(Banana.Converter.changeDateFormat(value, "YYYY-MM-DD", "DDMM"));
