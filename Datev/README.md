@@ -2,7 +2,7 @@
 
 BananaApp that export from a Banana Accounting file to Datev format.
 
-For more information see [web page on www.banana.ch](https://doc8.banana.ch/de/apps_de_banana_banapp_datev))
+For more information see [web page on www.banana.ch](https://www.banana.ch/apps/de/node/8801))
 
 ## DATEV Developer Documentation 
 ### Subscription for technical information
