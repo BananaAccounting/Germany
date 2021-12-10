@@ -1,4 +1,4 @@
-// Copyright [2018] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2021] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.test
 // @api = 1.0
-// @pubdate = 2018-12-11
+// @pubdate = 2021-12-10
 // @publisher = Banana.ch SA
 // @description = <TEST ch.banana.de.app.spendenbescheinigung.js>
 // @task = app.command
@@ -83,6 +83,7 @@ ReportTest.prototype.testBananaApp = function() {
   userParam.printUnterschrift = false;
   userParam.signatureImage = '';
   userParam.imageHeight = '';
+  userParam.printPageNumber = true;
 
   banDoc = Banana.application.openDocument(file1);
   Test.assert(banDoc);
@@ -111,6 +112,7 @@ ReportTest.prototype.testBananaApp = function() {
   userParam.printUnterschrift = false;
   userParam.signatureImage = '';
   userParam.imageHeight = '';
+  userParam.printPageNumber = true;
 
   banDoc = Banana.application.openDocument(file1);
   Test.assert(banDoc);
@@ -139,6 +141,7 @@ ReportTest.prototype.testBananaApp = function() {
   userParam.printUnterschrift = false;
   userParam.signatureImage = '';
   userParam.imageHeight = '';
+  userParam.printPageNumber = true;
 
   banDoc = Banana.application.openDocument(file2);
   Test.assert(banDoc);
@@ -167,6 +170,7 @@ ReportTest.prototype.testBananaApp = function() {
   userParam.printUnterschrift = true;
   userParam.signatureImage = 'documents:unterschrift';
   userParam.imageHeight = '';
+  userParam.printPageNumber = true;
 
   banDoc = Banana.application.openDocument(file2);
   Test.assert(banDoc);
