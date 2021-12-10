@@ -1,4 +1,4 @@
-// Copyright [2020] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2021] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2020-12-21
+// @pubdate = 2021-12-10
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung für Vereine in Deutschland
 // @description.de = Spendenbescheinigung für Vereine in Deutschland
@@ -325,8 +325,8 @@ function createReport(banDoc, startDate, endDate, userParam) {
         *************************************/
         var text1 = "Hinweis:";
         var text2 = "Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder wer veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG).";
-        var text3 = "Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungsbescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach";
-        var text4 = "§ 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO).";
+        var text3 = "Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungsbescheides länger als 5 Jahre bzw. das Datum der Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides zurückliegt (§ 63 Abs. 5 AO).";
+        var text4 = "";
         report.addParagraph(" ", "");
         report.addParagraph(text1, "bold");
         report.addParagraph(text2, "");
@@ -368,7 +368,9 @@ function createReport(banDoc, startDate, endDate, userParam) {
         }
     }
 
-    addFooter(report);
+    if (userParam.printPageNumber) {
+        addFooter(report);
+    }
 
     /* Return the report */
 	return report;
@@ -1022,6 +1024,18 @@ function convertParam(userParam) {
     }
     convertedParam.data.push(currentParam);
 
+    // print page number
+    var currentParam = {};
+    currentParam.name = 'printPageNumber';
+    currentParam.parentObject = 'signature';
+    currentParam.title = 'Seitennummer ausdrucken';
+    currentParam.type = 'bool';
+    currentParam.value = userParam.printPageNumber ? true : false;
+    currentParam.readValue = function() {
+        userParam.printPageNumber = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
     return convertedParam;
 }
 
@@ -1046,6 +1060,7 @@ function initUserParam() {
     userParam.printUnterschrift = '';
     userParam.signatureImage = '';
     userParam.imageHeight = '';
+    userParam.printPageNumber = true;
     return userParam;
 }
 
