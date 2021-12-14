@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2021-12-10
+// @pubdate = 2021-12-14
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung für Vereine in Deutschland
 // @description.de = Spendenbescheinigung für Vereine in Deutschland
@@ -111,6 +111,16 @@ function createReport(banDoc, startDate, endDate, userParam) {
         var trDate = getTransactionDate(banDoc, donorsToPrint[k], startDate, endDate);
         var text = "";
 
+        // User can define a javascript function to change the print of the donator account
+        // example "(function(text) {return text.split('_')[1];})"
+        var account = donorsToPrint[k].substring(1);
+        if (userParam.accountMethod && userParam.accountMethod.length > "0") {
+            var accMethod = eval(userParam.accountMethod);
+            if (typeof(accMethod) === 'function') {
+               account = accMethod(account);
+            }
+        }
+
         report.addParagraph(" ", "");
         report.addParagraph(" ", "");
         report.addParagraph(" ", "");
@@ -157,13 +167,13 @@ function createReport(banDoc, startDate, endDate, userParam) {
         var address = getAddress(banDoc, donorsToPrint[k]);
 
         if (address.firstname && address.familyname && userParam.printAccount) {
-            report.addParagraph(address.firstname + " " + address.familyname + "                                                             Mitgliedskonto: " + donorsToPrint[k].substring(1), "address");
+            report.addParagraph(address.firstname + " " + address.familyname + "                                                             Mitgliedskonto: " + account, "address");
         }
         else if (address.firstname && address.familyname && !userParam.printAccount) {
             report.addParagraph(address.firstname + " " + address.familyname, "address");
         }
         else if (!address.firstname && address.familyname && userParam.printAccount) {
-            report.addParagraph(address.familyname + "                                                             Mitgliedskonto: " + donorsToPrint[k].substring(1), "address");
+            report.addParagraph(address.familyname + "                                                             Mitgliedskonto: " + account, "address");
         }
         else if (!address.firstname && address.familyname && !userParam.printAccount) {
             report.addParagraph(address.familyname, "address");
@@ -222,7 +232,7 @@ function createReport(banDoc, startDate, endDate, userParam) {
         paragraph01.addParagraph(address.street + ", " + address.postalcode + " " + address.locality, "bold");
         
         if (userParam.printAccount) {
-            paragraph01.addParagraph("Mitgliedskonto: " + donorsToPrint[k].substring(1), "bold");
+            paragraph01.addParagraph("Mitgliedskonto: " + account, "bold");
         }
         
         report.addParagraph(" ", "");
@@ -346,9 +356,9 @@ function createReport(banDoc, startDate, endDate, userParam) {
 
         report.addParagraph(text1, "bold");
         if (address.firstname && address.familyname) {
-            report.addParagraph(donorsToPrint[k].substring(1) + ": " + address.firstname + " " + address.familyname + ", " + address.street + ", " + address.postalcode + " " + address.locality, "");
+            report.addParagraph(account + ": " + address.firstname + " " + address.familyname + ", " + address.street + ", " + address.postalcode + " " + address.locality, "");
         } else {
-            report.addParagraph(donorsToPrint[k].substring(1) + ": " + address.familyname + ", " + address.street + ", " + address.postalcode + " " + address.locality, "");
+            report.addParagraph(account + ": " + address.familyname + ", " + address.street + ", " + address.postalcode + " " + address.locality, "");
         }
         report.addParagraph(" ", "");
         report.addParagraph(" ", "");
@@ -815,6 +825,17 @@ function convertParam(userParam) {
     }
     convertedParam.data.push(currentParam);
 
+    // Function to print account number
+    var currentParam = {};
+    currentParam.name = 'accountMethod';
+    currentParam.title = 'Funktion (optional)';
+    currentParam.type = 'string';
+    currentParam.value = userParam.accountMethod ? userParam.accountMethod : '';
+    currentParam.readValue = function() {
+        userParam.accountMethod = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
     // Address
     var currentParam = {};
     currentParam.name = 'address';
@@ -1044,6 +1065,7 @@ function initUserParam() {
     var userParam = {};
     userParam.costcenter = '';
     userParam.printAccount = true;
+    userParam.accountMethod = '';
     userParam.address = '';
     userParam.addressText1 = '';
     userParam.addressText2 = '';
