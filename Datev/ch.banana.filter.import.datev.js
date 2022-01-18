@@ -496,6 +496,12 @@ DatevImport.prototype.getVatCode = function (buSchluessel) {
    var row = tableVatCodes.findRowByValue('Gr1', buSchluessel);
    if (row)
       vatCode = row.value("VatCode");
+   
+   if (vatCode.length <= 0) {
+      row = tableVatCodes.findRowByValue('VatCode', buSchluessel);
+      if (row)
+         vatCode = row.value("VatCode");
+   }
 
    return vatCode;
 }
