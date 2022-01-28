@@ -1,4 +1,4 @@
-// Copyright [2021] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2022] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2021-12-14
+// @pubdate = 2022-01-28
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung für Vereine in Deutschland
 // @description.de = Spendenbescheinigung für Vereine in Deutschland
@@ -87,8 +87,14 @@ function createReport(banDoc, startDate, endDate, userParam) {
                 list[i] = ";"+list[i];
             }
 
-            if (membershipList.indexOf(list[i]) > -1) { //Cc3 exists
-                donorsToPrint.push(list[i]);           
+            // The inserted Cc3 exists
+            // Check the minimum amount of the donation
+            if (membershipList.indexOf(list[i]) > -1) {
+                var transactionsObj = calculateTotalTransactions(banDoc, list[i], startDate, endDate);
+                var totalOfDonations = transactionsObj.total;
+                if (Banana.SDecimal.compare(totalOfDonations, userParam.minimumAmount) > -1) { //totalOfDonation >= mimimunAmount
+                    donorsToPrint.push(list[i]);
+                }          
             }
             else { //Cc3 does not exists
                 Banana.document.addMessage("Ungültiges Mitgliedkonto Konto: <" + list[i] + ">");              
@@ -99,7 +105,13 @@ function createReport(banDoc, startDate, endDate, userParam) {
         }
     }
     else if (!userParam.costcenter || userParam.costcenter === "" || userParam.costcenter === undefined) { //Empty field, so we take all the Cc3
-        donorsToPrint = membershipList;
+        for (var i = 0; i < membershipList.length; i++) {
+            var transactionsObj = calculateTotalTransactions(banDoc, membershipList[i], startDate, endDate);
+            var totalOfDonations = transactionsObj.total;
+            if (Banana.SDecimal.compare(totalOfDonations, userParam.minimumAmount) > -1) { //totalOfDonation >= mimimunAmount
+                donorsToPrint.push(membershipList[i]);
+            }
+        }
     }
 
     /* For all the inserted Cc3 accounts (or all Cc3 accounts if nothing has been specified) we create the report */
@@ -657,7 +669,7 @@ function getTransactionDate(banDoc, costcenter, startDate, endDate) {
     }
 }
 
-function calculateTotalTransactions(banDoc, costcenter, startDate, endDate) {
+function calculateTotalTransactions(banDoc, costcenter, startDate, endDate){
     var transTab = banDoc.table("Transactions");
     var date = "";
     var total = "";
@@ -692,7 +704,7 @@ function calculateTotalTransactions(banDoc, costcenter, startDate, endDate) {
     return transactionsObj;
 }
 
-function printTransactionTable(banDoc, report, costcenter, startDate, endDate) {
+function printTransactionTable(banDoc, report, costcenter, startDate, endDate) {
     
     //Get name and family name of the donor
     var address = getAddress(banDoc, costcenter);
@@ -811,6 +823,17 @@ function convertParam(userParam) {
     currentParam.value = '';
     currentParam.readValue = function() {
         userParam.costcenter = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    // minimun amount for cc3
+    var currentParam = {};
+    currentParam.name = 'minimumAmount';
+    currentParam.title = 'Mindestspendenbetrag';
+    currentParam.type = 'string';
+    currentParam.value = userParam.minimumAmount ? userParam.minimumAmount : '';
+    currentParam.readValue = function() {
+        userParam.minimumAmount = this.value;
     }
     convertedParam.data.push(currentParam);
 
@@ -1064,6 +1087,7 @@ function initUserParam() {
 
     var userParam = {};
     userParam.costcenter = '';
+    userParam.minimumAmount = '';
     userParam.printAccount = true;
     userParam.accountMethod = '';
     userParam.address = '';
