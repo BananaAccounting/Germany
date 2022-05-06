@@ -1,4 +1,4 @@
-﻿// Copyright [2020] [Banana.ch SA - Lugano Switzerland]
+﻿// Copyright [2022] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2021-05-20
+// @pubdate = 2022-05-06
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -186,8 +186,8 @@ function settingsDialog() {
    dialog.zeitraumGroupBox.selektionskriteriumComboBox.currentIndex = datevBuchungsstapel.param["selektionskriteriumValue"];
 
    //check if dates are valid
-   var vonDate = Banana.Converter.stringToDate(datevBuchungsstapel.param["vonDate"], "DD.MM.YYYY");
-   var bisDate = Banana.Converter.stringToDate(datevBuchungsstapel.param["bisDate"], "DD.MM.YYYY");
+   var vonDate = Banana.Converter.stringToDate(datevBuchungsstapel.toISODate(datevBuchungsstapel.param["vonDate"]), "YYYY-MM-DD");
+   var bisDate = Banana.Converter.stringToDate(datevBuchungsstapel.toISODate(datevBuchungsstapel.param["bisDate"]), "YYYY-MM-DD");
    if (vonDate.getFullYear() != accountingData.accountingYear || bisDate.getFullYear() != accountingData.accountingYear) {
       vonDate = Banana.Converter.stringToDate(accountingData.accountingOpeningDate, "YYYY-MM-DD");
       bisDate = Banana.Converter.stringToDate(accountingData.accountingClosureDate, "YYYY-MM-DD");
@@ -621,8 +621,8 @@ DatevBuchungsstapel.prototype.loadData = function () {
    var bisDate = Banana.Converter.stringToDate(accountingData.accountingClosureDate, "YYYY-MM-DD");
    var isPeriodSelected = false;
    if (this.param["periodSelected"] && (this.param["periodSelected"] == true || this.param["periodSelected"].toLowerCase() == 'true')) {
-      vonDate = Banana.Converter.stringToDate(this.param["periodBegin"], "DD.MM.YYYY");
-      bisDate = Banana.Converter.stringToDate(this.param["periodEnd"], "DD.MM.YYYY");
+      vonDate = Banana.Converter.stringToDate(this.toISODate(this.param["periodBegin"]), "YYYY-MM-DD");
+      bisDate = Banana.Converter.stringToDate(this.toISODate(this.param["periodEnd"]), "YYYY-MM-DD");
       isPeriodSelected = true;
    }
 
@@ -1268,6 +1268,81 @@ DatevBuchungsstapel.prototype.toExchangeRateFormat = function (string) {
       rate = rate.substring(0, posDecimalSep + 5)
 
    return rate;
+}
+
+/* This method converts an internal or local date to the ISO date format */
+DatevBuchungsstapel.prototype.toISODate = function (value) {
+   //empty strings does nothing
+   if (!value || value.length <= 0)
+      return "";
+
+   let inputFormat = '';
+   if (value.match(/^(\d{8})$/)) {
+      //format yyyymmdd
+      inputFormat = 'yyyymmdd';
+   }
+   else if (value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)) {
+      //format dd/mm/yyyy
+      inputFormat = 'dd/mm/yyyy';
+   }
+   else if (value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2})$/)) {
+      //format dd/mm/yy
+      inputFormat = 'dd/mm/yy';
+   }
+   else if (value.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)) {
+      inputFormat = "dd.mm.yyyy";
+   }
+   else if (value.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2})$/)) {
+      inputFormat = "dd.mm.yy";
+   }
+   else if (value.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/)) {
+      inputFormat = "dd-mm-yyyy";
+   }
+   else if (value.match(/^(\d{1,2})-(\d{1,2})-(\d{2})$/)) {
+      inputFormat = "dd-mm-yy";
+   }
+   else if (value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)) {
+      inputFormat = "yyyy-mm-dd";
+   }
+
+   if (inputFormat.length <= 0)
+      return "";
+
+   let formattedDate = Banana.Converter.toInternalDateFormat(value, inputFormat);
+
+   //check if it's a valid date
+   let d = Date.parse(formattedDate);
+   if (!d) {
+      //moves month at the beginning
+      if (value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)) {
+         //format mm/dd/yyyy
+         inputFormat = 'mm/dd/yyyy';
+      }
+      else if (value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2})$/)) {
+         inputFormat = 'mm/dd/yy';
+      }
+      else if (value.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)) {
+         inputFormat = "mm.dd.yyyy";
+      }
+      else if (value.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2})$/)) {
+         inputFormat = "mm.dd.yy";
+      }
+      else if (value.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/)) {
+         inputFormat = "mm-dd-yyyy";
+      }
+      else if (value.match(/^(\d{1,2})-(\d{1,2})-(\d{2})$/)) {
+         inputFormat = "mm-dd-yy";
+      }
+
+      formattedDate = Banana.Converter.toInternalDateFormat(value, inputFormat);
+      //recheck if it's a valid date
+      d = Date.parse(formattedDate);
+      if (!d) {
+         formattedDate = '';
+      }
+   }
+
+   return formattedDate;
 }
 
 /**
