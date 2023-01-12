@@ -14,11 +14,11 @@
 //
 // @id = ch.banana.filter.import.datev.transactions.js
 // @api = 1.0
-// @pubdate = 2019-01-15
+// @pubdate = 2023-01-12
 // @publisher = Banana.ch SA
 // @description = DATEV Import Buchungsstapel (*.csv)
 // @task = import.transactions
-// @doctype = 100.*; 130.*
+// @doctype = 100.*; 110.*; 130.*
 // @docproperties = 
 // @outputformat = transactions.simple
 // @inputdatasource = openfiledialog
