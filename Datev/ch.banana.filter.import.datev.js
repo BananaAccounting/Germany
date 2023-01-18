@@ -387,6 +387,10 @@ DatevImport.prototype.defineRowsTransactions = function (inData, conversionParam
       }
       //Belegfeld1
       convertedRow["Doc"] = inputRow[10] ? inputRow[10].replace(/  +/g, ", ") : "";
+
+      //Belegfeld2
+      convertedRow["DocInvoice"] = inputRow[11] ? inputRow[11].replace(/  +/g, ", ") : "";
+      
       //Buchungstext
       convertedRow["Description"] = inputRow[13] ? inputRow[13].replace(/  +/g, ", ") : "";
       /** END */
