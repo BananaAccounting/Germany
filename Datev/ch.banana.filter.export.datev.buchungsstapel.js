@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2022-05-06
+// @pubdate = 2023-09-06
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -1092,7 +1092,7 @@ DatevBuchungsstapel.prototype.loadDataHeader = function (accountingData) {
    // Länge: 1 Typ:Zahl
    // Kleinste Sachkontenlänge = 4, Grösste Sachkontenlänge = 8
    // TODO: Dialog param
-   var field14 = "4";
+   var field14 = "5";
 
    // Headr-Feld Nr. 15 Datum vom
    // Länge: 8 Typ:Zahl
