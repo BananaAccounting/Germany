@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+ <qresource>
+     <file>ch.banana.germany.import.deutschebank.js</file>
+     <file>../import.utilities.js</file>
+     <file>ch.banana.germany.import.deutschebank.manifest.json</file>
+ </qresource>
+ </RCC>
