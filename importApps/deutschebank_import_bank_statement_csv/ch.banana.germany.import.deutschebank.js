@@ -46,7 +46,7 @@ function exec(string, isTest) {
   var transactions = Banana.Converter.csvToArray(string, ';', '"');
   let transactionsData = getFormattedData(transactions, convertionParam, importUtilities);
 
-  // Format 3
+  // Format 3, use the headers names
   var format3 = new DBFormat3();
   if (format3.match(transactionsData)) {
     transactions = format3.convert(transactionsData);
@@ -74,12 +74,96 @@ function exec(string, isTest) {
 
 }
 
-var colDate;
-var colValuta;
-var colDescr;
-var colCredit;
-var colDebit;
-var colCurrency;
+/**
+ * Deutsche bank format 3
+ * Xxx�xxx Mius�peciete Incem (63);;;Irexpastatum: 123 456789
+ * 06.11.2023 - 30.01.2024
+ * Addunis Vestondias;;;;11.478,60;LUS
+ * Patestotime lis pass grabo sicieces Xxx�xxx stia grabo Ganequissus priere �stanesto.
+ * Buchungstag;Wert;Umsatzart;Beg�nstigter / Auftraggeber;Verwendungszweck;IBAN;BIC;Kundenreferenz;Mandatsreferenz ;Gl�ubiger ID;Fremde Geb�hren;Betrag;Abweichender Empf�nger;Abweichender Auftraggeber;Anzahl der Auftr�ge;Anzahl der Schecks;Soll;Haben;W�hrung
+ * 06.11.2023;06.11.2023;"Audactinsemus";;Funiuvituus//Nate/BY 73-14-2150R74:62:35 Expagnis. 4740534234636241;;;;;;;;;;;;-54,00;;EUR
+ * 06.11.2023;06.11.2023;"Audactinsemus";;agite holus//Nate/BY 73-14-3757T76:43:51 Expagnis. 4740534234636241;;;;;;;;;;;;-79,90;;EUR
+ */
+function DBFormat3() {
+
+  /** Return true if the transactions match this format */
+  this.match = function (transactionsData) {
+    if (transactionsData.length === 0)
+      return false;
+
+    for (var i = 0; i < transactionsData.length; i++) {
+      var transaction = transactionsData[i];
+      var formatMatched = true;
+
+      if (formatMatched && transaction["Buchungstag"] && transaction["Buchungstag"].length >= 10 &&
+        transaction["Buchungstag"].match(/[0-9\.\-\/]+/g))
+        formatMatched = true;
+      else
+        formatMatched = false;
+
+      if (formatMatched && transaction["Wert"] && transaction["Wert"].length >= 10 &&
+        transaction["Wert"].match(/[0-9\.\-\/]+/g))
+        formatMatched = true;
+      else
+        formatMatched = false;
+
+      if (formatMatched)
+        return true;
+    }
+
+    return false;
+  }
+
+  this.convert = function (transactionsData) {
+    var transactionsToImport = [];
+
+    for (var i = 0; i < transactionsData.length; i++) {
+      if (transactionsData[i]["Buchungstag"] && transactionsData[i]["Buchungstag"].length >= 10 &&
+        transactionsData[i]["Buchungstag"].match(/[0-9\.\-\/]+/g)) {
+        transactionsToImport.push(this.mapTransaction(transactionsData[i]));
+      }
+    }
+
+    // Sort rows by date
+    transactionsToImport = transactionsToImport.reverse();
+
+    // Add header and return
+    var header = [["Date", "DateValue", "Description", "Income", "Expenses"]];
+    return header.concat(transactionsToImport);
+  }
+
+  this.mapTransaction = function (element) {
+    var mappedLine = [];
+    var amountConverter = new AmountConverter('.', ',');
+
+    mappedLine.push(Banana.Converter.toInternalDateFormat(element["Buchungstag"]));
+    mappedLine.push(Banana.Converter.toInternalDateFormat(element["Wert"]));
+    mappedLine.push(element["Verwendungszweck"]);
+
+    if (element["Soll"].length > 0) {
+      if (element["Soll"].charAt(0) === '-') {
+        mappedLine.push("");
+        mappedLine.push(amountConverter.toInternalFormat(element["Soll"].substr(1)));
+      } else {
+        mappedLine.push(amountConverter.toInternalFormat(element["Soll"]));
+        mappedLine.push("");
+      }
+    } else if (element["Haben"].length > 0) {
+      if (element["Haben"].charAt(0) === '-') {
+        mappedLine.push("");
+        mappedLine.push(amountConverter.toInternalFormat(element["Haben"].substr(1)));
+      } else {
+        mappedLine.push(amountConverter.toInternalFormat(element["Haben"]));
+        mappedLine.push("");
+      }
+    }
+    else {
+      mappedLine.push("");
+      mappedLine.push("");
+    }
+    return mappedLine;
+  }
+}
 
 /**
  * Deutsche Bank Format 2
@@ -317,13 +401,8 @@ function defineConversionParam(inData) {
 
   /** SPECIFY AT WHICH ROW OF THE CSV FILE IS THE HEADER (COLUMN TITLES)
   We suppose the data will always begin right away after the header line */
-  convertionParam.headerLineStart = 5;
-  convertionParam.dataLineStart = 6;
-
-  /** SPECIFY THE COLUMN TO USE FOR SORTING
-  If sortColums is empty the data are not sorted */
-  convertionParam.sortColums = ["Date", "Doc"];
-  convertionParam.sortDescending = false;
+  convertionParam.headerLineStart = 4;
+  convertionParam.dataLineStart = 5;
 
   return convertionParam;
 }
