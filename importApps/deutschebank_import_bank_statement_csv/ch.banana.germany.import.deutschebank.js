@@ -14,7 +14,7 @@
 
 // @id = ch.banana.germany.import.deutschebank
 // @api = 1.0
-// @pubdate = 2024-02-01
+// @pubdate = 2024-02-08
 // @publisher = Banana.ch SA
 // @description = Deutsche Bank - Import account statement .csv (Banana+ Advanced)
 // @description.en = Deutsche Bank - Import account statement .csv (Banana+ Advanced)
@@ -46,6 +46,13 @@ function exec(string, isTest) {
   var transactions = Banana.Converter.csvToArray(string, ';', '"');
   let transactionsData = getFormattedData(transactions, convertionParam, importUtilities);
 
+  // Format 4 (Maybe Credit Card format ?), use the headers names
+  var format4 = new DBFormat4();
+  if (format4.match(transactionsData)) {
+    transactions = format4.convert(transactionsData);
+    return Banana.Converter.arrayToTsv(transactions);
+  }
+
   // Format 3, use the headers names
   var format3 = new DBFormat3();
   if (format3.match(transactionsData)) {
@@ -72,6 +79,66 @@ function exec(string, isTest) {
 
   return "";
 
+}
+
+function DBFormat4() {
+
+  /** Return true if the transactions match this format */
+  this.match = function (transactionsData) {
+    if (transactionsData.length === 0)
+      return false;
+
+    for (var i = 0; i < transactionsData.length; i++) {
+      var transaction = transactionsData[i];
+      var formatMatched = true;
+
+      if (formatMatched && transaction["Datum"] && transaction["Datum"].length >= 10 &&
+        transaction["Datum"].match(/[0-9\.\-\/]+/g))
+        formatMatched = true;
+      else
+        formatMatched = false;
+
+      if (formatMatched)
+        return true;
+    }
+
+    return false;
+  }
+
+  this.convert = function (transactionsData) {
+    var transactionsToImport = [];
+
+    for (var i = 0; i < transactionsData.length; i++) {
+      if (transactionsData[i]["Datum"] && transactionsData[i]["Datum"].length >= 10 &&
+        transactionsData[i]["Datum"].match(/[0-9\.\-\/]+/g)) {
+        transactionsToImport.push(this.mapTransaction(transactionsData[i]));
+      }
+    }
+
+    // Sort rows by date
+    transactionsToImport = transactionsToImport.reverse();
+
+    // Add header and return
+    var header = [["Date", "Description", "Income", "Expenses"]];
+    return header.concat(transactionsToImport);
+  }
+
+  this.mapTransaction = function (element) {
+    var mappedLine = [];
+    var amountConverter = new AmountConverter('.', ',');
+
+    mappedLine.push(Banana.Converter.toInternalDateFormat(element["Datum"]));
+    mappedLine.push(element["Verwendungszweck"]);
+
+    if (element["Betrag"].charAt(0) === '-') {
+      mappedLine.push("");
+      mappedLine.push(amountConverter.toInternalFormat(element["Betrag"].substr(1)));
+    } else {
+      mappedLine.push(amountConverter.toInternalFormat(element["Betrag"]));
+      mappedLine.push("");
+    }
+    return mappedLine;
+  }
 }
 
 /**
@@ -385,7 +452,7 @@ function AmountConverter(groupSeparator, decimalSeparator) {
 
 function defineConversionParam(inData) {
 
-  var inData = Banana.Converter.csvToArray(inData);
+  var inData = Banana.Converter.csvToArray(inData, ';', '"');
   var header = String(inData[0]);
   var convertionParam = {};
   /** SPECIFY THE SEPARATOR AND THE TEXT DELIMITER USED IN THE CSV FILE */
@@ -401,10 +468,33 @@ function defineConversionParam(inData) {
 
   /** SPECIFY AT WHICH ROW OF THE CSV FILE IS THE HEADER (COLUMN TITLES)
   We suppose the data will always begin right away after the header line */
-  convertionParam.headerLineStart = 4;
-  convertionParam.dataLineStart = 5;
-
+  convertionParam.headerLineStart = getHeaderLineStart(inData);
+  convertionParam.headerLineStart == 0 ? convertionParam.dataLineStart = 1 : convertionParam.dataLineStart = 5;
   return convertionParam;
+}
+
+function getHeaderLineStart(inData) {
+  /** Actually we have two options:
+   * - 1) Header starts at 0 (format 4)
+   * - 2) Header starts at 4 (format 1,2 and 3)
+   * To define the case, we check if the dates in the second and third row are valid,
+   * if we find a valid date, then we are working with the first option, otherwise with 
+   * the second option.
+   * For more information see the test cases.
+   * */
+  if (inData.length > 0) {
+
+    let secondRowDate = inData[1][0]; // Date column in the second row.
+    let thirdRowDate = inData[2][0]; // Date column in the third row.
+
+    let date1 = Banana.Converter.toDate(secondRowDate);
+    let date2 = Banana.Converter.toDate(thirdRowDate);
+
+    if (date1 && date2) {
+      return 0
+    }
+    return 4
+  }
 }
 
 function getFormattedData(inData, convertionParam, importUtilities) {

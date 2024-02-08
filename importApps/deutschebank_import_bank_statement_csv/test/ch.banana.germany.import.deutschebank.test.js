@@ -47,6 +47,7 @@ TestImportDeutscheBank.prototype.testImport = function () {
    fileNameList.push("file:script/../test/testcases/csv_deutschebank_example_format1_20190904.csv");
    fileNameList.push("file:script/../test/testcases/csv_deutschebank_example_format2_20140803.csv");
    fileNameList.push("file:script/../test/testcases/csv_deutschebank_example_format3_20240131.csv");
+   fileNameList.push("file:script/../test/testcases/csv_deutschebank_example_format4_20240207.csv");
 
    var parentLogger = this.testLogger;
    this.progressBar.start(fileNameList.length);
