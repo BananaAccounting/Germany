@@ -3,9 +3,9 @@
     "country":"germany",
     "countryCode":"de",
     "description": "E-Bilanz Taxonomie 5.4 SKR04 Kapitalgesellschaften",
-    "id":"ch.banana.script.EBilanz54-SKR04-KapG",
+    "id":"ch.banana.de.EBilanz54-SKR04-KapG",
     "language":"de",
-    "publisher": "Banana.ch",
+    "publisher": "Banana.ch SA",
     "title": "E-Bilanz Taxonomie 5.4 SKR04 Kapitalgesellschaften",
     "version": "1.0"
 }

@@ -1,0 +1,10 @@
+^C:\USERS\WIN ADMIN\ONEDRIVE - BANANA.CH\DOCUMENTI\GITHUB\GERMANY\EBILANZ2024\EINZELU\BUILD\CMAKEFILES\20FA3DFE5D5F8CC87A4D90CE17AF1530\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU" "-BC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU/build/EinzelU.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,8 @@
+{
+    "cmake.configureSettings": {
+        "BAN_QT_RCC": "C:/Users/win admin/AppData/Local/Programs/BananaPlusDev/rcc.exe",
+        "BAN_EXE_PATH": "C:/users/win admin/AppData/Local/Programs/BananaPlusDev/BananaPlusDev.exe",
+    },
+    "C_Cpp.intelliSenseEngineFallback": "enabled",
+    "cmake.sourceDirectory": "C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/PersG"
+}

@@ -1,0 +1,4 @@
+C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU/build/CMakeFiles/EinzelU.dir
+C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU/build/CMakeFiles/test.dir
+C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU/build/CMakeFiles/ZERO_CHECK.dir

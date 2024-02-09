@@ -3,9 +3,9 @@
     "country":"germany",
     "countryCode":"de",
     "description": "E-Bilanz Taxonomie 5.4 SKR04 Personengesellschaften",
-    "id":"PersG/ch.banana.de.EBilanz54-SKR04-PersG.js",
+    "id":"ch.banana.de.EBilanz54-SKR04-PersG",
     "language":"de",
-    "publisher": "Banana.ch",
+    "publisher": "Banana.ch SA",
     "title": "E-Bilanz Taxonomie 5.4 SKR04 Personengesellschaften",
     "version": "1.0"
 }

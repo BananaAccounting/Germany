@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 // @api = 1.0
-// @id = ch.banana.script.EBilanz54-SKR04-PersG
+// @id = ch.banana.de.EBilanz54-SKR04-PersG
 // @doctype = *.*
 // @publisher = Banana.ch SA
 // @pubdate = 2019-03-12

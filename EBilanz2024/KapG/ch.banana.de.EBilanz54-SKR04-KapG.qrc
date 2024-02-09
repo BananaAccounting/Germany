@@ -1,15 +1,16 @@
 <!DOCTYPE RCC><RCC version="1.0">
-   <qresource>
+   <qresource prefix="/">
       <file>ch.banana.de.EBilanz54-SKR04-KapG.manifest.json</file>
       <file>ch.banana.de.EBilanz54-SKR04-KapG.js</file>
-      <file>../src/createinstance.js</file>
-      <file>../src/createinstancedialog.js</file>
-      <file>../src/createinstancedialog.ui</file>
-      <file>../src/errors.js</file>
-      <file>../src/exec.js</file>
-      <file>../src/getaccountingdata.js</file>
-      <file>../src/initparam.js</file>
-      <file>../src/report.js</file>
-      <file>../src/xml.js</file>
+      <file>./src/createinstance.js</file>
+      <file>./src/createinstancedialog.js</file>
+      <file>./src/createinstancedialog.ui</file>
+      <file>./src/errors.js</file>
+      <file>./src/exec.js</file>
+      <file>./src/getaccountingdata.js</file>
+      <file>./src/initparam.js</file>
+      <file>./src/report.js</file>
+      <file>./src/xml.js</file>
+      <file>./src/license.txt</file>
    </qresource>
  </RCC>

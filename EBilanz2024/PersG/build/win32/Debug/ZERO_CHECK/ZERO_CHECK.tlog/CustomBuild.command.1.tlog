@@ -1,0 +1,10 @@
+^C:\USERS\WIN ADMIN\ONEDRIVE - BANANA.CH\DOCUMENTI\GITHUB\GERMANY\EBILANZ2024\PERSG\BUILD\CMAKEFILES\8C62F0BF284B453AD49B64832EC5EF13\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/PersG" "-BC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/PersG/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/PersG/build/PersG.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

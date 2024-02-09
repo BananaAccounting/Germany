@@ -1,0 +1,24 @@
+^C:\USERS\WIN ADMIN\ONEDRIVE - BANANA.CH\DOCUMENTI\GITHUB\GERMANY\EBILANZ2024\EINZELU\BUILD\CMAKEFILES\20FA3DFE5D5F8CC87A4D90CE17AF1530\EINZELU.RULE
+setlocal
+cd "C:\Users\win admin\OneDrive - Banana.ch\Documenti\GitHub\Germany\EBilanz2024\EinzelU"
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Users\win admin\AppData\Local\Programs\BananaPlusDev\rcc.exe" -o ch.banana.de.EBilanz54-SKR04-EinzelU.sbaa --binary ch.banana.de.EBilanz54-SKR04-EinzelU.qrc
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\WIN ADMIN\ONEDRIVE - BANANA.CH\DOCUMENTI\GITHUB\GERMANY\EBILANZ2024\EINZELU\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU" "-BC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU/build" --check-stamp-file "C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/EinzelU/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

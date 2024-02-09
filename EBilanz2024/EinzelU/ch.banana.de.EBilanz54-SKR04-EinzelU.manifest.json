@@ -3,9 +3,9 @@
     "country":"germany",
     "countryCode":"de",
     "description": "E-Bilanz Taxonomie 5.4 SKR04 Einzelunternehmen",
-    "id":"ch.banana.script.EBilanz54-SKR04-EinzelU",
+    "id":"ch.banana.de.EBilanz54-SKR04-EinzelU",
     "language":"de",
-    "publisher": "Banana.ch",
+    "publisher": "Banana.ch SA",
     "title": "E-Bilanz Taxonomie 5.4 SKR04 Einzelunternehmen",
     "version": "1.0"
 }

@@ -1,0 +1,24 @@
+^C:\USERS\WIN ADMIN\ONEDRIVE - BANANA.CH\DOCUMENTI\GITHUB\GERMANY\EBILANZ2024\PERSG\BUILD\CMAKEFILES\8C62F0BF284B453AD49B64832EC5EF13\PERSG.RULE
+setlocal
+cd "C:\Users\win admin\OneDrive - Banana.ch\Documenti\GitHub\Germany\EBilanz2024\PersG"
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Users\win admin\AppData\Local\Programs\BananaPlusDev\rcc.exe" -o ch.banana.de.EBilanz54-SKR04-PersG.sbaa --binary ch.banana.de.EBilanz54-SKR04-PersG.qrc
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\WIN ADMIN\ONEDRIVE - BANANA.CH\DOCUMENTI\GITHUB\GERMANY\EBILANZ2024\PERSG\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/PersG" "-BC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/PersG/build" --check-stamp-file "C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/EBilanz2024/PersG/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
