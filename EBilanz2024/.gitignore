@@ -1,0 +1,8 @@
+*.csv
+*.zip
+*.bak
+*.pdf
+*.autosave
+/5.4/*
+/6.1/*taxonomy*
+~$*

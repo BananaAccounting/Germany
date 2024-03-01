@@ -1,0 +1,6 @@
+{
+    "cmake.configureSettings": {
+        "BAN_QT_RCC": "C:/users/win admin/AppData/Local/Programs/BananaPlusDev/rcc.exe",
+        "BAN_EXE_PATH": "C:/users/win admin/AppData/Local/Programs/BananaPlusDev/BananaPlusDev.exe",
+    }
+}
