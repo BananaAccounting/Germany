@@ -1,10 +1,10 @@
-^C:\USERS\WIN ADMIN\ONEDRIVE - BANANA.CH\DOCUMENTI\GITHUB\GERMANY\EBILANZ2024\BUILD\CMAKEFILES\FA20D9A6454679C5637C755013BE7605\EBILANZ2024.RULE
+^C:\USERS\RUBEN.BRAVI\DOCUMENTS\GITHUB\GERMANY\EBILANZ2024\BUILD\CMAKEFILES\2B62584B4ABE5B8E7A137B3D16FF91D0\EBILANZ2024.RULE
 setlocal
-cd "C:\Users\win admin\OneDrive - Banana.ch\Documenti\GitHub\Germany\Ebilanz2024"
+cd C:\Users\ruben.bravi\Documents\GitHub\Germany\Ebilanz2024
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\users\win admin\AppData\Local\Programs\BananaPlusDev\rcc.exe" -o Ebilanz2024.sbaa --binary Ebilanz2024.qrc
+C:\Users\ruben.bravi\AppData\Local\Programs\BananaPlusDev\rcc.exe -o Ebilanz2024.sbaa --binary Ebilanz2024.qrc
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -12,9 +12,9 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\USERS\WIN ADMIN\ONEDRIVE - BANANA.CH\DOCUMENTI\GITHUB\GERMANY\EBILANZ2024\CMAKELISTS.TXT
+^C:\USERS\RUBEN.BRAVI\DOCUMENTS\GITHUB\GERMANY\EBILANZ2024\CMAKELISTS.TXT
 setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/Ebilanz2024" "-BC:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/Ebilanz2024/build" --check-stamp-file "C:/Users/win admin/OneDrive - Banana.ch/Documenti/GitHub/Germany/Ebilanz2024/build/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024 -BC:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build --check-stamp-file C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
