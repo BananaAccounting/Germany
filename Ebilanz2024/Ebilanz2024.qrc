@@ -7,12 +7,16 @@
     <file>./PersG/ch.banana.de.EBilanz54-SKR04-PersG.manifest.json</file>
     <file>./6.1/ch.banana.de.EBilanz61-SKR04-KapG.js</file>
     <file>./6.1/ch.banana.de.EBilanz61-SKR04-KapG.manifest.json</file>
+    <file>./EinzelU/ch.banana.script.EBilanz54-SKR04-EinzelU.js</file>
+    <file>./EinzelU/ch.banana.script.EBilanz54-SKR04-EinzelU.manifest.json</file>
+
     <file>manifest.json</file>
     
     <file alias="AccountingOperation.js">./src/AccountingParamOperation/AccountingOperation.js</file>
     <file alias="InitParameterEBilanz54KapG.js">./src/AccountingParamOperation/InitParameterEBilanz54KapG.js</file>
     <file alias="InitParameterEBilanz61KapG.js">./src/AccountingParamOperation/InitParameterEBilanz61KapG.js</file>
-    <file alias="InitParamterEBilanz54PersG.js">./src/AccountingParamOperation/InitParamterEBilanz54PersG.js</file>
+    <file alias="InitParameterEBilanz54PersG.js">./src/AccountingParamOperation/InitParameterEBilanz54PersG.js</file>
+    <file alias="InitParameterEBilanz54EinzelU.js">./src/AccountingParamOperation/InitParameterEBilanz54EinzelU.js</file>
     
     <file alias="Errors.js">./src/Errors/Errors.js</file>
     

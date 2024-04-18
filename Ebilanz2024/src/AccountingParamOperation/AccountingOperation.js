@@ -207,7 +207,7 @@ var AccountingOperation = class AccountingOperation {
 
     }
     getAccountingDataEBilanz54PersG(param, contextList) {
-        var initParamEB54PersG = new InitParamterEBilanz54PersG();
+        var initParamEB54PersG = new InitParameterEBilanz54PersG();
         for (var i in contextList) {
             this.checkAccounts(contextList[i], param.accounts);
         }
@@ -223,7 +223,24 @@ var AccountingOperation = class AccountingOperation {
                     initParamEB54PersG.sum_role_incomeStatement(contextList[i]['name'], param.taxonomy);
             }
         }
+    }
 
+    getAccountingDataEBilanz54EinzelU(param, contextList) {
+        var initParameterEB54EinzelU = new InitParameterEBilanz54EinzelU();
+        for (var i in contextList) {
+            this.checkAccounts(contextList[i], param.accounts);
+        }
+        for (var role in param.taxonomy) {
+            for (var i in contextList) {
+                this.initContext(param.taxonomy[role], contextList[i]['name']);
+                this.loadAmounts(param.taxonomy[role], contextList[i], param.accounts);
+                this.loadNetIncomeLoss(role, contextList[i], param);
+                if (role == 'role_balanceSheet')
+                    initParameterEB54EinzelU.sum_role_balanceSheet(contextList[i]['name'], param.taxonomy);
+                else if (role == 'role_incomeStatement')
+                    initParameterEB54EinzelU.sum_role_incomeStatement(contextList[i]['name'], param.taxonomy);
+            }
+        }
     }
     getAccountsWithXbrlId(xbrlId, accounts) {
         return accounts.filter(function (el) {

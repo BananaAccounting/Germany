@@ -45,11 +45,7 @@
 			}
 		},
 		{
-<<<<<<<< Updated upstream:Ebilanz2024/build/.cmake/api/v1/reply/index-2024-04-12T10-34-39-0004.json
 			"jsonFile" : "cmakeFiles-v1-054031c5b6d5d3c71a12.json",
-========
-			"jsonFile" : "cmakeFiles-v1-04610361a173ccaaf1c1.json",
->>>>>>>> Stashed changes:Ebilanz2024/build/.cmake/api/v1/reply/index-2024-03-01T10-14-07-0460.json
 			"kind" : "cmakeFiles",
 			"version" : 
 			{
@@ -122,11 +118,7 @@
 						}
 					},
 					{
-<<<<<<<< Updated upstream:Ebilanz2024/build/.cmake/api/v1/reply/index-2024-04-12T10-34-39-0004.json
 						"jsonFile" : "cmakeFiles-v1-054031c5b6d5d3c71a12.json",
-========
-						"jsonFile" : "cmakeFiles-v1-04610361a173ccaaf1c1.json",
->>>>>>>> Stashed changes:Ebilanz2024/build/.cmake/api/v1/reply/index-2024-03-01T10-14-07-0460.json
 						"kind" : "cmakeFiles",
 						"version" : 
 						{
