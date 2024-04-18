@@ -3,7 +3,6 @@
 //@includejs = InitParameterEBilanz61KapG.js
 //@includejs = InitParameterEBilanz54PersG.js
 //@includejs = InitParameterEBilanz54EinzelU.js
-//@includejs = InstanceXml.js
 //@includejs = Report.js
 
 var Main = class Main {
@@ -12,7 +11,6 @@ var Main = class Main {
   mainExecutionEBilanz61KapG(inData, options) {
     var initParam = new InitParameterEBilanz61KapG();
     var accountingData = new AccountingOperation();
-    var instanceXml = new InstanceXml();
     var reportPrint = new Report();
 
 
@@ -90,7 +88,6 @@ var Main = class Main {
     }*/
 
     accountingData.getAccountingDataEBilanz61KapG(param, contextList);
-    var output = instanceXml.createInstance(param, contextList);
 
     var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
     var stylesheet = Banana.Report.newStyleSheet();
@@ -98,12 +95,10 @@ var Main = class Main {
       reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i]);
     }
     Banana.Report.preview(report, stylesheet);
-    return output;
   }
   mainExecutionEBilanz54KapG(inData, options) {
     var initParam = new InitParameterEBilanz54KapG();
     var accountingData = new AccountingOperation();
-    var instanceXml = new InstanceXml();
     var reportPrint = new Report();
 
 
@@ -181,7 +176,6 @@ var Main = class Main {
     }*/
 
     accountingData.getAccountingDataEBilanz54KapG(param, contextList);
-    var output = instanceXml.createInstance(param, contextList);
 
     var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
     var stylesheet = Banana.Report.newStyleSheet();
@@ -189,12 +183,10 @@ var Main = class Main {
       reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i]);
     }
     Banana.Report.preview(report, stylesheet);
-    return output;
   }
   mainExecutionEBilanz54PersG(inData, options) {
     var initParam = new InitParameterEBilanz54PersG();
     var accountingData = new AccountingOperation();
-    var instanceXml = new InstanceXml();
     var reportPrint = new Report();
 
 
@@ -272,7 +264,6 @@ var Main = class Main {
     }*/
 
     accountingData.getAccountingDataEBilanz54PersG(param, contextList);
-    var output = instanceXml.createInstance(param, contextList);
 
     var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
     var stylesheet = Banana.Report.newStyleSheet();
@@ -280,12 +271,11 @@ var Main = class Main {
       reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i]);
     }
     Banana.Report.preview(report, stylesheet);
-    return output;
+    //return output;
   }
   mainExecutionEBilanzEBilanz54EinzelU() {
     var initParam = new InitParameterEBilanz54EinzelU();
     var accountingData = new AccountingOperation();
-    var instanceXml = new InstanceXml();
     var reportPrint = new Report();
 
 
@@ -362,7 +352,6 @@ var Main = class Main {
     }*/
 
     accountingData.getAccountingDataEBilanz54EinzelU(param, contextList);
-    var output = instanceXml.createInstance(param, contextList);
 
     var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
     var stylesheet = Banana.Report.newStyleSheet();
@@ -371,6 +360,5 @@ var Main = class Main {
     }
     Banana.Report.preview(report, stylesheet);
 
-    return output;
   }
 }

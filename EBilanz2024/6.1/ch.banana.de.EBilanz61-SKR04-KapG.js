@@ -18,9 +18,7 @@
 // @publisher = Banana.ch SA
 // @pubdate = 2024-04-12
 // @description = E-Bilanz Taxonomie 6.1 SKR04 Kapitalgesellschaften
-// @task = export.file
-// @exportfilename = <Date>_xbrl61gaap_skr04KapG
-// @exportfiletype = xml
+// @task = app.command
 // @inputdatasource = none
 // @encoding = utf-8
 // @timeout = -1

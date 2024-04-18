@@ -1,35 +1,28 @@
 <!DOCTYPE RCC><RCC version="1.0">
    <qresource prefix="/">
     <file>./src/license.txt</file>
-    <file>./KapG/ch.banana.de.EBilanz54-SKR04-KapG.js</file>
-    <file>./KapG/ch.banana.de.EBilanz54-SKR04-KapG.manifest.json</file>
-    <file>./PersG/ch.banana.de.EBilanz54-SKR04-PersG.js</file>
-    <file>./PersG/ch.banana.de.EBilanz54-SKR04-PersG.manifest.json</file>
+    <file>./5.4/KapG/ch.banana.de.EBilanz54-SKR04-KapG.js</file>
+    <file>./5.4/KapG/ch.banana.de.EBilanz54-SKR04-KapG.manifest.json</file>
+    <file>./5.4/PersG/ch.banana.de.EBilanz54-SKR04-PersG.js</file>
+    <file>./5.4/PersG/ch.banana.de.EBilanz54-SKR04-PersG.manifest.json</file>
+    <file>./5.4/EinzelU/ch.banana.script.EBilanz54-SKR04-EinzelU.js</file>
+    <file>./5.4/EinzelU/ch.banana.script.EBilanz54-SKR04-EinzelU.manifest.json</file>
     <file>./6.1/ch.banana.de.EBilanz61-SKR04-KapG.js</file>
     <file>./6.1/ch.banana.de.EBilanz61-SKR04-KapG.manifest.json</file>
-    <file>./EinzelU/ch.banana.script.EBilanz54-SKR04-EinzelU.js</file>
-    <file>./EinzelU/ch.banana.script.EBilanz54-SKR04-EinzelU.manifest.json</file>
 
     <file>manifest.json</file>
     
-    <file alias="AccountingOperation.js">./src/AccountingParamOperation/AccountingOperation.js</file>
-    <file alias="InitParameterEBilanz54KapG.js">./src/AccountingParamOperation/InitParameterEBilanz54KapG.js</file>
-    <file alias="InitParameterEBilanz61KapG.js">./src/AccountingParamOperation/InitParameterEBilanz61KapG.js</file>
-    <file alias="InitParameterEBilanz54PersG.js">./src/AccountingParamOperation/InitParameterEBilanz54PersG.js</file>
-    <file alias="InitParameterEBilanz54EinzelU.js">./src/AccountingParamOperation/InitParameterEBilanz54EinzelU.js</file>
+    <file alias="AccountingOperation.js">./src/AccountingOperation.js</file>
+    <file alias="InitParameterEBilanz54KapG.js">./src/InitParameterEBilanz54KapG.js</file>
+    <file alias="InitParameterEBilanz61KapG.js">./src/InitParameterEBilanz61KapG.js</file>
+    <file alias="InitParameterEBilanz54PersG.js">./src/InitParameterEBilanz54PersG.js</file>
+    <file alias="InitParameterEBilanz54EinzelU.js">./src/InitParameterEBilanz54EinzelU.js</file>
     
-    <file alias="Errors.js">./src/Errors/Errors.js</file>
+    <file alias="Errors.js">./src/Errors.js</file>
     
-    <file alias="Main.js">./src/Main/Main.js</file>
+    <file alias="Main.js">./src/Main.js</file>
     
-    <file alias="InstanceXml.js">./src/InstanceData/InstanceXml.js</file>
+    <file alias="Report.js">./src/Report.js</file>
     
-    <file alias="InstanceDialog.js">./src/InstanceDialog/InstanceDialog.js</file>
-    <file alias="InstanceDialog.ui">./src/InstanceDialog/InstanceDialog.ui</file>
-    
-    <file alias="Report.js">./src/Report/Report.js</file>
-    
-    <file alias="Xml.js">./src/Xml/Xml.js</file>
-    <file alias="InstanceXml.js">./src/Xml/InstanceXml.js</file>
    </qresource>
  </RCC>
