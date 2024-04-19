@@ -24,5 +24,6 @@
     
     <file alias="Report.js">./src/Report.js</file>
     
+    <file alias="OpenPropertyEditor.js">./src/OpenPropertyEditor.js</file>
    </qresource>
  </RCC>
