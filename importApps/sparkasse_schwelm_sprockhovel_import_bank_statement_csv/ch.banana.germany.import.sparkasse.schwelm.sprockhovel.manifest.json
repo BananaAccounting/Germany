@@ -1,0 +1,19 @@
+{
+    "category": "import",
+    "country": "germany",
+    "countryCode": "de",
+    "description": "Sparkasse Schwelm-Sprockhövel - Import account statement .csv (Banana+ Advanced)",
+    "description.en": "Sparkasse Schwelm-Sprockhövel - Import account statement .csv (Banana+ Advanced)",
+    "description.de": "Sparkasse Schwelm-Sprockhövel - Bewegungen importieren .csv (Banana+ Advanced)",
+    "description.fr": "Sparkasse Schwelm-Sprockhövel - Importer mouvements .csv (Banana+ Advanced)",
+    "description.it": "Sparkasse Schwelm-Sprockhövel - Importa movimenti .csv (Banana+ Advanced)",
+    "id": "ch.banana.germany.import.deutschebank",
+    "language": "de",
+    "publisher": "Banana.ch",
+    "title": "Sparkasse Schwelm-Sprockhövel - Import account statement .csv (Banana+ Advanced)",
+    "title.en": "Sparkasse Schwelm-Sprockhövel - Import account statement .csv (Banana+ Advanced)",
+    "title.de": "Sparkasse Schwelm-Sprockhövel - Bewegungen importieren .csv (Banana+ Advanced)",
+    "title.fr": "Sparkasse Schwelm-Sprockhövel - Importer mouvements .csv (Banana+ Advanced)",
+    "title.it": "Sparkasse Schwelm-Sprockhövel - Importa movimenti .csv (Banana+ Advanced)",
+    "version": "1.0"
+}
