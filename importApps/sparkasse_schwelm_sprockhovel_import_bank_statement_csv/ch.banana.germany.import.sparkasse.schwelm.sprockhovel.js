@@ -129,7 +129,7 @@ function exec(string, isTest) {
        mappedLine.push(Banana.Converter.toInternalDateFormat("", "dd.mm.yyyy"));
        mappedLine.push("");
        mappedLine.push("");
-       mappedLine.push(transaction["Description"]);
+       mappedLine.push(transaction["Description"] + " " + transaction["Purpose"]);
        if (transaction["Amount"].match(/^[0-9]/))
           mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"], '.'));
        else
@@ -205,6 +205,9 @@ function exec(string, isTest) {
              break;
           case "Betrag":
              convertedColumns[i] = "Amount";
+             break;
+          case "Verwendungszweck":
+             convertedColumns[i] = "Purpose";
              break;
           default:
              break;
