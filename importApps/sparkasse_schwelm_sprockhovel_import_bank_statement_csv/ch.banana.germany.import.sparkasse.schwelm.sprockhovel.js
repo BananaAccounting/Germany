@@ -124,16 +124,16 @@ function exec(string, isTest) {
  
     this.mapTransaction = function (transaction) {
        let mappedLine = [];
- 
+       
        mappedLine.push(Banana.Converter.toInternalDateFormat(transaction["Date"], "dd.mm.yyyy"));
        mappedLine.push(Banana.Converter.toInternalDateFormat("", "dd.mm.yyyy"));
        mappedLine.push("");
        mappedLine.push("");
        mappedLine.push(transaction["Description"] + " " + transaction["Purpose"]);
        if (transaction["Amount"].match(/^[0-9]/))
-          mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"], '.'));
+          mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"], ','));
        else
-          mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"], '.'));
+          mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"], ','));
  
        return mappedLine;
     }
