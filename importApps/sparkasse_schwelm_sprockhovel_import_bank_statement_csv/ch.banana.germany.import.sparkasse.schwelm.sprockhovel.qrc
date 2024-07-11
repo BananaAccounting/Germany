@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+ <qresource>
+     <file>ch.banana.germany.import.sparkasse.schwelm.sprockhovel.js</file>
+     <file>../import.utilities.js</file>
+     <file>ch.banana.germany.import.sparkasse.schwelm.sprockhovel.manifest.json</file>
+ </qresource>
+ </RCC>
