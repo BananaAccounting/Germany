@@ -1,0 +1,24 @@
+^C:\USERS\RUBEN.BRAVI\DOCUMENTS\GITHUB\GERMANY\EBILANZ2024\BUILD\CMAKEFILES\2B62584B4ABE5B8E7A137B3D16FF91D0\TEST.RULE
+setlocal
+cd C:\Users\ruben.bravi\Documents\GitHub\Germany\Ebilanz2024
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\ruben.bravi\AppData\Local\Programs\BananaPlusDev.exe -cmd=runtestsapps -cmd_exit=1 -cmd_p1=C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/Ebilanz2024.sbaa -cmd_op=A
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\RUBEN.BRAVI\DOCUMENTS\GITHUB\GERMANY\EBILANZ2024\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024 -BC:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build --check-stamp-file C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

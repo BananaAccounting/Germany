@@ -1,7 +1,22 @@
+// Copyright [2021] [Banana.ch SA - Lugano Switzerland]
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//@includejs = OpenPropertyEditor.js
+
 var Report = class Report {
     constructor() {
     }
-    printEBilanzReport(report, stylesheet, param, context) {
+    printEBilanzReport(report, stylesheet, param, context, dataCompany) {
         // Styles
         stylesheet.addStyle("@page", "size:portrait;margin-top:1em;font-size: 10px; ");
         stylesheet.addStyle(".amount", "text-align: right;");
@@ -82,6 +97,7 @@ var Report = class Report {
 
         this.printEBilanzReport_table(report, stylesheet, param, context, 'role_balanceSheet');
         this.printEBilanzReport_table(report, stylesheet, param, context, 'role_incomeStatement');
+        this.printDataCompany(report, dataCompany);
 
     }
 
@@ -124,5 +140,120 @@ var Report = class Report {
             row.addCell(param.taxonomy[role][object]['label']['de'], className);
             row.addCell(amount, className + " amount");
         }
+    }
+    printDataCompany(report, dataCompany) {
+        var data = [];
+        /* for (var elem in dataCompany) {
+            data.push(elem);
+        } */
+        //Data Rows
+        var table3 = report.addTable("table3");
+        var headerRow = table3.getHeader().addRow();
+        var title = 'Company personal data';
+        headerRow.addCell(title, "mainTitle");
+
+        //Column names
+        headerRow = table3.getHeader().addRow();
+        headerRow.addCell("Field", "title description");
+        headerRow.addCell("Value", "title description");
+
+        //First row
+        var row = table3.addRow();
+
+        //Banana.console.debug("dataCompany "+Object.keys(dataCompany));
+        //Rows
+        Banana.console.debug("JSON.stringify(dataCompany)");
+        Banana.console.debug(JSON.stringify(dataCompany));
+
+        // Itera su dataCompany per ottenere chiavi e valori
+        for (var key in dataCompany) {
+            if (dataCompany.hasOwnProperty(key)) {
+
+                var value = dataCompany[key]['value'] ? dataCompany[key][value] : dataCompany[key];
+                Banana.console.debug("value:");
+                Banana.console.debug(dataCompany[key]['value']);
+                // Aggiungi un oggetto con chiave e valore all'array data
+                data.push({ name: key, value: value });
+            }
+        }
+        // Data Rows
+        var table3 = report.addTable("table3");
+        var headerRow = table3.getHeader().addRow();
+        var title = 'Company personal data';
+        headerRow.addCell(title, "mainTitle");
+
+        // Nomi delle colonne
+        headerRow = table3.getHeader().addRow();
+        headerRow.addCell("Field", "title description");
+        headerRow.addCell("Value", "title description");
+        //Banana.console.debug("data " + JSON.stringify(data)); // Stampa i dati in formato JSON
+        for (let index = 0; index < data.length; index++) {
+            const element = JSON.stringify(data[index]);
+            var indiceInizio = element.indexOf('{');
+            var oggettoStringa = element.substring(indiceInizio);
+
+            Banana.console.debug("oggettoStringa");
+            Banana.console.debug(oggettoStringa);
+            try {
+                const elementValue = JSON.parse(oggettoStringa)["value"];
+                const arrayElement = elementValue.split(": ")[1];
+                const oggetto = JSON.parse(arrayElement);
+                const elementValueArray = oggetto['value'];
+                const elementFieldArray = oggetto['name'];
+                Banana.console.debug("elementValue");
+                Banana.console.debug(elementValue);
+
+                Banana.console.debug("elementArray");
+                Banana.console.debug(elementValueArray);
+
+                Banana.console.debug("oggetto");
+                Banana.console.debug(oggetto);
+                Banana.console.debug("elementValue");
+                Banana.console.debug(elementValue);
+
+                Banana.console.debug("elementArray");
+                Banana.console.debug(elementValueArray);
+
+                Banana.console.debug("oggetto");
+                Banana.console.debug(oggetto);
+
+                var row = table3.addRow();
+                row.addCell(elementFieldArray, "row level0");
+                row.addCell(elementValueArray, "row level0");
+                //const elementValue = JSON.parse(oggettoStringa)["value"];
+                //const arrayElement = elementValue.split(": ")[1];
+                //const oggetto = JSON.parse(arrayElement);
+                //const elementArray = oggetto['value'];
+            } catch (error) {
+                Banana.console.debug("error: " + error);
+            }
+
+        }
+
+
+
+        // Aggiungi righe alla tabella
+        /* for (var i = 0; i < data.length; i++) {
+            var row = table3.addRow();
+            row.addCell(data[i].field, "row level0"); // Aggiungi il campo
+             // Aggiungi il valore
+
+        } */
+
+
+
+        //Banana.console.debug("Object.keys(row) "+Object.keys(row));
+        //Banana.console.debug("report dataCompany: "+Object.keys(dataCompany));
+        //Banana.console.debug(JSON.stringify(dataCompany));
+
+        /* for (let chiave in dataCompany) {
+            if (dataCompany.hasOwnProperty(chiave)) { 
+                row = table3.addRow();
+                var field = `${chiave}`;
+                var value = `${JSON.stringify(dataCompany[chiave])}`;
+                row.addCell(field,"Field");
+                row.addCell(value, "Value");
+            }
+        }  */
     }
 }

@@ -16,22 +16,12 @@
 // @id = ch.banana.script.EBilanz61-SKR04-KapG
 // @doctype = *.*
 // @publisher = Banana.ch SA
-// @pubdate = 2024-04-24
-// @description = E-Bilanz Taxonomie 6.1 SKR04 Kapitalgesellschaften
+// @pubdate = 2024-08-26
+// @description = E-Bilanz Taxonomie 6.8 SKR04 Kapitalgesellschaften
 // @task = app.command
 // @inputdatasource = none
 // @encoding = utf-8
 // @timeout = -1
 // @includejs = Main.js
 // @includejs = OpenPropertyEditor.js
-
-function exec(inData, options) {
-    var main = new Main();
-    var openEditor = new openPropertyEditor();
-
-    openEditor.initParam();
-    openEditor.settingsDialog('EBilanz54PersG');
-    var output = main.mainExecutionEBilanz61KapG();
-    return output;
-}
 
