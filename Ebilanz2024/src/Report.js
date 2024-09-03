@@ -98,7 +98,6 @@ var Report = class Report {
         this.printEBilanzReport_table(report, stylesheet, param, context, 'role_balanceSheet');
         this.printEBilanzReport_table(report, stylesheet, param, context, 'role_incomeStatement');
         this.printDataCompany(report, dataCompany);
-
     }
 
     printEBilanzReport_table(report, stylesheet, param, context, role) {
@@ -142,14 +141,10 @@ var Report = class Report {
         }
     }
     printDataCompany(report, dataCompany) {
-        var data = [];
-        /* for (var elem in dataCompany) {
-            data.push(elem);
-        } */
         //Data Rows
         var table3 = report.addTable("table3");
         var headerRow = table3.getHeader().addRow();
-        var title = 'Company personal data';
+        var title = 'Global Common Data';
         headerRow.addCell(title, "mainTitle");
 
         //Column names
@@ -157,103 +152,16 @@ var Report = class Report {
         headerRow.addCell("Field", "title description");
         headerRow.addCell("Value", "title description");
 
-        //First row
-        var row = table3.addRow();
-
-        //Banana.console.debug("dataCompany "+Object.keys(dataCompany));
-        //Rows
-        Banana.console.debug("JSON.stringify(dataCompany)");
-        Banana.console.debug(JSON.stringify(dataCompany));
-
-        // Itera su dataCompany per ottenere chiavi e valori
-        for (var key in dataCompany) {
-            if (dataCompany.hasOwnProperty(key)) {
-
-                var value = dataCompany[key]['value'] ? dataCompany[key][value] : dataCompany[key];
-                Banana.console.debug("value:");
-                Banana.console.debug(dataCompany[key]['value']);
-                // Aggiungi un oggetto con chiave e valore all'array data
-                data.push({ name: key, value: value });
-            }
-        }
-        // Data Rows
-        var table3 = report.addTable("table3");
-        var headerRow = table3.getHeader().addRow();
-        var title = 'Company personal data';
-        headerRow.addCell(title, "mainTitle");
-
-        // Nomi delle colonne
-        headerRow = table3.getHeader().addRow();
-        headerRow.addCell("Field", "title description");
-        headerRow.addCell("Value", "title description");
-        //Banana.console.debug("data " + JSON.stringify(data)); // Stampa i dati in formato JSON
-        for (let index = 0; index < data.length; index++) {
-            const element = JSON.stringify(data[index]);
-            var indiceInizio = element.indexOf('{');
-            var oggettoStringa = element.substring(indiceInizio);
-
-            Banana.console.debug("oggettoStringa");
-            Banana.console.debug(oggettoStringa);
-            try {
-                const elementValue = JSON.parse(oggettoStringa)["value"];
-                const arrayElement = elementValue.split(": ")[1];
-                const oggetto = JSON.parse(arrayElement);
-                const elementValueArray = oggetto['value'];
-                const elementFieldArray = oggetto['name'];
-                Banana.console.debug("elementValue");
-                Banana.console.debug(elementValue);
-
-                Banana.console.debug("elementArray");
-                Banana.console.debug(elementValueArray);
-
-                Banana.console.debug("oggetto");
-                Banana.console.debug(oggetto);
-                Banana.console.debug("elementValue");
-                Banana.console.debug(elementValue);
-
-                Banana.console.debug("elementArray");
-                Banana.console.debug(elementValueArray);
-
-                Banana.console.debug("oggetto");
-                Banana.console.debug(oggetto);
-
-                var row = table3.addRow();
-                row.addCell(elementFieldArray, "row level0");
-                row.addCell(elementValueArray, "row level0");
-                //const elementValue = JSON.parse(oggettoStringa)["value"];
-                //const arrayElement = elementValue.split(": ")[1];
-                //const oggetto = JSON.parse(arrayElement);
-                //const elementArray = oggetto['value'];
-            } catch (error) {
-                Banana.console.debug("error: " + error);
-            }
-
-        }
-
-
-
-        // Aggiungi righe alla tabella
-        /* for (var i = 0; i < data.length; i++) {
+        for (const item of dataCompany) {
+            var itemKey = `${item.key}`;
+            var itemValue = `${item.value}`;
             var row = table3.addRow();
-            row.addCell(data[i].field, "row level0"); // Aggiungi il campo
-             // Aggiungi il valore
-
-        } */
-
-
-
-        //Banana.console.debug("Object.keys(row) "+Object.keys(row));
-        //Banana.console.debug("report dataCompany: "+Object.keys(dataCompany));
-        //Banana.console.debug(JSON.stringify(dataCompany));
-
-        /* for (let chiave in dataCompany) {
-            if (dataCompany.hasOwnProperty(chiave)) { 
-                row = table3.addRow();
-                var field = `${chiave}`;
-                var value = `${JSON.stringify(dataCompany[chiave])}`;
-                row.addCell(field,"Field");
-                row.addCell(value, "Value");
+            if(itemValue){
+                row.addCell(itemKey, "row level0");
+                row.addCell(itemValue, "row level0");
             }
-        }  */
+        }
+
+        
     }
 }

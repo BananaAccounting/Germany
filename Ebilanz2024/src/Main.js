@@ -93,9 +93,9 @@ var Main = class Main {
     var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
     var stylesheet = Banana.Report.newStyleSheet();
     for (var i in contextList) {
-      reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i],dataCompany);
+      reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i], dataCompany);
     }
-    
+
 
     Banana.Report.preview(report, stylesheet);
   }
@@ -187,7 +187,7 @@ var Main = class Main {
     }
     Banana.Report.preview(report, stylesheet);
   }
-  mainExecutionEBilanz54PersG(inData, options,dataCompany) {
+  mainExecutionEBilanz54PersG(inData, options, dataCompany) {
     var initParam = new InitParameterEBilanz54PersG();
     var accountingData = new AccountingOperation();
     var reportPrint = new Report();
@@ -271,8 +271,18 @@ var Main = class Main {
     var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
     var stylesheet = Banana.Report.newStyleSheet();
     for (var i in contextList) {
-      reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i],dataCompany);
+      reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i], dataCompany);
     }
+
+    /* var savedParam = Banana.document.getScriptSettings();
+    if (savedParam.length > 0) {
+      param = JSON.parse(savedParam);
+      //param = verifyParam(param);
+    }
+    Banana.console.debug("Main");
+    Banana.console.debug(param);
+    Banana.console.debug(savedParam); */
+
     Banana.Report.preview(report, stylesheet);
     //return output;
   }
