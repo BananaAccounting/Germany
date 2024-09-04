@@ -149,8 +149,8 @@ var Report = class Report {
 
         //Column names
         headerRow = table3.getHeader().addRow();
-        headerRow.addCell("Field", "title description");
-        headerRow.addCell("Value", "title description");
+        headerRow.addCell("Feld", "title description");
+        headerRow.addCell("Wert", "title description");
 
         for (const item of dataCompany) {
             var itemKey = `${item.key}`;
