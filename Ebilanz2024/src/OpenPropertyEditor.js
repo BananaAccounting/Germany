@@ -81,7 +81,7 @@ var openPropertyEditor = class openPropertyEditor {
         return true;
     }
 
-    getDataJSONDialog(){
+    getDataJSONDialog() {
         return this.stringJSONValueDialogEBilanz;
     }
 
@@ -96,154 +96,418 @@ var openPropertyEditor = class openPropertyEditor {
      * @param {*} paramEditable 
      * @returns 
      */
-    createParameter(param, paramName, paramTitle, paramType, paramParent, defaultValueMessage, paramEditable, items) {
-        var currentParameter = {};
-        currentParameter.name = paramName;
-        currentParameter.title = paramTitle;
-        currentParameter.type = paramType;
-        currentParameter.parentObject = paramParent;
-        currentParameter.editable = paramEditable;
-        if(items.length > 0){
-            Banana.console.debug("Control items length");
-            currentParameter.items = items.slice();
-        }
-        if (paramType === 'string') {
-            currentParameter.value = param[paramName] ? param[paramName] : defaultValueMessage;
-            Banana.console.debug("Control paramType string");
-        }
-        else if (paramType === 'bool') {
-            currentParameter.value = param[paramName] ? param[paramName] : false;
-            Banana.console.debug("Control bool");
-        }
-        currentParameter.readValue = function () {
-            param[paramName] = this.value;
+    createParameter(param, options) {
+        var currentParameter = {
+            name: options.paramName,
+            title: options.paramTitle,
+            type: options.paramType,
+            parentObject: options.paramParent,
+            editable: options.paramEditable,
+            items: options.items.length > 0 ? options.items.slice() : undefined,
+            value: (() => this.getDefaultValue(param, options))()
         };
+    
+        currentParameter.readValue = function () {
+            param[options.paramName] = this.value;
+        };
+    
         return currentParameter;
-
     }
+    
+    getDefaultValue(param, options) {
+        if (options.paramType === 'string') {
+            return param[options.paramName] ? param[options.paramName] : options.defaultValueMessage;
+        } else if (options.paramType === 'bool') {
+            return param[options.paramName] ? param[paramName] : false;
+        }
+        return undefined;
+    }
+    
 
     convertParamEB54PersG(param) {
 
         var lang = 'en';
 
-        var convertedParam = {};
+        var convertedParam = { data: [] };
         convertedParam.version = '1.0';
-        convertedParam.data = [];
 
-        var currentParam = this.createParameter(param, 'Dokumentinformation', 'Dokumentinformation', 'string', 'Dokumentinformation', '', false, '');
-        convertedParam.data.push(currentParam);
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Dokumentinformation',
+            paramTitle: 'Dokumentinformation',
+            paramType: 'string',
+            paramParent: 'Dokumentinformation',
+            defaultValueMessage: '',
+            paramEditable: false,
+            items: []
+        }));
 
-        var currentParam = this.createParameter(param, 'Identifikationsmerkmale des Dokuments', 'Identifikationsmerkmale des Dokuments', 'string', 'Dokumentinformation', '', false, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Erstellungsdatum', 'Erstellungsdatum', 'date', 'Identifikationsmerkmale des Dokuments', '' , true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Anlass zur Erstellung des Dokuments', 'Anlass zur Erstellung des Dokuments', 'string', 'Identifikationsmerkmale des Dokuments', '[Anlass zur Erstellung des Dokuments]', true,'');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Inhalt des Dokuments', 'Inhalt des Dokuments', 'string', 'Identifikationsmerkmale des Dokuments', '[Inhalt des Dokuments]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Ursprungssprache des Dokuments', 'Ursprungssprache des Dokuments', 'string', 'Identifikationsmerkmale des Dokuments', '[Ursprungssprache des Dokuments]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Dokument veröffentlichungsfähig?', 'Dokument veröffentlichungsfähig?', 'string', 'Identifikationsmerkmale des Dokuments', '[Dokument veröffentlichungsfähig? JA/NEIN]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Dokumentersteller', 'Dokumentersteller', 'string', 'Dokumentersteller', '', false, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Unternehmens-Identifikationsnummer', 'Unternehmens-Identifikationsnummer', 'string', 'Dokumentersteller', '[Schreiben Sie die Unternehmens-Identifikationsnummer]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Dokumentersteller, Name', 'Dokumentersteller, Name', 'string', 'Dokumentersteller', '[Dokumentersteller, Name]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Funktion, Dokumentersteller', 'Funktion, Dokumentersteller', 'string', 'Dokumentersteller', '[Funktion, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Kontaktperson des Unternehmens', 'Kontaktperson des Unternehmens', 'string', 'Funktion, Dokumentersteller', '[Kontaktperson des Unternehmens]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Steuerberater', 'Steuerberater', 'string', 'Steuerberater', '[Steuerberater]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Firmenname, Dokumentersteller', 'Firmenname, Dokumentersteller', 'string', 'Dokumentersteller', '[Firmenname, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Straße, Dokumentersteller', 'Straße, Dokumentersteller', 'string', 'Dokumentersteller', '[Straße, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Hausnummer, Dokumentersteller', 'Hausnummer, Dokumentersteller', 'string', 'Dokumentersteller', '[Hausnummer, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Postleitzahl, Dokumentersteller', 'Postleitzahl, Dokumentersteller', 'string', 'Dokumentersteller', '[Postleitzahl, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Ort, Dokumentersteller', 'Ort, Dokumentersteller', 'string', 'Dokumentersteller', '[Ort, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Land, Dokumentersteller', 'Land, Dokumentersteller', 'string', 'Dokumentersteller', '[Land, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Iso Code Land, Dokumentersteller', 'Iso Code Land, Dokumentersteller', 'string', 'Land, Dokumentersteller', '[Iso Code Land, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Telefonnummer, Dokumentersteller', 'Telefonnummer, Dokumentersteller', 'string', 'Dokumentersteller', '[Telefonnummer, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Faxnummer, Dokumentersteller', 'Faxnummer, Dokumentersteller', 'string', 'Dokumentersteller', '[Faxnummer, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'e-mail Adresse, Dokumentersteller', 'e-mail Adresse, Dokumentersteller', 'string', 'Dokumentersteller', '[e-mail Adresse, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Hauptansprechpartner, Dokumentersteller', 'Hauptansprechpartner, Dokumentersteller', 'string', 'Dokumentersteller', '[Hauptansprechpartner, Dokumentersteller]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Dokumentrevisionen', 'Dokumentrevisionen', 'string', '', '[Dokumentrevisionen]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Liste Dokumentrevisionen mit Datum', 'Liste Dokumentrevisionen mit Datum', 'string', 'Dokumentrevisionen', '[Liste Dokumentrevisionen mit Datum]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'aktuelle Versionsnummer Dokument', 'aktuelle Versionsnummer Dokument', 'string', 'Dokumentrevisionen', '[aktuelle Versionsnummer Dokument]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Änderungsdatum Dokument', 'Änderungsdatum Dokument', 'date', 'Dokumentrevisionen', '', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Veranlasser der Änderung im Dokument', 'Veranlasser der Änderung im Dokument', 'string', 'Dokumentrevisionen', '[Veranlasser der Änderung im Dokument]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'nutzerspezifische Dokumentinformationen', 'nutzerspezifische Dokumentinformationen', 'string', '', '[nutzerspezifische Dokumentinformationen]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Informationen zum Bericht', 'Informationen zum Bericht', 'string', '', '[Informationen zum Bericht]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Sachverständige', 'Sachverständige', 'string', 'Informationen zum Bericht', '[Sachverständige]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Gutachter für Pensionsrückstellung', 'Gutachter für Pensionsrückstellung', 'string', 'Sachverständige', '[Gutachter für Pensionsrückstellung]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'sonstige Gutachter', 'sonstige Gutachter', 'string', 'Sachverständige', '[sonstige Gutachter (z.B. für Gutachter zur Bewertung von Beteiligungen oder Grundstücken)]', true, '');
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Identifikationsmerkmale des Berichts', 'Identifikationsmerkmale des Berichts', 'string', '', '[Identifikationsmerkmale des Berichts]', true,'');
-        convertedParam.data.push(currentParam);
-
-        let items = [];
-        items.push('Geschäftsbericht','Jahresfinanzbericht', 'Verkaufsprospekt', 'Prüfungsbericht', 'Erstellungsbericht', 'Jahresabschluss', 'Einnahmeüberschussrechnung', 'Halbjahresfinanzbericht', 'Gutachten', 'Quartalsfinanzbericht', 'sonstiger Bericht');
-        var currentParam = this.createParameter(param, 'Art des Berichts', 'Art des Berichts', 'combobox', 'Identifikationsmerkmale des Berichts','', true, items);
-        convertedParam.data.push(currentParam);
-
-        var currentParam = this.createParameter(param, 'Feststellungsdatum / Billigungsdatum / Veröffentlichungsdatum', 'Feststellungsdatum / Billigungsdatum / Veröffentlichungsdatum', 'date', '','', true, '');
-        convertedParam.data.push(currentParam);
-
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Identifikationsmerkmale des Dokuments',
+            paramTitle: 'Identifikationsmerkmale des Dokuments',
+            paramType: 'string',
+            paramParent: 'Dokumentinformation',
+            defaultValueMessage: '',
+            paramEditable: false,
+            items: []
+        }));
         
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Erstellungsdatum',
+            paramTitle: 'Erstellungsdatum',
+            paramType: 'date',
+            paramParent: 'Identifikationsmerkmale des Dokuments',
+            defaultValueMessage: '',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Anlass zur Erstellung des Dokuments',
+            paramTitle: 'Anlass zur Erstellung des Dokuments',
+            paramType: 'string',
+            paramParent: 'Identifikationsmerkmale des Dokuments',
+            defaultValueMessage: '[Anlass zur Erstellung des Dokuments]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Inhalt des Dokuments',
+            paramTitle: 'Inhalt des Dokuments',
+            paramType: 'string',
+            paramParent: 'Identifikationsmerkmale des Dokuments',
+            defaultValueMessage: '[Inhalt des Dokuments]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Ursprungssprache des Dokuments',
+            paramTitle: 'Ursprungssprache des Dokuments',
+            paramType: 'string',
+            paramParent: 'Identifikationsmerkmale des Dokuments',
+            defaultValueMessage: '[Ursprungssprache des Dokuments]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Dokument veröffentlichungsfähig?',
+            paramTitle: 'Dokument veröffentlichungsfähig?',
+            paramType: 'string',
+            paramParent: 'Identifikationsmerkmale des Dokuments',
+            defaultValueMessage: '[Dokument veröffentlichungsfähig? JA/NEIN]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Dokumentersteller',
+            paramTitle: 'Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '',
+            paramEditable: false,
+            items: []
+        }));
+
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Unternehmens-Identifikationsnummer',
+            paramTitle: 'Unternehmens-Identifikationsnummer',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Schreiben Sie die Unternehmens-Identifikationsnummer]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Dokumentersteller, Name',
+            paramTitle: 'Dokumentersteller, Name',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Dokumentersteller, Name]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Funktion, Dokumentersteller',
+            paramTitle: 'Funktion, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Funktion, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Kontaktperson des Unternehmens',
+            paramTitle: 'Kontaktperson des Unternehmens',
+            paramType: 'string',
+            paramParent: 'Funktion, Dokumentersteller',
+            defaultValueMessage: '[Kontaktperson des Unternehmens]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Steuerberater',
+            paramTitle: 'Steuerberater',
+            paramType: 'string',
+            paramParent: 'Steuerberater',
+            defaultValueMessage: '[Steuerberater]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Firmenname, Dokumentersteller',
+            paramTitle: 'Firmenname, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Firmenname, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Straße, Dokumentersteller',
+            paramTitle: 'Straße, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Straße, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Hausnummer, Dokumentersteller',
+            paramTitle: 'Hausnummer, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Hausnummer, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Postleitzahl, Dokumentersteller',
+            paramTitle: 'Postleitzahl, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Postleitzahl, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Ort, Dokumentersteller',
+            paramTitle: 'Ort, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Ort, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Land, Dokumentersteller',
+            paramTitle: 'Land, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Land, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Iso Code Land, Dokumentersteller',
+            paramTitle: 'Iso Code Land, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Land, Dokumentersteller',
+            defaultValueMessage: '[Iso Code Land, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Telefonnummer, Dokumentersteller',
+            paramTitle: 'Telefonnummer, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Telefonnummer, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Faxnummer, Dokumentersteller',
+            paramTitle: 'Faxnummer, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Faxnummer, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'e-mail Adresse, Dokumentersteller',
+            paramTitle: 'e-mail Adresse, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[e-mail Adresse, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Hauptansprechpartner, Dokumentersteller',
+            paramTitle: 'Hauptansprechpartner, Dokumentersteller',
+            paramType: 'string',
+            paramParent: 'Dokumentersteller',
+            defaultValueMessage: '[Hauptansprechpartner, Dokumentersteller]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Dokumentrevisionen',
+            paramTitle: 'Dokumentrevisionen',
+            paramType: 'string',
+            paramParent: '',
+            defaultValueMessage: '[Dokumentrevisionen]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Liste Dokumentrevisionen mit Datum',
+            paramTitle: 'Liste Dokumentrevisionen mit Datum',
+            paramType: 'string',
+            paramParent: 'Dokumentrevisionen',
+            defaultValueMessage: '[Liste Dokumentrevisionen mit Datum]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'aktuelle Versionsnummer Dokument',
+            paramTitle: 'aktuelle Versionsnummer Dokument',
+            paramType: 'string',
+            paramParent: 'Dokumentrevisionen',
+            defaultValueMessage: '[aktuelle Versionsnummer Dokument]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Änderungsdatum Dokument',
+            paramTitle: 'Änderungsdatum Dokument',
+            paramType: 'date',
+            paramParent: 'Dokumentrevisionen',
+            defaultValueMessage: '',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Veranlasser der Änderung im Dokument',
+            paramTitle: 'Veranlasser der Änderung im Dokument',
+            paramType: 'string',
+            paramParent: 'Dokumentrevisionen',
+            defaultValueMessage: '[Veranlasser der Änderung im Dokument]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'nutzerspezifische Dokumentinformationen',
+            paramTitle: 'nutzerspezifische Dokumentinformationen',
+            paramType: 'string',
+            paramParent: '',
+            defaultValueMessage: '[nutzerspezifische Dokumentinformationen]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Informationen zum Bericht',
+            paramTitle: 'Informationen zum Bericht',
+            paramType: 'string',
+            paramParent: '',
+            defaultValueMessage: '[Informationen zum Bericht]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Sachverständige',
+            paramTitle: 'Sachverständige',
+            paramType: 'string',
+            paramParent: 'Informationen zum Bericht',
+            defaultValueMessage: '[Sachverständige]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Gutachter für Pensionsrückstellung',
+            paramTitle: 'Gutachter für Pensionsrückstellung',
+            paramType: 'string',
+            paramParent: 'Sachverständige',
+            defaultValueMessage: '[Gutachter für Pensionsrückstellung]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'sonstige Gutachter',
+            paramTitle: 'sonstige Gutachter',
+            paramType: 'string',
+            paramParent: 'Sachverständige',
+            defaultValueMessage: '[sonstige Gutachter (z.B. für Gutachter zur Bewertung von Beteiligungen oder Grundstücken)]',
+            paramEditable: true,
+            items: []
+        }));
+        
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Identifikationsmerkmale des Berichts',
+            paramTitle: 'Identifikationsmerkmale des Berichts',
+            paramType: 'string',
+            paramParent: '',
+            defaultValueMessage: '[Identifikationsmerkmale des Berichts]',
+            paramEditable: true,
+            items: []
+        }));
+
+        let items = [
+            'Geschäftsbericht', 'Jahresfinanzbericht', 'Verkaufsprospekt',
+            'Prüfungsbericht', 'Erstellungsbericht', 'Jahresabschluss',
+            'Einnahmeüberschussrechnung', 'Halbjahresfinanzbericht',
+            'Gutachten', 'Quartalsfinanzbericht', 'sonstiger Bericht'
+        ];
+    
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Art des Berichts',
+            paramTitle: 'Art des Berichts',
+            paramType: 'combobox',
+            paramParent: 'Identifikationsmerkmale des Berichts',
+            defaultValueMessage: '',
+            paramEditable: true,
+            items: items
+        }));
+
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Feststellungsdatum / Billigungsdatum / Veröffentlichungsdatum',
+            paramTitle: 'Feststellungsdatum / Billigungsdatum / Veröffentlichungsdatum',
+            paramType: 'date',
+            paramParent: '',
+            defaultValueMessage: '[Feststellungsdatum / Billigungsdatum / Veröffentlichungsdatum]',
+            paramEditable: true,
+            items: []
+        })); 
 
         return convertedParam;
     }
