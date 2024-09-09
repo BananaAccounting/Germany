@@ -29,9 +29,13 @@ function exec(inData, options) {
   var main = new Main();
   var openEditor = new openPropertyEditor();
 
-  openEditor.initParam();
-  openEditor.settingsDialog('EBilanz54KapG');
-
-  var output = main.mainExecutionEBilanz54KapG("","");
+  var openEditor = new openPropertyEditor();
+    if(!openEditor.settingsDialog('EBilanz54KapG')){
+      return '@Cancel';
+    }
+    openEditor.initParam();
+    var JSONdataDialog = openEditor.getDataJSONDialog();
+    var arrayDataDialog = openEditor.jsonToArrayConverter(JSONdataDialog);
+    var output = main.mainExecutionEBilanz54KapG("", "", arrayDataDialog);
   return output;
 }

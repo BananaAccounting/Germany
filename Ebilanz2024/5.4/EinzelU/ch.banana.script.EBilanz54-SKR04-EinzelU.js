@@ -28,9 +28,12 @@
 function exec(inData, options) {
     var main = new Main();
     var openEditor = new openPropertyEditor();
-
+    if(!openEditor.settingsDialog('EBilanz54EinzelU')){
+      return '@Cancel';
+    }
     openEditor.initParam();
-    openEditor.settingsDialog('EBilanz54EinzelU');
-    var output = main.mainExecutionEBilanzEBilanz54EinzelU();
+    var JSONdataDialog = openEditor.getDataJSONDialog();
+    var arrayDataDialog = openEditor.jsonToArrayConverter(JSONdataDialog);
+    var output = main.mainExecutionEBilanzEBilanz54EinzelU("", "", arrayDataDialog);
     return output;
   }

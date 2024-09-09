@@ -28,16 +28,12 @@
 function exec(inData, options) {
   var main = new Main();
   var openEditor = new openPropertyEditor();
-  //var JSONdataDialog = openEditor.settingsDialog('EBilanz54PersG');
   if(!openEditor.settingsDialog('EBilanz54PersG')){
     return '@Cancel';
   }
   openEditor.initParam();
   var JSONdataDialog = openEditor.getDataJSONDialog();
   var arrayDataDialog = openEditor.jsonToArrayConverter(JSONdataDialog);
-  Banana.console.debug("persG arrayDataDialog");
-  Banana.console.debug(arrayDataDialog);
-  
   var output = main.mainExecutionEBilanz54PersG("", "", arrayDataDialog);
 
   return output;
