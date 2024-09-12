@@ -16,7 +16,7 @@
 var Report = class Report {
     constructor() {
     }
-    printEBilanzReport(report, stylesheet, param, context, dataCompany) {
+    printEBilanzReport(report, stylesheet, param, context, dataCompany, dataLevelCompany) {
         // Styles
         stylesheet.addStyle("@page", "size:portrait;margin-top:1em;font-size: 10px; ");
         stylesheet.addStyle(".amount", "text-align: right;");
@@ -40,7 +40,13 @@ var Report = class Report {
         stylesheet.addStyle(".warning", "color: red;font-size:8px;");
         stylesheet.addStyle("td.row", "border:1px solid #dddddd;padding:3px;");
         stylesheet.addStyle("td.title", "border:1px solid #dddddd;padding:3px;");
-
+        //stile dei dataCompany
+        stylesheet.addStyle("td.data", "border:1px solid #dddddd;padding:3px;");
+        stylesheet.addStyle(".data.level0", "padding-left:0px;");
+        stylesheet.addStyle(".data.level1", "padding-left:10px;");
+        stylesheet.addStyle(".data.level2", "padding-left:20px;");
+        stylesheet.addStyle(".data.level3", "padding-left:30px;");
+        stylesheet.addStyle(".data.level4", "padding-left:40px;");
         //Footer
         var reportFooter = report.getFooter();
         reportFooter.addClass("center");
@@ -97,7 +103,7 @@ var Report = class Report {
 
         this.printEBilanzReport_table(report, stylesheet, param, context, 'role_balanceSheet');
         this.printEBilanzReport_table(report, stylesheet, param, context, 'role_incomeStatement');
-        this.printDataCompany(report, dataCompany);
+        this.printDataCompany(report, dataCompany, dataLevelCompany);
     }
 
     printEBilanzReport_table(report, stylesheet, param, context, role) {
@@ -140,7 +146,8 @@ var Report = class Report {
             row.addCell(amount, className + " amount");
         }
     }
-    printDataCompany(report, dataCompany) {
+    printDataCompany(report, dataCompany, dataLevelCompany) {
+
         //Data Rows
         var table3 = report.addTable("table3");
         var headerRow = table3.getHeader().addRow();
@@ -151,17 +158,27 @@ var Report = class Report {
         headerRow = table3.getHeader().addRow();
         headerRow.addCell("Feld", "title description");
         headerRow.addCell("Wert", "title description");
-
+        let level;
+        let counter = 0;
         for (const item of dataCompany) {
-            var itemKey = `${item.key}`;
-            var itemValue = `${item.value}`;
-            var row = table3.addRow();
-            if(itemValue){
-                row.addCell(itemKey, "row level0");
-                row.addCell(itemValue, "row level0");
+            level = dataLevelCompany[counter];
+            Banana.console.debug("item.key: "+(item.key !== "field") || (item.key !== "value"));
+            if (!(item.key === "field" || item.key === "value")) {
+                var row = table3.addRow();
+                var itemKey = `${item.key}`;
+                var itemValue = `${item.value}`;
+                counter++;
+                if (itemValue) {
+                    Banana.console.debug("data level" + level);
+                    row.addCell(itemKey, "data level" + level);
+                    row.addCell(itemValue, "data level" + level);
+                }
+                if (!itemValue) {
+                    row.addCell(itemKey, "data level" + level);
+                    row.addCell("", "data level1");
+                }
             }
+            
         }
-
-        
     }
 }

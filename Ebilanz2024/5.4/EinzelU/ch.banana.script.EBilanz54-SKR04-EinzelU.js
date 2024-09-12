@@ -34,6 +34,11 @@ function exec(inData, options) {
     openEditor.initParam();
     var JSONdataDialog = openEditor.getDataJSONDialog();
     var arrayDataDialog = openEditor.jsonToArrayConverter(JSONdataDialog);
+    Banana.console.debug("JSONDATADIALOG: ");
+    Banana.console.debug(Object.entries(JSON.parse(JSONdataDialog)));
+    Banana.console.debug("arrayDataDialog: ");
+    Banana.console.debug(arrayDataDialog.forEach(item => {Banana.console.debug(`Key: ${item.key}, Value: ${item.value}`)}));
+    
     var output = main.mainExecutionEBilanzEBilanz54EinzelU("", "", arrayDataDialog);
     return output;
   }
