@@ -20,8 +20,11 @@
 var openPropertyEditor = class openPropertyEditor {
     constructor() {
         this.stringJSONValueDialogEBilanz = null;
+        this.nameElementDialogEbilanz = [];
+        this.valueElementDialogEbilanz = [];
         this.levelElementDialogEBilanz = [];
-    }
+        this.dataDialog = {name: [], value: [], level: []};
+        }
     initParam() {
         var param = {};
         param.field = "";
@@ -75,7 +78,10 @@ var openPropertyEditor = class openPropertyEditor {
 
         if (Banana.document) {
             var value = Banana.document.setScriptSettings(paramToString);
+            Banana.console.debug("typeof value "+ typeof value);
             this.stringJSONValueDialogEBilanz = Banana.document.getScriptSettings();
+            Banana.console.debug("this.stringJSONValueDialogEBilanz "+ this.stringJSONValueDialogEBilanz);
+            //this.stringJSONValueDialogEBilanz = Banana.document.setScriptSettings(paramToString)
             this.getDataJSONDialog(this.stringJSONValueDialogEBilanz);
         }
 
@@ -93,42 +99,51 @@ var openPropertyEditor = class openPropertyEditor {
      * @returns 
      */
     createParameter(param, options) {
-        var currentParameter = {
-            name: options.paramName,
-            title: options.paramTitle,
-            type: options.paramType,
-            parentObject: options.paramParent,
-            editable: options.paramEditable,
-            items: options.items.length > 0 ? options.items.slice() : undefined,
-            value: (() => this.getDefaultValue(param, options))(),
-            level: options.level
-        };
-    
-        currentParameter.readValue = function () {
-            param[options.paramName] = this.value;
-        };
+            var currentParameter = {
+                name: options.paramName,
+                title: options.paramTitle,
+                type: options.paramType,
+                parentObject: options.paramParent,
+                editable: options.paramEditable,
+                items: options.items.length > 0 ? options.items.slice() : undefined,
+                value: (() => this.getDefaultValue(param, options))(),
+                level: options.level
+            };
 
-        this.saveLevelElementDialogData(currentParameter);
-        
-        return currentParameter;
-
-    }
-    saveLevelElementDialogData(arrayParameter) {
-            this.levelElementDialogEBilanz.push(arrayParameter.level);
-    }
-
-    getArryLevelDialogData(){
-        for (let index = 0; index < this.levelElementDialogEBilanz.length; index++) {
-            const element = this.levelElementDialogEBilanz[index];
-            Banana.console.debug("element levelElementDialogEBilanz:");
-            Banana.console.debug(element);
             
-        }
+            currentParameter.readValue = function () {
+                param[options.paramName] = this.value;
+            };
+           
+            this.saveElementsDialogData(options, (() => this.getDefaultValue(param, options))());
+
+            Banana.console.debug("createParameter: currentparam Level: "+options.level +" currentparam key "+options.paramName);
+            this.saveLevelElementDialogData(options.level);
+
+        return currentParameter;
+    }
+
+    saveElementsDialogData(options, value) {
+        this.dataDialog.name.push(options.paramName);
+        this.dataDialog.value.push(value);
+        this.dataDialog.level.push(options.level);
+
+    }
+    getElementsDialogData(){
+        return this.dataDialog;
+    }
+    
+    saveLevelElementDialogData(level) {
+            this.levelElementDialogEBilanz.push(level);
+    }
+
+    getArrayLevelDialogData(){
+        Banana.console.debug("length levelelemtndialogEbilanz"+this.levelElementDialogEBilanz.length);
         return this.levelElementDialogEBilanz;
     }
     
     getDefaultValue(param, options) {
-        if (options.paramType === 'string') {
+        if (options.paramType === 'string' || options.paramType === 'date') {
             return param[options.paramName] ? param[options.paramName] : options.defaultValueMessage;
         } else if (options.paramType === 'bool') {
             return param[options.paramName] ? param[options.paramName] : options.defaultValueMessage = false;
@@ -143,393 +158,8 @@ var openPropertyEditor = class openPropertyEditor {
 
         var convertedParam = { data: [] };
         convertedParam.version = '1.0';
-
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Dokumentinformation',
-            paramTitle: 'Dokumentinformation',
-            paramType: 'string',
-            paramParent: 'Dokumentinformation',
-            defaultValueMessage: '',
-            paramEditable: false,
-            items: [],
-            level: "1"
-        }));
-
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Identifikationsmerkmale des Dokuments',
-            paramTitle: 'Identifikationsmerkmale des Dokuments',
-            paramType: 'string',
-            paramParent: 'Dokumentinformation',
-            defaultValueMessage: '',
-            paramEditable: false,
-            items: [],
-            level: "2"
-        }));
         
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Erstellungsdatum',
-            paramTitle: 'Erstellungsdatum',
-            paramType: 'date',
-            paramParent: 'Identifikationsmerkmale des Dokuments',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Anlass zur Erstellung des Dokuments',
-            paramTitle: 'Anlass zur Erstellung des Dokuments',
-            paramType: 'string',
-            paramParent: 'Identifikationsmerkmale des Dokuments',
-            defaultValueMessage: '[Anlass zur Erstellung des Dokuments]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Inhalt des Dokuments',
-            paramTitle: 'Inhalt des Dokuments',
-            paramType: 'string',
-            paramParent: 'Identifikationsmerkmale des Dokuments',
-            defaultValueMessage: '[Inhalt des Dokuments]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Ursprungssprache des Dokuments',
-            paramTitle: 'Ursprungssprache des Dokuments',
-            paramType: 'string',
-            paramParent: 'Identifikationsmerkmale des Dokuments',
-            defaultValueMessage: '[Ursprungssprache des Dokuments]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Dokument veröffentlichungsfähig?',
-            paramTitle: 'Dokument veröffentlichungsfähig?',
-            paramType: 'string',
-            paramParent: 'Identifikationsmerkmale des Dokuments',
-            defaultValueMessage: '[Dokument veröffentlichungsfähig? JA/NEIN]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Dokumentersteller',
-            paramTitle: 'Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '',
-            paramEditable: false,
-            items: [],
-            level: "1"
-        }));
-
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Unternehmens-Identifikationsnummer',
-            paramTitle: 'Unternehmens-Identifikationsnummer',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Schreiben Sie die Unternehmens-Identifikationsnummer]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Dokumentersteller, Name',
-            paramTitle: 'Dokumentersteller, Name',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Dokumentersteller, Name]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Funktion, Dokumentersteller',
-            paramTitle: 'Funktion, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Funktion, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Kontaktperson des Unternehmens',
-            paramTitle: 'Kontaktperson des Unternehmens',
-            paramType: 'string',
-            paramParent: 'Funktion, Dokumentersteller',
-            defaultValueMessage: '[Kontaktperson des Unternehmens]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Steuerberater',
-            paramTitle: 'Steuerberater',
-            paramType: 'string',
-            paramParent: 'Steuerberater',
-            defaultValueMessage: '[Steuerberater]',
-            paramEditable: true,
-            items: [],
-            level: "1"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Firmenname, Dokumentersteller',
-            paramTitle: 'Firmenname, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Firmenname, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Straße, Dokumentersteller',
-            paramTitle: 'Straße, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Straße, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Hausnummer, Dokumentersteller',
-            paramTitle: 'Hausnummer, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Hausnummer, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Postleitzahl, Dokumentersteller',
-            paramTitle: 'Postleitzahl, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Postleitzahl, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Ort, Dokumentersteller',
-            paramTitle: 'Ort, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Ort, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Land, Dokumentersteller',
-            paramTitle: 'Land, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Land, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Iso Code Land, Dokumentersteller',
-            paramTitle: 'Iso Code Land, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Land, Dokumentersteller',
-            defaultValueMessage: '[Iso Code Land, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        
-
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Telefonnummer, Dokumentersteller',
-            paramTitle: 'Telefonnummer, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Telefonnummer, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Faxnummer, Dokumentersteller',
-            paramTitle: 'Faxnummer, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Faxnummer, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'e-mail Adresse, Dokumentersteller',
-            paramTitle: 'e-mail Adresse, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[e-mail Adresse, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Hauptansprechpartner, Dokumentersteller',
-            paramTitle: 'Hauptansprechpartner, Dokumentersteller',
-            paramType: 'string',
-            paramParent: 'Dokumentersteller',
-            defaultValueMessage: '[Hauptansprechpartner, Dokumentersteller]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Dokumentrevisionen',
-            paramTitle: 'Dokumentrevisionen',
-            paramType: 'string',
-            paramParent: '',
-            defaultValueMessage: '[Dokumentrevisionen]',
-            paramEditable: true,
-            items: [],
-            level: "1"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Liste Dokumentrevisionen mit Datum',
-            paramTitle: 'Liste Dokumentrevisionen mit Datum',
-            paramType: 'string',
-            paramParent: 'Dokumentrevisionen',
-            defaultValueMessage: '[Liste Dokumentrevisionen mit Datum]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'aktuelle Versionsnummer Dokument',
-            paramTitle: 'aktuelle Versionsnummer Dokument',
-            paramType: 'string',
-            paramParent: 'Dokumentrevisionen',
-            defaultValueMessage: '[aktuelle Versionsnummer Dokument]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Änderungsdatum Dokument',
-            paramTitle: 'Änderungsdatum Dokument',
-            paramType: 'date',
-            paramParent: 'Dokumentrevisionen',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Veranlasser der Änderung im Dokument',
-            paramTitle: 'Veranlasser der Änderung im Dokument',
-            paramType: 'string',
-            paramParent: 'Dokumentrevisionen',
-            defaultValueMessage: '[Veranlasser der Änderung im Dokument]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'nutzerspezifische Dokumentinformationen',
-            paramTitle: 'nutzerspezifische Dokumentinformationen',
-            paramType: 'string',
-            paramParent: '',
-            defaultValueMessage: '[nutzerspezifische Dokumentinformationen]',
-            paramEditable: true,
-            items: [],
-            level: "1"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Informationen zum Bericht',
-            paramTitle: 'Informationen zum Bericht',
-            paramType: 'string',
-            paramParent: '',
-            defaultValueMessage: '[Informationen zum Bericht]',
-            paramEditable: true,
-            items: [],
-            level: "1"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Sachverständige',
-            paramTitle: 'Sachverständige',
-            paramType: 'string',
-            paramParent: 'Informationen zum Bericht',
-            defaultValueMessage: '[Sachverständige]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Gutachter für Pensionsrückstellung',
-            paramTitle: 'Gutachter für Pensionsrückstellung',
-            paramType: 'string',
-            paramParent: 'Sachverständige',
-            defaultValueMessage: '[Gutachter für Pensionsrückstellung]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'sonstige Gutachter',
-            paramTitle: 'sonstige Gutachter',
-            paramType: 'string',
-            paramParent: 'Sachverständige',
-            defaultValueMessage: '[sonstige Gutachter (z.B. für Gutachter zur Bewertung von Beteiligungen oder Grundstücken)]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Identifikationsmerkmale des Berichts',
-            paramTitle: 'Identifikationsmerkmale des Berichts',
-            paramType: 'string',
-            paramParent: '',
-            defaultValueMessage: '[Identifikationsmerkmale des Berichts]',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-
+        //Mussfeld
         let itemsArtBerichts = [
             'Geschäftsbericht', 'Jahresfinanzbericht', 'Verkaufsprospekt',
             'Prüfungsbericht', 'Erstellungsbericht', 'Jahresabschluss',
@@ -545,7 +175,7 @@ var openPropertyEditor = class openPropertyEditor {
             defaultValueMessage: '',
             paramEditable: true,
             items: itemsArtBerichts,
-            level: "2"
+            level: "1"
         }));
 
         convertedParam.data.push(this.createParameter(param, {
@@ -595,7 +225,7 @@ var openPropertyEditor = class openPropertyEditor {
         let itemsFertigstellungsstatus = [
             'vorläufig', 'endgültig'
         ];
-
+        //Mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Fertigstellungsstatus des Berichts',
             paramTitle: 'Fertigstellungsstatus des Berichts',
@@ -610,6 +240,7 @@ var openPropertyEditor = class openPropertyEditor {
         let itemsStatusBerichts = [
             'erstmalig', 'berichtigt', 'geändert', 'berichtigt und geändert', 'identischer Abschluss mit differenzierteren Informationen'
         ];
+        //Mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Status des Berichts',
             paramTitle: 'Status des Berichts',
@@ -618,9 +249,9 @@ var openPropertyEditor = class openPropertyEditor {
             defaultValueMessage: '',
             paramEditable: true,
             items: itemsStatusBerichts,
-            level: "2"
+            level: "1"
         }));
-
+        //Mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Berichtsbestandteile',
             paramTitle: 'Berichtsbestandteile',
@@ -652,26 +283,6 @@ var openPropertyEditor = class openPropertyEditor {
             level: "2"
         }));
         convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Zwischenlagebericht',
-            paramTitle: 'Zwischenlagebericht',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Bilanz Passiva',
-            paramTitle: 'Bilanz Passiva',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
             paramName: 'GuV',
             paramTitle: 'GuV',
             paramType: 'bool',
@@ -692,68 +303,8 @@ var openPropertyEditor = class openPropertyEditor {
             level: "2"
         }));
         convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Angaben unterhalb der Bilanz',
-            paramTitle: 'Angaben unterhalb der Bilanz',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Brutto-Anlagenspiegel mit Entwicklung der Abschreibungen',
-            paramTitle: 'Brutto-Anlagenspiegel mit Entwicklung der Abschreibungen',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Brutto-Anlagenspiegel ohne Entwicklung der Abschreibungen',
-            paramTitle: 'Brutto-Anlagenspiegel ohne Entwicklung der Abschreibungen',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Netto Anlagenspiegel',
-            paramTitle: 'Netto Anlagenspiegel',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
             paramName: 'Ergebnisverwendung',
             paramTitle: 'Ergebnisverwendung',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Cash-Flow Statement',
-            paramTitle: 'Cash-Flow Statement',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Eigenkapitalentwicklung',
-            paramTitle: 'Eigenkapitalentwicklung',
             paramType: 'bool',
             paramParent: 'Berichtsbestandteile',
             defaultValueMessage: '',
@@ -772,48 +323,8 @@ var openPropertyEditor = class openPropertyEditor {
             level: "2"
         }));
         convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Kontensalden zu einer oder mehreren Positionen',
-            paramTitle: 'Kontensalden zu einer oder mehreren Positionen',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Sonder-/Ergänzungsbilanzen als Freitext',
-            paramTitle: 'Sonder-/Ergänzungsbilanzen als Freitext',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Berichtigung des Gewinns bei Wechsel der Gewinnermittlungsart',
-            paramTitle: 'Berichtigung des Gewinns bei Wechsel der Gewinnermittlungsart',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
             paramName: 'steuerliche Gewinnermittlung bei Personengesellschaften',
             paramTitle: 'steuerliche Gewinnermittlung bei Personengesellschaften',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'steuerliche Gewinnermittlung für besondere Fälle',
-            paramTitle:'steuerliche Gewinnermittlung für besondere Fälle',
             paramType: 'bool',
             paramParent: 'Berichtsbestandteile',
             defaultValueMessage: '',
@@ -831,78 +342,7 @@ var openPropertyEditor = class openPropertyEditor {
             items: [],
             level: "2"
         }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'andere Anhangangaben',
-            paramTitle:'andere Anhangangaben',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Segmentbericht',
-            paramTitle:'Segmentbericht',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Bestätigungsvermerk',
-            paramTitle:'Bestätigungsvermerk',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Bericht des Aufsichtsrats',
-            paramTitle:'Bericht des Aufsichtsrats',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Einnahmenüberschussrechnung betrieblich',
-            paramTitle:'Einnahmenüberschussrechnung betrieblich',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Einnahmenüberschussrechnung steuerlich',
-            paramTitle:'Einnahmenüberschussrechnung steuerlich',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Andere Berichtsbestandteile',
-            paramTitle:'Andere Berichtsbestandteile',
-            paramType: 'bool',
-            paramParent: 'Berichtsbestandteile',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-
+        //Mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Bilanzart',
             paramTitle:'Bilanzart',
@@ -1083,6 +523,7 @@ var openPropertyEditor = class openPropertyEditor {
             items: [],
             level: "2"
         }));
+        //mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Bilanzart steuerlich bei PersG / Mitunternehmerschaften',
             paramTitle:'Bilanzart steuerlich bei PersG / Mitunternehmerschaften',
@@ -1123,16 +564,18 @@ var openPropertyEditor = class openPropertyEditor {
             items: [],
             level: "2"
         }));
+        //mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Bilanz enthält Ausweis des Bilanzgewinns',
             paramTitle:'Bilanz enthält Ausweis des Bilanzgewinns',
-            paramType: 'string',
+            paramType: 'bool',
             paramParent: '',
             defaultValueMessage: '',
             paramEditable: true,
             items: [],
             level: "1"
         }));
+        //Mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Bilanzierungsstandard',
             paramTitle:'Bilanzierungsstandard',
@@ -1263,6 +706,7 @@ var openPropertyEditor = class openPropertyEditor {
             items: [],
             level: "2"
         }));
+        //Mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Branchen',
             paramTitle:'Branchen',
@@ -1363,6 +807,7 @@ var openPropertyEditor = class openPropertyEditor {
             items: [],
             level: "2"
         }));
+        //mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'GuV Format',
             paramTitle:'GuV Format',
@@ -1413,6 +858,7 @@ var openPropertyEditor = class openPropertyEditor {
             items: [],
             level: "2"
         }));
+        //Mussfeld
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Konsolidierungsumfang',
             paramTitle:'Konsolidierungsumfang',
@@ -1436,16 +882,6 @@ var openPropertyEditor = class openPropertyEditor {
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Konzernabschluss',
             paramTitle:'Konzernabschluss',
-            paramType: 'bool',
-            paramParent: 'Konsolidierungsumfang',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'nicht konsolidiert/ Einzelabschluss',
-            paramTitle:'nicht konsolidiert/ Einzelabschluss',
             paramType: 'bool',
             paramParent: 'Konsolidierungsumfang',
             defaultValueMessage: '',
@@ -1544,144 +980,14 @@ var openPropertyEditor = class openPropertyEditor {
             level: "2"
         }));
         convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Unternehmenskennnummern, Gesamthand',
-            paramTitle:'Unternehmenskennnummern, Gesamthand',
-            paramType: 'bool',
-            paramParent: 'Bericht gehört zu',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Handelsregisternummer',
-            paramTitle:'Handelsregisternummer',
+            paramName: 'Gesamthand 13stellige Steuernummer',
+            paramTitle:'Gesamthand 13stellige Steuernummer',
             paramType: 'bool',
             paramParent: 'Unternehmenskennnummern, Gesamthand',
             defaultValueMessage: '',
             paramEditable: true,
             items: [],
             level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Umsatzsteuer-Identifikationsnummer',
-            paramTitle:'Umsatzsteuer-Identifikationsnummer',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: '13stellige Steuernummer',
-            paramTitle:'13stellige Steuernummer',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: '13stellige Steuernummer',
-            paramTitle:'13stellige Steuernummer',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'steuerliche W-IdNr.',
-            paramTitle:'steuerliche W-IdNr.',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: '4stellige Bundesfinanzamtsnummer',
-            paramTitle:'4stellige Bundesfinanzamtsnummer',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Bundesbank Konzernnummer',
-            paramTitle:'Bundesbank Konzernnummer',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'individuelle Kennnummer',
-            paramTitle:'individuelle Kennnummer',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Kennnummer Empfänger',
-            paramTitle:'Kennnummer Empfänger',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Kennnummer Sender',
-            paramTitle:'Kennnummer Sender',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'andere Kennnummer',
-            paramTitle:'andere Kennnummer',
-            paramType: 'bool',
-            paramParent: 'Unternehmenskennnummern, Gesamthand',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Erläuterungen zu Unternehmenskennnummern, Gesamthand, andere Kennnummer',
-            paramTitle:'Erläuterungen zu Unternehmenskennnummern, Gesamthand, andere Kennnummer',
-            paramType: 'bool',
-            paramParent: 'Bericht gehört zu',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Abschlussstichstag , Gesamthand',
-            paramTitle:'Abschlussstichstag , Gesamthand',
-            paramType: 'bool',
-            paramParent: 'Bericht gehört zu',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
         }));
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Beginn des Wirtschaftsjahres',
@@ -1748,47 +1054,17 @@ var openPropertyEditor = class openPropertyEditor {
             paramTitle:'Name des Unternehmens',
             paramType: 'string',
             paramParent: '',
-            defaultValueMessage: '',
+            defaultValueMessage: '[Name des Unternehmens]',
             paramEditable: true,
             items: [],
             level: "1"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'frühere Unternehmensnamen',
-            paramTitle:'frühere Unternehmensnamen',
-            paramType: 'string',
-            paramParent: 'Name des Unternehmens',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'letztes Änderungsdatum, Name des Unternehmens',
-            paramTitle:'letztes Änderungsdatum, Name des Unternehmens',
-            paramType: 'string',
-            paramParent: 'Name des Unternehmens',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
         }));
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Rechtsform',
             paramTitle:'Rechtsform',
             paramType: 'string',
             paramParent: '',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "1"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Firmensitz',
-            paramTitle:'Firmensitz',
-            paramType: 'string',
-            paramParent: '',
-            defaultValueMessage: '',
+            defaultValueMessage: '[Rechtsform]',
             paramEditable: true,
             items: [],
             level: "1"
@@ -1797,8 +1073,8 @@ var openPropertyEditor = class openPropertyEditor {
             paramName: 'Straße, Firmensitz',
             paramTitle:'Straße, Firmensitz',
             paramType: 'string',
-            paramParent: 'Firmensitz',
-            defaultValueMessage: '',
+            paramParent: 'Rechtsform',
+            defaultValueMessage: '[Straße, Firmensitz]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -1807,8 +1083,8 @@ var openPropertyEditor = class openPropertyEditor {
             paramName: 'Hausnummer, Firmensitz',
             paramTitle:'Hausnummer, Firmensitz',
             paramType: 'string',
-            paramParent: 'Firmensitz',
-            defaultValueMessage: '',
+            paramParent: 'Rechtsform',
+            defaultValueMessage: '[Hausnummer, Firmensitz]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -1817,8 +1093,8 @@ var openPropertyEditor = class openPropertyEditor {
             paramName: 'Postleitzahl, Firmensitz',
             paramTitle:'Postleitzahl, Firmensitz',
             paramType: 'string',
-            paramParent: 'Firmensitz',
-            defaultValueMessage: '',
+            paramParent: 'Rechtsform',
+            defaultValueMessage: '[Postleitzahl, Firmensitz]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -1827,8 +1103,8 @@ var openPropertyEditor = class openPropertyEditor {
             paramName: 'Ort, Firmensitz',
             paramTitle:'Ort, Firmensitz',
             paramType: 'string',
-            paramParent: 'Firmensitz',
-            defaultValueMessage: '',
+            paramParent: 'Rechtsform',
+            defaultValueMessage: '[Ort, Firmensitz]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -1837,8 +1113,8 @@ var openPropertyEditor = class openPropertyEditor {
             paramName: 'Land, Firmensitz',
             paramTitle:'Land, Firmensitz',
             paramType: 'string',
-            paramParent: 'Firmensitz',
-            defaultValueMessage: '',
+            paramParent: 'Rechtsform',
+            defaultValueMessage: '[Land, Firmensitz]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -1848,7 +1124,7 @@ var openPropertyEditor = class openPropertyEditor {
             paramTitle:'Iso-Code Land, Firmensitz',
             paramType: 'string',
             paramParent: 'Land, Firmensitz',
-            defaultValueMessage: '',
+            defaultValueMessage: '[Iso-Code Land, Firmensitz]',
             paramEditable: true,
             items: [],
             level: "3"
@@ -1858,37 +1134,17 @@ var openPropertyEditor = class openPropertyEditor {
             paramTitle:'Unternehmenskennnummern',
             paramType: 'string',
             paramParent: '',
-            defaultValueMessage: '',
+            defaultValueMessage: '[Unternehmenskennnummern]',
             paramEditable: true,
             items: [],
             level: "1"
         }));
         convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Handelsregisternummer',
-            paramTitle:'Handelsregisternummer',
+            paramName: 'Unternehmenskennumern 13stellige Steuernummer',
+            paramTitle:'Unternehmenskennumern 13stellige Steuernummer',
             paramType: 'string',
             paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Umsatzsteuer-Identifikationsnummer',
-            paramTitle:'Umsatzsteuer-Identifikationsnummer',
-            paramType: 'string',
-            paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: '13stellige Steuernummer',
-            paramTitle:'13stellige Steuernummer',
-            paramType: 'string',
-            paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
+            defaultValueMessage: '[13stellige Steuernummer]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -1898,7 +1154,7 @@ var openPropertyEditor = class openPropertyEditor {
             paramTitle:'steuerliche IdNr.',
             paramType: 'string',
             paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
+            defaultValueMessage: '[steuerliche IdNr.]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -1908,129 +1164,75 @@ var openPropertyEditor = class openPropertyEditor {
             paramTitle:'4stellige Bundesfinanzamtsnummer',
             paramType: 'string',
             paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
+            defaultValueMessage: '[4stellige Bundesfinanzamtsnummer]',
             paramEditable: true,
             items: [],
             level: "2"
         }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Bundesbank Konzernnummer',
-            paramTitle:'Bundesbank Konzernnummer',
-            paramType: 'string',
-            paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Bundesbank Kreditnehmernummer',
-            paramTitle:'Bundesbank Kreditnehmernummer',
-            paramType: 'string',
-            paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'individuelle Kennnummer',
-            paramTitle:'individuelle Kennnummer',
-            paramType: 'string',
-            paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Kennnummer Empfänger',
-            paramTitle:'Kennnummer Empfänger',
-            paramType: 'string',
-            paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Kennnummer Sender',
-            paramTitle:'Kennnummer Sender',
-            paramType: 'string',
-            paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'andere Kennnummer',
-            paramTitle:'andere Kennnummer',
-            paramType: 'string',
-            paramParent: 'Unternehmenskennnummern',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "2"
-        }));
-
-        const itemsGewinnermittlung = 
+        const itemUnternehmenGeschaftsbetribe = 
         ["nicht steuerbegünstigte Körperschaft mit wirtschaftlichen Geschäftsbetrieb/en",
+        "nicht steuerbegünstigte Körperschaft mit wirtschaftlichen Geschäftsbetrieb/en",
         "steuerbegünstigte Körperschaft mit wirtschaftlichen Geschäftsbetrieb/en",
         "juristische Person des öffentlichen Rechts mit Betrieb/en gewerblicher Art",
-        "Unternehmen mit Gewinnermittlung bei Handelsschiffen im internationalen Verkehr"];
-
+        "Unternehmen mit Gewinnermittlung bei Handelsschiffen im internationalen Verkehr"
+        ];
+        //dev'essere solo una scelta di quelle proposte da questa gerarchia
         convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Unternehmen mit Gewinnermittlung für besondere Fälle',
-            paramTitle:'Unternehmen mit Gewinnermittlung für besondere Fälle',
+            paramName: 'Unternehmen mit wirtschaftlichem Geschäftsbetrieb oder Betrieb gewerblicher Art',
+            paramTitle:'Unternehmen mit wirtschaftlichem Geschäftsbetrieb oder Betrieb gewerblicher Art',
             paramType: 'combobox',
             paramParent: '',
             defaultValueMessage: '',
-            paramEditable: true,
-            items: itemsGewinnermittlung,
+            paramEditable: false,
+            items: itemUnternehmenGeschaftsbetribe,
             level: "1"
         }));
-
-        const itemsAuslandBetriebsstätte = 
-        ["Zweigniederlassung nach Handelsrecht",
-        "Übrige Betriebsstättenart"];
-
         convertedParam.data.push(this.createParameter(param, {
             paramName: 'Inländische Betriebsstätte eines ausländischen Unternehmens',
             paramTitle:'Inländische Betriebsstätte eines ausländischen Unternehmens',
-            paramType: 'combobox',
-            paramParent: '',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: itemsAuslandBetriebsstätte,
-            level: "1"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Gesellschafter/(Sonder-)Mitunternehmer',
-            paramTitle:'Gesellschafter/(Sonder-)Mitunternehmer',
             paramType: 'string',
             paramParent: '',
             defaultValueMessage: '',
-            paramEditable: true,
+            paramEditable: false,
             items: [],
             level: "1"
         }));
         convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Name des Gesellschafters',
-            paramTitle:'Name des Gesellschafters',
-            paramType: 'string',
-            paramParent: 'Gesellschafter/(Sonder-)Mitunternehmer',
+            paramName: 'Zweigniederlassung nach Handelsrecht',
+            paramTitle:'Zweigniederlassung nach Handelsrecht',
+            paramType: 'bool',
+            paramParent: 'Inländische Betriebsstätte eines ausländischen Unternehmens',
             defaultValueMessage: '',
             paramEditable: true,
             items: [],
             level: "2"
         }));
         convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Übrige Betriebsstättenart',
+            paramTitle:'Übrige Betriebsstättenart',
+            paramType: 'bool',
+            paramParent: 'Inländische Betriebsstätte eines ausländischen Unternehmens',
+            defaultValueMessage: '',
+            paramEditable: true,
+            items: [],
+            level: "2"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Gesellschafter/ Sonder- Mitunternehmer',
+            paramTitle:'Gesellschafter/ Sonder- Mitunternehmer',
+            paramType: 'string',
+            paramParent: '',
+            defaultValueMessage: '',
+            paramEditable: false,
+            items: [],
+            level: "1"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
             paramName: 'Name des Gesellschafters',
             paramTitle:'Name des Gesellschafters',
             paramType: 'string',
-            paramParent: 'Gesellschafter/(Sonder-)Mitunternehmer',
-            defaultValueMessage: '',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
+            defaultValueMessage: '[Name des Gesellschafters]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -2039,8 +1241,8 @@ var openPropertyEditor = class openPropertyEditor {
             paramName: 'Vorname des Gesellschafters',
             paramTitle:'Vorname des Gesellschafters',
             paramType: 'string',
-            paramParent: 'Gesellschafter/(Sonder-)Mitunternehmer',
-            defaultValueMessage: '',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
+            defaultValueMessage: '[Gesellschafter/(Sonder-)Mitunternehmer]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -2049,8 +1251,8 @@ var openPropertyEditor = class openPropertyEditor {
             paramName: 'Gesellschafterschlüssel, unternehmensbezogenes / betriebsinternes Zuordnungsmerkmal',
             paramTitle:'Gesellschafterschlüssel, unternehmensbezogenes / betriebsinternes Zuordnungsmerkmal',
             paramType: 'string',
-            paramParent: 'Gesellschafter/(Sonder-)Mitunternehmer',
-            defaultValueMessage: '',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
+            defaultValueMessage: '[Gesellschafterschlüssel, unternehmensbezogenes / betriebsinternes Zuordnungsmerkmal]',
             paramEditable: true,
             items: [],
             level: "2"
@@ -2059,57 +1261,168 @@ var openPropertyEditor = class openPropertyEditor {
             paramName: 'Gesellschaftergruppe (Kapitalkontenentwicklung für Personenhandelsgesellschaften und andere Mitunternehmerschaften, Vollhafter)',
             paramTitle:'Gesellschaftergruppe (Kapitalkontenentwicklung für Personenhandelsgesellschaften und andere Mitunternehmerschaften, Vollhafter)',
             paramType: 'string',
-            paramParent: 'Gesellschafter/(Sonder-)Mitunternehmer',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
+            defaultValueMessage: '[Gesellschaftergruppe (Kapitalkontenentwicklung für Personenhandelsgesellschaften und andere Mitunternehmerschaften, Vollhafter)]',
+            paramEditable: true,
+            items: [],
+            level: "2"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Nummer des Beteiligten aus Feststellungserklärung (Vordruck FB)',
+            paramTitle:'Nummer des Beteiligten aus Feststellungserklärung (Vordruck FB)',
+            paramType: 'string',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
+            defaultValueMessage: '[Nummer des Beteiligten aus Feststellungserklärung (Vordruck FB)]',
+            paramEditable: true,
+            items: [],
+            level: "2"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: '13stellige Steuernummer des Gesellschafters',
+            paramTitle:'13stellige Steuernummer des Gesellschafters',
+            paramType: 'string',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
+            defaultValueMessage: '[13stellige Steuernummer des Gesellschafters]',
+            paramEditable: true,
+            items: [],
+            level: "2"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'steuerliche IDNr.',
+            paramTitle:'steuerliche IDNr.',
+            paramType: 'string',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
+            defaultValueMessage: '[steuerliche IDNr.]',
+            paramEditable: true,
+            items: [],
+            level: "2"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Rechtsform des Gesellschafters',
+            paramTitle:'Rechtsform des Gesellschafters',
+            paramType: 'string',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
+            defaultValueMessage: '[Rechtsform des Gesellschafters]',
+            paramEditable: true,
+            items: [],
+            level: "2"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'natürliche Person - Privatvermögen',
+            paramTitle:'natürliche Person - Privatvermögen',
+            paramType: 'string',
+            paramParent: 'Rechtsform des Gesellschafters',
+            defaultValueMessage: '[natürliche Person - Privatvermögen]',
+            paramEditable: true,
+            items: [],
+            level: "3"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'natürliche Person - Betriebsvermögen',
+            paramTitle:'natürliche Person - Betriebsvermögen',
+            paramType: 'string',
+            paramParent: 'Rechtsform des Gesellschafters',
+            defaultValueMessage: '[natürliche Person - Betriebsvermögen]',
+            paramEditable: true,
+            items: [],
+            level: "3"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Personengesellschaft',
+            paramTitle:'Personengesellschaft',
+            paramType: 'string',
+            paramParent: 'Rechtsform des Gesellschafters',
+            defaultValueMessage: '[Personengesellschaft]',
+            paramEditable: true,
+            items: [],
+            level: "3"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Körperschaft',
+            paramTitle:'Körperschaft',
+            paramType: 'string',
+            paramParent: 'Rechtsform des Gesellschafters',
+            defaultValueMessage: '[Körperschaft]',
+            paramEditable: true,
+            items: [],
+            level: "3"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Beteiligungsschlüssel Gesellschafter',
+            paramTitle:'Beteiligungsschlüssel Gesellschafter',
+            paramType: 'string',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
+            defaultValueMessage: '',
+            paramEditable: false,
+            items: [],
+            level: "1"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Zähler',
+            paramTitle:'Zähler',
+            paramType: 'string',
+            paramParent: 'Beteiligungsschlüssel Gesellschafter',
+            defaultValueMessage: '[Zähler]',
+            paramEditable: true,
+            items: [],
+            level: "2"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Nenner',
+            paramTitle:'Nenner',
+            paramType: 'string',
+            paramParent: 'Beteiligungsschlüssel Gesellschafter',
+            defaultValueMessage: '[Nenner]',
+            paramEditable: true,
+            items: [],
+            level: "2"
+        }));
+        convertedParam.data.push(this.createParameter(param, {
+            paramName: 'Sonderbilanz benötigt?',
+            paramTitle:'Sonderbilanz benötigt?',
+            paramType: 'bool',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
             defaultValueMessage: '',
             paramEditable: true,
             items: [],
             level: "2"
         }));
         convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Vollhafter',
-            paramTitle:'Vollhafter',
-            paramType: 'string',
-            paramParent: 'Gesellschaftergruppe (Kapitalkontenentwicklung für Personenhandelsgesellschaften und andere Mitunternehmerschaften, Vollhafter)',
+            paramName: 'Ergänzungsbilanz benötigt?',
+            paramTitle:'Ergänzungsbilanz benötigt?',
+            paramType: 'bool',
+            paramParent: 'Gesellschafter/ Sonder- Mitunternehmer',
             defaultValueMessage: '',
             paramEditable: true,
             items: [],
-            level: "3"
+            level: "2"
         }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Teilhafter',
-            paramTitle:'Teilhafter',
-            paramType: 'string',
-            paramParent: 'Gesellschaftergruppe (Kapitalkontenentwicklung für Personenhandelsgesellschaften und andere Mitunternehmerschaften, Vollhafter)',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Mittelbar beteiligte Gesellschafter',
-            paramTitle:'Mittelbar beteiligte Gesellschafter',
-            paramType: 'string',
-            paramParent: 'Gesellschaftergruppe (Kapitalkontenentwicklung für Personenhandelsgesellschaften und andere Mitunternehmerschaften, Vollhafter)',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        convertedParam.data.push(this.createParameter(param, {
-            paramName: 'Ausgeschiedene Gesellschafter und deren Rechtsnachfolger',
-            paramTitle:'Ausgeschiedene Gesellschafter und deren Rechtsnachfolger',
-            paramType: 'string',
-            paramParent: 'Gesellschaftergruppe (Kapitalkontenentwicklung für Personenhandelsgesellschaften und andere Mitunternehmerschaften, Vollhafter)',
-            defaultValueMessage: '',
-            paramEditable: true,
-            items: [],
-            level: "3"
-        }));
-        Banana.console.debug(convertedParam.data.length);
+        Banana.console.debug("convertedParam.data.length "+convertedParam.data.length);
+
+        //this.saveElementsDialogData(convertedParam);
+        
         return convertedParam;
     }
 
     
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     convertParamEB54EinzelU(param) {
         var lang = 'en';
@@ -3156,6 +2469,7 @@ var openPropertyEditor = class openPropertyEditor {
 
     }
     jsonToArrayConverter(JSONStringData) {
+        Banana.console.debug("JSONStringData: "+JSONStringData);
         const dataObject = JSON.parse(JSONStringData);
         const resultsArray = [];
         Banana.console.debug(Object.keys(dataObject));
@@ -3165,9 +2479,13 @@ var openPropertyEditor = class openPropertyEditor {
                 // Estrarre il valore
                 const value = dataObject[key];
                 // Aggiungere il valore e la chiave all'array
-                resultsArray.push({ key: key, value: value });
+                if(!(key ==="value" || key ==="field")){
+                Banana.console.debug("JsonConverter: "+key);
+                    resultsArray.push({ key: key, value: value });
+                }
             }
         }
+        Banana.console.debug("lenght to jsonArrayCOnverter: "+resultsArray.length);
         return resultsArray;
     }
 }

@@ -42,11 +42,10 @@ var Report = class Report {
         stylesheet.addStyle("td.title", "border:1px solid #dddddd;padding:3px;");
         //stile dei dataCompany
         stylesheet.addStyle("td.data", "border:1px solid #dddddd;padding:3px;");
-        stylesheet.addStyle(".data.level0", "padding-left:0px;");
-        stylesheet.addStyle(".data.level1", "padding-left:10px;");
-        stylesheet.addStyle(".data.level2", "padding-left:20px;");
-        stylesheet.addStyle(".data.level3", "padding-left:30px;");
-        stylesheet.addStyle(".data.level4", "padding-left:40px;");
+        stylesheet.addStyle(".data.level1", "padding-left:0px;");
+        stylesheet.addStyle(".data.level2", "padding-left:10px;");
+        stylesheet.addStyle(".data.level3", "padding-left:20px;");
+        stylesheet.addStyle(".data.level4", "padding-left:30px;");
         //Footer
         var reportFooter = report.getFooter();
         reportFooter.addClass("center");
@@ -139,6 +138,7 @@ var Report = class Report {
                 periodtype = periodtype.substr(0, 1);
             row = table2.addRow();
             var className = "row level" + param.taxonomy[role][object]['level'];
+            //Banana.console.debug("RowlevelReport className: "+className);
             var amount = Banana.SDecimal.round(param.taxonomy[role][object][contextname], { 'decimals': 2 });
             //var amount = Math.round(param.taxonomy[role][object][contextname] * 100) / 100;
             amount = Banana.Converter.toLocaleNumberFormat(amount);
@@ -158,27 +158,34 @@ var Report = class Report {
         headerRow = table3.getHeader().addRow();
         headerRow.addCell("Feld", "title description");
         headerRow.addCell("Wert", "title description");
-        let level;
         let counter = 0;
+        //Banana.console.debug("Lenght datacompany: "+dataCompany.length);
+        //Banana.console.debug("length of dataLevelCOmpany: "+dataLevelCompany.length);
+        let level;
         for (const item of dataCompany) {
-            level = dataLevelCompany[counter];
-            Banana.console.debug("item.key: "+(item.key !== "field") || (item.key !== "value"));
-            if (!(item.key === "field" || item.key === "value")) {
-                var row = table3.addRow();
-                var itemKey = `${item.key}`;
-                var itemValue = `${item.value}`;
-                counter++;
-                if (itemValue) {
-                    Banana.console.debug("data level" + level);
-                    row.addCell(itemKey, "data level" + level);
-                    row.addCell(itemValue, "data level" + level);
-                }
-                if (!itemValue) {
-                    row.addCell(itemKey, "data level" + level);
-                    row.addCell("", "data level1");
-                }
-            }
             
+            //Banana.console.debug("lvl: "+level+" counter: "+counter);
+            //Banana.console.debug("item.key: "+(item.key) +" item.value: "+ (item.value));
+            Banana.console.debug("item.key: "+(item.key) +" item.value: "+ (item.value));
+            level = dataLevelCompany[counter];
+            var row = table3.addRow();
+            var itemKey = `${item.key}`;
+            var itemValue = `${item.value}`;
+            
+            row.addCell(itemKey, "data level" + level);
+            row.addCell(itemValue, "data level" + level);
+            counter++;
         }
+        counter ++;
+        /* for (let i = 0; i < dataCompany.name.length; i++) {
+            Banana.console.debug(`Name: ${dataCompany.name[i]}, Value: ${dataCompany.value[i]}, Level: ${dataCompany.level[i]}`);
+            var row = table3.addRow();
+            let levelRow = `${dataCompany.level[i]}`;
+            let nameRow = `${dataCompany.name[i]}`;
+            let valueRow = `${dataCompany.value[i]}`;;
+            
+            row.addCell(nameRow, "data level" + levelRow);
+            row.addCell(valueRow, "data level" + levelRow);
+        } */
     }
 }

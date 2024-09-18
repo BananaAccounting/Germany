@@ -34,12 +34,17 @@ function exec(inData, options) {
   openEditor.initParam();
   var JSONdataDialog = openEditor.getDataJSONDialog();
   var arrayDataDialog = openEditor.jsonToArrayConverter(JSONdataDialog);
-  var elementArrayDataDialog = openEditor.getArryLevelDialogData();
+  var arrayDataLevelDialog = openEditor.getArrayLevelDialogData();
+  
+  var arrayDataDD = openEditor.getElementsDialogData();
+  Banana.console.debug("arrayDataDD: "+arrayDataDD.length);
+  Banana.console.debug("arrayDataLevelDialog: "+arrayDataLevelDialog.length);
+  Banana.console.debug("arrayDataDialog length:"+arrayDataDialog.length);
   /* Banana.console.debug("JSONDATADIALOG: ");
   Banana.console.debug(Object.entries(JSON.parse(JSONdataDialog)));
   Banana.console.debug("arrayDataDialog: ");
   Banana.console.debug(arrayDataDialog.forEach(item => { Banana.console.debug(`Key: ${item.key}, Value: ${item.value}`) })); */
-  var output = main.mainExecutionEBilanz54PersG("", "", arrayDataDialog, elementArrayDataDialog);
+  var output = main.mainExecutionEBilanz54PersG("", "", arrayDataDialog, arrayDataLevelDialog);
 
   return output;
 }
