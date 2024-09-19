@@ -42,7 +42,7 @@ var Report = class Report {
         stylesheet.addStyle("td.title", "border:1px solid #dddddd;padding:3px;");
         //stile dei dataCompany
         stylesheet.addStyle("td.data", "border:1px solid #dddddd;padding:3px;");
-        stylesheet.addStyle(".data.level1", "padding-left:0px;");
+        stylesheet.addStyle(".data.level1", "padding-left:0px;font-weight: bold;");
         stylesheet.addStyle(".data.level2", "padding-left:10px;");
         stylesheet.addStyle(".data.level3", "padding-left:20px;");
         stylesheet.addStyle(".data.level4", "padding-left:30px;");
