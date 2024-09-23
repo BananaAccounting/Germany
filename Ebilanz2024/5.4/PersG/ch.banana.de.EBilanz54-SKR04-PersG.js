@@ -44,6 +44,8 @@ function exec(inData, options) {
   Banana.console.debug("arrayDataDialog: ");
   Banana.console.debug(arrayDataDialog.forEach(item => { Banana.console.debug(`Key: ${item.key}, Value: ${item.value}`) })); 
   */
+  Banana.console.debug("arrayDataLevelDialog: "+arrayDataLevelDialog.length);
+  Banana.console.debug("arrayDataDialog length:"+arrayDataDialog.length);
   var output = main.mainExecutionEBilanz54PersG("", "", arrayDataDialog, arrayDataLevelDialog);
 
   return output;

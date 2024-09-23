@@ -9,7 +9,7 @@
 var Main = class Main {
   constructor() {
   }
-  mainExecutionEBilanz61KapG(inData, options, dataCompany) {
+  mainExecutionEBilanz61KapG(inData, options, dataCompany, dataLevelCompany) {
     var initParam = new InitParameterEBilanz61KapG();
     var accountingData = new AccountingOperation();
     var reportPrint = new Report();
@@ -93,7 +93,7 @@ var Main = class Main {
     var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
     var stylesheet = Banana.Report.newStyleSheet();
     for (var i in contextList) {
-      reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i], dataCompany);
+      reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i], dataCompany, dataLevelCompany);
     }
 
 

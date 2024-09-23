@@ -35,7 +35,10 @@ function exec(inData, options) {
     openEditor.initParam();
     var JSONdataDialog = openEditor.getDataJSONDialog();
     var arrayDataDialog = openEditor.jsonToArrayConverter(JSONdataDialog);
-    var output = main.mainExecutionEBilanz61KapG("", "", arrayDataDialog);
+    var arrayDataLevelDialog = openEditor.getArrayLevelDialogData();
+    Banana.console.debug("arrayDataLevelDialog: "+arrayDataLevelDialog.length);
+    Banana.console.debug("arrayDataDialog length:"+arrayDataDialog.length);
+    var output = main.mainExecutionEBilanz61KapG("", "", arrayDataDialog, arrayDataLevelDialog);
 
     return output;
 }
