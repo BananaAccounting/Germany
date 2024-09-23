@@ -138,7 +138,6 @@ var Report = class Report {
                 periodtype = periodtype.substr(0, 1);
             row = table2.addRow();
             var className = "row level" + param.taxonomy[role][object]['level'];
-            //Banana.console.debug("RowlevelReport className: "+className);
             var amount = Banana.SDecimal.round(param.taxonomy[role][object][contextname], { 'decimals': 2 });
             //var amount = Math.round(param.taxonomy[role][object][contextname] * 100) / 100;
             amount = Banana.Converter.toLocaleNumberFormat(amount);
@@ -159,11 +158,11 @@ var Report = class Report {
         headerRow.addCell("Feld", "title description");
         headerRow.addCell("Wert", "title description");
         let counter = 0;
+        //create row of global common data of fiscal requirements
         //Banana.console.debug("Lenght datacompany: "+dataCompany.length);
         //Banana.console.debug("length of dataLevelCOmpany: "+dataLevelCompany.length);
         let level;
         for (const item of dataCompany) {
-            
             //Banana.console.debug("lvl: "+level+" counter: "+counter);
             //Banana.console.debug("item.key: "+(item.key) +" item.value: "+ (item.value));
             Banana.console.debug("item.key: "+(item.key) +" item.value: "+ (item.value));
@@ -177,15 +176,5 @@ var Report = class Report {
             counter++;
         }
         counter ++;
-        /* for (let i = 0; i < dataCompany.name.length; i++) {
-            Banana.console.debug(`Name: ${dataCompany.name[i]}, Value: ${dataCompany.value[i]}, Level: ${dataCompany.level[i]}`);
-            var row = table3.addRow();
-            let levelRow = `${dataCompany.level[i]}`;
-            let nameRow = `${dataCompany.name[i]}`;
-            let valueRow = `${dataCompany.value[i]}`;;
-            
-            row.addCell(nameRow, "data level" + levelRow);
-            row.addCell(valueRow, "data level" + levelRow);
-        } */
     }
 }

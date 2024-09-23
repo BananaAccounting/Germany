@@ -36,6 +36,8 @@ function exec(inData, options) {
     openEditor.initParam();
     var JSONdataDialog = openEditor.getDataJSONDialog();
     var arrayDataDialog = openEditor.jsonToArrayConverter(JSONdataDialog);
-    var output = main.mainExecutionEBilanz54KapG("", "", arrayDataDialog);
+    var arrayDataLevelDialog = openEditor.getArrayLevelDialogData();
+    
+    var output = main.mainExecutionEBilanz54KapG("", "", arrayDataDialog, arrayDataLevelDialog);
   return output;
 }

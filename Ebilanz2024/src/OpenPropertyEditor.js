@@ -50,17 +50,9 @@ var openPropertyEditor = class openPropertyEditor {
 
         //creazione dialoghi con parametri per ogni tipologia di Ebilanz
 
-        if (typeEBilanz === 'EBilanz54PersG') {
+        if (typeEBilanz === 'EBilanz54PersG' || typeEBilanz === 'EBilanz54EinzelU' || typeEBilanz === 'EBilanz54KapG') {
             //creazione dialogo con parametri
-            convertedParam = this.convertParamEB54PersG(param);
-
-        }
-        else if (typeEBilanz === 'EBilanz54EinzelU') {
-            convertedParam = this.convertParamEB54EinzelU(param);
-
-        }
-        else if (typeEBilanz === 'EBilanz54KapG') {
-            convertedParam = this.convertParamEB54KapG(param);
+            convertedParam = this.createParameterDialog54(param);
         }
         else if (typeEBilanz === 'EBilanz61KapG') {
             convertedParam = this.convertParamEB61KapG(param);
@@ -78,9 +70,9 @@ var openPropertyEditor = class openPropertyEditor {
 
         if (Banana.document) {
             var value = Banana.document.setScriptSettings(paramToString);
-            Banana.console.debug("typeof value "+ typeof value);
+            //Banana.console.debug("typeof value "+ typeof value);
             this.stringJSONValueDialogEBilanz = Banana.document.getScriptSettings();
-            Banana.console.debug("this.stringJSONValueDialogEBilanz "+ this.stringJSONValueDialogEBilanz);
+            //Banana.console.debug("this.stringJSONValueDialogEBilanz "+ this.stringJSONValueDialogEBilanz);
             //this.stringJSONValueDialogEBilanz = Banana.document.setScriptSettings(paramToString)
             this.getDataJSONDialog(this.stringJSONValueDialogEBilanz);
         }
@@ -152,9 +144,9 @@ var openPropertyEditor = class openPropertyEditor {
     }
     
 
-    convertParamEB54PersG(param) {
+    createParameterDialog54(param) {
 
-        var lang = 'en';
+        var lang = 'de';
 
         var convertedParam = { data: [] };
         convertedParam.version = '1.0';
