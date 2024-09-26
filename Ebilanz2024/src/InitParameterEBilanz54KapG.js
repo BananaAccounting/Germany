@@ -16,12 +16,6 @@ var InitParameterEBilanz54KapG = class InitParameterEBilanz54KapG {
         return schemaRefs;
     };
 
-    //12.04.24 http://www.xbrl.de/taxonomies/hgbrole-2015-04-03 page not found
-    //12.04.24 http://www.xbrl.de/taxonomies/de-gaap-ci-2015-04-03/shell page not found
-    //12.04.24 http://www.xbrl.org/2003/iso4217 page not found
-    //12.04.24 http://xbrl.org/2005/xbrldt page not found
-    //12.04.24 http://www.w3.org/1999/xlink page without data
-    //12.04.24 http://www.w3.org/2001/XMLSchema-instance page without data
     init_namespaces() {
         var ns = [
             {

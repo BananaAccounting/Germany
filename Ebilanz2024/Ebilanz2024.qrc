@@ -9,6 +9,8 @@
     <file>./5.4/EinzelU/ch.banana.script.EBilanz54-SKR04-EinzelU.manifest.json</file>
     <file>./6.1/ch.banana.de.EBilanz61-SKR04-KapG.js</file>
     <file>./6.1/ch.banana.de.EBilanz61-SKR04-KapG.manifest.json</file>
+    <file>./6.7/ch.banana.de.EBilanz67-SKR04-KapG.js</file>
+    <file>./6.7/ch.banana.de.EBilanz67-SKR04-KapG.manifest.json</file>
 
     <file>manifest.json</file>
     
@@ -17,6 +19,7 @@
     <file alias="InitParameterEBilanz61KapG.js">./src/InitParameterEBilanz61KapG.js</file>
     <file alias="InitParameterEBilanz54PersG.js">./src/InitParameterEBilanz54PersG.js</file>
     <file alias="InitParameterEBilanz54EinzelU.js">./src/InitParameterEBilanz54EinzelU.js</file>
+    <file alias="InitParameterEBilanz67KapG.js">./src/InitParameterEBilanz67KapG.js</file>
     
     <file alias="Errors.js">./src/Errors.js</file>
     
