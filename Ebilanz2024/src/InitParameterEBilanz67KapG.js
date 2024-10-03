@@ -1,12 +1,24 @@
 var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
   constructor() { }
-
+  init_param() {
+    var param = {
+      'accountingBasicCurrency': '',
+      'companyId': '',
+      'identifierScheme': 'http://scheme.xbrl.org',
+    };
+    param.schemaRefs = this.init_schemarefs();
+    param.namespaces = this.init_namespaces();
+    param.taxonomy = this.init_taxonomy();
+    param.accounts = this.init_accounts();
+    param.factVariables = this.init_factvariables();
+    return param;
+  }
   init_schemarefs() {
     var schemaRefs = [
-      '/de-gaap-ci-2024-04-01-shell.xsd',
-      '/de-gaap-ci-2024-04-01.xsd',
-      '/hgbrole-2024-04-01.xsd',
-      '/de-gaap-ci-2024-04-01-dimensions.xsd',
+      '/de-gaap-ci-2023-04-01-shell.xsd',
+      '/de-gaap-ci-2023-04-01.xsd',
+      '/hgbrole-2023-04-01.xsd',
+      '/de-gaap-ci-2023-04-01-dimensions.xsd',
       'http://www.xbrl.org/2005/xbrldt-2005.xsd',
       'http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd',
       'http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd',
@@ -18,15 +30,15 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
   init_namespaces() {
     var ns = [
       {
-        'namespace': 'http://www.xbrl.de/taxonomies/de-gaap-ci-2024-04-01',
+        'namespace': 'http://www.xbrl.de/taxonomies/de-gaap-ci-2023-04-01',
         'prefix': 'xmlns:de-gaap-ci',
       },
       {
-        'namespace': 'http://www.xbrl.de/taxonomies/hgbrole-2024-04-01',
+        'namespace': 'http://www.xbrl.de/taxonomies/hgbrole-2023-04-01',
         'prefix': 'xmlns:de-hgbrole',
       },
       {
-        'namespace': 'http://www.xbrl.de/taxonomies/de-gaap-ci-2024-04-01/shell',
+        'namespace': 'http://www.xbrl.de/taxonomies/de-gaap-ci-2023-04-01/shell',
         'prefix': 'xmlns:gaap-shell',
       },
       {
@@ -52,10 +64,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
       {
         'namespace': 'http://www.w3.org/1999/xlink',
         'prefix': 'xmlns:xlink',
-      },
-      {
-        'namespace': 'http://www.w3.org/2001/XMLSchema-instance',
-        'prefix': 'xmlns:xsi',
       },
     ];
     return ns;
@@ -1021,7 +1029,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.misc': {
           'name': 'bs.ass.fixAss.fin.loansToSharehold.misc',
           'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToSharehold.misc',
-          'label': { 'de': 'nicht zuordenbar', 'en': 'Miscellaneous other', },
+          'label': { 'de': 'nicht nach Rechtsform des Gesellschafters zuordenbar', 'en': 'not allocable to leagal form of shareholder', },
           'balance': 'debit',
           'periodtype': 'instant',
           'weight': 1,
@@ -1041,7 +1049,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.partnerships': {
           'name': 'bs.ass.fixAss.fin.loansToAffil.partnerships',
           'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToAffil.partnerships',
-          'label': { 'de': 'Ausleihungen an Personengesellschaften', 'en': 'Loans to partnerships', },
+          'label': { 'de': 'Soweit Personengesellschaften', 'en': 'Insofar as partnerships', },
           'balance': 'debit',
           'periodtype': 'instant',
           'weight': 1,
@@ -1071,7 +1079,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.corporations': {
           'name': 'bs.ass.fixAss.fin.loansToAffil.corporations',
           'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToAffil.corporations',
-          'label': { 'de': 'Ausleihungen an Kapitalgesellschaften', 'en': 'Loans to corporations', },
+          'label': { 'de': 'Soweit Kapitalgesellschaften', 'en': 'Insofar as corporations', },
           'balance': 'debit',
           'periodtype': 'instant',
           'weight': 1,
@@ -1081,7 +1089,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.soleProprietor': {
           'name': 'bs.ass.fixAss.fin.loansToAffil.soleProprietor',
           'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToAffil.soleProprietor',
-          'label': { 'de': 'Ausleihungen an Einzelunternehmen', 'en': 'Loans to sole proprietorships', },
+          'label': { 'de': 'Soweit Einzelunternehmen', 'en': 'Insofar as sole proprietorship', },
           'balance': 'debit',
           'periodtype': 'instant',
           'weight': 1,
@@ -1101,7 +1109,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.other': {
           'name': 'bs.ass.fixAss.fin.loansToAffil.other',
           'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToAffil.other',
-          'label': { 'de': 'nicht zuordenbar', 'en': 'Miscellaneous other', },
+          'label': { 'de': 'Nach Rechtsform nicht zuordenbar', 'en': 'Insofar as legal form not allocable', },
           'balance': 'debit',
           'periodtype': 'instant',
           'weight': 1,
@@ -1311,7 +1319,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.other': {
           'name': 'bs.ass.fixAss.fin.loansToParticip.other',
           'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToParticip.other',
-          'label': { 'de': 'nicht zuordenbar', 'en': 'Miscellaneous other', },
+          'label': { 'de': 'nicht nach Rechtsform zuordenbar', 'en': 'Legal form not allocable', },
           'balance': 'debit',
           'periodtype': 'instant',
           'weight': 1,
@@ -1322,16 +1330,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'name': 'bs.ass.fixAss.fin.loansToParticipOtherForeign',
           'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToParticipOtherForeign',
           'label': { 'de': 'soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en': 'if from the accounts of foreign permanent establishment(s) not otherwise allocable', },
-          'balance': 'debit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 5,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.soleProprietor': {
-          'name': 'bs.ass.fixAss.fin.loansToParticip.soleProprietor',
-          'qname': 'de-gaap-ci:bs.ass.fixAss.fin.loansToParticip.soleProprietor',
-          'label': { 'de': 'Ausleihungen an Einzelunternehmen', 'en': 'Loans to sole proprietorships', },
           'balance': 'debit',
           'periodtype': 'instant',
           'weight': 1,
@@ -1447,16 +1445,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'weight': 1,
           'level': 4,
           'hasChildren': true,
-        },
-        'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.partners': {
-          'name': 'bs.ass.fixAss.fin.otherLoans.partners',
-          'qname': 'de-gaap-ci:bs.ass.fixAss.fin.otherLoans.partners',
-          'label': { 'de': 'davon an Gesellschafter', 'en': 'which to partners', },
-          'balance': 'debit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 5,
-          'hasChildren': false,
         },
         'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.employees': {
           'name': 'bs.ass.fixAss.fin.otherLoans.employees',
@@ -1986,6 +1974,26 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'periodtype': 'instant',
           'weight': 1,
           'level': 4,
+          'hasChildren': true,
+        },
+        'de-gaap-ci_bs.ass.currAss.receiv.regulatory.upTo1year': {
+          'name': 'bs.ass.currAss.receiv.regulatory.upTo1year',
+          'qname': 'de-gaap-ci:bs.ass.currAss.receiv.regulatory.upTo1year',
+          'label': { 'de': 'davon mit einer Restlaufzeit bis zu einem Jahr', 'en': 'of which due within 1 year', },
+          'balance': 'debit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 5,
+          'hasChildren': false,
+        },
+        'de-gaap-ci_bs.ass.currAss.receiv.regulatory.above1year': {
+          'name': 'bs.ass.currAss.receiv.regulatory.above1year',
+          'qname': 'de-gaap-ci:bs.ass.currAss.receiv.regulatory.above1year',
+          'label': { 'de': 'davon mit einer Restlaufzeit von mehr als einem Jahr', 'en': 'of which due after more than 1 year', },
+          'balance': 'debit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 5,
           'hasChildren': false,
         },
         'de-gaap-ci_bs.ass.currAss.receiv.shareholders': {
@@ -2051,7 +2059,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.ass.currAss.receiv.shareholders.misc': {
           'name': 'bs.ass.currAss.receiv.shareholders.misc',
           'qname': 'de-gaap-ci:bs.ass.currAss.receiv.shareholders.misc',
-          'label': { 'de': 'nicht zuordenbar', 'en': 'Miscellaneous other', },
+          'label': { 'de': 'nach Rechtsform des Gesellschafters nicht zuordenbar', 'en': 'Receivables from shareholders (legal form not allocable)', },
           'balance': 'debit',
           'periodtype': 'instant',
           'weight': 1,
@@ -2106,6 +2114,36 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'periodtype': 'instant',
           'weight': 1,
           'level': 4,
+          'hasChildren': true,
+        },
+        'de-gaap-ci_bs.ass.currAss.receiv.affil.upTo1year': {
+          'name': 'bs.ass.currAss.receiv.affil.upTo1year',
+          'qname': 'de-gaap-ci:bs.ass.currAss.receiv.affil.upTo1year',
+          'label': { 'de': 'davon mit einer Restlaufzeit bis zu einem Jahr', 'en': 'of which due within 1 year', },
+          'balance': 'debit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 5,
+          'hasChildren': false,
+        },
+        'de-gaap-ci_bs.ass.currAss.receiv.affil.above1year': {
+          'name': 'bs.ass.currAss.receiv.affil.above1year',
+          'qname': 'de-gaap-ci:bs.ass.currAss.receiv.affil.above1year',
+          'label': { 'de': 'davon mit einer Restlaufzeit von mehr als einem Jahr', 'en': 'of which due after more than 1 year', },
+          'balance': 'debit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 5,
+          'hasChildren': false,
+        },
+        'de-gaap-ci_bs.ass.currAss.receiv.affilOtherForeign': {
+          'name': 'bs.ass.currAss.receiv.affilOtherForeign',
+          'qname': 'de-gaap-ci:bs.ass.currAss.receiv.affilOtherForeign',
+          'label': { 'de': 'soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en': 'if from the accounts of foreign permanent establishment(s) not otherwise allocable', },
+          'balance': 'debit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 5,
           'hasChildren': false,
         },
         'de-gaap-ci_bs.ass.currAss.receiv.particip': {
@@ -2292,16 +2330,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'name': 'bs.ass.currAss.receiv.other.corpTaxOverpayment',
           'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.corpTaxOverpayment',
           'label': { 'de': 'Körperschaftsteuerüberzahlungen', 'en': 'Excess payments of corporation tax', },
-          'balance': 'debit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 5,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_bs.ass.currAss.receiv.other.MinSt': {
-          'name': 'bs.ass.currAss.receiv.other.MinSt',
-          'qname': 'de-gaap-ci:bs.ass.currAss.receiv.other.MinSt',
-          'label': { 'de': 'Mindeststeuer', 'en': 'Minimum tax', },
           'balance': 'debit',
           'periodtype': 'instant',
           'weight': 1,
@@ -4007,16 +4035,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'level': 4,
           'hasChildren': false,
         },
-        'de-gaap-ci_bs.eqLiab.equity.paymForCapitalIncrease': {
-          'name': 'bs.eqLiab.equity.paymForCapitalIncrease',
-          'qname': 'de-gaap-ci:bs.eqLiab.equity.paymForCapitalIncrease',
-          'label': { 'de': 'zur Durchführung der beschlossenen Kapitalerhöhung geleistete Einlagen', 'en': 'Contributions paid to implement a capital increase', },
-          'balance': 'credit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 3,
-          'hasChildren': false,
-        },
         'de-gaap-ci_bs.eqLiab.equity.dueToPartners': {
           'name': 'bs.eqLiab.equity.dueToPartners',
           'qname': 'de-gaap-ci:bs.eqLiab.equity.dueToPartners',
@@ -4105,16 +4123,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'periodtype': 'instant',
           'weight': 1,
           'level': 4,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_bs.eqLiab.equity.capIncreaseContributionsInclPremium': {
-          'name': 'bs.eqLiab.equity.capIncreaseContributionsInclPremium',
-          'qname': 'de-gaap-ci:bs.eqLiab.equity.capIncreaseContributionsInclPremium',
-          'label': { 'de': 'zur Durchführung der beschlossenen Kapitalerhöhung geleistete Einlagen (mit Agio)', 'en': 'Contributions paid to implement a capital increase (including premium)', },
-          'balance': 'credit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 3,
           'hasChildren': false,
         },
         'de-gaap-ci_bs.eqLiab.equity.reservesPartnership': {
@@ -5297,60 +5305,10 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'level': 5,
           'hasChildren': false,
         },
-        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus': {
-          'name': 'bs.eqLiab.equity.reallocationSurplus',
-          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus',
-          'label': { 'de': 'Umschichtungsergebnisse', 'en': 'Reallocation surplus', },
-          'balance': 'credit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 3,
-          'hasChildren': true,
-        },
-        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.finalPrev': {
-          'name': 'bs.eqLiab.equity.reallocationSurplus.finalPrev',
-          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.finalPrev',
-          'label': { 'de': 'des letzten Stichtags', 'en': 'Final in prior report', },
-          'balance': 'credit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 4,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.capAdjust': {
-          'name': 'bs.eqLiab.equity.reallocationSurplus.capAdjust',
-          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.capAdjust',
-          'label': { 'de': 'Kapitalanpassungen', 'en': 'Adjustments', },
-          'balance': 'credit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 4,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.movement': {
-          'name': 'bs.eqLiab.equity.reallocationSurplus.movement',
-          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.movement',
-          'label': { 'de': 'Umschichtungen', 'en': 'Reallocation', },
-          'balance': 'credit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 4,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.changePresentYear': {
-          'name': 'bs.eqLiab.equity.reallocationSurplus.changePresentYear',
-          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.changePresentYear',
-          'label': { 'de': 'Zuführungen/Minderungen des lfd. Jahres', 'en': 'Changes current year', },
-          'balance': 'credit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 4,
-          'hasChildren': false,
-        },
         'de-gaap-ci_bs.eqLiab.equity.retainedEarningsPartnershipsHGBs264c': {
           'name': 'bs.eqLiab.equity.retainedEarningsPartnershipsHGBs264c',
           'qname': 'de-gaap-ci:bs.eqLiab.equity.retainedEarningsPartnershipsHGBs264c',
-          'label': { 'de': 'Gewinn-/Verlustvortrag', 'en': 'Retained profits/accumulated loss brought forward', },
+          'label': { 'de': 'Gewinn-/Verlustvortrag', 'en': 'Retained profits/accumulated losses brought forward', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -5360,7 +5318,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.eqLiab.equity.retainedEarnings': {
           'name': 'bs.eqLiab.equity.retainedEarnings',
           'qname': 'de-gaap-ci:bs.eqLiab.equity.retainedEarnings',
-          'label': { 'de': 'Gewinn-/Verlustvortrag', 'en': 'Retained profits/accumulated loss brought forward', },
+          'label': { 'de': 'Gewinn-/Verlustvortrag', 'en': 'Retained profits/accumulated losses brought forward', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -5480,17 +5438,67 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.eqLiab.equity.netIncomePartnershipsHGBs264c': {
           'name': 'bs.eqLiab.equity.netIncomePartnershipsHGBs264c',
           'qname': 'de-gaap-ci:bs.eqLiab.equity.netIncomePartnershipsHGBs264c',
-          'label': { 'de': 'Jahresüberschuss/-fehlbetrag', 'en': 'Net retained profits/net accumulated loss', },
+          'label': { 'de': 'Jahresüberschuss/-fehlbetrag', 'en': 'Net income / net loss for the financial year', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
           'level': 3,
           'hasChildren': false,
         },
+        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus': {
+          'name': 'bs.eqLiab.equity.reallocationSurplus',
+          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus',
+          'label': { 'de': 'Umschichtungsergebnisse', 'en': 'Reallocation surplus', },
+          'balance': 'credit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 3,
+          'hasChildren': true,
+        },
+        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.finalPrev': {
+          'name': 'bs.eqLiab.equity.reallocationSurplus.finalPrev',
+          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.finalPrev',
+          'label': { 'de': 'des letzten Stichtags', 'en': 'Final in prior report', },
+          'balance': 'credit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 4,
+          'hasChildren': false,
+        },
+        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.capAdjust': {
+          'name': 'bs.eqLiab.equity.reallocationSurplus.capAdjust',
+          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.capAdjust',
+          'label': { 'de': 'Kapitalanpassungen', 'en': 'Adjustments', },
+          'balance': 'credit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 4,
+          'hasChildren': false,
+        },
+        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.movement': {
+          'name': 'bs.eqLiab.equity.reallocationSurplus.movement',
+          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.movement',
+          'label': { 'de': 'Umschichtungen', 'en': 'Reallocation', },
+          'balance': 'credit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 4,
+          'hasChildren': false,
+        },
+        'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.changePresentYear': {
+          'name': 'bs.eqLiab.equity.reallocationSurplus.changePresentYear',
+          'qname': 'de-gaap-ci:bs.eqLiab.equity.reallocationSurplus.changePresentYear',
+          'label': { 'de': 'Zuführungen/Minderungen des lfd. Jahres', 'en': 'Changes current year', },
+          'balance': 'credit',
+          'periodtype': 'instant',
+          'weight': 1,
+          'level': 4,
+          'hasChildren': false,
+        },
         'de-gaap-ci_bs.eqLiab.equity.profitLossPartnershipsHGBs264c': {
           'name': 'bs.eqLiab.equity.profitLossPartnershipsHGBs264c',
           'qname': 'de-gaap-ci:bs.eqLiab.equity.profitLossPartnershipsHGBs264c',
-          'label': { 'de': 'Bilanzgewinn / Bilanzverlust', 'en': 'Net retained profits/net accumulated loss', },
+          'label': { 'de': 'Bilanzgewinn / Bilanzverlust', 'en': 'Net retained profits/net accumulated losses', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -5590,7 +5598,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.eqLiab.equity.profitLoss': {
           'name': 'bs.eqLiab.equity.profitLoss',
           'qname': 'de-gaap-ci:bs.eqLiab.equity.profitLoss',
-          'label': { 'de': 'Bilanzgewinn / Bilanzverlust', 'en': 'Net retained profits/net accumulated loss', },
+          'label': { 'de': 'Bilanzgewinn / Bilanzverlust', 'en': 'Net retained profits/net accumulated losses', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -6100,7 +6108,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.eqLiab.liab.shareholders.misc': {
           'name': 'bs.eqLiab.liab.shareholders.misc',
           'qname': 'de-gaap-ci:bs.eqLiab.liab.shareholders.misc',
-          'label': { 'de': 'nicht zuordenbar', 'en': 'Miscellaneous other', },
+          'label': { 'de': 'nicht nach Rechtsform zuordenbar', 'en': 'Liabilities to shareholders (legal form not allocable)', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -6420,7 +6428,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.eqLiab.liab.other.shareholders': {
           'name': 'bs.eqLiab.liab.other.shareholders',
           'qname': 'de-gaap-ci:bs.eqLiab.liab.other.shareholders',
-          'label': { 'de': 'davon gegenüber Gesellschaftern', 'en': 'of which to shareholders', },
+          'label': { 'de': 'davon sonstige Verbindlichkeiten gegenüber Gesellschaftern', 'en': 'of which other liabilities to shareholders', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -6570,7 +6578,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.eqLiab.otherSpecRes.subsidies': {
           'name': 'bs.eqLiab.otherSpecRes.subsidies',
           'qname': 'de-gaap-ci:bs.eqLiab.otherSpecRes.subsidies',
-          'label': { 'de': 'Sonderposten für Investitionszulagen und für Zuschüsse Dritter', 'en': 'Special reserve for investment allowance and third party premiums', },
+          'label': { 'de': 'Sonderposten für Investitionszulagen und für Zuschüsse Dritter', 'en': 'Special reserve for investment grants and premiums', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -6897,16 +6905,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'level': 4,
           'hasChildren': false,
         },
-        'de-gaap-ci_bs.eqLiab.accruals.tax.minst': {
-          'name': 'bs.eqLiab.accruals.tax.minst',
-          'qname': 'de-gaap-ci:bs.eqLiab.accruals.tax.minst',
-          'label': { 'de': 'Mindeststeuerrückstellung', 'en': 'Provision for minimum tax', },
-          'balance': 'credit',
-          'periodtype': 'instant',
-          'weight': 1,
-          'level': 4,
-          'hasChildren': false,
-        },
         'de-gaap-ci_bs.eqLiab.accruals.tax.other': {
           'name': 'bs.eqLiab.accruals.tax.other',
           'qname': 'de-gaap-ci:bs.eqLiab.accruals.tax.other',
@@ -7110,7 +7108,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.eqLiab.accruals.other.imminentLoss': {
           'name': 'bs.eqLiab.accruals.other.imminentLoss',
           'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.imminentLoss',
-          'label': { 'de': 'Rückstellungen für drohende Verluste aus schwebenden Geschäften', 'en': 'Provisions for threatening loss from pending transactions', },
+          'label': { 'de': 'Rückstellungen für drohende Verluste aus schwebenden Geschäften', 'en': 'Provisions for threatening losses from pending transactions', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -7120,7 +7118,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.eqLiab.accruals.other.imminentLoss.exposureEStGsec5_1aSent2': {
           'name': 'bs.eqLiab.accruals.other.imminentLoss.exposureEStGsec5_1aSent2',
           'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.imminentLoss.exposureEStGsec5_1aSent2',
-          'label': { 'de': 'Rückstellungen für drohende Verluste aus Bewertungseinheiten', 'en': 'Provisions for threatening loss from hedge accounting', },
+          'label': { 'de': 'Rückstellungen für drohende Verluste aus Bewertungseinheiten', 'en': 'Provisions for threatening losses from hedge accounting', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -7130,7 +7128,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_bs.eqLiab.accruals.other.imminentLoss.other': {
           'name': 'bs.eqLiab.accruals.other.imminentLoss.other',
           'qname': 'de-gaap-ci:bs.eqLiab.accruals.other.imminentLoss.other',
-          'label': { 'de': 'übrige Rückstellungen für drohende Verluste aus schwebenden Geschäften', 'en': 'Other provisions for threatening loss from pending transactions', },
+          'label': { 'de': 'übrige Rückstellungen für drohende Verluste aus schwebenden Geschäften', 'en': 'Other provisions for threatening losses from pending transactions', },
           'balance': 'credit',
           'periodtype': 'instant',
           'weight': 1,
@@ -7197,6 +7195,9 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'level': 2,
           'hasChildren': false,
         },
+      },
+      '': {
+        'label': '',
       },
       'role_incomeStatement': {
         'label': 'Gewinn- und Verlustrechnung',
@@ -7346,36 +7347,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'periodtype': 'duration',
           'weight': 1,
           'level': 7,
-          'hasChildren': true,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.use': {
-          'name': 'is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.use',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.use',
-          'label': { 'de': 'Ertrag aus Spendenverbrauch', 'en': 'Income from use of donations', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 8,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.immediatelyRecognised': {
-          'name': 'is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.immediatelyRecognised',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.immediatelyRecognised',
-          'label': { 'de': 'sofort ertragswirksame Spenden', 'en': 'Donations immediately recognised as income', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 8,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.received': {
-          'name': 'is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.received',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.received',
-          'label': { 'de': 'nachrichtlich: zugeflossene Spenden', 'en': 'Received donations (memo item)', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 8,
           'hasChildren': false,
         },
         'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.contributions': {
@@ -9611,7 +9582,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific': {
           'name': 'is.netIncome.regular.operatingTC.deprAmort.fixAss.specific',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.deprAmort.fixAss.specific',
-          'label': { 'de': 'Außerplanmäßige und Sonderabschreibungen und sonstige Abzüge', 'en': 'Extraordinary write-downs and impairment loss and other deductions', },
+          'label': { 'de': 'Außerplanmäßige und Sonderabschreibungen und sonstige Abzüge', 'en': 'Extraordinary write-downs and impairment losses and other deductions', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -9671,7 +9642,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment': {
           'name': 'is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment',
-          'label': { 'de': 'Sonderabschreibungen', 'en': 'Impairment loss', },
+          'label': { 'de': 'Sonderabschreibungen', 'en': 'Impairment losses', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -10021,7 +9992,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.moveable.interest': {
           'name': 'is.netIncome.regular.operatingTC.otherCost.leasingAll.moveable.interest',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherCost.leasingAll.moveable.interest',
-          'label': { 'de': 'Zinsanteil der Leasingaufwendungen (Finanzierungsleasing)', 'en': 'Interest cost of capital lease', },
+          'label': { 'de': 'Zinsanteil der Leasingaufwendungen', 'en': 'Interest cost of operating / capital lease', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -10051,7 +10022,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.immovable.interest': {
           'name': 'is.netIncome.regular.operatingTC.otherCost.leasingAll.immovable.interest',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherCost.leasingAll.immovable.interest',
-          'label': { 'de': 'Zinsanteil der Leasingaufwendungen (Finanzierungsleasing)', 'en': 'Interest cost of capital lease', },
+          'label': { 'de': 'Zinsanteil der Leasingaufwendungen', 'en': 'Interest cost of operating / capital lease', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -10961,7 +10932,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss': {
           'name': 'is.netIncome.regular.operatingTC.otherCost.disposCurrAss',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherCost.disposCurrAss',
-          'label': { 'de': 'Verluste aus dem Abgang von Vermögensgegenständen des Umlaufvermögens', 'en': 'Loss from disposal of current assets', },
+          'label': { 'de': 'Verluste aus dem Abgang von Vermögensgegenständen des Umlaufvermögens', 'en': 'Losses from disposal of current assets', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -10991,7 +10962,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss.investmentShares': {
           'name': 'is.netIncome.regular.operatingTC.otherCost.disposCurrAss.investmentShares',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherCost.disposCurrAss.investmentShares',
-          'label': { 'de': 'Verluste aus dem Abgang von Investmentanteilen des Umlaufvermögens', 'en': 'Loss from disposal of investment fund shares classified as current assets', },
+          'label': { 'de': 'Verluste aus dem Abgang von Investmentanteilen des Umlaufvermögens', 'en': 'Losses from disposal of investment fund shares classified as current assets', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -11001,7 +10972,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss.other': {
           'name': 'is.netIncome.regular.operatingTC.otherCost.disposCurrAss.other',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherCost.disposCurrAss.other',
-          'label': { 'de': 'sonstige Verluste aus dem Abgang des Umlaufvermögens', 'en': 'Other loss from disposed current assets', },
+          'label': { 'de': 'sonstige Verluste aus dem Abgang des Umlaufvermögens', 'en': 'Other losses from disposed current assets', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -11011,7 +10982,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss.misc': {
           'name': 'is.netIncome.regular.operatingTC.otherCost.disposCurrAss.misc',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherCost.disposCurrAss.misc',
-          'label': { 'de': 'nicht zuordenbare Verluste aus dem Abgang des Umlaufvermögens', 'en': 'Miscellaneous loss from disposed current assets', },
+          'label': { 'de': 'nicht zuordenbare Verluste aus dem Abgang des Umlaufvermögens', 'en': 'Miscellaneous losses from disposed current assets', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -11021,7 +10992,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.investmentShares': {
           'name': 'is.netIncome.regular.operatingTC.otherCost.investmentShares',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherCost.investmentShares',
-          'label': { 'de': 'Verluste aus der Auflösung der Ausgleichsposten und Rücklagen für Investmentanteile', 'en': 'Loss from reversal of adjustment item and reserves for investment fund shares', },
+          'label': { 'de': 'Verluste aus der Auflösung der Ausgleichsposten und Rücklagen für Investmentanteile', 'en': 'Losses from reversal of adjustment item and reserves for investment fund shares', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -11092,16 +11063,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'name': 'is.netIncome.regular.operatingTC.otherCost.EGHGB',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherCost.EGHGB',
           'label': { 'de': 'davon Aufwendungen nach Art. 67 Abs. 1 und 2 EGHGB', 'en': 'of which expenses from application of EGHGB art. 67(1) and (2)', },
-          'balance': 'debit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 5,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherRemunerationPartners': {
-          'name': 'is.netIncome.regular.operatingTC.otherCost.otherRemunerationPartners',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherCost.otherRemunerationPartners',
-          'label': { 'de': 'sonstige Vergütungen an Mitunternehmer § 15 EStG', 'en': 'Other remuneration to managing partners within the meaning of EStG s.15', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -11266,26 +11227,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'periodtype': 'duration',
           'weight': 1,
           'level': 6,
-          'hasChildren': true,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation.use': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation.use',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation.use',
-          'label': { 'de': 'Ertrag aus Spendenverbrauch', 'en': 'Income from use of donations', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 7,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation.immediatelyRecognised': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation.immediatelyRecognised',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation.immediatelyRecognised',
-          'label': { 'de': 'sofort ertragswirksame Spenden', 'en': 'Donations immediately recognised as income', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 7,
           'hasChildren': false,
         },
         'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.estate': {
@@ -13058,16 +12999,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'level': 5,
           'hasChildren': false,
         },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.otherRemunerationPartners': {
-          'name': 'is.netIncome.regular.operatingCOGS.otherCost.otherRemunerationPartners',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.otherCost.otherRemunerationPartners',
-          'label': { 'de': 'sonstige Vergütungen an Mitunternehmer § 15 EStG', 'en': 'Other remuneration to managing partners within the meaning of EStG s.15', },
-          'balance': 'debit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 5,
-          'hasChildren': false,
-        },
         'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.EGHGB': {
           'name': 'is.netIncome.regular.operatingCOGS.otherCost.EGHGB',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.otherCost.EGHGB',
@@ -13401,7 +13332,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.lossChangeAdjustItem': {
           'name': 'is.netIncome.regular.fin.netParticipation.earningProfSharing.lossChangeAdjustItem',
           'qname': 'de-gaap-ci:is.netIncome.regular.fin.netParticipation.earningProfSharing.lossChangeAdjustItem',
-          'label': { 'de': 'Aufwand aus der Auflösung aktiver oder der Bildung passiver Ausgleichsposten bei Organschaftsverhältnissen (GAV)', 'en': 'Loss from reversal of an asset-side adjustment item or recognition of a liability-side adjustment item for consolidated tax group', },
+          'label': { 'de': 'Aufwand aus der Auflösung aktiver oder der Bildung passiver Ausgleichsposten bei Organschaftsverhältnissen (GAV)', 'en': 'Losses from reversal of an asset-side adjustment item or recognition of a liability-side adjustment item for consolidated tax group', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': -1,
@@ -14681,7 +14612,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.profPooling': {
           'name': 'is.netIncome.regular.fin.netParticipation.loss.profPooling',
           'qname': 'de-gaap-ci:is.netIncome.regular.fin.netParticipation.loss.profPooling',
-          'label': { 'de': 'übernommene Verluste aufgrund einer Gewinngemeinschaft', 'en': 'Loss absorbed on the basis of a profit pooling agreement', },
+          'label': { 'de': 'übernommene Verluste aufgrund einer Gewinngemeinschaft', 'en': 'Losses absorbed on the basis of a profit pooling agreement', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -14691,7 +14622,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.fiscalUnity': {
           'name': 'is.netIncome.regular.fin.netParticipation.loss.fiscalUnity',
           'qname': 'de-gaap-ci:is.netIncome.regular.fin.netParticipation.loss.fiscalUnity',
-          'label': { 'de': 'übernommene Verluste aufgrund eines Gewinnabführungsvertrags (Organschaft)', 'en': 'Loss absorbed on the basis of a profit and loss pooling agreement (fiscal unity)', },
+          'label': { 'de': 'übernommene Verluste aufgrund eines Gewinnabführungsvertrags (Organschaft)', 'en': 'Losses absorbed on the basis of a profit and loss pooling agreement (fiscal unity)', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -14731,7 +14662,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer': {
           'name': 'is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer',
           'qname': 'de-gaap-ci:is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer',
-          'label': { 'de': 'übernommene Verluste aufgrund eines Teilgewinnabführungsvertrags', 'en': 'Loss absorbed under a partial profit transfer agreement', },
+          'label': { 'de': 'übernommene Verluste aufgrund eines Teilgewinnabführungsvertrags', 'en': 'Losses absorbed under a partial profit transfer agreement', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -14741,7 +14672,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer.silentPart': {
           'name': 'is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer.silentPart',
           'qname': 'de-gaap-ci:is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer.silentPart',
-          'label': { 'de': 'übernommene Verluste aufgrund einer stillen Beteiligung', 'en': 'Loss absorbed under silent partnership', },
+          'label': { 'de': 'übernommene Verluste aufgrund einer stillen Beteiligung', 'en': 'Losses absorbed under silent partnership', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -14751,7 +14682,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer.other': {
           'name': 'is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer.other',
           'qname': 'de-gaap-ci:is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer.other',
-          'label': { 'de': 'übernommene Verluste aufgrund eines sonstigen Teilgewinnabführungsvertrags', 'en': 'Loss absorbed under any other partial profit transfer agreement', },
+          'label': { 'de': 'übernommene Verluste aufgrund eines sonstigen Teilgewinnabführungsvertrags', 'en': 'Losses absorbed under any other partial profit transfer agreement', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -14791,7 +14722,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.changeAdjustItem': {
           'name': 'is.netIncome.regular.fin.netParticipation.loss.changeAdjustItem',
           'qname': 'de-gaap-ci:is.netIncome.regular.fin.netParticipation.loss.changeAdjustItem',
-          'label': { 'de': 'Aufwand aus der Auflösung aktiver oder der Bildung passiver Ausgleichsposten bei Organschaftsverhältnissen (AVÜ)', 'en': 'Loss from reversal of an asset-side adjustment item for consolidated tax group or recognition of a liability-side adjustment item for consolidated tax group', },
+          'label': { 'de': 'Aufwand aus der Auflösung aktiver oder der Bildung passiver Ausgleichsposten bei Organschaftsverhältnissen (AVÜ)', 'en': 'Losses from reversal of an asset-side adjustment item for consolidated tax group or recognition of a liability-side adjustment item for consolidated tax group', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -15218,16 +15149,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'level': 4,
           'hasChildren': false,
         },
-        'de-gaap-ci_is.netIncome.tax.minst': {
-          'name': 'is.netIncome.tax.minst',
-          'qname': 'de-gaap-ci:is.netIncome.tax.minst',
-          'label': { 'de': 'Mindeststeuer', 'en': 'Minimum tax', },
-          'balance': 'debit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 4,
-          'hasChildren': false,
-        },
         'de-gaap-ci_is.netIncome.tax.soli': {
           'name': 'is.netIncome.tax.soli',
           'qname': 'de-gaap-ci:is.netIncome.tax.soli',
@@ -15348,16 +15269,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'level': 5,
           'hasChildren': false,
         },
-        'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.minst': {
-          'name': 'is.netIncome.tax.prevPeriodPaid.minst',
-          'qname': 'de-gaap-ci:is.netIncome.tax.prevPeriodPaid.minst',
-          'label': { 'de': 'Mindeststeuer', 'en': 'Minimum tax', },
-          'balance': 'debit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 5,
-          'hasChildren': false,
-        },
         'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.soli': {
           'name': 'is.netIncome.tax.prevPeriodPaid.soli',
           'qname': 'de-gaap-ci:is.netIncome.tax.prevPeriodPaid.soli',
@@ -15408,16 +15319,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'level': 5,
           'hasChildren': false,
         },
-        'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.minst': {
-          'name': 'is.netIncome.tax.prevPeriodReceived.minst',
-          'qname': 'de-gaap-ci:is.netIncome.tax.prevPeriodReceived.minst',
-          'label': { 'de': 'Mindeststeuer', 'en': 'Minimum tax', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 5,
-          'hasChildren': false,
-        },
         'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.soli': {
           'name': 'is.netIncome.tax.prevPeriodReceived.soli',
           'qname': 'de-gaap-ci:is.netIncome.tax.prevPeriodReceived.soli',
@@ -15462,16 +15363,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'name': 'is.netIncome.tax.releaseTaxProv.KSt',
           'qname': 'de-gaap-ci:is.netIncome.tax.releaseTaxProv.KSt',
           'label': { 'de': 'Körperschaftsteuer', 'en': 'Corporation tax', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 5,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.tax.releaseTaxProv.minst': {
-          'name': 'is.netIncome.tax.releaseTaxProv.minst',
-          'qname': 'de-gaap-ci:is.netIncome.tax.releaseTaxProv.minst',
-          'label': { 'de': 'Mindeststeuer', 'en': 'Minimum tax', },
           'balance': 'credit',
           'periodtype': 'duration',
           'weight': 1,
@@ -15872,105 +15763,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'name': 'is.netIncome.OtherForeign',
           'qname': 'de-gaap-ci:is.netIncome.OtherForeign',
           'label': { 'de': 'Ergebnis der ausländischen Betriebsstätten, soweit aus der/den für die ausländische(n) Betriebsstätte(n) geführten Buchführung(en) nicht anders zuordenbar', 'en': 'Result of foreign branch(es), if from the accounts of foreign permanent establishment(s) not otherwise allocable', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties',
-          'label': { 'de': 'davon Erträge zur Erfüllung satzungsmäßiger Aufgaben', 'en': 'of which income to be used for statutory duties', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'level': 1,
-          'hasChildren': true,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.membershipFees': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.membershipFees',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.membershipFees',
-          'label': { 'de': 'Mitgliedsbeiträge', 'en': 'Membership fees', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations',
-          'label': { 'de': 'Spenden', 'en': 'Donations', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': true,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.estate': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.estate',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.estate',
-          'label': { 'de': 'Erbschaften und Vermächtnisse', 'en': 'Inheritance and bequests', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations.use': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations.use',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations.use',
-          'label': { 'de': 'Ertrag aus Spendenverbrauch', 'en': 'Income from use of donations', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 3,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations.immediatelyRecognised': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations.immediatelyRecognised',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations.immediatelyRecognised',
-          'label': { 'de': 'sofort ertragswirksame Spenden', 'en': 'Donations immediately recognised as income', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 3,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.fine': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.fine',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.fine',
-          'label': { 'de': 'Geldbußen', 'en': 'Fines', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.sponsor': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.sponsor',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.sponsor',
-          'label': { 'de': 'Sponsoring', 'en': 'Sponsors', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.grant': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.grant',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.grant',
-          'label': { 'de': 'Zuschüsse', 'en': 'Grants, premiums and allowances', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.other': {
-          'name': 'is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.other',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.other',
-          'label': { 'de': 'sonstige Zuwendungen', 'en': 'Other contributions', },
           'balance': 'credit',
           'periodtype': 'duration',
           'weight': 1,
@@ -16617,7 +16409,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.impairment': {
           'name': 'is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.impairment',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.impairment',
-          'label': { 'de': 'Sonderabschreibungen', 'en': 'Impairment loss', },
+          'label': { 'de': 'Sonderabschreibungen', 'en': 'Impairment losses', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -17966,7 +17758,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
         'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.investmentShares': {
           'name': 'is.netIncome.regular.operatingCOGS.otherCostTC.investmentShares',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.otherCostTC.investmentShares',
-          'label': { 'de': 'Verluste aus der Auflösung der Ausgleichsposten und Rücklagen für Investmentanteile', 'en': 'Loss from reversal of adjustment item and reserves for investment fund shares', },
+          'label': { 'de': 'Verluste aus der Auflösung der Ausgleichsposten und Rücklagen für Investmentanteile', 'en': 'Losses from reversal of adjustment item and reserves for investment fund shares', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -18027,16 +17819,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'name': 'is.netIncome.regular.operatingCOGS.otherCostTC.liabilityRemunerationPartners',
           'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.otherCostTC.liabilityRemunerationPartners',
           'label': { 'de': 'Haftungsvergütung an Mitunternehmer § 15 EStG', 'en': 'Liability remuneration to managing partners within the meaning of EStG s.15', },
-          'balance': 'debit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.otherRemunerationPartners': {
-          'name': 'is.netIncome.regular.operatingCOGS.otherCostTC.otherRemunerationPartners',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.otherCostTC.otherRemunerationPartners',
-          'label': { 'de': 'sonstige Vergütungen an Mitunternehmer § 15 EStG', 'en': 'Other remuneration to managing partners within the meaning of EStG s.15', },
           'balance': 'debit',
           'periodtype': 'duration',
           'weight': 1,
@@ -18192,136 +17974,10 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
           'level': 2,
           'hasChildren': false,
         },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties',
-          'label': { 'de': 'davon Erträge zur Erfüllung satzungsmäßiger Aufgaben', 'en': 'of which income to be used for statutory duties', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'level': 1,
-          'hasChildren': true,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.membershipFees': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.membershipFees',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.membershipFees',
-          'label': { 'de': 'Mitgliedsbeiträge', 'en': 'Membership fees', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation',
-          'label': { 'de': 'Spenden', 'en': 'Donations', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': true,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation.use': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation.use',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation.use',
-          'label': { 'de': 'Ertrag aus Spendenverbrauch', 'en': 'Income from use of donations', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 3,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation.immediatelyRecognised': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation.immediatelyRecognised',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation.immediatelyRecognised',
-          'label': { 'de': 'sofort ertragswirksame Spenden', 'en': 'Donations immediately recognised as income', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 3,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.estate': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.estate',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.estate',
-          'label': { 'de': 'Erbschaften und Vermächtnisse', 'en': 'Inheritance and bequests', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.fine': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.fine',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.fine',
-          'label': { 'de': 'Geldbußen', 'en': 'Fines', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.sponsor': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.sponsor',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.sponsor',
-          'label': { 'de': 'Sponsoring', 'en': 'Sponsors', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.grant': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.grant',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.grant',
-          'label': { 'de': 'Zuschüsse', 'en': 'Grants, premiums and allowances', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
-        'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.other': {
-          'name': 'is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.other',
-          'qname': 'de-gaap-ci:is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.other',
-          'label': { 'de': 'sonstige Zuwendungen', 'en': 'Other contributions', },
-          'balance': 'credit',
-          'periodtype': 'duration',
-          'weight': 1,
-          'level': 2,
-          'hasChildren': false,
-        },
       },
     };
     return taxonomy;
   }
-  init_param() {
-    var param = {
-        'accountingBasicCurrency': '',
-        'companyId': '',
-        'identifierScheme': 'http://scheme.xbrl.org',
-    };
-
-    if (Banana.document) {
-        param.accountingBasicCurrency = Banana.document.info("AccountingDataBase", "BasicCurrency");
-        var company = '';
-        if (Banana.document.info("AccountingDataBase", "Company").length) {
-            company = Banana.document.info("AccountingDataBase", "Company");
-        }
-        if (Banana.document.info("AccountingDataBase", "Name").length || Banana.document.info("AccountingDataBase", "FamilyName").length) {
-            company = Banana.document.info("AccountingDataBase", "Name") + ' ' + Banana.document.info("AccountingDataBase", "FamilyName");
-        }
-        param.companyId = company;
-    }
-
-    param.schemaRefs = this.init_schemarefs();
-    param.namespaces = this.init_namespaces();
-    param.taxonomy = this.init_taxonomy();
-    param.accounts = this.init_accounts();
-    param.factVariables = this.init_factvariables();
-    return param;
-}
-
   init_accounts() {
     var accounts = [];
     accounts.push({ accountid: '2', description: 'Freies Konto', debit: 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop' });
@@ -19632,15 +19288,15 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '1378', description: 'Ansprüche aus Rückdeckungsversicherungen', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.reInsurClaim' });
     accounts.push({ accountid: '1379', description: 'Ansprüche aus Rückdeckungsversicherungen', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.reInsurClaim' });
     accounts.push({ accountid: '1380', description: 'Vermögensgegenstände zur Erfüllung von Pensionsrückstellungen und ähnlichen Verpflichtungen zum langfristigen Verbleib', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.other' });
-    accounts.push({ accountid: '1381', description: 'Vermögensgegenstände zur Saldierung mit Pensionsrückstellungen und ähnlichen Verpflichtungen zum langfristigen Verbleib nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
+    accounts.push({ accountid: '1381', description: 'Vermögensgegenstände zur Saldierung mit Pensionsrückstellungen und ähnlichen Verpflichtungen zum langfristigen Verbleib nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
     accounts.push({ accountid: '1382', description: 'Vermögensgegenstände zur Erfüllung von mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.other' });
-    accounts.push({ accountid: '1383', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
-    accounts.push({ accountid: '1384', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
-    accounts.push({ accountid: '1385', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
-    accounts.push({ accountid: '1386', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
-    accounts.push({ accountid: '1387', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
-    accounts.push({ accountid: '1388', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
-    accounts.push({ accountid: '1389', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
+    accounts.push({ accountid: '1383', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
+    accounts.push({ accountid: '1384', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
+    accounts.push({ accountid: '1385', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
+    accounts.push({ accountid: '1386', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
+    accounts.push({ accountid: '1387', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
+    accounts.push({ accountid: '1388', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
+    accounts.push({ accountid: '1389', description: 'Vermögensgegenstände zur Saldierung mit der Altersversorgung vergleichbaren langfristigen Verpflichtungen nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_bs.ass.SurplusFromOffsetting' });
     accounts.push({ accountid: '1390', description: 'GmbH-Anteile zum kurzfristigen Verbleib', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.other' });
     accounts.push({ accountid: '1391', description: 'Forderungen gegen Arbeitsgemeinschaften', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.jointWork' });
     accounts.push({ accountid: '1392', description: 'Forderungen gegen Arbeitsgemeinschaften', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.jointWork' });
@@ -19649,22 +19305,22 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '1395', description: 'Genossenschaftsanteile zum kurzfristigen Verbleib', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.coopShares' });
     accounts.push({ accountid: '1396', description: 'Nachträglich abziehbare Vorsteuer', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1397', description: 'Zurückzuzahlende Vorsteuer', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
-    accounts.push({ accountid: '1398', description: 'Nachträglich abziehbare Vorsteuer gem. Â§ 15a Abs. 1 UStG', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
-    accounts.push({ accountid: '1399', description: 'Zurückzuzahlende Vorsteuer gem. Â§ 15a Abs. 1 UStG', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
+    accounts.push({ accountid: '1398', description: 'Nachträglich abziehbare Vorsteuer gem. § 15a Abs. 1 UStG', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
+    accounts.push({ accountid: '1399', description: 'Zurückzuzahlende Vorsteuer gem. § 15a Abs. 1 UStG', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1400', description: 'Abziehbare Vorsteuer', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1401', description: 'Abziehbare Vorsteuer 7 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1402', description: 'Abziehbare Vorsteuer aus innergemeinschaftlichem Erwerb', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1404', description: 'Abziehbare Vorsteuer aus innergemeinschaftlichem Erwerb 19 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1406', description: 'Abziehbare Vorsteuer 19 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
-    accounts.push({ accountid: '1407', description: 'Abziehbare Vorsteuer nach Â§ 13b UStG 19 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
-    accounts.push({ accountid: '1408', description: 'Abziehbare Vorsteuer nach Â§ 13b UStG', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
+    accounts.push({ accountid: '1407', description: 'Abziehbare Vorsteuer nach § 13b UStG 19 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
+    accounts.push({ accountid: '1408', description: 'Abziehbare Vorsteuer nach § 13b UStG', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1410', description: 'Aufzuteilende Vorsteuer', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1411', description: 'Aufzuteilende Vorsteuer 7 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1412', description: 'Aufzuteilende Vorsteuer aus innergemeinschaftlichem Erwerb', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1413', description: 'Aufzuteilende Vorsteuer aus innergemeinschaftlichem Erwerb 19 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1416', description: 'Aufzuteilende Vorsteuer 19 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
-    accounts.push({ accountid: '1417', description: 'Aufzuteilende Vorsteuer nach Â§Â§ 13a/13b UStG', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
-    accounts.push({ accountid: '1419', description: 'Aufzuteilende Vorsteuer nach Â§Â§ 13a/13b UStG 19 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
+    accounts.push({ accountid: '1417', description: 'Aufzuteilende Vorsteuer nach §§ 13a/13b UStG', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
+    accounts.push({ accountid: '1419', description: 'Aufzuteilende Vorsteuer nach §§ 13a/13b UStG 19 %', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1420', description: 'Umsatzsteuerforderungen', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1421', description: 'Umsatzsteuerforderungen laufendes Jahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
     accounts.push({ accountid: '1422', description: 'Umsatzsteuerforderungen Vorjahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.vat' });
@@ -19694,10 +19350,10 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '1449', description: 'Steuererstattungsansprüche gegenüber anderen Ländern', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.other' });
     accounts.push({ accountid: '1450', description: 'Körperschaftsteuerrückforderung', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxOverpayment' });
     accounts.push({ accountid: '1451', description: 'Körperschaftsteuerrückforderung', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxOverpayment' });
-    accounts.push({ accountid: '1452', description: 'Körperschaftsteuerguthaben nach Â§ 37 KStG - Restlaufzeit bis 1 Jahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG' });
-    accounts.push({ accountid: '1453', description: 'Körperschaftsteuerguthaben nach Â§ 37 KStG - Restlaufzeit größer 1 Jahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG' });
-    accounts.push({ accountid: '1454', description: 'Körperschaftsteuerguthaben nach Â§ 37 KStG - Restlaufzeit größer 1 Jahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG' });
-    accounts.push({ accountid: '1455', description: 'Körperschaftsteuerguthaben nach Â§ 37 KStG - Restlaufzeit größer 1 Jahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG' });
+    accounts.push({ accountid: '1452', description: 'Körperschaftsteuerguthaben nach § 37 KStG - Restlaufzeit bis 1 Jahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG' });
+    accounts.push({ accountid: '1453', description: 'Körperschaftsteuerguthaben nach § 37 KStG - Restlaufzeit größer 1 Jahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG' });
+    accounts.push({ accountid: '1454', description: 'Körperschaftsteuerguthaben nach § 37 KStG - Restlaufzeit größer 1 Jahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG' });
+    accounts.push({ accountid: '1455', description: 'Körperschaftsteuerguthaben nach § 37 KStG - Restlaufzeit größer 1 Jahr', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG' });
     accounts.push({ accountid: '1456', description: 'Forderungen an das Finanzamt aus abgeführtem Bauabzugsbetrag', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.otherTaxRec' });
     accounts.push({ accountid: '1457', description: 'Forderungen gegenüber Bundesagentur für Arbeit', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.other' });
     accounts.push({ accountid: '1458', description: 'Forderungen gegenüber Bundesagentur für Arbeit', debit: 'de-gaap-ci_bs.ass.currAss.receiv.other.other' });
@@ -19738,10 +19394,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '1502', description: 'Anteile an verbundenen Unternehmen (Umlaufvermögen)', debit: 'de-gaap-ci_bs.ass.currAss.securities.affil' });
     accounts.push({ accountid: '1503', description: 'Anteile an verbundenen Unternehmen (Umlaufvermögen)', debit: 'de-gaap-ci_bs.ass.currAss.securities.affil' });
     accounts.push({ accountid: '1504', description: 'Anteile an herrschender oder mit Mehrheit beteiligter Gesellschaft', debit: 'de-gaap-ci_bs.ass.currAss.securities.affil' });
-    accounts.push({ accountid: '1506', description: 'Freies Konto', debit: 'de-gaap-ci_bs.ass.currAss.securities.other.shares' });
-    accounts.push({ accountid: '1507', description: 'Freies Konto', debit: 'de-gaap-ci_bs.ass.currAss.securities.other.shares' });
-    accounts.push({ accountid: '1508', description: 'Freies Konto', debit: 'de-gaap-ci_bs.ass.currAss.securities.other.shares' });
-    accounts.push({ accountid: '1509', description: 'Freies Konto', debit: 'de-gaap-ci_bs.ass.currAss.securities.other.shares' });
     accounts.push({ accountid: '1510', description: 'Sonstige Wertpapiere', debit: 'de-gaap-ci_bs.ass.currAss.securities.other' });
     accounts.push({ accountid: '1511', description: 'Sonstige Wertpapiere', debit: 'de-gaap-ci_bs.ass.currAss.securities.other' });
     accounts.push({ accountid: '1512', description: 'Sonstige Wertpapiere', debit: 'de-gaap-ci_bs.ass.currAss.securities.other' });
@@ -20301,7 +19953,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '2977', description: 'Gewinnvortrag vor Verwendung', credit: 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings' });
     accounts.push({ accountid: '2978', description: 'Verlustvortrag vor Verwendung', credit: 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings' });
     accounts.push({ accountid: '2980', description: 'Sonderposten mit  Rücklageanteil', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.other' });
-    accounts.push({ accountid: '2981', description: 'Sonderposten mit Rücklageanteil nach Â§ 6b EStG', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.gainAssetSale' });
+    accounts.push({ accountid: '2981', description: 'Sonderposten mit Rücklageanteil nach § 6b EStG', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.gainAssetSale' });
     accounts.push({ accountid: '2982', description: 'Sonderposten mit Rücklageanteil nach EStR R 6.6', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.replacement' });
     accounts.push({ accountid: '2983', description: 'Sonderposten mit Rücklageanteil nach EStR R 6.6', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.replacement' });
     accounts.push({ accountid: '2984', description: 'Sonderposten mit Rücklageanteil nach EStR R 6.6', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.replacement' });
@@ -20309,22 +19961,22 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '2986', description: 'Sonderposten mit Rücklageanteil nach EStR R 6.6', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.replacement' });
     accounts.push({ accountid: '2987', description: 'Sonderposten mit Rücklageanteil nach EStR R 6.6', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.replacement' });
     accounts.push({ accountid: '2988', description: 'Rücklage für Zuschüsse', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.subsidies' });
-    accounts.push({ accountid: '2989', description: 'Sonderposten mit Rücklageanteil nach Â§ 52 Abs.16 EStG', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.taxRelifAct' });
+    accounts.push({ accountid: '2989', description: 'Sonderposten mit Rücklageanteil nach § 52 Abs.16 EStG', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.res.taxRelifAct' });
     accounts.push({ accountid: '2990', description: 'Sonderposten mit Rücklageanteil', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort' });
     accounts.push({ accountid: '2991', description: 'Sonderposten mit Rücklageanteil', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort' });
     accounts.push({ accountid: '2992', description: 'Sonderposten mit Rücklageanteil', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort' });
-    accounts.push({ accountid: '2993', description: 'Sonderposten mit Rücklageanteil nach Â§ 7g Abs. 2 EStG n. F.', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort' });
-    accounts.push({ accountid: '2994', description: 'Sonderposten mit Rücklageanteil nach Â§ 7g Abs. 2 EStG n. F.', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort' });
-    accounts.push({ accountid: '2995', description: 'Ausgleichsposten bei Entnahmen Â§ 4g EStG', credit: 'de-gaap-ci_bs.eqLiab.otherSpecRes.other' });
-    accounts.push({ accountid: '2996', description: 'Ausgleichsposten bei Entnahmen Â§ 4g EStG', credit: 'de-gaap-ci_bs.eqLiab.otherSpecRes.other' });
-    accounts.push({ accountid: '2997', description: 'Sonderposten mit Rücklageanteil nach Â§ 7g Abs. 5 EStG', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort' });
+    accounts.push({ accountid: '2993', description: 'Sonderposten mit Rücklageanteil nach § 7g Abs. 2 EStG n. F.', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort' });
+    accounts.push({ accountid: '2994', description: 'Sonderposten mit Rücklageanteil nach § 7g Abs. 2 EStG n. F.', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort' });
+    accounts.push({ accountid: '2995', description: 'Ausgleichsposten bei Entnahmen § 4g EStG', credit: 'de-gaap-ci_bs.eqLiab.otherSpecRes.other' });
+    accounts.push({ accountid: '2996', description: 'Ausgleichsposten bei Entnahmen § 4g EStG', credit: 'de-gaap-ci_bs.eqLiab.otherSpecRes.other' });
+    accounts.push({ accountid: '2997', description: 'Sonderposten mit Rücklageanteil nach § 7g Abs. 5 EStG', credit: 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort' });
     accounts.push({ accountid: '2999', description: 'Sonderposten für Zuschüsse und Zulagen', credit: 'de-gaap-ci_bs.eqLiab.otherSpecRes.subsidies' });
     accounts.push({ accountid: '3000', description: 'Rückstellungen für Pensionen und ähnliche Verpflichtungen', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.direct' });
     accounts.push({ accountid: '3001', description: 'Rückstellungen für Pensionen und ähnliche Verpflichtungen', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.direct' });
     accounts.push({ accountid: '3002', description: 'Rückstellungen für Pensionen und ähnliche Verpflichtungen', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.direct' });
     accounts.push({ accountid: '3003', description: 'Rückstellungen für Pensionen und ähnliche Verpflichtungen', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.direct' });
     accounts.push({ accountid: '3004', description: 'Rückstellungen für Pensionen und ähnliche Verpflichtungen', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.direct' });
-    accounts.push({ accountid: '3009', description: 'Rückstellungen für Pensionen und ähnliche Verpflichtungen zur Saldierung mit Vermögensgegenständen zum langfristigen Verbleib nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.direct' });
+    accounts.push({ accountid: '3009', description: 'Rückstellungen für Pensionen und ähnliche Verpflichtungen zur Saldierung mit Vermögensgegenständen zum langfristigen Verbleib nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.direct' });
     accounts.push({ accountid: '3010', description: 'Rückstellungen für Direktzusagen', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.direct' });
     accounts.push({ accountid: '3011', description: 'Rückstellungen für Zuschussverpflichtungen für Pensionskassen und Lebensversicherungen', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.externalFunds' });
     accounts.push({ accountid: '3012', description: 'Rückstellungen für Zuschussverpflichtungen für Pensionskassen und Lebensversicherungen', credit: 'de-gaap-ci_bs.eqLiab.accruals.pensions.externalFunds' });
@@ -20392,9 +20044,9 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '3074', description: 'Rückstellungen für Personalkosten', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
     accounts.push({ accountid: '3075', description: 'Rückstellungen für unterlassene Aufwendungen für Instandhaltung', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
     accounts.push({ accountid: '3076', description: 'Rückstellungen für mit der Altersversorgung vergleichbare langfristige Verpflichtungen zum langfristigen Verbleib', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
-    accounts.push({ accountid: '3077', description: 'Rückstellungen für mit der Altersversorgung vergleichbare langfristige Verpflichtungen zur Saldierung mit Vermögensgegenständen zum langfristigen Verbleib nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
-    accounts.push({ accountid: '3078', description: 'Rückstellungen für mit der Altersversorgung vergleichbare langfristige Verpflichtungen zur Saldierung mit Vermögensgegenständen zum langfristigen Verbleib nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
-    accounts.push({ accountid: '3079', description: 'Rückstellungen für mit der Altersversorgung vergleichbare langfristige Verpflichtungen zur Saldierung mit Vermögensgegenständen zum langfristigen Verbleib nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
+    accounts.push({ accountid: '3077', description: 'Rückstellungen für mit der Altersversorgung vergleichbare langfristige Verpflichtungen zur Saldierung mit Vermögensgegenständen zum langfristigen Verbleib nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
+    accounts.push({ accountid: '3078', description: 'Rückstellungen für mit der Altersversorgung vergleichbare langfristige Verpflichtungen zur Saldierung mit Vermögensgegenständen zum langfristigen Verbleib nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
+    accounts.push({ accountid: '3079', description: 'Rückstellungen für mit der Altersversorgung vergleichbare langfristige Verpflichtungen zur Saldierung mit Vermögensgegenständen zum langfristigen Verbleib nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
     accounts.push({ accountid: '3085', description: 'Rückstellungen für Abraum- und Abfallbeseitigung', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
     accounts.push({ accountid: '3086', description: 'Rückstellungen für Abraum- und Abfallbeseitigung', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
     accounts.push({ accountid: '3087', description: 'Rückstellungen für Abraum- und Abfallbeseitigung', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
@@ -20408,7 +20060,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '3095', description: 'Rückstellungen für Abschluss- und Prüfungskosten', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
     accounts.push({ accountid: '3096', description: 'Rückstellungen zur Erfüllung der Aufbewahrungspflichten', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
     accounts.push({ accountid: '3097', description: 'Rückstellungen zur Erfüllung der Aufbewahrungspflichten', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
-    accounts.push({ accountid: '3098', description: 'Aufwandsrückstellungen gemäß Â§ 249 Abs. 2 HGB a. F.', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
+    accounts.push({ accountid: '3098', description: 'Aufwandsrückstellungen gemäß § 249 Abs. 2 HGB a. F.', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
     accounts.push({ accountid: '3099', description: 'Rückstellungen für Umweltschutz', credit: 'de-gaap-ci_bs.eqLiab.accruals.other' });
     accounts.push({ accountid: '3100', description: 'Anleihen', credit: 'de-gaap-ci_bs.eqLiab.liab.securities' });
     accounts.push({ accountid: '3101', description: 'Anleihen', credit: 'de-gaap-ci_bs.eqLiab.liab.securities' });
@@ -21107,8 +20759,8 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '3830', description: 'Umsatzsteuer-Vorauszahlungen 1/11', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3832', description: 'Nachsteuer', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3834', description: 'Umsatzsteuer aus innergemeinschaftlichem Erwerb von Neufahrzeugen von Lieferanten ohne Umsatzsteuer-Identifikationsnummer', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
-    accounts.push({ accountid: '3835', description: 'Umsatzsteuer nach Â§ 13b UStG', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
-    accounts.push({ accountid: '3837', description: 'Umsatzsteuer nach Â§ 13b UStG 19 %', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
+    accounts.push({ accountid: '3835', description: 'Umsatzsteuer nach § 13b UStG', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
+    accounts.push({ accountid: '3837', description: 'Umsatzsteuer nach § 13b UStG 19 %', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3839', description: 'Umsatzsteuer aus der Auslagerung von Gegenständen aus einem Umsatzsteuerlager', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3840', description: 'Umsatzsteuer laufendes Jahr', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3841', description: 'Umsatzsteuer Vorjahr', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
@@ -21120,7 +20772,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '3847', description: 'Umsatzsteuer frühere Jahre', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3848', description: 'Umsatzsteuer frühere Jahre', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3849', description: 'Umsatzsteuer frühere Jahre', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
-    accounts.push({ accountid: '3850', description: 'Einfuhrumsatzsteuer aufgeschoben bisâ€¦', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
+    accounts.push({ accountid: '3850', description: 'Einfuhrumsatzsteuer aufgeschoben bis…', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3851', description: 'In Rechnung unrichtig oder unberechtigt ausgewiesene Steuerbeträge', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3852', description: 'In Rechnung unrichtig oder unberechtigt ausgewiesene Steuerbeträge', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
     accounts.push({ accountid: '3853', description: 'In Rechnung unrichtig oder unberechtigt ausgewiesene Steuerbeträge', credit: 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax' });
@@ -21338,12 +20990,12 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '4097', description: 'Umsatzerlöse (Zur freien Verfügung)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.unknownVAT' });
     accounts.push({ accountid: '4098', description: 'Umsatzerlöse (Zur freien Verfügung)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.unknownVAT' });
     accounts.push({ accountid: '4099', description: 'Umsatzerlöse (Zur freien Verfügung)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.unknownVAT' });
-    accounts.push({ accountid: '4100', description: 'Steuerfreie Umsätze Â§ 4 Nr. 8 ff UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
+    accounts.push({ accountid: '4100', description: 'Steuerfreie Umsätze § 4 Nr. 8 ff UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
     accounts.push({ accountid: '4101', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
     accounts.push({ accountid: '4102', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
     accounts.push({ accountid: '4103', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
     accounts.push({ accountid: '4104', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
-    accounts.push({ accountid: '4105', description: 'Steuerfreie Umsätze nach Â§ 4 Nr. 12 UStG (Vermietung und Verpachtung)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
+    accounts.push({ accountid: '4105', description: 'Steuerfreie Umsätze nach § 4 Nr. 12 UStG (Vermietung und Verpachtung)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
     accounts.push({ accountid: '4106', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
     accounts.push({ accountid: '4107', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
     accounts.push({ accountid: '4108', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8' });
@@ -21358,25 +21010,25 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '4117', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
     accounts.push({ accountid: '4118', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
     accounts.push({ accountid: '4119', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
-    accounts.push({ accountid: '4120', description: 'Steuerfreie Umsätze Â§ 4 Nr. 1a UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1a' });
+    accounts.push({ accountid: '4120', description: 'Steuerfreie Umsätze § 4 Nr. 1a UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1a' });
     accounts.push({ accountid: '4121', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1a' });
     accounts.push({ accountid: '4122', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1a' });
     accounts.push({ accountid: '4123', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1a' });
     accounts.push({ accountid: '4124', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1a' });
-    accounts.push({ accountid: '4125', description: 'Steuerfreie Innergemeinschaftliche Lieferungen Â§ 4 Nr. 1b UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
+    accounts.push({ accountid: '4125', description: 'Steuerfreie Innergemeinschaftliche Lieferungen § 4 Nr. 1b UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
     accounts.push({ accountid: '4126', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
     accounts.push({ accountid: '4127', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
     accounts.push({ accountid: '4128', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
     accounts.push({ accountid: '4129', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
-    accounts.push({ accountid: '4130', description: 'Lieferungen des ersten Abnehmers bei innergemeinschaftlichen Dreiecksgeschäften Â§ 25b Abs. 2 UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
+    accounts.push({ accountid: '4130', description: 'Lieferungen des ersten Abnehmers bei innergemeinschaftlichen Dreiecksgeschäften § 25b Abs. 2 UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
     accounts.push({ accountid: '4131', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
     accounts.push({ accountid: '4132', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
     accounts.push({ accountid: '4133', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
     accounts.push({ accountid: '4134', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
     accounts.push({ accountid: '4135', description: 'Steuerfreie innergemeinschaftliche Lieferungen von Neufahrzeugen an Abnehmer ohne Umsatzsteuer-Identifikationsnummer', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b' });
-    accounts.push({ accountid: '4136', description: 'Umsatzerlöse nach Â§Â§ 25 und 25a UStG 19% USt', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.UStG25_25a' });
-    accounts.push({ accountid: '4138', description: 'Umsatzerlöse nach Â§Â§ 25 und 25a UStG ohne USt', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.UStG25_25a' });
-    accounts.push({ accountid: '4139', description: 'Umsatzerlöse aus Reiseleistungen Â§ 25 Abs. 2 UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.UStG25_25a' });
+    accounts.push({ accountid: '4136', description: 'Umsatzerlöse nach §§ 25 und 25a UStG 19% USt', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.UStG25_25a' });
+    accounts.push({ accountid: '4138', description: 'Umsatzerlöse nach §§ 25 und 25a UStG ohne USt', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.UStG25_25a' });
+    accounts.push({ accountid: '4139', description: 'Umsatzerlöse aus Reiseleistungen § 25 Abs. 2 UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.UStG25_25a' });
     accounts.push({ accountid: '4140', description: 'Steuerfreie Umsätze Offshore etc.', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
     accounts.push({ accountid: '4141', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
     accounts.push({ accountid: '4142', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
@@ -21387,7 +21039,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '4147', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
     accounts.push({ accountid: '4148', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
     accounts.push({ accountid: '4149', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
-    accounts.push({ accountid: '4150', description: 'Sonstige steuerfreie Umsätze (z. B. Â§ 4 Nr. 2-7 UStG)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_2til7' });
+    accounts.push({ accountid: '4150', description: 'Sonstige steuerfreie Umsätze (z. B. § 4 Nr. 2-7 UStG)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_2til7' });
     accounts.push({ accountid: '4151', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_2til7' });
     accounts.push({ accountid: '4152', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_2til7' });
     accounts.push({ accountid: '4153', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_2til7' });
@@ -21420,7 +21072,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '4180', description: 'Erlöse', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.otherRateVAT' });
     accounts.push({ accountid: '4181', description: 'Erlöse', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.otherRateVAT' });
     accounts.push({ accountid: '4184', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.otherRateVAT' });
-    accounts.push({ accountid: '4185', description: 'Erlöse als Kleinunternehmer i. S. d. Â§ 19 Abs. 1 UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
+    accounts.push({ accountid: '4185', description: 'Erlöse als Kleinunternehmer i. S. d. § 19 Abs. 1 UStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther' });
     accounts.push({ accountid: '4186', description: 'Erlöse aus Geldspielautomaten 19 % USt', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.generalRateVAT' });
     accounts.push({ accountid: '4189', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.generalRateVAT' });
     accounts.push({ accountid: '4190', description: 'Freies Konto', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.generalRateVAT' });
@@ -21809,7 +21461,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '4702', description: 'Erlösschmälerungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4703', description: 'Erlösschmälerungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4704', description: 'Erlösschmälerungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
-    accounts.push({ accountid: '4705', description: 'Erlösschmälerungen aus steuerfreien Umsätzen Â§ 4 Nr. 1a UStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
+    accounts.push({ accountid: '4705', description: 'Erlösschmälerungen aus steuerfreien Umsätzen § 4 Nr. 1a UStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4706', description: 'Freies Konto', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4707', description: 'Freies Konto', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4708', description: 'Freies Konto', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
@@ -21832,7 +21484,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '4740', description: 'Freies Konto', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4741', description: 'Gewährte Skonti aus Leistungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4742', description: 'Gewährte Skonti aus Erlöse aus im anderen EU-Land steuerpflichtigen sonstigen Leistungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
-    accounts.push({ accountid: '4743', description: 'Gewährte Skonti aus steuerfreien innergemeinschaftlichen Lieferungen Â§ 4 Nr. 1b UStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
+    accounts.push({ accountid: '4743', description: 'Gewährte Skonti aus steuerfreien innergemeinschaftlichen Lieferungen § 4 Nr. 1b UStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4745', description: 'Gewährte Skonti aus im Inland steuerpflichtigen EU-Lieferungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4746', description: 'Gewährte Skonti aus im Inland steuerpflichtigen EU-Lieferungen 7% USt', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
     accounts.push({ accountid: '4748', description: 'Gewährte Skonti aus im Inland steuerpflichtigen EU-Lieferungen 19% USt', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales' });
@@ -21898,44 +21550,44 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '4841', description: 'Sonstige Erträge betrieblich und regelmäßig', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.miscellaneous' });
     accounts.push({ accountid: '4842', description: 'Sonstige betriebliche Erträge', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.miscellaneous' });
     accounts.push({ accountid: '4843', description: 'Erträge aus Bewertung Finanzmittelfonds', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.currGains' });
-    accounts.push({ accountid: '4844', description: 'Erlöse aus Verkäufen Sachanlagevermögen steuerfrei  Â§ 4 Nr. 1a UStG (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4844', description: 'Erlöse aus Verkäufen Sachanlagevermögen steuerfrei  § 4 Nr. 1a UStG (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
     accounts.push({ accountid: '4845', description: 'Erlöse aus Verkäufen Sachanlagevermögen 19 % USt (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4847', description: 'Erträge aus der Währungsumrechnung (nicht Â§ 256a HGB)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.currGains' });
-    accounts.push({ accountid: '4848', description: 'Erlöse aus Verkäufen Sachanlagevermögen steuerfrei Â§ 4 Nr. 1b UStG (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4847', description: 'Erträge aus der Währungsumrechnung (nicht § 256a HGB)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.currGains' });
+    accounts.push({ accountid: '4848', description: 'Erlöse aus Verkäufen Sachanlagevermögen steuerfrei § 4 Nr. 1b UStG (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
     accounts.push({ accountid: '4849', description: 'Erlöse aus Verkäufen Sachanlagevermögen (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
     accounts.push({ accountid: '4850', description: 'Erlöse aus Verkäufen immaterieller Vermögensgegenstände (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
     accounts.push({ accountid: '4851', description: 'Erlöse aus Verkäufen Finanzanlagen (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4852', description: 'Erlöse aus Verkäufen Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.) (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4853', description: 'Erlöse aus Verkäufen Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.) (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4854', description: 'Erlöse aus Verkäufen Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.) (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4852', description: 'Erlöse aus Verkäufen Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.) (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4853', description: 'Erlöse aus Verkäufen Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.) (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4854', description: 'Erlöse aus Verkäufen Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.) (bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
     accounts.push({ accountid: '4855', description: 'Anlagenabgänge Sachanlagen (Restbuchwert bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
     accounts.push({ accountid: '4856', description: 'Anlagenabgänge immaterielle Vermögensgegenstände (Restbuchwert bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
     accounts.push({ accountid: '4857', description: 'Anlagenabgänge Finanzanlagen (Restbuchwert bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4858', description: 'Anlagenabgänge Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.) (Restbuchwert bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4859', description: 'Anlagenabgänge Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.) (Restbuchwert bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4858', description: 'Anlagenabgänge Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.) (Restbuchwert bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4859', description: 'Anlagenabgänge Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.) (Restbuchwert bei Buchgewinn)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
     accounts.push({ accountid: '4860', description: 'Grundstückserträge', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.lease' });
     accounts.push({ accountid: '4861', description: 'Erlöse aus Vermietung und Verpachtung', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.lease' });
     accounts.push({ accountid: '4862', description: 'Erlöse aus Vermietung und Verpachtung 19% USt', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.lease' });
     accounts.push({ accountid: '4900', description: 'Erträge aus dem Abgang von Gegenständen des Anlagevermögens', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4901', description: 'Erträge aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4902', description: 'Erträge aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4903', description: 'Erträge aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
-    accounts.push({ accountid: '4904', description: 'Erträge aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4901', description: 'Erträge aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4902', description: 'Erträge aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4903', description: 'Erträge aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
+    accounts.push({ accountid: '4904', description: 'Erträge aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss' });
     accounts.push({ accountid: '4905', description: 'Erträge aus dem Abgang von Gegenständen des Umlaufvermögens außer Vorräte', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss' });
-    accounts.push({ accountid: '4906', description: 'Erträge aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss' });
-    accounts.push({ accountid: '4907', description: 'Erträge aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss' });
-    accounts.push({ accountid: '4908', description: 'Erträge aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss' });
-    accounts.push({ accountid: '4909', description: 'Erträge aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss' });
+    accounts.push({ accountid: '4906', description: 'Erträge aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss' });
+    accounts.push({ accountid: '4907', description: 'Erträge aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss' });
+    accounts.push({ accountid: '4908', description: 'Erträge aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss' });
+    accounts.push({ accountid: '4909', description: 'Erträge aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss' });
     accounts.push({ accountid: '4910', description: 'Erträge aus Zuschreibungen des  Sachanlagevermögens', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss' });
     accounts.push({ accountid: '4911', description: 'Erträge aus Zuschreibungen des immateriellen  Anlagevermögens', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss' });
     accounts.push({ accountid: '4912', description: 'Erträge aus Zuschreibungen des Finanzanlagevermögens', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss' });
-    accounts.push({ accountid: '4913', description: 'Erträge aus Zuschreibungen des Finanzanlagevermögens Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss' });
-    accounts.push({ accountid: '4914', description: 'Erträge aus Zuschreibungen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss' });
+    accounts.push({ accountid: '4913', description: 'Erträge aus Zuschreibungen des Finanzanlagevermögens § 3 Nr. 40 EStG/§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss' });
+    accounts.push({ accountid: '4914', description: 'Erträge aus Zuschreibungen § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss' });
     accounts.push({ accountid: '4915', description: 'Erträge aus Zuschreibungen des Umlaufvermögens außer Vorräte', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss' });
-    accounts.push({ accountid: '4916', description: 'Erträge aus Zuschreibungen des Umlaufvermögens Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss' });
-    accounts.push({ accountid: '4917', description: 'Erträge aus Zuschreibungen des Umlaufvermögens Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss' });
-    accounts.push({ accountid: '4918', description: 'Erträge aus Zuschreibungen des Umlaufvermögens Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss' });
-    accounts.push({ accountid: '4919', description: 'Erträge aus Zuschreibungen des Umlaufvermögens Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss' });
+    accounts.push({ accountid: '4916', description: 'Erträge aus Zuschreibungen des Umlaufvermögens § 3 Nr. 40 EStG/§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss' });
+    accounts.push({ accountid: '4917', description: 'Erträge aus Zuschreibungen des Umlaufvermögens § 3 Nr. 40 EStG/§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss' });
+    accounts.push({ accountid: '4918', description: 'Erträge aus Zuschreibungen des Umlaufvermögens § 3 Nr. 40 EStG/§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss' });
+    accounts.push({ accountid: '4919', description: 'Erträge aus Zuschreibungen des Umlaufvermögens § 3 Nr. 40 EStG/§ 8b Abs. 3 Satz 8 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss' });
     accounts.push({ accountid: '4920', description: 'Erträge aus der Herabsetzung der Pauschalwertberichtigung auf Forderungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv.globalValuation' });
     accounts.push({ accountid: '4921', description: 'Erträge aus der Herabsetzung der Pauschalwertberichtigung auf Forderungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv.globalValuation' });
     accounts.push({ accountid: '4922', description: 'Erträge aus der Herabsetzung der Pauschalwertberichtigung auf Forderungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv.globalValuation' });
@@ -21943,16 +21595,16 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '4924', description: 'Erträge aus der Herabsetzung der Einzelwertberichtigung auf Forderungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv.specificValuation' });
     accounts.push({ accountid: '4925', description: 'Erträge aus abgeschriebenen Forderungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.recoveryWriteoffs' });
     accounts.push({ accountid: '4926', description: 'Erträge aus abgeschriebenen Forderungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.recoveryWriteoffs' });
-    accounts.push({ accountid: '4927', description: 'Erträge aus der Auflösung einer steuerlichen Rücklage nach Â§ 6b Abs. 3 EStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.EStG6b_3' });
+    accounts.push({ accountid: '4927', description: 'Erträge aus der Auflösung einer steuerlichen Rücklage nach § 6b Abs. 3 EStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.EStG6b_3' });
     accounts.push({ accountid: '4929', description: 'Erträge aus der Auflösung der Rücklage für Ersatzbeschaffung R 6.6 EStR', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.substEStR6_6' });
     accounts.push({ accountid: '4930', description: 'Erträge aus der Auflösung von Rückstellungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseProv' });
     accounts.push({ accountid: '4931', description: 'Erträge aus der Auflösung von Rückstellungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseProv' });
     accounts.push({ accountid: '4932', description: 'Erträge aus der Auflösung von Rückstellungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseProv' });
     accounts.push({ accountid: '4935', description: 'Erträge aus der Auflösung einer steuerlichen Rücklage', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.other' });
-    accounts.push({ accountid: '4936', description: 'Erträge aus der Auflösung von steuerlichen Rücklagen (Ansparabschreibungen nach  Â§ 7g Abs. 2 EStG)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.other' });
+    accounts.push({ accountid: '4936', description: 'Erträge aus der Auflösung von steuerlichen Rücklagen (Ansparabschreibungen nach  § 7g Abs. 2 EStG)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.other' });
     accounts.push({ accountid: '4937', description: 'Erträge aus der Auflösung steuerrechtlicher Sonderabschreibungen', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.other' });
-    accounts.push({ accountid: '4938', description: 'Erträge aus der Auflösung einer steuerlichen Rücklage nach Â§ 4g EStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.EStG4g' });
-    accounts.push({ accountid: '4939', description: 'Erträge aus der Auflösung von steuerlichen Rücklagen nach Â§ 52 Abs. 16 EStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.other' });
+    accounts.push({ accountid: '4938', description: 'Erträge aus der Auflösung einer steuerlichen Rücklage nach § 4g EStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.EStG4g' });
+    accounts.push({ accountid: '4939', description: 'Erträge aus der Auflösung von steuerlichen Rücklagen nach § 52 Abs. 16 EStG', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.other' });
     accounts.push({ accountid: '4940', description: 'Verrechnete sonstige Sachbezüge (keine Waren)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption.nonCashBenefitsOther' });
     accounts.push({ accountid: '4941', description: 'Sachbezüge 7 % USt (Waren)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption.nonCashBenefitsOther' });
     accounts.push({ accountid: '4945', description: 'Sachbezüge 19 % USt (Waren)', credit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption.nonCashBenefitsOther' });
@@ -22261,7 +21913,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '5307', description: 'Wareneingang 7 % Vorsteuer', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.reducedRateVAT' });
     accounts.push({ accountid: '5308', description: 'Wareneingang 7 % Vorsteuer', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.reducedRateVAT' });
     accounts.push({ accountid: '5309', description: 'Wareneingang 7 % Vorsteuer', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.reducedRateVAT' });
-    accounts.push({ accountid: '5349', description: 'Wareneingang ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.withoutVAT' });
     accounts.push({ accountid: '5350', description: 'Freies Konto', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.reducedRateVAT' });
     accounts.push({ accountid: '5351', description: 'Freies Konto', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.reducedRateVAT' });
     accounts.push({ accountid: '5352', description: 'Freies Konto', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.reducedRateVAT' });
@@ -22569,46 +22220,46 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '5951', description: 'Erhaltene Skonti aus Leistungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
     accounts.push({ accountid: '5953', description: 'Erhaltene Skonti aus Leistungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
     accounts.push({ accountid: '5954', description: 'Erhaltene Skonti aus Leistungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5960', description: 'Leistungen nach Â§ 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
-    accounts.push({ accountid: '5961', description: 'Leistungen nach Â§ 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
-    accounts.push({ accountid: '5962', description: 'Leistungen nach Â§ 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
-    accounts.push({ accountid: '5963', description: 'Leistungen nach Â§ 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
-    accounts.push({ accountid: '5964', description: 'Leistungen nach Â§ 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
-    accounts.push({ accountid: '5965', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5966', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5967', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5968', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5969', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5970', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5971', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5972', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5973', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5974', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5975', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5976', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5977', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5978', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5979', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5980', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5981', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5982', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5983', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5984', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5985', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5986', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5987', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5988', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5989', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5990', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5991', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5992', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5993', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5994', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5995', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5996', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5997', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5998', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
-    accounts.push({ accountid: '5999', description: 'Leistungen nach Â§ 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5960', description: 'Leistungen nach § 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
+    accounts.push({ accountid: '5961', description: 'Leistungen nach § 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
+    accounts.push({ accountid: '5962', description: 'Leistungen nach § 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
+    accounts.push({ accountid: '5963', description: 'Leistungen nach § 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
+    accounts.push({ accountid: '5964', description: 'Leistungen nach § 13b UStG mit Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax' });
+    accounts.push({ accountid: '5965', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5966', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5967', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5968', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5969', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5970', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5971', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5972', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5973', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5974', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5975', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5976', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5977', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5978', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5979', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5980', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5981', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5982', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5983', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5984', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5985', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5986', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5987', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5988', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5989', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5990', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5991', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5992', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5993', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5994', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5995', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5996', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5997', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5998', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
+    accounts.push({ accountid: '5999', description: 'Leistungen nach § 13b UStG ohne Vorsteuerabzug', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax' });
     accounts.push({ accountid: '6024', description: 'Geschäftsführergehälter der GmbH-Gesellschafter', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.managerPartner' });
     accounts.push({ accountid: '6025', description: 'Geschäftsführergehälter der GmbH-Gesellschafter', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.managerPartner' });
     accounts.push({ accountid: '6035', description: 'Löhne für Minijobs', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.minijobs' });
@@ -22749,15 +22400,15 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '6238', description: 'Absetzung für außergewöhnliche technische und wirtschaftliche Abnutzung sonstiger Wirtschaftsgüter', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except.tan' });
     accounts.push({ accountid: '6239', description: 'Absetzung für außergewöhnliche technische und wirtschaftliche Abnutzung sonstiger Wirtschaftsgüter', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except.tan' });
     accounts.push({ accountid: '6240', description: 'Abschreibungen auf Sachanlagen auf Grund steuerlicher Sondervorschriften', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
-    accounts.push({ accountid: '6241', description: 'Sonderabschreibungen nach Â§ 7g Abs. 5 EStG (ohne Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
-    accounts.push({ accountid: '6242', description: 'Sonderabschreibungen nach Â§ 7g Abs. 5 EStG (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
-    accounts.push({ accountid: '6243', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß Â§ 7g Abs. 2 EStG n. F. (ohne Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
-    accounts.push({ accountid: '6244', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß Â§ 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
-    accounts.push({ accountid: '6245', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß Â§ 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
-    accounts.push({ accountid: '6246', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß Â§ 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
-    accounts.push({ accountid: '6247', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß Â§ 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
-    accounts.push({ accountid: '6248', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß Â§ 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
-    accounts.push({ accountid: '6249', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß Â§ 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
+    accounts.push({ accountid: '6241', description: 'Sonderabschreibungen nach § 7g Abs. 5 EStG (ohne Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
+    accounts.push({ accountid: '6242', description: 'Sonderabschreibungen nach § 7g Abs. 5 EStG (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
+    accounts.push({ accountid: '6243', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß § 7g Abs. 2 EStG n. F. (ohne Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
+    accounts.push({ accountid: '6244', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß § 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
+    accounts.push({ accountid: '6245', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß § 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
+    accounts.push({ accountid: '6246', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß § 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
+    accounts.push({ accountid: '6247', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß § 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
+    accounts.push({ accountid: '6248', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß § 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
+    accounts.push({ accountid: '6249', description: 'Kürzung der Anschaffungs- oder Herstellungskosten gemäß § 7g Abs. 2 EStG n. F. (für Kfz)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment' });
     accounts.push({ accountid: '6250', description: 'Kaufleasing', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan' });
     accounts.push({ accountid: '6251', description: 'Kaufleasing', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan' });
     accounts.push({ accountid: '6252', description: 'Kaufleasing', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan' });
@@ -23099,7 +22750,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '6607', description: 'Streuartikel', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.marketing' });
     accounts.push({ accountid: '6608', description: 'Streuartikel', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.marketing' });
     accounts.push({ accountid: '6609', description: 'Streuartikel', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.marketing' });
-    accounts.push({ accountid: '6629', description: 'Zugaben mit Â§ 37b EStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.marketing' });
+    accounts.push({ accountid: '6629', description: 'Zugaben mit § 37b EStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.marketing' });
     accounts.push({ accountid: '6630', description: 'Repräsentationskosten', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary' });
     accounts.push({ accountid: '6631', description: 'Repräsentationskosten', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary' });
     accounts.push({ accountid: '6632', description: 'Repräsentationskosten', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary' });
@@ -23300,9 +22951,9 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '6853', description: 'Sonstiger Betriebsbedarf', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary' });
     accounts.push({ accountid: '6854', description: 'Sonstiger Betriebsbedarf', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary' });
     accounts.push({ accountid: '6855', description: 'Nebenkosten des Geldverkehrs', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary' });
-    accounts.push({ accountid: '6856', description: 'Aufwendungen aus Anteilen an Kapitalgesellschaften Â§Â§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary' });
-    accounts.push({ accountid: '6857', description: 'Veräußerungskosten Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.miscellaneous' });
-    accounts.push({ accountid: '6858', description: 'Veräußerungskosten Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 2 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.miscellaneous' });
+    accounts.push({ accountid: '6856', description: 'Aufwendungen aus Anteilen an Kapitalgesellschaften §§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary' });
+    accounts.push({ accountid: '6857', description: 'Veräußerungskosten § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.miscellaneous' });
+    accounts.push({ accountid: '6858', description: 'Veräußerungskosten § 3 Nr. 40 EStG/§ 8b Abs. 2 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.miscellaneous' });
     accounts.push({ accountid: '6859', description: 'Aufwendungen für Abraum- und Abfallbeseitigung', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary' });
     accounts.push({ accountid: '6860', description: 'Nicht abziehbare Vorsteuer', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherTaxes' });
     accounts.push({ accountid: '6861', description: 'Nicht abziehbare Vorsteuer', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherTaxes' });
@@ -23325,30 +22976,30 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '6878', description: 'Abziehbare Aufsichtsratsvergütungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other' });
     accounts.push({ accountid: '6879', description: 'Abziehbare Aufsichtsratsvergütungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other' });
     accounts.push({ accountid: '6880', description: 'Aufwendungen aus der Währungsumrechnung', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.currLoss' });
-    accounts.push({ accountid: '6881', description: 'Aufwendungen aus der Währungsumrechnung (nicht Â§ 256a HGB)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.currLoss' });
-    accounts.push({ accountid: '6882', description: 'Aufwendungen aus der Währungsumrechnung (nicht Â§ 256a HGB)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.currLoss' });
+    accounts.push({ accountid: '6881', description: 'Aufwendungen aus der Währungsumrechnung (nicht § 256a HGB)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.currLoss' });
+    accounts.push({ accountid: '6882', description: 'Aufwendungen aus der Währungsumrechnung (nicht § 256a HGB)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.currLoss' });
     accounts.push({ accountid: '6883', description: 'Aufwendungen aus Bewertung Finanzmittelfonds', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.currLoss' });
-    accounts.push({ accountid: '6884', description: 'Erlöse aus Verkäufen Sachanlagevermögen steuerfrei Â§ 4 Nr. 1a UStG (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
+    accounts.push({ accountid: '6884', description: 'Erlöse aus Verkäufen Sachanlagevermögen steuerfrei § 4 Nr. 1a UStG (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6885', description: 'Erlöse aus Verkäufen Sachanlagevermögen 19 % USt (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
-    accounts.push({ accountid: '6888', description: 'Erlöse aus Verkäufen Sachanlagevermögen steuerfrei Â§ 4 Nr. 1b UStG (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
+    accounts.push({ accountid: '6888', description: 'Erlöse aus Verkäufen Sachanlagevermögen steuerfrei § 4 Nr. 1b UStG (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6889', description: 'Erlöse aus Verkäufen Sachanlagevermögen (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6890', description: 'Erlöse aus Verkäufen immaterieller Vermögensgegenstände (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6891', description: 'Erlöse aus Verkäufen Finanzanlagen (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
-    accounts.push({ accountid: '6892', description: 'Erlöse aus Verkäufen Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 KStG (inländische Kap.Ges.) (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
-    accounts.push({ accountid: '6893', description: 'Erlöse aus Verkäufen Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 KStG (inländische Kap.Ges.) (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
-    accounts.push({ accountid: '6894', description: 'Erlöse aus Verkäufen Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 KStG (inländische Kap.Ges.) (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
+    accounts.push({ accountid: '6892', description: 'Erlöse aus Verkäufen Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 3 KStG (inländische Kap.Ges.) (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
+    accounts.push({ accountid: '6893', description: 'Erlöse aus Verkäufen Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 3 KStG (inländische Kap.Ges.) (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
+    accounts.push({ accountid: '6894', description: 'Erlöse aus Verkäufen Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 3 KStG (inländische Kap.Ges.) (bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6895', description: 'Anlagenabgänge Sachanlagen (Restbuchwert bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6896', description: 'Anlagenabgänge immaterielle Vermögensgegenstände (Restbuchwert bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6897', description: 'Anlagenabgänge Finanzanlagen (Restbuchwert bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
-    accounts.push({ accountid: '6898', description: 'Anlagenabgänge Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 KStG (inländische Kap.Ges.) (Restbuchwert bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
-    accounts.push({ accountid: '6899', description: 'Anlagenabgänge Finanzanlagen Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 KStG (inländische Kap.Ges.) (Restbuchwert bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
+    accounts.push({ accountid: '6898', description: 'Anlagenabgänge Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 3 KStG (inländische Kap.Ges.) (Restbuchwert bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
+    accounts.push({ accountid: '6899', description: 'Anlagenabgänge Finanzanlagen § 3 Nr. 40 EStG/§ 8b Abs. 3 KStG (inländische Kap.Ges.) (Restbuchwert bei Buchverlust)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6900', description: 'Verluste aus dem Abgang von Gegenständen des Anlagevermögens', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6901', description: 'Verluste aus dem Abgang von Gegenständen des Anlagevermögens', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6902', description: 'Verluste aus dem Abgang von Gegenständen des Anlagevermögens', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
-    accounts.push({ accountid: '6903', description: 'Verluste aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
-    accounts.push({ accountid: '6904', description: 'Verluste aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
+    accounts.push({ accountid: '6903', description: 'Verluste aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) § 3 Nr. 40 EStG/§ 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
+    accounts.push({ accountid: '6904', description: 'Verluste aus der Veräußerung von Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) § 3 Nr. 40 EStG/§ 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss' });
     accounts.push({ accountid: '6905', description: 'Verluste aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss' });
-    accounts.push({ accountid: '6906', description: 'Verluste aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss' });
+    accounts.push({ accountid: '6906', description: 'Verluste aus dem Abgang von Gegenständen des Umlaufvermögens (außer Vorräte) § 3 Nr. 40 EStG/§ 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss' });
     accounts.push({ accountid: '6910', description: 'Abschreibungen auf Umlaufvermögen außer Vorräte und Wertpapiere des Umlaufvermögens (übliche Höhe)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.regAllowance' });
     accounts.push({ accountid: '6911', description: 'Abschreibungen auf Umlaufvermögen außer Vorräte und Wertpapiere des Umlaufvermögens (übliche Höhe)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.regAllowance' });
     accounts.push({ accountid: '6912', description: 'Abschreibungen auf Umlaufvermögen außer Vorräte und Wertpapiere des Umlaufvermögens', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.regAllowance' });
@@ -23358,11 +23009,11 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '6919', description: 'Aufwendungen aus dem Erwerb eigener Anteile', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.miscellaneous' });
     accounts.push({ accountid: '6920', description: 'Einstellung in die Pauschalwertberichtigung auf Forderungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear.global' });
     accounts.push({ accountid: '6921', description: 'Einstellung in die Pauschalwertberichtigung auf Forderungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear.global' });
-    accounts.push({ accountid: '6922', description: 'Einstellungen in die steuerliche Rücklage nach Â§ 6b Abs. 3 EStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.EStG6b_3' });
+    accounts.push({ accountid: '6922', description: 'Einstellungen in die steuerliche Rücklage nach § 6b Abs. 3 EStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.EStG6b_3' });
     accounts.push({ accountid: '6923', description: 'Einstellung in die Einzelwertberichtigung auf Forderungen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear.specific' });
     accounts.push({ accountid: '6927', description: 'Einstellungen in steuerliche Rücklagen', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.other' });
     accounts.push({ accountid: '6928', description: 'Einstellungen in die Rücklage für Ersatzbeschaffung nach R 6.6 EStR', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.substEStR6_6' });
-    accounts.push({ accountid: '6929', description: 'Einstellungen in die steuerliche Rücklage nach Â§ 4g EStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.EStG4g' });
+    accounts.push({ accountid: '6929', description: 'Einstellungen in die steuerliche Rücklage nach § 4g EStG', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.EStG4g' });
     accounts.push({ accountid: '6930', description: 'Forderungsverluste (übliche Höhe)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.regAllowance' });
     accounts.push({ accountid: '6931', description: 'Forderungsverluste 7 % USt (übliche Höhe)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.regAllowance' });
     accounts.push({ accountid: '6932', description: 'Forderungsverluste aus steuerfreien EU-Lieferungen (übliche Höhe)', debit: 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.regAllowance' });
@@ -23408,17 +23059,17 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7002', description: 'Erträge aus Beteiligungen', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.other' });
     accounts.push({ accountid: '7003', description: 'Erträge aus Beteiligungen', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.other' });
     accounts.push({ accountid: '7004', description: 'Erträge aus Beteiligungen an Personengesellschaften (verbundene Unternehmen)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.partnerships' });
-    accounts.push({ accountid: '7005', description: 'Erträge aus Anteilen an Kapitalgesellschaften (Beteiligung) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations' });
-    accounts.push({ accountid: '7006', description: 'Erträge aus Anteilen an Kapitalgesellschaften (verbundene Unternehmen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations' });
-    accounts.push({ accountid: '7007', description: 'Erträge aus Anteilen an Kapitalgesellschaften (verbundene Unternehmen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations' });
-    accounts.push({ accountid: '7008', description: 'Gewinnanteile aus gewerblichen und selbständigen Mitunternehmerschaften Â§ 9 GewStG bzw. Â§ 18 EStG', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.partnerships' });
+    accounts.push({ accountid: '7005', description: 'Erträge aus Anteilen an Kapitalgesellschaften (Beteiligung) § 3 Nr. 40 EStG/§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations' });
+    accounts.push({ accountid: '7006', description: 'Erträge aus Anteilen an Kapitalgesellschaften (verbundene Unternehmen) § 3 Nr. 40 EStG/§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations' });
+    accounts.push({ accountid: '7007', description: 'Erträge aus Anteilen an Kapitalgesellschaften (verbundene Unternehmen) § 3 Nr. 40 EStG/§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations' });
+    accounts.push({ accountid: '7008', description: 'Gewinnanteile aus gewerblichen und selbständigen Mitunternehmerschaften § 9 GewStG bzw. § 18 EStG', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.partnerships' });
     accounts.push({ accountid: '7009', description: 'Erträge aus Beteiligungen an verbundenen Unternehmen', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.other' });
     accounts.push({ accountid: '7010', description: 'Erträge aus anderen Wertpapieren und Ausleihungen des Finanzanlagevermögens', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.shareholder' });
     accounts.push({ accountid: '7011', description: 'Erträge aus Ausleihungen des Finanzanlagevermögens', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.shareholder' });
     accounts.push({ accountid: '7012', description: 'Erträge aus Ausleihungen des Finanzanlagevermögens an verbundenen Unternehmen', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.shareholder' });
     accounts.push({ accountid: '7013', description: 'Erträge aus Anteilen an Personengesellschaften (Finanzanlagevermögen)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.partnerships' });
-    accounts.push({ accountid: '7014', description: 'Erträge aus Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations' });
-    accounts.push({ accountid: '7015', description: 'Erträge aus Anteilen an Kapitalgesellschaften (verbundene Unternehmen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations' });
+    accounts.push({ accountid: '7014', description: 'Erträge aus Anteilen an Kapitalgesellschaften (Finanzanlagevermögen) § 3 Nr. 40 EStG/§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations' });
+    accounts.push({ accountid: '7015', description: 'Erträge aus Anteilen an Kapitalgesellschaften (verbundene Unternehmen) § 3 Nr. 40 EStG/§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations' });
     accounts.push({ accountid: '7016', description: 'Erträge aus Anteilen an Personengesellschaften (verbundene Unternehmen)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.partnerships' });
     accounts.push({ accountid: '7017', description: 'Erträge aus anderen Wertpapieren des Finanzanlagevermögens an Kapitalgesellschaften (verbundene Unternehmen)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations' });
     accounts.push({ accountid: '7018', description: 'Erträge aus anderen Wertpapieren des Finanzanlagevermögens an Personengesellschaften (verbundene Unternehmen)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.partnerships' });
@@ -23505,13 +23156,13 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7099', description: 'Erhaltene Ausgleichszahlungen (als außenstehender Aktionär)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.minorInterestReceived' });
     accounts.push({ accountid: '7100', description: 'Sonstige Zinsen und ähnliche Erträge', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
     accounts.push({ accountid: '7101', description: 'Sonstige Zinsen und ähnliche Erträge', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
-    accounts.push({ accountid: '7102', description: 'Steuerfreie Aufzinsung des Körperschaftsteuerguthabens nach Â§ 37 KStG', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.other' });
-    accounts.push({ accountid: '7103', description: 'Erträge aus Anteilen an Kapitalgesellschaften (Umlaufvermögen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities' });
-    accounts.push({ accountid: '7104', description: 'Erträge aus Anteilen an Kapitalgesellschaften (verbundene Unternehmen) Â§ 3 Nr. 40 EStG/Â§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities' });
-    accounts.push({ accountid: '7105', description: 'Zinserträge Â§ 233a AO steuerpflichtig', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
-    accounts.push({ accountid: '7106', description: 'Zinserträge Â§ 233a AO', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
-    accounts.push({ accountid: '7107', description: 'Zinserträge Â§ 233a AO', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
-    accounts.push({ accountid: '7108', description: 'Zinserträge Â§ 233a AO', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
+    accounts.push({ accountid: '7102', description: 'Steuerfreie Aufzinsung des Körperschaftsteuerguthabens nach § 37 KStG', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.other' });
+    accounts.push({ accountid: '7103', description: 'Erträge aus Anteilen an Kapitalgesellschaften (Umlaufvermögen) § 3 Nr. 40 EStG/§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities' });
+    accounts.push({ accountid: '7104', description: 'Erträge aus Anteilen an Kapitalgesellschaften (verbundene Unternehmen) § 3 Nr. 40 EStG/§ 8b Abs. 1 KStG (inländische Kap.Ges.)', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities' });
+    accounts.push({ accountid: '7105', description: 'Zinserträge § 233a AO steuerpflichtig', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
+    accounts.push({ accountid: '7106', description: 'Zinserträge § 233a AO', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
+    accounts.push({ accountid: '7107', description: 'Zinserträge § 233a AO', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
+    accounts.push({ accountid: '7108', description: 'Zinserträge § 233a AO', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
     accounts.push({ accountid: '7109', description: 'Sonstige Zinsen und ähnliche Erträge aus verbundenen Unternehmen', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
     accounts.push({ accountid: '7110', description: 'Sonstige Zinserträge', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
     accounts.push({ accountid: '7111', description: 'Sonstige Zinserträge', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
@@ -23531,7 +23182,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7125', description: 'Zinsähnliche Erträge', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
     accounts.push({ accountid: '7126', description: 'Zinsähnliche Erträge', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
     accounts.push({ accountid: '7127', description: 'Zinsähnliche Erträge', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
-    accounts.push({ accountid: '7128', description: 'Zinsertrag aus vorzeitiger Rückzahlung des Körperschaftsteuer-Erhöhungsbetrags Â§ 38 KStG', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount' });
+    accounts.push({ accountid: '7128', description: 'Zinsertrag aus vorzeitiger Rückzahlung des Körperschaftsteuer-Erhöhungsbetrags § 38 KStG', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount' });
     accounts.push({ accountid: '7129', description: 'Zinsähnliche Erträge aus verbundenen Unternehmen', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits' });
     accounts.push({ accountid: '7130', description: 'Diskonterträge', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.discount' });
     accounts.push({ accountid: '7131', description: 'Diskonterträge', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.discount' });
@@ -23547,52 +23198,52 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7141', description: 'Zinserträge aus der Abzinsung von Verbindlichkeiten', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount' });
     accounts.push({ accountid: '7142', description: 'Zinserträge aus der Abzinsung von Rückstellungen', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount' });
     accounts.push({ accountid: '7143', description: 'Zinserträge aus der Abzinsung von Pensionsrückstellungen und ähnlichen/vergleichbaren Verpflichtungen', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount' });
-    accounts.push({ accountid: '7144', description: 'Zinserträge aus der Abzinsung von Pensionsrückstellungen und ähnlichen/vergleichbaren Verpflichtungen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7145', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7146', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7147', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7148', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7149', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7150', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7151', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7152', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7153', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7154', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7155', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7156', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7157', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7158', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7159', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7160', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7161', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7162', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7163', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7164', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7165', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7166', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7167', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7168', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7169', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7170', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7171', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7172', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7173', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7174', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7175', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7176', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7177', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7178', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7179', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7180', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7181', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7182', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7183', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7184', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7185', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7186', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7187', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7188', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
-    accounts.push({ accountid: '7189', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7144', description: 'Zinserträge aus der Abzinsung von Pensionsrückstellungen und ähnlichen/vergleichbaren Verpflichtungen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7145', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7146', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7147', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7148', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7149', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7150', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7151', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7152', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7153', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7154', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7155', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7156', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7157', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7158', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7159', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7160', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7161', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7162', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7163', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7164', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7165', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7166', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7167', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7168', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7169', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7170', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7171', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7172', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7173', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7174', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7175', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7176', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7177', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7178', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7179', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7180', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7181', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7182', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7183', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7184', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7185', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7186', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7187', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7188', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
+    accounts.push({ accountid: '7189', description: 'Erträge aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', credit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets' });
     accounts.push({ accountid: '7190', description: 'Erträge aus Verlustübernahme', credit: 'de-gaap-ci_is.netIncome.incomeSharing.loss' });
     accounts.push({ accountid: '7191', description: 'Erträge aus Verlustübernahme', credit: 'de-gaap-ci_is.netIncome.incomeSharing.loss' });
     accounts.push({ accountid: '7192', description: 'Erhaltene Gewinne auf Grund einer Gewinngemeinschaft', credit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing' });
@@ -23612,9 +23263,9 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7211', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
     accounts.push({ accountid: '7212', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
     accounts.push({ accountid: '7213', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
-    accounts.push({ accountid: '7214', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens Â§ 3 Nr. 40 EStG / Â§ 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
-    accounts.push({ accountid: '7215', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens Â§ 3 Nr. 40 EStG / Â§ 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
-    accounts.push({ accountid: '7216', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens Â§ 3 Nr. 40 EStG / Â§ 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
+    accounts.push({ accountid: '7214', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens § 3 Nr. 40 EStG / § 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
+    accounts.push({ accountid: '7215', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens § 3 Nr. 40 EStG / § 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
+    accounts.push({ accountid: '7216', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens § 3 Nr. 40 EStG / § 8b Abs. 3 KStG (inländische Kap.Ges.)', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
     accounts.push({ accountid: '7217', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens - verbundene Unternehmen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
     accounts.push({ accountid: '7218', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens - verbundene Unternehmen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
     accounts.push({ accountid: '7219', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens - verbundene Unternehmen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
@@ -23650,13 +23301,13 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7249', description: 'Abschreibungen auf Wertpapiere des Umlaufvermögens - verbundene Unternehmen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss' });
     accounts.push({ accountid: '7300', description: 'Zinsen und ähnliche Aufwendungen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
     accounts.push({ accountid: '7301', description: 'Zinsen und ähnliche Aufwendungen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
-    accounts.push({ accountid: '7302', description: 'Steuerlich nicht abzugsfähige andere Nebenleistungen zu Steuern Â§ 4 Abs. 5b EStG', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
+    accounts.push({ accountid: '7302', description: 'Steuerlich nicht abzugsfähige andere Nebenleistungen zu Steuern § 4 Abs. 5b EStG', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
     accounts.push({ accountid: '7303', description: 'Steuerlich abzugsfähige', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
     accounts.push({ accountid: '7304', description: 'Steuerlich nicht abzugsfähige', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
-    accounts.push({ accountid: '7305', description: 'Zinsaufwendungen Â§ 233a AO betriebliche Steuern', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
-    accounts.push({ accountid: '7306', description: 'Zinsaufwendungen Â§Â§ 233a bis 237 AO Personensteuern', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
-    accounts.push({ accountid: '7307', description: 'Zinsen aus Abzinsung des KSt-Erhöhungsbetrags Â§ 38 KStG', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
-    accounts.push({ accountid: '7308', description: 'Zinsaufwendungen Â§ 233a AO', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
+    accounts.push({ accountid: '7305', description: 'Zinsaufwendungen § 233a AO betriebliche Steuern', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
+    accounts.push({ accountid: '7306', description: 'Zinsaufwendungen §§ 233a bis 237 AO Personensteuern', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
+    accounts.push({ accountid: '7307', description: 'Zinsen aus Abzinsung des KSt-Erhöhungsbetrags § 38 KStG', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
+    accounts.push({ accountid: '7308', description: 'Zinsaufwendungen § 233a AO', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
     accounts.push({ accountid: '7309', description: 'Zinsaufwendungen an verbundene Unternehmen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
     accounts.push({ accountid: '7310', description: 'Zinsaufwendungen für kurzfristige Verbindlichkeiten', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
     accounts.push({ accountid: '7311', description: 'Zinsaufwendungen für kurzfristige Verbindlichkeiten', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
@@ -23694,11 +23345,11 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7347', description: 'Diskontaufwendungen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.discount' });
     accounts.push({ accountid: '7348', description: 'Diskontaufwendungen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.discount' });
     accounts.push({ accountid: '7349', description: 'Diskontaufwendungen an verbundene Unternehmen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.discount' });
-    accounts.push({ accountid: '7350', description: 'Zinsen und ähnliche Aufwendungen Â§Â§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
-    accounts.push({ accountid: '7351', description: 'Zinsen und ähnliche Aufwendungen an verbundene Unternehmen Â§Â§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
-    accounts.push({ accountid: '7352', description: 'Zinsen und ähnliche Aufwendungen an verbundene Unternehmen Â§Â§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
-    accounts.push({ accountid: '7353', description: 'Zinsen und ähnliche Aufwendungen an verbundene Unternehmen Â§Â§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
-    accounts.push({ accountid: '7354', description: 'Zinsen und ähnliche Aufwendungen an verbundene Unternehmen Â§Â§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
+    accounts.push({ accountid: '7350', description: 'Zinsen und ähnliche Aufwendungen §§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
+    accounts.push({ accountid: '7351', description: 'Zinsen und ähnliche Aufwendungen an verbundene Unternehmen §§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
+    accounts.push({ accountid: '7352', description: 'Zinsen und ähnliche Aufwendungen an verbundene Unternehmen §§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
+    accounts.push({ accountid: '7353', description: 'Zinsen und ähnliche Aufwendungen an verbundene Unternehmen §§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
+    accounts.push({ accountid: '7354', description: 'Zinsen und ähnliche Aufwendungen an verbundene Unternehmen §§ 3 Nr. 40', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest' });
     accounts.push({ accountid: '7355', description: 'Kreditprovisionen und Verwaltungskostenbeiträge', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.loanFees' });
     accounts.push({ accountid: '7356', description: 'Kreditprovisionen und Verwaltungskostenbeiträge', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.loanFees' });
     accounts.push({ accountid: '7357', description: 'Kreditprovisionen und Verwaltungskostenbeiträge', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.loanFees' });
@@ -23708,8 +23359,8 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7361', description: 'Zinsaufwendungen aus der Abzinsung von Verbindlichkeiten', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
     accounts.push({ accountid: '7362', description: 'Zinsaufwendungen aus der Abzinsung von Rückstellungen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
     accounts.push({ accountid: '7363', description: 'Zinsaufwendungen aus der Abzinsung von Pensionsrückstellungen und ähnlichen/vergleichbaren Verpflichtungen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
-    accounts.push({ accountid: '7364', description: 'Zinsaufwendungen aus der Abzinsung von Pensionsrückstellungen und ähnlichen/vergleichbaren Verpflichtungen zur Verrechnung nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
-    accounts.push({ accountid: '7365', description: 'Aufwendungen aus Vermögensgegenständen zur Verrechnung nach Â§ 246 Abs. 2 HGB', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
+    accounts.push({ accountid: '7364', description: 'Zinsaufwendungen aus der Abzinsung von Pensionsrückstellungen und ähnlichen/vergleichbaren Verpflichtungen zur Verrechnung nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
+    accounts.push({ accountid: '7365', description: 'Aufwendungen aus Vermögensgegenständen zur Verrechnung nach § 246 Abs. 2 HGB', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
     accounts.push({ accountid: '7366', description: 'Steuerlich nicht abzugsfähige Zinsaufwendungen aus der Abzinsung von Rückstellungen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
     accounts.push({ accountid: '7367', description: 'Steuerlich nicht abzugsfähige Zinsaufwendungen aus der Abzinsung von Rückstellungen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
     accounts.push({ accountid: '7368', description: 'Steuerlich nicht abzugsfähige Zinsaufwendungen aus der Abzinsung von Rückstellungen', debit: 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount' });
@@ -23743,7 +23394,7 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7396', description: 'Abgeführte Gewinne auf Grund eines Gewinn- oder Teilgewinnabführungsvertrags', debit: 'de-gaap-ci_is.netIncome.incomeSharing.gain' });
     accounts.push({ accountid: '7397', description: 'Abgeführte Gewinne auf Grund eines Gewinn- oder Teilgewinnabführungsvertrags', debit: 'de-gaap-ci_is.netIncome.incomeSharing.gain' });
     accounts.push({ accountid: '7398', description: 'Abgeführte Gewinne auf Grund eines Gewinn- oder Teilgewinnabführungsvertrags', debit: 'de-gaap-ci_is.netIncome.incomeSharing.gain' });
-    accounts.push({ accountid: '7399', description: 'Abgeführte Gewinne an stille Gesellschafter Â§ 8 GewStG', debit: 'de-gaap-ci_is.netIncome.incomeSharing.gain' });
+    accounts.push({ accountid: '7399', description: 'Abgeführte Gewinne an stille Gesellschafter § 8 GewStG', debit: 'de-gaap-ci_is.netIncome.incomeSharing.gain' });
     accounts.push({ accountid: '7451', description: 'Erträge durch Verschmelzung und Umwandlung', credit: 'de-gaap-ci_is.netIncome.extraord.income.merger' });
     accounts.push({ accountid: '7460', description: 'Außerordentliche Erträge aus der Anwendung von Übergangsvorschriften', credit: 'de-gaap-ci_is.netIncome.extraord.income.EGHGB' });
     accounts.push({ accountid: '7461', description: 'Außerordentliche Erträge aus der Anwendung von Übergangsvorschriften (Zuschreibung für Sachanlagevermögen)', credit: 'de-gaap-ci_is.netIncome.extraord.income.EGHGB' });
@@ -23862,8 +23513,8 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     accounts.push({ accountid: '7675', description: 'Verbrauchsteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
     accounts.push({ accountid: '7676', description: 'Verbrauchsteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
     accounts.push({ accountid: '7677', description: 'Verbrauchsteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
-    accounts.push({ accountid: '7678', description: 'Ã–kosteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
-    accounts.push({ accountid: '7679', description: 'Ã–kosteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
+    accounts.push({ accountid: '7678', description: 'Ökosteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
+    accounts.push({ accountid: '7679', description: 'Ökosteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
     accounts.push({ accountid: '7680', description: 'Grundsteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
     accounts.push({ accountid: '7681', description: 'Grundsteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
     accounts.push({ accountid: '7682', description: 'Grundsteuer', debit: 'de-gaap-ci_is.netIncome.otherTaxes' });
@@ -25341,6 +24992,9 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.material', 'de-gaap-ci_bs.ass.currAss.inventory.material.supplMaterial');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.material', 'de-gaap-ci_bs.ass.currAss.inventory.material.consumables');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.material', 'de-gaap-ci_bs.ass.currAss.inventory.materialOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.affil', 'de-gaap-ci_bs.ass.currAss.receiv.affil.upTo1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.affil', 'de-gaap-ci_bs.ass.currAss.receiv.affil.above1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.affil', 'de-gaap-ci_bs.ass.currAss.receiv.affilOtherForeign');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.commPart');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.assetManaging');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.silent');
@@ -25350,7 +25004,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.reInsurClaim');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.vat');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxOverpayment');
-    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.MinSt');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.tradeTaxOverpayment');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.minTaxFingov');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.InterstMinTaxFingovAO');
@@ -25364,6 +25017,8 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.other');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.misc');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.otherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.regulatory', 'de-gaap-ci_bs.ass.currAss.receiv.regulatory.upTo1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.regulatory', 'de-gaap-ci_bs.ass.currAss.receiv.regulatory.above1year');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.shareholders', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders.gmbh');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.shareholders', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders.unlimitedLiable');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.shareholders', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders.limitedLiable');
@@ -25397,7 +25052,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.silent');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.other');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticipOtherForeign');
-    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.soleProprietor');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold', 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.gmbhSilent');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold', 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.gmbh');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold', 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.unlimitedLiable');
@@ -25410,7 +25064,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.silent');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.other');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.misc');
-    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.partners');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.employees');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.partnership.comm');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.assetManaging');
@@ -25740,7 +25393,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.pensions', 'de-gaap-ci_bs.eqLiab.accruals.pensionsOtherForeign');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.gewst');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.kst');
-    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.minst');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.other');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.defTax');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.additionalTax');
@@ -25921,22 +25573,20 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.endowmentCapital');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.association');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.foundation');
-    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.paymForCapitalIncrease');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.dueToPartners');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.profSharing');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.lastrangecapital');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.silentPartner');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.capRes');
-    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.capIncreaseContributionsInclPremium');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.revenueRes');
-    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.retainedEarningsPartnershipsHGBs264c');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.netIncome');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.netIncomePartnershipsHGBs264c');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.profitLossPartnershipsHGBs264c');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally');
     this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.profitLoss');
@@ -26008,6 +25658,2186 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_role_balanceSheet_level3(object, contextname);
     this.sum_role_balanceSheet_level2(object, contextname);
     this.sum_role_balanceSheet_level1(object, contextname);
+  }
+
+  sum__level8(T, contextname) {
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign.smaller10pt', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign.smaller10pt.DTTexempt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign.smaller10pt', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign.smaller10pt.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp.10to15pt', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp.10to15pt.EU');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp.10to15pt', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp.10to15pt.thirdCountry');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b.VIES_ID');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b.vehicleWithoutVAT_ID');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8.UStG4_12');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_1b', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_1b.VAT_ID');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_1b', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_1b.newVehicleWithoutVAT_ID');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_8', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_8.UStG4_12');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_8', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_8.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.domesticMembers', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.domesticMembers.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.domesticMembers', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.domesticMembers.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.domesticMembers', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.domesticMembers.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.foreignMembers', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.foreignMembers.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.foreignMembers', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.foreignMembers.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.foreignMembers', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.foreignMembers.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.tan.land');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.tan.land');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.domesticLoan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.domesticLoan.relatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.domesticLoan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.domesticLoan.unrelatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.foreignLoan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.foreignLoan.relatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.foreignLoan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.foreignLoan.unrelatedParty');
+
+  }
+
+  sum__level7(T, contextname) {
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.domestic.notLessThan15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.domestic.10to15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.domestic.smaller10pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.domestic.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign.notLessThan15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign.10to15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign.smaller10pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign.10to15pt', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign.10to15pt.EU');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign.10to15pt', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign.10to15pt.nonEU');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.domesticCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.domesticCorp.larger15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.domesticCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.domesticCorp.10to15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.domesticCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.domesticCorp.less10pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.domesticCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.domesticCorp.nonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp.larger15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp.10to15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp.less10pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp.NonAllocableInterests');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_1b', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_1b.VIES_ID');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_1b', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_1b.vehicleWithoutVAT_ID');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_8', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_8.UStG4_12');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_8', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_8.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No1b', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No1b.VIES_ID');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No1b', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No1b.vehicleWithoutVAT_ID');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No8ff', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No8ff.taxExemptUStG4_8.UStG4_12');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No8ff', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No8ff.taxExemptUStG4_8.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.tan.land');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.tan.land');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.domesticLoan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.domesticLoan.relatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.domesticLoan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.domesticLoan.unrelatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.foreignLoan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.foreignLoan.relatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.foreignLoan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.foreignLoan.unrelatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.againstCorpParticip', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.againstCorpParticip.domesticRelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.againstCorpParticip', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.againstCorpParticip.domesticUnrelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.againstCorpParticip', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.againstCorpParticip.foreignRelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.againstCorpParticip', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.againstCorpParticip.foreignUnrelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.sharehRelPart', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.sharehRelPart.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.sharehRelPart', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.sharehRelPart.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except.goodwill');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except.otherIntan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.generalRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.intraEU');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.withoutVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.inventoryChange');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup.generalRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup.intraEU');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup.noDeductVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup.inventoryChange');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.UStG13b');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.untaxable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1a');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_1b');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.triangularTransactionUStG25b_2_4');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_8');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptUStG4_2til7');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.taxExemptOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.0VATrateUStG12_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.generalRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.UStG25_25a');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.otherRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.taxFromGrossSales');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.untaxed');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.untaxable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_1a');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_1b');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.UStGs25_2_4');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_8');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptUStG4_2til7');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.taxExemptOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.generalRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.0VATrateUStG12_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.otherRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness.taxExempt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness.regularRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.tan.land');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.tan.land');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.donations', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.donations.taxprivileged');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.donations', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.donations.nondeductiblePoliticalParties');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.donations', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.donations.nondeductibleOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.donations', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.donations.nondeductibleOther.nonallocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.miscellaneous', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.miscellaneous.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.miscellaneous', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.miscellaneous.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.miscellaneous', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.miscellaneous.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.nonalloc', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.nonalloc.deduct');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.nonalloc', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.nonalloc.nondeduct');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.domesticMembers');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard.foreignMembers');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.domesticLoan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.domesticLoan.relatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.domesticLoan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.domesticLoan.unrelatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.foreignLoan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.foreignLoan.relatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.foreignLoan', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.foreignLoan.unrelatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.domesticLoan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.foreignLoan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin.misc');
+
+  }
+
+  sum__level6(T, contextname) {
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships.commPart', 'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships.commPart.silentAtyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships.commPart', 'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships.commPart.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships.commPart', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships.commPart.silentAtyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships.commPart', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships.commPart.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO233a', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO233a.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO233a', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO233a.nondeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO234to237', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO234to237.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO234to237', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO234to237.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.PartnersLoans', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.PartnersLoans.participationOver25pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.PartnersLoans', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.PartnersLoans.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.PartnersLoans', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.PartnersLoans.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.relatedPayments', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.relatedPayments.deduct');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.relatedPayments', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.relatedPayments.nondeduct');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.comp', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.comp.partnership');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.comp', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.comp.corp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.comp', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.comp.solePropietor');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.comp', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.comp.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.particip', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.particip.partnership');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.particip', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.particip.corp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.particip', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.particip.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder.corp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder.genPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder.limPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder.typSilPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder.atypSilPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.loansSharehRelPart', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.loansSharehRelPart.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.loansSharehRelPart', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.loansSharehRelPart.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.loansSharehRelPart', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.loansSharehRelPart.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.participCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.participCorp.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.participCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.participCorp.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.participCorp', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.participCorp.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.receivCorp25pt', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.receivCorp25pt.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.receivCorp25pt', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.receivCorp25pt.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.receivCorp25pt', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.receivCorp25pt.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.domestic.notLessThan15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.domestic.10to15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.domestic.smaller10pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.domestic.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign.notLessThan15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign.10to15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign.smaller10pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.nonDomesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend.NonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.interestOtherLoans', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.interestOtherLoans.Employee');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.interestOtherLoans', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.interestOtherLoans.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.interestOtherLoans', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.interestOtherLoans.nonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.domestic.notLessThan15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.domestic.10to15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.domestic.smaller10pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.domestic', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.domestic.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.foreign.notLessThan15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.foreign.10to15pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.foreign.smaller10pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.foreign', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.foreign.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.UStG13b');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.untaxable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_1a');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_1b');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.UStGs25_2_4');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_8');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptUStG4_2til7');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.taxExemptOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.grossSales.0VATrateUStG12_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.generalRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.UStG25_25a');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.otherRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.taxFromGrossSales');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs13b');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.noTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No1a');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No1b');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs25_2_4');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No8ff');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.UStGs4No2-7');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.othernonTaxable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.generalRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.0VATrateUStG12_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.otherRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.domesticLoan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.domesticLoan.relatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.domesticLoan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.domesticLoan.unrelatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.foreignLoan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.foreignLoan.relatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.foreignLoan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.foreignLoan.unrelatedParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.domesticLoan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.foreignLoan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness.taxExempt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness.generalRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.againstCorpParticip');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.sharehRelPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.except');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.impairment');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.deductValueEStG7g_2');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.EStG6b_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan.lowValueAs');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan.lowValueAsCollItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan.buildings');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan.otherMisc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.rawMatConsSup');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.purchased');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bDedInputTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.UStG13bNonDedInputTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.OtherDedInputTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.OtherNonDedInputTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange.increasefinished');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange.increaseGoodsInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange.increaseConstructionInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange.decreasefinished');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange.decreaseGoodsInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange.decreaseConstructionInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.grossSales');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.ownWork', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.ownWork.fixing');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.ownWork', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.ownWork.plants');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.ownWork', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.ownWork.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.membershipFees');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.contributions');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.fines');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.sponsor');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.subsidies');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.immovable', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.immovable.interest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.immovable', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.immovable.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.moveable', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.moveable.interest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.moveable', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.moveable.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.entertainment', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.entertainment.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.entertainment', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.entertainment.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.entertainment', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.entertainment.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.gifts', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.gifts.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.gifts', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.gifts.nondeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.gifts', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.gifts.nonallocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.supervisoryboard');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.donations');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.miscellaneous');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other.nonalloc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.sale');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.bookValue');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss.nonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption.privateUseVehicles');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption.merchandiseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption.otherWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption.nonCashBenefitsCompCar');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption.nonCashBenefitsOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv.specificValuation');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv.globalValuation');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv.globSpecUnknown');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.EStG6b_10');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.EStG6b_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.substEStR6_6');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.EStG4g');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.EStG5_7');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.KStGs34_6e');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.domesticLoan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.foreignLoan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.subsidies', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.subsidies.taxExempt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.subsidies', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.subsidies.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.pensions', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.pensions.shareholderManager');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.pensions', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.pensions.partner');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.pensions', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.pensions.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.pensions', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.pensions.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.socExp', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.socExp.partnersEStG15');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.socExp', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.socExp.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.socExp', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.socExp.misc');
+
+  }
+
+  sum__level5(T, contextname) {
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.merchandise', 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.merchandise.new');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.merchandise', 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.merchandise.used');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other.commPart', 'de-gaap-ci_bs.ass.currAss.receiv.other.commPart.atyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other.commPart', 'de-gaap-ci_bs.ass.currAss.receiv.other.commPart.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.partnerships', 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.partnerships.sharesSilentAtyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.partnerships', 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.partnerships.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.partnerships', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.partnerships.atypSilent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.partnerships', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.partnerships.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.partnership.comm', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.partnership.comm.atypSilent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.partnership.comm', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.partnership.comm.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships', 'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships.commPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships', 'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships.assetManaging');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip.silent', 'de-gaap-ci_bs.ass.fixAss.fin.particip.silent.typical');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip.silent', 'de-gaap-ci_bs.ass.fixAss.fin.particip.silent.atypical');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip.silent', 'de-gaap-ci_bs.ass.fixAss.fin.particip.silent.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships.commPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships.assetManaging');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand.land');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand.buildings');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh.silentPart', 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh.silentPart.typ');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh.silentPart', 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh.silentPart.atyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh.silentPart', 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh.silentPart.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO233a');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.AO234to237');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.relatedPayments');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.EStG4_4aFixedAssets');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.partners');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.PartnersLoans');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount.liabilities');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount.CITincrease');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.shareholder');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.comp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.particip');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits.banks');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits.employee');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits.thirdParty');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits.AO233a');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits.otherMisc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.dividends');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.interest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount.prematRepaymentKStGs38');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount.accruals');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount.accrualsNonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.participCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.receivCorp25pt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.loansSharehRelPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.investementShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss.taxneutralDomesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss.taxneutralForeignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.fiscalUnity', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.fiscalUnity.profitTransfer');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.fiscalUnity', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.fiscalUnity.profitTransfer.minorityInterestPaid');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.fiscalUnity', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.fiscalUnity.profitTransfer.groupTaxAlloc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.dividend');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.interest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.interestOtherLoans');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend.nonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.fiscalUnity', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.fiscalUnity.lossTransfer');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.fiscalUnity', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.fiscalUnity.lossTransfer.minorityInterestPaid');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.fiscalUnity', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.fiscalUnity.lossTransfer.groupTaxAlloc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer.silentPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.material');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.staff');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.purchServices');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.directManufCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.indirectProcurmtCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.indirectProductCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.indirAdminCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.scheduledDepr');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.otherDepr');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs.interest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.grossSales');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.reductionsFromGrossSales');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.statutoryDuties.projectPromotion');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.statutoryDuties.projectSupport');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.statutoryDuties.education');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.statutoryDuties.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.sale');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.bookValue');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss.nonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption.privateUseVehicles');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption.merchandiseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption.otherWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption.nonCashBenefitsCompCar');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption.nonCashBenefitsOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releaseLossProv', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releaseLossProv.specificValuation');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releaseLossProv', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releaseLossProv.globalValuation');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releaseLossProv', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releaseLossProv.globSpecUnknown');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes.EStG6b_10');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes.EStG6b_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes.substEStR6_6');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes.EStG4g');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes.EStG5_7');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes.KStG34_6e');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.domesticLoan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.foreignLoan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.subsidies', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.subsidies.taxexemptInvestgrants');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.subsidies', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.subsidies.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.membership');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.estate');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.fines');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.sponsor');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.subsidy');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.domesticMembers', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.domesticMembers.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.domesticMembers', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.domesticMembers.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.domesticMembers', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.domesticMembers.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.foreignMembers', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.foreignMembers.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.foreignMembers', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.foreignMembers.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.foreignMembers', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.foreignMembers.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.inventory');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.receiv');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.goodwill');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.otherIntan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.specific');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.material');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.services');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.statutoryDuties.projectPromotion');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.statutoryDuties.projectSupport');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.statutoryDuties.education');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.statutoryDuties.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.inventoryChange');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.ownWork');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.EStG6b_10');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.EStG6b_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.substEStR6_6');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.EStG4g');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.EStG5_7');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.KStG34_6e');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.concessLicenses', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.concessLicenses.toNonresidentRecipients');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.concessLicenses', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.concessLicenses.toresidentRecipients');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.concessLicenses', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.concessLicenses.nonallocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.sale');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.bookValue');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposalCorp', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposalCorp.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposalCorp', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposalCorp.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposalCorp', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposalCorp.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseFix', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseFix.partners');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseFix', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseFix.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseFix', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseFix.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseFix', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseFix.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseMovable', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseMoveable.partners');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseMovable', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseMoveable.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseMovable', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseMoveable.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseMovable', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseMovable.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.moveable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.immovable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.gifts');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.entertainment');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherTaxes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherTaxes.nonDeductibleInputVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherTaxes', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherTaxes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear.specific');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear.global');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasePreTaxRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposFixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalFixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseProv');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.disposCurrAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.revalCurrAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releaseLossProv');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.acqudFreeOfCharge');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.releasLiab');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.recoveryWriteoffs');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.taxationGroupComp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.subsidies');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.insuranceRefunds');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.currGains');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.ownConsumption');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.extraord.income.EGHGB');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.extraord.income.merger');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.miscellaneous');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.nonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose.services');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose.rent');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose.interest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose.liabilityRemuneration');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose.pension');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose.shipManagement');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.managerPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.salariedPartnersEStG15');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.minijobs');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.inKind');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.voluntayBenefits');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries.nonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.socExp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.pensions');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.welfare');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social.other');
+
+  }
+
+  sum__level4(T, contextname) {
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch', 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.goods');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch', 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.merchandise');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch', 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch.notYetInvoiced');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch', 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerchOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.inProgress', 'de-gaap-ci_bs.ass.currAss.inventory.inProgress.goods');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.inProgress', 'de-gaap-ci_bs.ass.currAss.inventory.inProgress.services');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.inProgress', 'de-gaap-ci_bs.ass.currAss.inventory.inProgress.notYetInvoiced');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.inProgress', 'de-gaap-ci_bs.ass.currAss.inventory.inProgress.constructionInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.inProgress', 'de-gaap-ci_bs.ass.currAss.inventory.inProgress.ordersInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.inProgress', 'de-gaap-ci_bs.ass.currAss.inventory.inProgressOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.material', 'de-gaap-ci_bs.ass.currAss.inventory.material.rawMaterial');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.material', 'de-gaap-ci_bs.ass.currAss.inventory.material.supplMaterial');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.material', 'de-gaap-ci_bs.ass.currAss.inventory.material.consumables');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory.material', 'de-gaap-ci_bs.ass.currAss.inventory.materialOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.affil', 'de-gaap-ci_bs.ass.currAss.receiv.affil.upTo1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.affil', 'de-gaap-ci_bs.ass.currAss.receiv.affil.above1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.affil', 'de-gaap-ci_bs.ass.currAss.receiv.affilOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.commPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.assetManaging');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.silent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.profSharRights');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.secondaryPaym');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.coopShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.reInsurClaim');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.vat');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxOverpayment');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.tradeTaxOverpayment');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.minTaxFingov');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.InterstMinTaxFingovAO');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.corpTaxCredit37KStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.otherTaxRec');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.socInsur');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.employees');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.bodies');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.jointWork');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.other.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.other', 'de-gaap-ci_bs.ass.currAss.receiv.otherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.regulatory', 'de-gaap-ci_bs.ass.currAss.receiv.regulatory.upTo1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.regulatory', 'de-gaap-ci_bs.ass.currAss.receiv.regulatory.above1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.shareholders', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders.gmbh');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.shareholders', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders.unlimitedLiable');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.shareholders', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders.limitedLiable');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.shareholders', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders.silent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.shareholders', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.shareholders', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.trade', 'de-gaap-ci_bs.ass.currAss.receiv.trade.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.trade', 'de-gaap-ci_bs.ass.currAss.receiv.trade.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.trade', 'de-gaap-ci_bs.ass.currAss.receiv.trade.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners', 'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners.unlimitedLiable');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners', 'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners.limitedLiable');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners', 'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.affil', 'de-gaap-ci_bs.ass.currAss.securities.affil.parentComp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.affil', 'de-gaap-ci_bs.ass.currAss.securities.affil.subsidiaries');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.other', 'de-gaap-ci_bs.ass.currAss.securities.other.shares');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.other', 'de-gaap-ci_bs.ass.currAss.securities.other.warrants');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.other', 'de-gaap-ci_bs.ass.currAss.securities.other.partCertificate');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.other', 'de-gaap-ci_bs.ass.currAss.securities.other.mutInvestm');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.other', 'de-gaap-ci_bs.ass.currAss.securities.other.bonds');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.other', 'de-gaap-ci_bs.ass.currAss.securities.other.convertBond');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.other', 'de-gaap-ci_bs.ass.currAss.securities.other.securities');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities.other', 'de-gaap-ci_bs.ass.currAss.securities.other.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil', 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.partnerships');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil', 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.corporations');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil', 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.soleProprietor');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil', 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.silent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil', 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil', 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffilOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.partnerships');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.corporations');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.silent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticipOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold', 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.gmbhSilent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold', 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.gmbh');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold', 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.unlimitedLiable');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold', 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.limitedLiable');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold', 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.profSharRights');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.coopShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.GmbHshares');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.reInsurClaim');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.silent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.employees');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.partnership.comm');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.assetManaging');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.silent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoansOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip', 'de-gaap-ci_bs.ass.fixAss.fin.particip.partnerships');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip', 'de-gaap-ci_bs.ass.fixAss.fin.particip.corporations');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip', 'de-gaap-ci_bs.ass.fixAss.fin.particip.silent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip', 'de-gaap-ci_bs.ass.fixAss.fin.particip.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.particip', 'de-gaap-ci_bs.ass.fixAss.fin.participOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.securities', 'de-gaap-ci_bs.ass.fixAss.fin.securities.shares');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.securities', 'de-gaap-ci_bs.ass.fixAss.fin.securities.warrants');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.securities', 'de-gaap-ci_bs.ass.fixAss.fin.securities.partCertificate');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.securities', 'de-gaap-ci_bs.ass.fixAss.fin.securities.mutInvestm');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.securities', 'de-gaap-ci_bs.ass.fixAss.fin.securities.bonds');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.securities', 'de-gaap-ci_bs.ass.fixAss.fin.securities.convertBond');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.securities', 'de-gaap-ci_bs.ass.fixAss.fin.securities.securities');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.securities', 'de-gaap-ci_bs.ass.fixAss.fin.securities.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.securities', 'de-gaap-ci_bs.ass.fixAss.fin.securitiesOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.partnerships');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.corporations');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.silent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffilOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands', 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.concession');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands', 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.tradeMarks');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands', 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands', 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.software');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands', 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands.licenses');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands', 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrandsOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession.concession');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession.propertyRight');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession.otherRight');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession.software');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession.licenses');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession.otherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession.concession');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession.propertyRight');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession.otherRight');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession.software');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession.licenses');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession', 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession.otherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.goodwill', 'de-gaap-ci_bs.ass.fixAss.intan.goodwill.purchased');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan.goodwill', 'de-gaap-ci_bs.ass.fixAss.intan.goodwillOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.branche_kfz', 'de-gaap-ci_bs.ass.fixAss.tan.branche_kfz.compCar');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.branche_kfz', 'de-gaap-ci_bs.ass.fixAss.tan.branche_kfz.demoModel');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym', 'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym.advPaym');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym', 'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym.buildingUnderConstr');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym', 'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym.equipmUnderConstr');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym', 'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaymOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.landWithoutBuildings');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.rightEquivalentToLandWithoutBuildings');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.buildingsOnOwnLand');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.buildingsOnNonOwnedLand');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.costAllocItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildingsOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.machinery', 'de-gaap-ci_bs.ass.fixAss.tan.machinery.technEquipm');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.machinery', 'de-gaap-ci_bs.ass.fixAss.tan.machinery.machinery');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.machinery', 'de-gaap-ci_bs.ass.fixAss.tan.machinery.installations');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.machinery', 'de-gaap-ci_bs.ass.fixAss.tan.machinery.spareParts');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.machinery', 'de-gaap-ci_bs.ass.fixAss.tan.machinery.gwg');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.machinery', 'de-gaap-ci_bs.ass.fixAss.tan.machinery.gwgsammelposten');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.machinery', 'de-gaap-ci_bs.ass.fixAss.tan.machinery.othermachinery');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.machinery', 'de-gaap-ci_bs.ass.fixAss.tan.machinery.otherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.other', 'de-gaap-ci_bs.ass.fixAss.tan.other.leasedAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.other', 'de-gaap-ci_bs.ass.fixAss.tan.other.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.other', 'de-gaap-ci_bs.ass.fixAss.tan.other.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.passengerCars');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.comVehicle');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.otherTransportMeans');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.factory');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.office');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.gwg');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.gwgsammelposten');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.otherbga');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipmOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.imminentLoss', 'de-gaap-ci_bs.eqLiab.accruals.other.imminentLoss.exposureEStGsec5_1aSent2');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.imminentLoss', 'de-gaap-ci_bs.eqLiab.accruals.other.imminentLoss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.guarantees');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.anniversary');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.germanEarlyRetirementProgramme');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.businessRecordsRetension');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.taxAudits');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.statutoryLiab');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab.landReclaim');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab.infringementOfRights');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab.litigation');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab.maintenance');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab', 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab.nonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation.donation', 'de-gaap-ci_bs.eqLiab.equity.foundation.donation.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation.donation', 'de-gaap-ci_bs.eqLiab.equity.foundation.donation.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation.donation', 'de-gaap-ci_bs.eqLiab.equity.foundation.donation.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation.donation', 'de-gaap-ci_bs.eqLiab.equity.foundation.donation.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation.estab', 'de-gaap-ci_bs.eqLiab.equity.foundation.estab.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation.estab', 'de-gaap-ci_bs.eqLiab.equity.foundation.estab.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation.estab', 'de-gaap-ci_bs.eqLiab.equity.foundation.estab.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation.estab', 'de-gaap-ci_bs.eqLiab.equity.foundation.estab.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.project');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.workingCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.replacement');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.shareAcquisition');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated.assetManagement');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.other', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.other.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.other', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.other.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.other', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.other.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.other', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.other.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherResWithDistrRestrict', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherResWithDistrRestrict.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherResWithDistrRestrict', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherResWithDistrRestrict.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherResWithDistrRestrict', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherResWithDistrRestrict.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherResWithDistrRestrict', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherResWithDistrRestrict.changePresYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.special', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.special.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.special', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.special.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.special', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.special.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.special', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.special.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.surplusFromPensionAccruals', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.surplusFromPensionAccruals.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.surplusFromPensionAccruals', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.surplusFromPensionAccruals.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.surplusFromPensionAccruals', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.surplusFromPensionAccruals.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.surplusFromPensionAccruals', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.surplusFromPensionAccruals.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness', 'de-gaap-ci_bs.eqLiab.equity.taxablePurposeBusiness.revenueRes.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness.changePresYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.assetManagement');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated.otherMeansDueCourse');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.corp', 'de-gaap-ci_bs.eqLiab.equity.subscribed.corp.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.corp', 'de-gaap-ci_bs.eqLiab.equity.subscribed.corp.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.corp', 'de-gaap-ci_bs.eqLiab.equity.subscribed.corp.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.corp', 'de-gaap-ci_bs.eqLiab.equity.subscribed.corp.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.beginYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.incomeUseDeposits');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.incomeUseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.capAdjust6bRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.capMovements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted', 'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted', 'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted', 'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted', 'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP', 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.beginYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP', 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP', 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.incomeUseDeposits');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP', 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.incomeUseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP', 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.adjustment');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP', 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.capAdjust6bRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP', 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.beginYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.incomeUseDeposits');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.incomeUseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.capAdjust6bRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.capMovements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.assocComp.SilentPartner', 'de-gaap-ci_bs.eqLiab.liab.assocComp.SilentPartner.typ');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.assocComp.SilentPartner', 'de-gaap-ci_bs.eqLiab.liab.assocComp.SilentPartner.atyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.assocComp.SilentPartner', 'de-gaap-ci_bs.eqLiab.liab.assocComp.SilentPartner.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.bank.silentPartner', 'de-gaap-ci_bs.eqLiab.liab.bank.silentPartner.typ');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.bank.silentPartner', 'de-gaap-ci_bs.eqLiab.liab.bank.silentPartner.atyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.bank.silentPartner', 'de-gaap-ci_bs.eqLiab.liab.bank.silentPartner.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other.silentPartner', 'de-gaap-ci_bs.eqLiab.liab.other.silentPartner.typ');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other.silentPartner', 'de-gaap-ci_bs.eqLiab.liab.other.silentPartner.atyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other.silentPartner', 'de-gaap-ci_bs.eqLiab.liab.other.silentPartner.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax', 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax.vat');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax', 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax.operatingTaxes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax', 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax.otherTaxes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.particip.silentPartner', 'de-gaap-ci_bs.eqLiab.liab.particip.silentPartner.typ');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.particip.silentPartner', 'de-gaap-ci_bs.eqLiab.liab.particip.silentPartner.atyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.particip.silentPartner', 'de-gaap-ci_bs.eqLiab.liab.particip.silentPartner.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh', 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh.silentPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh', 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh', 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders.silentPart', 'de-gaap-ci_bs.eqLiab.liab.shareholders.silentPart.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders.silentPart', 'de-gaap-ci_bs.eqLiab.liab.shareholders.silentPart.typ');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders.silentPart', 'de-gaap-ci_bs.eqLiab.liab.shareholders.silentPart.atyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.valueDiscount');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.offsetting');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.regularInterest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.calcInterestOnPensProv');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.annuities');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.discount');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.amortDiscount');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.loanFees');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.befDedNegCapitalTransferFee');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.negCapitalTransferFee');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.valueDiscount');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.offsetAssets');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.affiliated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.deposits');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.discount');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.securities');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.longTermRecAllowance');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.longTermRecLumSumAllow');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.secCurrAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.partnerships');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.financialsExcept');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.profPooling');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.partialProfitTransfer');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.fiscalUnity');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.changeAdjustItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.preconsoliRemittShortfall');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.lossChangeAdjustItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.preconsoliRemittSurplus');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.remittShortfall');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.ContributionReturn');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing.remittSurplus');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.corporations');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.partnerships');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.shareholder');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.interestDividend');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.minorInterestReceived');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.corporations');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.partnerships');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.silentPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.profPooling');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.fiscalUnity');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.partialProfitTransfer');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.incomeAdjustItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.incomePreconsolRemittshortfall');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.changeAdjustItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.incomePreconsolRemittSurplus');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.incomeRemittShortfall');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.incomeContributionsReturn');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss.lossRemittSurplus');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.adminCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.adminCost.management');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.adminCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.adminCost.social');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.adminCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.adminCost.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.adminCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.adminCost.otherDepr');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.againstCorpParticip', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.againstCorpParticip.domesticRelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.againstCorpParticip', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.againstCorpParticip.domesticUnrelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.againstCorpParticip', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.againstCorpParticip.foreignRelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.againstCorpParticip', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.againstCorpParticip.foreignUnrelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.sharehRelPart', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.sharehRelPart.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.sharehRelPart', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.sharehRelPart.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr.otherIntan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr.goodwill');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.netSales.statutoryDuties');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.cogs');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releasePreTaxRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposFixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releaseProv');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.disposCurrAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalCurrAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releaseLossProv');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.acqudFreeOfCharge');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.releaseLiab');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.recoveryWriteoffs');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.taxationGroupComp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.subsidies');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.insuranceRefunds');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.currGains');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.ownConsumption');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.EGHGB');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.merger');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.miscellaneous');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.rAndD');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.otherOrdinary');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.addToPreTaxRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.provisions');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.amortGoodwillEtc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.liabilityRemunerationPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.EGHGB');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.merger');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.restructuring');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.custody');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.miscellaneous');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.otherDepr');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.tan.land');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.fin.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.fin.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.fin.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.fin.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.tan.land');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.donations', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.donations.taxprivileged');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.donations', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.donations.nondeductiblePoliticalParties');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.donations', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.donations.nondeductibleOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.donations', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.donations.nondeductibleOther.nonallocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.misc', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.misc.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.misc', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.misc.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.other', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.other.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.other', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.other.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.other', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.other.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.domesticMembers');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard.foreignMembers');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost.directSellingCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost.specSellingExp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost.indirectSellingExp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost.adminExpForSelling');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost.scheduledDepr');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost.otherDepr');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.fixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.currAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.specialPurpose');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.statutoryDuties');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.materialServices');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseFix');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.fixingLandBuildings');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.energyCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leaseMovable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.leasingAll');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.fixing');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.insurance');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.vehicles');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.marketing');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.administration');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.publicRelations');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.limitedDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.businessTravelOwner');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.employee');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.freight');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.fees');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.concessLicenses');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.communication');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.legalConsulting');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.training');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.staffRelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.addPreTaxRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.transferValuatonPresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.regAllowance');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposFixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposCurrAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherTaxes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.provisions');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.currLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.liabilityRemunerationPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.EGHGB');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.merger');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.restructuring');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.miscellaneous');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.disposalCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.custodyFee');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.salaries');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.social');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.staff', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.deferred', 'de-gaap-ci_is.netIncome.tax.deferred.addition');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.deferred', 'de-gaap-ci_is.netIncome.tax.deferred.release');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.kest', 'de-gaap-ci_is.netIncome.tax.kest.creditable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.kest', 'de-gaap-ci_is.netIncome.tax.kest.noncreditable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.kest', 'de-gaap-ci_is.netIncome.tax.kest.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.kst');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.soli');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.gewst');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.kst');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.soli');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.gewst');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.releaseTaxProv', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv.KSt');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.releaseTaxProv', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv.Soli');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.releaseTaxProv', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv.Gew');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.releaseTaxProv', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.soli', 'de-gaap-ci_is.netIncome.tax.soli.kestcreditable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.soli', 'de-gaap-ci_is.netIncome.tax.soli.kestNoncreditable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.soli', 'de-gaap-ci_is.netIncome.tax.soli.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.soli', 'de-gaap-ci_is.netIncome.tax.soli.misc');
+
+  }
+
+  sum__level3(T, contextname) {
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr.DeprPeriod', 'de-gaap-ci_accDepr.DeprPeriod.regular');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr.DeprPeriod', 'de-gaap-ci_accDepr.DeprPeriod.extraordinary');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr.DeprPeriod', 'de-gaap-ci_accDepr.DeprPeriod.impairment');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr.DeprPeriod', 'de-gaap-ci_accDepr.DeprPeriod.EStG7g_2');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr.DeprPeriod', 'de-gaap-ci_accDepr.DeprPeriod.EStG6b_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr.DeprPeriod', 'de-gaap-ci_accDepr.DeprPeriod.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr.diff', 'de-gaap-ci_accDepr.diff.currDiff');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr.diff', 'de-gaap-ci_accDepr.diff.otherDiff');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.cashEquiv', 'de-gaap-ci_bs.ass.currAss.cashEquiv.cheques');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.cashEquiv', 'de-gaap-ci_bs.ass.currAss.cashEquiv.cash');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.cashEquiv', 'de-gaap-ci_bs.ass.currAss.cashEquiv.centralBank');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.cashEquiv', 'de-gaap-ci_bs.ass.currAss.cashEquiv.bank');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.cashEquiv', 'de-gaap-ci_bs.ass.currAss.cashEquiv.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.cashEquiv', 'de-gaap-ci_bs.ass.currAss.cashEquivOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.cashEquiv', 'de-gaap-ci_bs.ass.currAss.cashEquiv.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory', 'de-gaap-ci_bs.ass.currAss.inventory.material');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory', 'de-gaap-ci_bs.ass.currAss.inventory.inProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory', 'de-gaap-ci_bs.ass.currAss.inventory.finishedAndMerch');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory', 'de-gaap-ci_bs.ass.currAss.inventory.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory', 'de-gaap-ci_bs.ass.currAss.inventory.advPaymPaid');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory', 'de-gaap-ci_bs.ass.currAss.inventory.gross');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.inventory', 'de-gaap-ci_bs.ass.currAss.inventory.advPaymReceived');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.trade');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.regulatory');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.unpaidCapitalPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.affil');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.particip');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.colEntity');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.claim');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.other.unpaidCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.other.unpaidCapitalUnlimitedLiablePartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.other.unpaidCapitalLimitedLiablePartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.other.unpaidSupplementaryCalls');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.receiv', 'de-gaap-ci_bs.ass.currAss.receiv.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities', 'de-gaap-ci_bs.ass.currAss.securities.affil');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities', 'de-gaap-ci_bs.ass.currAss.securities.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss.securities', 'de-gaap-ci_bs.ass.currAss.securities.otherNonMappable');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.beginYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.incomeUseDeposits');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.incomeUseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.capAdjust6bRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS.capMovements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.beginYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.incomeUseDeposits');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.incomeUseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.capAdjust6bRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS.capMovements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.beginYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.incomeUseDeposits');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.incomeUseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.reallocation');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.capAdjust6bRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.beginYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.incomeUseDeposits');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.incomeUseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capAdjust6bRules');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner.capMovements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.beginYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.incomeUseDeposit');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.incomeUseWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capAdjust6bRules');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner.capMovements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin', 'de-gaap-ci_bs.ass.fixAss.fin.sharesInAffil');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin', 'de-gaap-ci_bs.ass.fixAss.fin.loansToSharehold');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin', 'de-gaap-ci_bs.ass.fixAss.fin.loansToAffil');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin', 'de-gaap-ci_bs.ass.fixAss.fin.particip');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin', 'de-gaap-ci_bs.ass.fixAss.fin.loansToParticip');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin', 'de-gaap-ci_bs.ass.fixAss.fin.securities');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin', 'de-gaap-ci_bs.ass.fixAss.fin.otherLoans');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.fin', 'de-gaap-ci_bs.ass.fixAss.fin.otherFinAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan', 'de-gaap-ci_bs.ass.fixAss.intan.selfmade');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan', 'de-gaap-ci_bs.ass.fixAss.intan.development');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan', 'de-gaap-ci_bs.ass.fixAss.intan.concessionBrands');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan', 'de-gaap-ci_bs.ass.fixAss.intan.freeConcession');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan', 'de-gaap-ci_bs.ass.fixAss.intan.freeAndPaidConcession');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan', 'de-gaap-ci_bs.ass.fixAss.intan.goodwill');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan', 'de-gaap-ci_bs.ass.fixAss.intan.advPaym');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.intan', 'de-gaap-ci_bs.ass.fixAss.intan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan', 'de-gaap-ci_bs.ass.fixAss.tan.landBuildings');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan', 'de-gaap-ci_bs.ass.fixAss.tan.machinery');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan', 'de-gaap-ci_bs.ass.fixAss.tan.otherEquipm');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan', 'de-gaap-ci_bs.ass.fixAss.tan.branche_kfz');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan', 'de-gaap-ci_bs.ass.fixAss.tan.inConstrAdvPaym');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss.tan', 'de-gaap-ci_bs.ass.fixAss.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other', 'de-gaap-ci_bs.eqLiab.accruals.other.uncertainLiab');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other', 'de-gaap-ci_bs.eqLiab.accruals.other.imminentLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other', 'de-gaap-ci_bs.eqLiab.accruals.other.expenditure');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other', 'de-gaap-ci_bs.eqLiab.accruals.other.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other', 'de-gaap-ci_bs.eqLiab.accruals.other.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.other', 'de-gaap-ci_bs.eqLiab.accruals.otherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.pensions', 'de-gaap-ci_bs.eqLiab.accruals.pensions.shareholder');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.pensions', 'de-gaap-ci_bs.eqLiab.accruals.pensions.direct');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.pensions', 'de-gaap-ci_bs.eqLiab.accruals.pensions.externalFunds');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.pensions', 'de-gaap-ci_bs.eqLiab.accruals.pensions.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.pensions', 'de-gaap-ci_bs.eqLiab.accruals.pensionsOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.gewst');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.kst');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.defTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.additionalTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.AO233aOnAdditionalTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.taxOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals.tax', 'de-gaap-ci_bs.eqLiab.accruals.tax.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds', 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds', 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds', 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds', 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.association', 'de-gaap-ci_bs.eqLiab.equity.association.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.association', 'de-gaap-ci_bs.eqLiab.equity.association.contributions');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.association', 'de-gaap-ci_bs.eqLiab.equity.association.withdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.association', 'de-gaap-ci_bs.eqLiab.equity.association.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.association', 'de-gaap-ci_bs.eqLiab.equity.association.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.association', 'de-gaap-ci_bs.eqLiab.equity.association.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.capRes', 'de-gaap-ci_bs.eqLiab.equity.capRes.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.capRes', 'de-gaap-ci_bs.eqLiab.equity.capRes.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.capRes', 'de-gaap-ci_bs.eqLiab.equity.capRes.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.capRes', 'de-gaap-ci_bs.eqLiab.equity.capRes.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation', 'de-gaap-ci_bs.eqLiab.equity.foundation.estab');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation', 'de-gaap-ci_bs.eqLiab.equity.foundation.donation');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.foundation', 'de-gaap-ci_bs.eqLiab.equity.foundation.injectionRevRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.corrDeposit');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.corrWithdrawal');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.transferDiffTaxAccounts');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally.EStGs6b');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.profitLoss', 'de-gaap-ci_bs.eqLiab.equity.profitLoss.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.profitLoss', 'de-gaap-ci_bs.eqLiab.equity.profitLoss.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.profitLoss', 'de-gaap-ci_bs.eqLiab.equity.profitLoss.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.profitLoss', 'de-gaap-ci_bs.eqLiab.equity.profitLoss.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus', 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus', 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus', 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.movement');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus', 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership', 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership', 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership', 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership', 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings', 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings', 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings', 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings', 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings.movementsProfitLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings', 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.legal');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.charityAppropriated');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.unappropriated');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.capMaintenance');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.investment');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.sharesParentComp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.statutory');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.defTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.intanAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.assMeasuredAtFairValue');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.surplusFromPensionAccruals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherResWithDistrRestrict');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.special');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.otherCoop');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.revenueRes', 'de-gaap-ci_bs.eqLiab.equity.revenueRes.taxablePurposeBusiness');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital', 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital.finalPrev');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital', 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital.capAdjust');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital', 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital.movement');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital', 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital.changePresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed', 'de-gaap-ci_bs.eqLiab.equity.subscribed.corp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed', 'de-gaap-ci_bs.eqLiab.equity.subscribed.ownSharesdeducted');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unpaidCap');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed', 'de-gaap-ci_bs.eqLiab.equity.subscribed.privateAccountSP');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed', 'de-gaap-ci_bs.eqLiab.equity.subscribed.unlimitedLiablePartners.unpaidCap');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed', 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed', 'de-gaap-ci_bs.eqLiab.equity.subscribed.limitedLiablePartners.unpaidCap');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity.subscribed', 'de-gaap-ci_bs.eqLiab.equity.subscribed.coopPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.assocComp', 'de-gaap-ci_bs.eqLiab.liab.assocComp.SilentPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.assocComp', 'de-gaap-ci_bs.eqLiab.liab.assocComp.partner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.assocComp', 'de-gaap-ci_bs.eqLiab.liab.assocComp.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.assocComp', 'de-gaap-ci_bs.eqLiab.liab.assocComp.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.bank', 'de-gaap-ci_bs.eqLiab.liab.bank.silentPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.bank', 'de-gaap-ci_bs.eqLiab.liab.bank.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.bank', 'de-gaap-ci_bs.eqLiab.liab.bank.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.theroffTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.thereoffSocSec');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.silentPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.thereoffCoopertiveRefunds');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.employees');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.profitPartLoans');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.jointVent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.profSharRights');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.other.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.other', 'de-gaap-ci_bs.eqLiab.liab.otherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.particip', 'de-gaap-ci_bs.eqLiab.liab.particip.silentPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.particip', 'de-gaap-ci_bs.eqLiab.liab.particip.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.particip', 'de-gaap-ci_bs.eqLiab.liab.particip.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.particip', 'de-gaap-ci_bs.eqLiab.liab.particip.otherShareholder');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders', 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbhSilent');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders', 'de-gaap-ci_bs.eqLiab.liab.shareholders.gmbh');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders', 'de-gaap-ci_bs.eqLiab.liab.shareholders.silentPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders', 'de-gaap-ci_bs.eqLiab.liab.shareholders.unlimitedPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders', 'de-gaap-ci_bs.eqLiab.liab.shareholders.limitedPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.shareholders', 'de-gaap-ci_bs.eqLiab.liab.shareholders.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.silentPart', 'de-gaap-ci_bs.eqLiab.liab.silentPart.typ');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.silentPart', 'de-gaap-ci_bs.eqLiab.liab.silentPart.atyp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.silentPart', 'de-gaap-ci_bs.eqLiab.liab.silentPart.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.statutoryBenefits', 'de-gaap-ci_bs.eqLiab.liab.statutoryBenefits.commitments');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.statutoryBenefits', 'de-gaap-ci_bs.eqLiab.liab.statutoryBenefits.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.trade', 'de-gaap-ci_bs.eqLiab.liab.trade.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.trade', 'de-gaap-ci_bs.eqLiab.liab.trade.genOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab.trade', 'de-gaap-ci_bs.eqLiab.liab.trade.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.releaseWithdrawalEStG4g');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.obligationAssumption');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.KStG34_6e');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.costAllocItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.InvStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.adjustmentItemInvStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.EStG6b');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.subsidies');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.replacement');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.UmwStG6_1');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.EStR6_11_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.other', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.unspentDonationFunds', 'de-gaap-ci_bs.eqLiab.otherSpecRes.unspentDonationFunds.statutoryUse');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes.unspentDonationFunds', 'de-gaap-ci_bs.eqLiab.otherSpecRes.unspentDonationFunds.bound');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes.res', 'de-gaap-ci_bs.eqLiab.pretaxRes.res.gainAssetSale');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes.res', 'de-gaap-ci_bs.eqLiab.pretaxRes.res.subsidies');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes.res', 'de-gaap-ci_bs.eqLiab.pretaxRes.res.replacement');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes.res', 'de-gaap-ci_bs.eqLiab.pretaxRes.res.taxRelifAct');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes.res', 'de-gaap-ci_bs.eqLiab.pretaxRes.res.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort', 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort.fixAssTan');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort', 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort.fixAssFin');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort', 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort.currAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing.paidInCap');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing.paymToSharehold');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing.loansTaken');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing.loansRepaid');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing.grantsSubRec');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing.extraordRec');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing.extraordPaym');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing.interestPaid');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing.dividendsPaid');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.disposIntanAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.investmIntanAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.disposTanAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.investmTanAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.disposFinAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.investmFinAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.disposShTermFin');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.investmShTermFin');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.extraordRec');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.extraordPaym');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.interestRec');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments.dividendsRec');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect.sales');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect.suppliersEmployees');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect.otherCashRecNonInvestNonFin');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect.otherCashPaymNonInvestNonFin');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect.extraordRec');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect.extraordPaym');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect.PaymIncomeTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.netincomeTotal');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.deprRevalFixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.changeProvisions');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.otherCashEarningsCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.changeInventoryCurrReceiv');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.changeCurrPay');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.resultDisposFixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.interestResult');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.ParticipationEarningsOth');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.extraord');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.IncomeTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.extraordRec');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.extraordPaym');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect.PaymIncomeTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.capRes', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.capRes.272_2case1_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.capRes', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.capRes.272_2case4');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.revenueRes', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.revenueRes.legal');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.revenueRes', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.revenueRes.272_4');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.revenueRes', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.revenueRes.statutory');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.revenueRes', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.revenueRes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.ownShares', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.ownShares.sharesRegular');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.ownShares', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.ownShares.sharesPremium');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.subscribed', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.subscribed.sharesRegular');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.subscribed', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.subscribed.sharesPremium');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.unpaidContribution', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.unpaidContribution.sharesRegular');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.unpaidContribution', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.unpaidContribution.sharesPremium');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.reserves.revenueRes', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.reserves.revenueRes.compStat');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.reserves.revenueRes', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.reserves.revenueRes..other');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c', 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c.operatingCostsRelatingToDoubleTaxationTaxExemptCosts');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c', 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c', 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c.sub2');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c', 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c.sub3');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c', 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c.sub4etc');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c', 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2', 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2.reversalPrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2', 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2.reversal2PrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2', 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2.reversal3PrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2', 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2.reversal4PrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2', 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2.reversal5PrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2', 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2.reversal6PrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g', 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g.currYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g', 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g._3_1follYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g', 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g._3_2follYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g', 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g._3_3follYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g', 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g._4_4follYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.nonTaxableProfitsIncomeTax', 'de-gaap-ci_fpl.deductions.nonTaxableProfitsIncomeTax.investmentGrant');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.nonTaxableProfitsIncomeTax', 'de-gaap-ci_fpl.deductions.nonTaxableProfitsIncomeTax.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.nonTaxableProfitsIncomeTax', 'de-gaap-ci_fpl.deductions.nonTaxableProfitsIncomeTax.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b', 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b.sub1_2');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b', 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b.TakeoverUmwStG4_7sent2');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b', 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b.KStG8b_3sent8');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b', 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b.add5ptSub3_5');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b', 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b.addNonDeductKStG8b_10');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b', 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b.sub1_2');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b', 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b.takeoverUmwStG4_7sent2');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b', 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b.plusKStG8b_3sent8');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b', 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b.less5ptSub3_5');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b', 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b.addNonDeductKStG8b_10');
+    this.sum_group(T, contextname, 'de-gaap-ci_gross.diff', 'de-gaap-ci_gross.diff.currDiff');
+    this.sum_group(T, contextname, 'de-gaap-ci_gross.diff', 'de-gaap-ci_gross.diff.otherDiff');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.gain', 'de-gaap-ci_is.netIncome.incomeSharing.gain.profPooling');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.gain', 'de-gaap-ci_is.netIncome.incomeSharing.gain.silentTypical');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.gain', 'de-gaap-ci_is.netIncome.incomeSharing.gain.silentAtypical');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.gain', 'de-gaap-ci_is.netIncome.incomeSharing.gain.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.gain', 'de-gaap-ci_is.netIncome.incomeSharing.gain.fiscalUnity');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.gain', 'de-gaap-ci_is.netIncome.incomeSharing.gain.incomeStatement');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.gain', 'de-gaap-ci_is.netIncome.incomeSharing.gain.expTaxCreditsToParent');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.loss', 'de-gaap-ci_is.netIncome.incomeSharing.loss.profPooling');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.loss', 'de-gaap-ci_is.netIncome.incomeSharing.loss.profitTransfer');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.loss', 'de-gaap-ci_is.netIncome.incomeSharing.loss.partialProfitTransfer');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.loss', 'de-gaap-ci_is.netIncome.incomeSharing.loss.typPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.loss', 'de-gaap-ci_is.netIncome.incomeSharing.loss.atypPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing.loss', 'de-gaap-ci_is.netIncome.incomeSharing.loss.incomeTaxCreditAlloc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.otherTaxes.personalTaxes', 'de-gaap-ci_is.netIncome.otherTaxes.personalTaxes.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.otherTaxes.personalTaxes', 'de-gaap-ci_is.netIncome.otherTaxes.personalTaxes.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.otherTaxes.personalTaxes', 'de-gaap-ci_is.netIncome.otherTaxes.personalTaxes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earnings');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningProfSharing');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.commPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.assetManagingPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.incomeTaxAlloc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.earningSecurities');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.income');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.amortFinanc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.loss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.lossCommPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.lossAssetManagingPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.additionProfitPartCap');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netParticipation.expenseTaxAllocSubsidiary');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.expenses');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.fin', 'de-gaap-ci_is.netIncome.regular.fin.netInterest.negCapitalTransferFee');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.salesCost.advertising');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.adminCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.againstCorpParticip');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.sharehRelPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.exceptionalDepr');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.impairment');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.deductValueEStG7g_2');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.deductValueEStG6b_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific.otherMiscellaneous');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan.lowValueAs');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan.lowValueAsCollItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan.buildings');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased.generalRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased.intraEU');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased.withoutVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased.inventoryChange');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup.generalRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup.reducedRateVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup.intraEU');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup.woDedVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup.inventoryChange');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.immovable', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.immovable.interest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.immovable', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.immovable.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.moveable', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.moveable.interest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.moveable', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.moveable.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.entertainment', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.entertainment.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.entertainment', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.entertainment.nonDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.entertainment', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.entertainment.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.gifts', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.gifts.deductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.gifts', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.gifts.nondeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.gifts', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.gifts.nonallocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.supervisoryboard');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.donations');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions.shareholderManager');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions.partner');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.socExp', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.socExp.partnersEStG15');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.socExp', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.socExp.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.socExp', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.socExp.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC', 'de-gaap-ci_is.netIncome.regular.operatingTC.staff');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC', 'de-gaap-ci_is.netIncome.regular.operatingTC.deprAmort');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC', 'de-gaap-ci_is.netIncome.regular.operatingTC.cooperative.Refunds');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.kst');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.soli');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.gewst');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.kest');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.deductableForeignIncomeTaxes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.nonDeductableForeignIncomeTaxes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.otherIncomeTaxes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.deferred');
+
+  }
+
+  sum__level2(T, contextname) {
+    this.sum_group(T, contextname, 'de-gaap-ci_BVV.profitLoss.assetsPreviousYear', 'de-gaap-ci_BVV.profitLoss.assetsPreviousYear.assets');
+    this.sum_group(T, contextname, 'de-gaap-ci_BVV.profitLoss.assetsPreviousYear', 'de-gaap-ci_BVV.profitLoss.assetsPreviousYear.capAdjustments');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr', 'de-gaap-ci_accDepr.beginning');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr', 'de-gaap-ci_accDepr.diff');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr', 'de-gaap-ci_accDepr.DeprPeriod');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr', 'de-gaap-ci_accDepr.addition');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr', 'de-gaap-ci_accDepr.release');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr', 'de-gaap-ci_accDepr.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_accDepr', 'de-gaap-ci_accDepr.currChanges');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.assInbetwFixAndCurr', 'de-gaap-ci_bs.ass.assInbetwFixAndCurr.nuclFuel');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.assInbetwFixAndCurr', 'de-gaap-ci_bs.ass.assInbetwFixAndCurr.filmRights');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.assInbetwFixAndCurr', 'de-gaap-ci_bs.ass.assInbetwFixAndCurr.miningOverburden');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.assInbetwFixAndCurr', 'de-gaap-ci_bs.ass.assInbetwFixAndCurr.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss', 'de-gaap-ci_bs.ass.currAss.inventory');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss', 'de-gaap-ci_bs.ass.currAss.receiv');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss', 'de-gaap-ci_bs.ass.currAss.securities');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.currAss', 'de-gaap-ci_bs.ass.currAss.cashEquiv');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.privateAccountSP');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossUnlimitedLiablePartnerS');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lossLimitedLiablePartnerS');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalsUnlimitedLiablePartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.withdrawalLimitedLiablePartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.compensationUnlimitedLiablePartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.compensationLimitedLiablePartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.unpaidContributionUnlimitedLiablelPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.unpaidContributionLimitedLiablelPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.dueToPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.profitParticipation');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.lastrange');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.silentPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital.reservesPartnership');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss', 'de-gaap-ci_bs.ass.fixAss.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss', 'de-gaap-ci_bs.ass.fixAss.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.fixAss', 'de-gaap-ci_bs.ass.fixAss.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.prepaidExp', 'de-gaap-ci_bs.ass.prepaidExp.loadRedempt');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.prepaidExp', 'de-gaap-ci_bs.ass.prepaidExp.premium');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.prepaidExp', 'de-gaap-ci_bs.ass.prepaidExp.moneyProv');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.prepaidExp', 'de-gaap-ci_bs.ass.prepaidExp.customTaxDuty');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.prepaidExp', 'de-gaap-ci_bs.ass.prepaidExp.vat');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.prepaidExp', 'de-gaap-ci_bs.ass.prepaidExp.rentPaid');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.prepaidExp', 'de-gaap-ci_bs.ass.prepaidExp.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass.prepaidExp', 'de-gaap-ci_bs.ass.prepaidExpOtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals', 'de-gaap-ci_bs.eqLiab.accruals.pensions');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals', 'de-gaap-ci_bs.eqLiab.accruals.tax');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.accruals', 'de-gaap-ci_bs.eqLiab.accruals.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.subscribed');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.endowmentCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.association');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.foundation');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.dueToPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.profSharing');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.lastrangecapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.silentPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.capRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.reservesPartnership');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.statutoryBoundCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.revenueRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.retainedEarningsPartnershipsHGBs264c');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.retainedEarnings');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.SurplusOfUnspentFunds');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.netIncomePartnershipsHGBs264c');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.reallocationSurplus');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.profitLossPartnershipsHGBs264c');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.netIncome.taxBalanceGenerally');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.profitLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.currTransl');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.equity', 'de-gaap-ci_bs.eqLiab.equity.deficitNotCoveredByCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.securities');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.otherDebtInstruments');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.bank');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.advPaym');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.trade');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.regulatory');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.notes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.assocComp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.particip');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.silentPart');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.colEntity');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.conditionalRepayableDonations');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.statutoryBenefits');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.liab', 'de-gaap-ci_bs.eqLiab.liab.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.equitySilentPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.paymForCapitalIncrease');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.subsidies');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.ownShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.taxbalanceOrgancomp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.negGoodwillHGBs246_1sent4');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.taxbalanceGenerally');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.unspentDonationFunds');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.statutoryBoundCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.otherSpecRes', 'de-gaap-ci_bs.eqLiab.otherSpecRes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes', 'de-gaap-ci_bs.eqLiab.pretaxRes.res');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes', 'de-gaap-ci_bs.eqLiab.pretaxRes.specAmort');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab.pretaxRes', 'de-gaap-ci_bs.eqLiab.pretaxRes.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingDirect');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromOperatingIndirect');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromInvestments');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges.cfFromFinancing');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.capRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves.revenueRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.subscribed');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.ownShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares.unpaidContribution');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.reserves', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.reserves.capRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.reserves', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.reserves.revenueRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.shares', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.shares.subscribed');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.shares', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.shares.unpaidContribution');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K', 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K.paidInCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K', 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K.ownSharesPurchase');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K', 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K.ownSharesRedemption');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K', 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K.compCap');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K', 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additionDeductsTpl', 'de-gaap-ci_fpl.additionDeductsTpl.fullValueYearChange');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additionDeductsTpl', 'de-gaap-ci_fpl.additionDeductsTpl.div2Years');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additionDeductsTpl', 'de-gaap-ci_fpl.additionDeductsTpl.div3Years');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.nonDeductableDeductionsESTG3c');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.InvStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.KStG8b');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.EStG4_4a');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.nonDeductableExpEStG4_5EStG4_7');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.tradeTaxEStG4_5b');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.otherPersonalTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.additionsEStG4f');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.additionsEStG4e');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.additionsEStG4c');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.additionsEStG4d');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.EarningsStrippingRuleEStG4h');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.restrictedSpecialBusinessExpenses');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.costOfRightsEStG4j');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.EStG4k');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.profitMarkupEStG6b_7');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.profitMarkupEStG6b_10');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.releaseInvestmentDeductionEStG7g_2');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.AStG1');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.UmwStG4_6');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.UmwStG7');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.additions', 'de-gaap-ci_fpl.additions.OtherEgAO160');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.nonTaxableProfitsIncomeTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.taxFreeProfitsDBA');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.taxFreeProfitsEStG3_40');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.taxFreeRecapitalisationGainsEStG3a');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.taxFreeProfitsTakeoverUmwStG4_7sent2');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.deductionsEStG4f');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.deductionsEStG4e_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.deductionsEStG4d_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.taxFreeProfitsKStG8b');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.InvStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.taxFrerProfitsOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.InvestmentDeductionEStG7g');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.Other');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.deductions', 'de-gaap-ci_fpl.deductions.EarningsStrippingRuleEStG4h');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsPartPartnerships', 'de-gaap-ci_fpl.fiscalCorrectionsPartPartnerships.EStG3_40EStG3c_2KStG8b');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsPartPartnerships', 'de-gaap-ci_fpl.fiscalCorrectonsPartPartnerships.InvStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsPartPartnerships', 'de-gaap-ci_fpl.fiscalCorrectionsPartPartnerships.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup', 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup.ProfitRecordedWithParent');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup', 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup.LossCompensationByParent');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup', 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup.earningProfSharingPreconsoliRemittShortfall');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup', 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup.earningProfSharingPreconsoliRemittSurplus');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup', 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup.earningProfSharingRemittSurplus');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup', 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup.earningProfSharingRemittShortfall');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup', 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.add', 'de-gaap-ci_fplgm.add.taxExempt');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.add', 'de-gaap-ci_fplgm.add.taxFreeProfitsTakeoverUmwStG4_7sent2');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.add', 'de-gaap-ci_fplgm.add.taxFreeProfitsKStG8b');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.add', 'de-gaap-ci_fplgm.add.InvStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.deduct', 'de-gaap-ci_fplgm.deduct.EStGs3c');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.deduct', 'de-gaap-ci_fplgm.deduct.KStG8b_3sent3etSeq');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.deduct', 'de-gaap-ci_fplgm.deduct.UmwStGs4_6');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.deduct', 'de-gaap-ci_fplgm.deduct.InvStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_gross', 'de-gaap-ci_grossCost.beginning');
+    this.sum_group(T, contextname, 'de-gaap-ci_gross', 'de-gaap-ci_gross.diff');
+    this.sum_group(T, contextname, 'de-gaap-ci_gross', 'de-gaap-ci_gross.addition');
+    this.sum_group(T, contextname, 'de-gaap-ci_gross', 'de-gaap-ci_gross.release');
+    this.sum_group(T, contextname, 'de-gaap-ci_gross', 'de-gaap-ci_gross.movements');
+    this.sum_group(T, contextname, 'de-gaap-ci_gross', 'de-gaap-ci_gross.currChanges');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss.additionRevenReserves', 'de-gaap-ci_incomeUse.gainLoss.additionRevenReserves.legalRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss.additionRevenReserves', 'de-gaap-ci_incomeUse.gainLoss.additionRevenReserves.sharesParentCompRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss.additionRevenReserves', 'de-gaap-ci_incomeUse.gainLoss.additionRevenReserves.statRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss.additionRevenReserves', 'de-gaap-ci_incomeUse.gainLoss.additionOtherRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss.releaseRevenReserves', 'de-gaap-ci_incomeUse.gainLoss.releaseRevenReserves.legalRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss.releaseRevenReserves', 'de-gaap-ci_incomeUse.gainLoss.releaseRevenReserves.sharesParentCompRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss.releaseRevenReserves', 'de-gaap-ci_incomeUse.gainLoss.releaseRevenReserves.statRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss.releaseRevenReserves', 'de-gaap-ci_incomeUse.gainLoss.releaseOtherRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.eat', 'de-gaap-ci_is.netIncome.regular.operatingTC');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.eat', 'de-gaap-ci_is.netIncome.regular.operatingCOGS');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.eat', 'de-gaap-ci_is.netIncome.regular.fin');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.eat', 'de-gaap-ci_is.netIncome.tax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing', 'de-gaap-ci_is.netIncome.incomeSharing.loss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing', 'de-gaap-ci_is.netIncome.incomeSharing.gain');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.incomeSharing', 'de-gaap-ci_is.netIncome.incomeSharing.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.otherTaxes', 'de-gaap-ci_is.netIncome.otherTaxes.vatEtc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.otherTaxes', 'de-gaap-ci_is.netIncome.otherTaxes.personalTaxes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.otherTaxes', 'de-gaap-ci_is.netIncome.otherTaxes.prevPeriodPaid');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.otherTaxes', 'de-gaap-ci_is.netIncome.otherTaxes.prevPeriodReceived');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.otherTaxes', 'de-gaap-ci_is.netIncome.otherTaxes.releaseTaxProvision');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.otherTaxes', 'de-gaap-ci_is.netIncome.otherTaxes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.inventory');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.receiv');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.goodwill');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.otherIntan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.OtherTanandIntan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services.UStG13bDedInputTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services.UStG13bNonDedInputTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services.OtherDedInputTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services.OtherNonDedInputTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services.unknownVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes.EStG6b_10');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes.EStG6b_3');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes.substEStR6_6');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes.EStG4g');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes.EStG5_7');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes.KStG34_6e');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.concessLicenses', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.concessLicenses.toNonresidentRecipients');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.concessLicenses', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.concessLicenses.toResidentRecipients');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.concessLicenses', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.concessLicenses.nonallocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss.domesticCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss.foreignCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.sale');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.bookValue');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposalCorp', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposalCorp.domestic');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposalCorp', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposalCorp.foreign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposalCorp', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposalCorp.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leaseMovable', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leaseMoveable.partners');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leaseMovable', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leaseMovable.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leaseMovable', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leaseMovable.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leaseMovable', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leaseMovable.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasefix', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasefix.partners');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasefix', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasefix.shareholders');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasefix', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasefix.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasefix', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasefix.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.moveable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.immovable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.gifts');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.entertainment');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.otherTaxes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.otherTaxes.nondeductibleInputVAT');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.otherTaxes', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.otherTaxes.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.transferValuatonPresentYear', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.transferValuatonPresentYear.specific');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.transferValuatonPresentYear', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.transferValuatonPresentYear.global');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.transferValuatonPresentYear', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.transferValuatonPresentYear.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries.managerPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries.salariedPartnersEStG15');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries.minijobs');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries.inKind');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries.voluntaryBenefits');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries.nonAllocable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.socExp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.welfare');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.limitedPartners.DaFK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.limitedPartners.FO');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.limitedPartners.aEE');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.limitedPartners.S');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.unlimitedPartners.DaFK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.unlimitedPartners.FO');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.unlimitedPartners.aEE');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.unlimitedPartners.S');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.FK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.KK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.VK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.VVK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.DaEK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.nVgV');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.nVgE');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.nVAaG');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.VkE');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.taxAdjustmentItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.netIncomeLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.retainedProfitLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.profitLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.profitParticipationCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.subordimatedCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.contributionSilentPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.revenueReserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.uncalledContributionsGenPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.participationReserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.foreignCurrTranslationDiff');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.subordinatedCapitalDeficitItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.contributionSilentPartnersDeficitItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners.endowmentCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.FK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.VK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.VVK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.DaEK');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.nVgV');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.nVgE');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.nVAaG');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.VkE');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.taxAdjustmentItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.netIncomeLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.retainedProfitLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.profitLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.profitParticipationCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.subordimatedCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.revenueReserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.uncalledContributionsGenPartner');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.participationReserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.foreignCurrTranslationDiff');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.subordinatedCapitalDeficitItem');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners.endowmentCapital');
+
+  }
+
+  sum__level1(T, contextname) {
+    this.sum_group(T, contextname, 'de-gaap-ci_BVV.profitLoss', 'de-gaap-ci_BVV.profitLoss.assetsCurrentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_BVV.profitLoss', 'de-gaap-ci_BVV.profitLoss.assetsPreviousYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_BVV.profitLoss', 'de-gaap-ci_BVV.profitLoss.withdrawalDistrib');
+    this.sum_group(T, contextname, 'de-gaap-ci_BVV.profitLoss', 'de-gaap-ci_BVV.profitLoss.contribution');
+    this.sum_group(T, contextname, 'de-gaap-ci_BVV.profitLoss', 'de-gaap-ci_BVV.profitLoss.EStG6b');
+    this.sum_group(T, contextname, 'de-gaap-ci_all', 'de-gaap-ci_gross');
+    this.sum_group(T, contextname, 'de-gaap-ci_all', 'de-gaap-ci_accDepr');
+    this.sum_group(T, contextname, 'de-gaap-ci_all', 'de-gaap-ci_revaluation');
+    this.sum_group(T, contextname, 'de-gaap-ci_all_short', 'de-gaap-ci_grossCost.beginning_short');
+    this.sum_group(T, contextname, 'de-gaap-ci_all_short', 'de-gaap-ci_gross.addition_short');
+    this.sum_group(T, contextname, 'de-gaap-ci_all_short', 'de-gaap-ci_gross.release_short');
+    this.sum_group(T, contextname, 'de-gaap-ci_all_short', 'de-gaap-ci_gross.movements_short');
+    this.sum_group(T, contextname, 'de-gaap-ci_all_short', 'de-gaap-ci_DeprPeriod_short');
+    this.sum_group(T, contextname, 'de-gaap-ci_all_short', 'de-gaap-ci_gross.revaluation_short');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.unpaidCap.dueCapOfCoop');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.accountingConvenience');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.fixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.assInbetwFixAndCurr');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.currAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.prepaidExp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.defTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.SurplusFromOffsetting');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.taxbalanceOrgancomp');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.InvStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.taxbalanceGenerally');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.InvStGs56');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.deficitNotCoveredByCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.ass', 'de-gaap-ci_bs.ass.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab', 'de-gaap-ci_bs.eqLiab.equity');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab', 'de-gaap-ci_bs.eqLiab.pretaxRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab', 'de-gaap-ci_bs.eqLiab.liab');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab', 'de-gaap-ci_bs.eqLiab.otherSpecRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab', 'de-gaap-ci_bs.eqLiab.accruals');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab', 'de-gaap-ci_bs.eqLiab.defIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_bs.eqLiab', 'de-gaap-ci_bs.eqLiab.defTax');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu', 'de-gaap-ci_cfsDRS21.cashEqu.begin');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu', 'de-gaap-ci_cfsDRS21.cashEqu.cashChanges');
+    this.sum_group(T, contextname, 'de-gaap-ci_cfsDRS21.cashEqu', 'de-gaap-ci_cfsDRS21.cashEqu.currTranslRevaluation');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22K', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.shares');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22K', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.reserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22K', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.currTranslDiff');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22K', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.retainedEarningsPrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22K', 'de-gaap-ci_dim_parentDRS22K.accGroupStatement.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22P', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.shares');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22P', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.reserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22P', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.currTranslDiff');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22P', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.retainedEarningsPrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_allDRS22P', 'de-gaap-ci_dim_parentDRS22P.accGroupStatement.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_taxBal', 'de-gaap-ci_dim_comBal');
+    this.sum_group(T, contextname, 'de-gaap-ci_dim_taxBal', 'de-gaap-ci_dim_diffComToTaxBal');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22K', 'de-gaap-ci_eqCh.group_beginningDRS22K');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22K', 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22K');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22K', 'de-gaap-ci_eqCh.group_recPaidUnpaidContributionDRS22K');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22K', 'de-gaap-ci_eqCh.group_additionReleaseReservesDRS22K');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22K', 'de-gaap-ci_eqCh.group_dividendsPaidOutDRS22K');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22K', 'de-gaap-ci_eqCh.group_currTranslDRS22K');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22K', 'de-gaap-ci_eqCh.group_otherChangesDRS22K');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22K', 'de-gaap-ci_eqCh.group_netIncomeDRS22K');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22P', 'de-gaap-ci_eqCh.group_beginningDRS22P');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22P', 'de-gaap-ci_eqCh.group_.increaseDecreaseSharesDRS22P');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22P', 'de-gaap-ci_eqCh.group_recPaidUnpaidContributionDRS22P');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22P', 'de-gaap-ci_eqCh.group_additionPartnersAccountLiabDRS22P');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22P', 'de-gaap-ci_eqCh.group_additionReleaseReservesDRS22P');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22P', 'de-gaap-ci_eqCh.group_currTranslDRS22P');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22P', 'de-gaap-ci_eqCh.group_otherChangesDRS22P');
+    this.sum_group(T, contextname, 'de-gaap-ci_eqCh.group_allDRS22P', 'de-gaap-ci_eqCh.group_netIncomeDRS22P');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl', 'de-gaap-ci_fpl.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl', 'de-gaap-ci_fpl.deductions');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl', 'de-gaap-ci_fpl.additions');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl', 'de-gaap-ci_fpl.fiscalCorrectonsPartPartnerships');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl', 'de-gaap-ci_fpl.fiscalCorrectonsTaxGroup');
+    this.sum_group(T, contextname, 'de-gaap-ci_fpl', 'de-gaap-ci_fpl.additionDeductsTpl');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.netmethod', 'de-gaap-ci_fplgm.net');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.netmethod', 'de-gaap-ci_fplgm.add');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.netmethod', 'de-gaap-ci_fplgm.deduct');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.netmethod', 'de-gaap-ci_fplgm.correctionsEStG3_40EStG3c_2KStG8b');
+    this.sum_group(T, contextname, 'de-gaap-ci_fplgm.netmethod', 'de-gaap-ci_fplgm.InvStG');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.netIncome');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.retainedEarningsPrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.accumLossPrevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.releaseCapReserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.releaseRevenReserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.releaseProfitPartCap');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.releaseCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.releaseCapitalReserve');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.additionRevenReserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.additionProfPartCap');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.DeprPaidUpShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.replentishmentPaidupShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.other');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.releasePartnersAccount');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.additionPartnersAccount');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.releasePartnersLiabAccount');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.additionPartnersLiabAccount');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.dividensPlanned');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.additionRetainedEarnings');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.additionCummLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.gainLoss', 'de-gaap-ci_incomeUse.gainLoss.assReductionSpinOff');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.resultFoundations', 'de-gaap-ci_incomeUse.resultFoundations.currentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.resultFoundations', 'de-gaap-ci_incomeUse.resultFoundations.prevYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.resultFoundations', 'de-gaap-ci_incomeUse.resultFoundations.capWithdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.resultFoundations', 'de-gaap-ci_incomeUse.resultFoundations.capTransfers');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.resultFoundations', 'de-gaap-ci_incomeUse.resultFoundations.transferWithdrawalReallocation');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.resultFoundations', 'de-gaap-ci_incomeUse.resultFoundations.transferWithdrawalRevenueReserves');
+    this.sum_group(T, contextname, 'de-gaap-ci_incomeUse.resultFoundations', 'de-gaap-ci_incomeUse.resultFoundations.increaseDecreaseStatutoryBoundCapital');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome', 'de-gaap-ci_is.netIncome.eat');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome', 'de-gaap-ci_is.netIncome.otherTaxes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome', 'de-gaap-ci_is.netIncome.profitParticipationEquityNature');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome', 'de-gaap-ci_is.netIncome.incomeSharing');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome', 'de-gaap-ci_is.netIncome.incomeSubsidPaidToMinority');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome', 'de-gaap-ci_is.netIncome.collItemChangeProfitHbst');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome', 'de-gaap-ci_is.netIncome.OtherForeign');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange.increasefinished');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange.increaseGoodsInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange.increaseConstructionInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange.decreasefinished');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange.decreaseGoodsInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange.decreaseConstructionInProgress');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.services');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasefix');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.energyCost');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leaseMovable');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.leasingAll');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.fixingLandBuildings');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.limitedDeductible');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.communication');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.legalConsulting');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.training');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.insurance');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.staffRelated');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.addPreTaxRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.transferValuatonPresentYear');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.vehicles');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.freight');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.businessTravelOwner');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.businessTravelEmployee');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.fees');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.concessLicenses');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.marketing');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.administration');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.publicRelations');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.fixing');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.regularAllowance');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposFixAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposCurrAss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.investmentShares');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.otherTaxes');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.provisions');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.currLoss');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.liabilityRemunerationPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.EGHGB');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.merger');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.restructuring');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.disposalCorp');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.custody');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.otherOrdinary');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.miscellaneous');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.ownWork', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.ownWork.fixing');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.ownWork', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.ownWork.plants');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.ownWork', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.ownWork.intan');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social');
+    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.misc');
+    this.sum_group(T, contextname, 'de-gaap-ci_liab_primaryItem.total', 'de-gaap-ci_liab_primaryItem.total.upTo1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_liab_primaryItem.total', 'de-gaap-ci_liab_primaryItem.total.above1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_receiv_primaryItem.total', 'de-gaap-ci_receiv_primaryItem.total.upTo1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_receiv_primaryItem.total', 'de-gaap-ci_receiv_primaryItem.total.above1year');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.unlimitedPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts', 'de-gaap-ci_table.kke.allKindsOfDebtCapitalAccounts.limitedPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.unlimitedPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.allKindsOfEquityAccounts', 'de-gaap-ci_table.kke.allKindsOfEquityAccounts.limitedPartners');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumDebtCapitalAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumDebtCapitalAccounts.sumYearEnd.begin');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumDebtCapitalAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumDebtCapitalAccounts.sumYearEnd.increase');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumDebtCapitalAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumDebtCapitalAccounts.sumYearEnd.decrease');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd.begin');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd.deposits');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd.withdrawals');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd.capAdjust6bRes');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd.incomeShare');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd.capitalMovements');
+    this.sum_group(T, contextname, 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd', 'de-gaap-ci_table.kke.sumEquityAccounts.sumYearEnd.capitalAdjustmentOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_tpl', 'de-gaap-ci_tpl.inventory');
+    this.sum_group(T, contextname, 'de-gaap-ci_tpl', 'de-gaap-ci_tpl.receivTrade');
+    this.sum_group(T, contextname, 'de-gaap-ci_tpl', 'de-gaap-ci_tpl.receivOther');
+    this.sum_group(T, contextname, 'de-gaap-ci_tpl', 'de-gaap-ci_tpl.liabTrade');
+    this.sum_group(T, contextname, 'de-gaap-ci_tpl', 'de-gaap-ci_tpl.otherAdditions');
+    this.sum_group(T, contextname, 'de-gaap-ci_tpl', 'de-gaap-ci_tpl.otherDeductions');
+
+  }
+
+  sum_(contextname, taxonomy) {
+    var object = taxonomy[''];
+    if (object === undefined)
+      return;
+    this.sum__level8(object, contextname);
+    this.sum__level7(object, contextname);
+    this.sum__level6(object, contextname);
+    this.sum__level5(object, contextname);
+    this.sum__level4(object, contextname);
+    this.sum__level3(object, contextname);
+    this.sum__level2(object, contextname);
+    this.sum__level1(object, contextname);
   }
 
   sum_role_incomeStatement_level8(T, contextname) {
@@ -26142,9 +27972,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.0VATrateUStG12_3');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.otherRateVAT');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.netSales.reductionsFromGrossSales.unknownVAT');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.use');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.immediatelyRecognised');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.donations.received');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness.taxExempt');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness.reducedRateVAT');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingTC.grossTradingProfit.totalOutput.statutoryDuties.forProfitBusiness.regularRateVAT');
@@ -26297,8 +28124,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.investmentShares');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.other');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.revalFixAss.fin.misc');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation.use');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.donation.immediatelyRecognised');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness.taxExempt');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness.reducedRateVAT');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.statutoryDuties.forProfitBusiness.generalRateVAT');
@@ -26740,7 +28565,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.provisions');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.amortGoodwillEtc');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.liabilityRemunerationPartners');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.otherRemunerationPartners');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.EGHGB');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.merger');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCost.restructuring');
@@ -26817,7 +28641,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.currLoss');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.liabilityRemunerationPartners');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.EGHGB');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherRemunerationPartners');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.merger');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.restructuring');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost.otherOrdinary');
@@ -26834,17 +28657,14 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.kest', 'de-gaap-ci_is.netIncome.tax.kest.noncreditable');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.kest', 'de-gaap-ci_is.netIncome.tax.kest.other');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.kst');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.minst');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.soli');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.gewst');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid', 'de-gaap-ci_is.netIncome.tax.prevPeriodPaid.other');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.kst');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.minst');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.soli');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.gewst');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived', 'de-gaap-ci_is.netIncome.tax.prevPeriodReceived.other');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.releaseTaxProv', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv.KSt');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.releaseTaxProv', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv.minst');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.releaseTaxProv', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv.Soli');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.releaseTaxProv', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv.Gew');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax.releaseTaxProv', 'de-gaap-ci_is.netIncome.tax.releaseTaxProv.other');
@@ -26956,7 +28776,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherCost');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC', 'de-gaap-ci_is.netIncome.regular.operatingTC.cooperative.Refunds');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.kst');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.minst');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.soli');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.gewst');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.tax', 'de-gaap-ci_is.netIncome.tax.kest');
@@ -26992,8 +28811,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.tan');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.specific');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss.OtherTanandIntan');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation.use');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation.immediatelyRecognised');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.rawMatConsSup');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.purchased');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.materialServices.material.misc');
@@ -27055,8 +28872,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.pensions');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.welfare');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social.other');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations.use');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations.immediatelyRecognised');
 
   }
 
@@ -27071,13 +28886,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.fixAss');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.currAss');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.deprAm.misc');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.membershipFees');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.donation');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.estate');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.fine');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.sponsor');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.grant');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.grossOpProfit.otherRevenue.statutoryDuties.other');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange.increasefinished');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange.increaseGoodsInProgress');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.inventoryChange.increaseConstructionInProgress');
@@ -27118,7 +28926,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.provisions');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.currLoss');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.liabilityRemunerationPartners');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.otherRemunerationPartners');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.EGHGB');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.merger');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.otherCostTC.restructuring');
@@ -27133,13 +28940,6 @@ var InitParameterEBilanz67KapG = class InitParameterEBilanz67KapG {
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.salaries');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.social');
     this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff', 'de-gaap-ci_is.netIncome.regular.operatingCOGS.staff.misc');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.membershipFees');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.donations');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.estate');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.fine');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.sponsor');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.grant');
-    this.sum_group(T, contextname, 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties', 'de-gaap-ci_is.netIncome.regular.operatingTC.otherOpRevenue.statutoryDuties.other');
 
   }
 

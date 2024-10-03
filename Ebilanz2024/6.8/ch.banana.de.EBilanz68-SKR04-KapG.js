@@ -13,11 +13,11 @@
 // limitations under the License.
 //
 // @api = 1.0
-// @id = ch.banana.script.EBilanz61-SKR04-KapG
+// @id = ch.banana.script.EBilanz67-SKR04-KapG
 // @doctype = *.*
 // @publisher = Banana.ch SA
-// @pubdate = 2024-04-24
-// @description = E-Bilanz Taxonomie 6.1 SKR04 Kapitalgesellschaften
+// @pubdate = 2024-09-24
+// @description = E-Bilanz Taxonomie 6.8 SKR04 Kapitalgesellschaften
 // @task = app.command
 // @inputdatasource = none
 // @encoding = utf-8
@@ -29,18 +29,22 @@ function exec(inData, options) {
     var main = new Main();
     var openEditor = new openPropertyEditor();
     
-    if(!openEditor.settingsDialog('EBilanz61KapG')){
+    if(!openEditor.settingsDialog('EBilanz68KapG')){
       return '@Cancel';
     }
     openEditor.initParam();
     var JSONdataDialog = openEditor.getDataJSONDialog();
     var arrayDataDialog = openEditor.jsonToArrayConverter(JSONdataDialog);
     var arrayDataLevelDialog = openEditor.getArrayLevelDialogData();
-
+    
+    /* const normalizedJsonData = openEditor.normalizeData(JSONdataDialog);
+    const normalizedParameterData = openEditor.normalizeData([arrayDataDialog]);
     Banana.console.debug("arrayDataLevelDialog: "+arrayDataLevelDialog.length);
     Banana.console.debug("arrayDataDialog length:"+arrayDataDialog.length);
-    var output = main.mainExecutionEBilanz61KapG("", "", arrayDataDialog, arrayDataLevelDialog);
+    const combinedData = [...normalizedJsonData, ...normalizedParameterData];
+    Banana.console.debug(JSON.stringify(combinedData, null, 2)); */
+  
+    var output = main.mainExecutionEBilanz67KapG("", "", arrayDataDialog, arrayDataLevelDialog);
 
     return output;
 }
-

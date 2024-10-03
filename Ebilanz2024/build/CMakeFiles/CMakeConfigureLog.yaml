@@ -24,7 +24,7 @@ events:
       The output was:
       0
       Versione di MSBuild L17.9.8+b34f75857 per .NET Framework
-      Compilazione avviata 23.09.2024 19:05:52.
+      Compilazione avviata 01.10.2024 18:16:02.
       
       Progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\3.28.2\\CompilerIdC\\CompilerIdC.vcxproj" sul nodo 1 (destinazioni predefinite).
       PrepareForBuild:
@@ -53,7 +53,7 @@ events:
           Avvisi: 0
           Errori: 0
       
-      Tempo trascorso 00:00:01.48
+      Tempo trascorso 00:00:01.36
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -79,7 +79,7 @@ events:
       The output was:
       0
       Versione di MSBuild L17.9.8+b34f75857 per .NET Framework
-      Compilazione avviata 23.09.2024 19:05:54.
+      Compilazione avviata 01.10.2024 18:16:04.
       
       Progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\3.28.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" sul nodo 1 (destinazioni predefinite).
       PrepareForBuild:
@@ -108,7 +108,7 @@ events:
           Avvisi: 0
           Errori: 0
       
-      Tempo trascorso 00:00:01.14
+      Tempo trascorso 00:00:01.09
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -127,8 +127,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-vj04fo"
-      binary: "C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-vj04fo"
+      source: "C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-2uzyw2"
+      binary: "C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-2uzyw2"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -137,34 +137,34 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-vj04fo'
+        Change Dir: 'C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-2uzyw2'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_6cfe4.vcxproj /p:Configuration=Debug /p:Platform=win32 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_8b579.vcxproj /p:Configuration=Debug /p:Platform=win32 /p:VisualStudioVersion=17.0 /v:n
         Versione di MSBuild L17.9.8+b34f75857 per .NET Framework
-        Compilazione avviata 23.09.2024 19:05:55.
+        Compilazione avviata 01.10.2024 18:16:05.
         
-        Progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vj04fo\\cmTC_6cfe4.vcxproj" sul nodo 1 (destinazioni predefinite).
+        Progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2uzyw2\\cmTC_8b579.vcxproj" sul nodo 1 (destinazioni predefinite).
         PrepareForBuild:
-          Creazione directory "cmTC_6cfe4.dir\\Debug\\".
+          Creazione directory "cmTC_8b579.dir\\Debug\\".
           L'output strutturato è abilitato. La formattazione della diagnostica del compilatore rifletterà la gerarchia degli errori. Per altri dettagli, vedere https://aka.ms/cpp/structured-output.
-          Creazione directory "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vj04fo\\Debug\\".
-          Creazione directory "cmTC_6cfe4.dir\\Debug\\cmTC_6cfe4.tlog\\".
+          Creazione directory "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2uzyw2\\Debug\\".
+          Creazione directory "cmTC_8b579.dir\\Debug\\cmTC_8b579.tlog\\".
         InitializeBuildStatus:
-          Creazione di "cmTC_6cfe4.dir\\Debug\\cmTC_6cfe4.tlog\\unsuccessfulbuild". È stato specificato "AlwaysCreate".
-          Aggiornamento timestamp di "cmTC_6cfe4.dir\\Debug\\cmTC_6cfe4.tlog\\unsuccessfulbuild".
+          Creazione di "cmTC_8b579.dir\\Debug\\cmTC_8b579.tlog\\unsuccessfulbuild". È stato specificato "AlwaysCreate".
+          Aggiornamento timestamp di "cmTC_8b579.dir\\Debug\\cmTC_8b579.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX86\\x86\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_6cfe4.dir\\Debug\\\\" /Fd"cmTC_6cfe4.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /analyze- /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.28\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX86\\x86\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_8b579.dir\\Debug\\\\" /Fd"cmTC_8b579.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /analyze- /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.28\\Modules\\CMakeCCompilerABI.c"
           Microsoft (R) C/C++ Optimizing Compiler versione 19.39.33523 per x86
           Copyright (C) Microsoft Corporation. Tutti i diritti  sono riservati.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_6cfe4.dir\\Debug\\\\" /Fd"cmTC_6cfe4.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /analyze- /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.28\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_8b579.dir\\Debug\\\\" /Fd"cmTC_8b579.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /analyze- /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.28\\Modules\\CMakeCCompilerABI.c"
           CMakeCCompilerABI.c
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX86\\x86\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vj04fo\\Debug\\cmTC_6cfe4.exe" /INCREMENTAL /ILK:"cmTC_6cfe4.dir\\Debug\\cmTC_6cfe4.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-vj04fo/Debug/cmTC_6cfe4.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-vj04fo/Debug/cmTC_6cfe4.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_6cfe4.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_6cfe4.vcxproj -> C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vj04fo\\Debug\\cmTC_6cfe4.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX86\\x86\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2uzyw2\\Debug\\cmTC_8b579.exe" /INCREMENTAL /ILK:"cmTC_8b579.dir\\Debug\\cmTC_8b579.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-2uzyw2/Debug/cmTC_8b579.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-2uzyw2/Debug/cmTC_8b579.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_8b579.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_8b579.vcxproj -> C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2uzyw2\\Debug\\cmTC_8b579.exe
         FinalizeBuildStatus:
-          Eliminazione del file "cmTC_6cfe4.dir\\Debug\\cmTC_6cfe4.tlog\\unsuccessfulbuild" in corso.
-          Aggiornamento timestamp di "cmTC_6cfe4.dir\\Debug\\cmTC_6cfe4.tlog\\cmTC_6cfe4.lastbuildstate".
-        Compilazione progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vj04fo\\cmTC_6cfe4.vcxproj" (destinazioni predefinite) completata.
+          Eliminazione del file "cmTC_8b579.dir\\Debug\\cmTC_8b579.tlog\\unsuccessfulbuild" in corso.
+          Aggiornamento timestamp di "cmTC_8b579.dir\\Debug\\cmTC_8b579.tlog\\cmTC_8b579.lastbuildstate".
+        Compilazione progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2uzyw2\\cmTC_8b579.vcxproj" (destinazioni predefinite) completata.
         
         Compilazione completata.
             Avvisi: 0
@@ -182,8 +182,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-we4jeu"
-      binary: "C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-we4jeu"
+      source: "C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-cnndwq"
+      binary: "C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-cnndwq"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -192,40 +192,40 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-we4jeu'
+        Change Dir: 'C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-cnndwq'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_7186f.vcxproj /p:Configuration=Debug /p:Platform=win32 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_59c0d.vcxproj /p:Configuration=Debug /p:Platform=win32 /p:VisualStudioVersion=17.0 /v:n
         Versione di MSBuild L17.9.8+b34f75857 per .NET Framework
-        Compilazione avviata 23.09.2024 19:05:57.
+        Compilazione avviata 01.10.2024 18:16:07.
         
-        Progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-we4jeu\\cmTC_7186f.vcxproj" sul nodo 1 (destinazioni predefinite).
+        Progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cnndwq\\cmTC_59c0d.vcxproj" sul nodo 1 (destinazioni predefinite).
         PrepareForBuild:
-          Creazione directory "cmTC_7186f.dir\\Debug\\".
+          Creazione directory "cmTC_59c0d.dir\\Debug\\".
           L'output strutturato è abilitato. La formattazione della diagnostica del compilatore rifletterà la gerarchia degli errori. Per altri dettagli, vedere https://aka.ms/cpp/structured-output.
-          Creazione directory "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-we4jeu\\Debug\\".
-          Creazione directory "cmTC_7186f.dir\\Debug\\cmTC_7186f.tlog\\".
+          Creazione directory "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cnndwq\\Debug\\".
+          Creazione directory "cmTC_59c0d.dir\\Debug\\cmTC_59c0d.tlog\\".
         InitializeBuildStatus:
-          Creazione di "cmTC_7186f.dir\\Debug\\cmTC_7186f.tlog\\unsuccessfulbuild". È stato specificato "AlwaysCreate".
-          Aggiornamento timestamp di "cmTC_7186f.dir\\Debug\\cmTC_7186f.tlog\\unsuccessfulbuild".
+          Creazione di "cmTC_59c0d.dir\\Debug\\cmTC_59c0d.tlog\\unsuccessfulbuild". È stato specificato "AlwaysCreate".
+          Aggiornamento timestamp di "cmTC_59c0d.dir\\Debug\\cmTC_59c0d.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX86\\x86\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_7186f.dir\\Debug\\\\" /Fd"cmTC_7186f.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /analyze- /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.28\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX86\\x86\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_59c0d.dir\\Debug\\\\" /Fd"cmTC_59c0d.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /analyze- /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.28\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler versione 19.39.33523 per x86
           Copyright (C) Microsoft Corporation. Tutti i diritti  sono riservati.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_7186f.dir\\Debug\\\\" /Fd"cmTC_7186f.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /analyze- /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.28\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_59c0d.dir\\Debug\\\\" /Fd"cmTC_59c0d.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /analyze- /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.28\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX86\\x86\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-we4jeu\\Debug\\cmTC_7186f.exe" /INCREMENTAL /ILK:"cmTC_7186f.dir\\Debug\\cmTC_7186f.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-we4jeu/Debug/cmTC_7186f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-we4jeu/Debug/cmTC_7186f.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_7186f.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_7186f.vcxproj -> C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-we4jeu\\Debug\\cmTC_7186f.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX86\\x86\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cnndwq\\Debug\\cmTC_59c0d.exe" /INCREMENTAL /ILK:"cmTC_59c0d.dir\\Debug\\cmTC_59c0d.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-cnndwq/Debug/cmTC_59c0d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/ruben.bravi/Documents/GitHub/Germany/Ebilanz2024/build/CMakeFiles/CMakeScratch/TryCompile-cnndwq/Debug/cmTC_59c0d.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_59c0d.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_59c0d.vcxproj -> C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cnndwq\\Debug\\cmTC_59c0d.exe
         FinalizeBuildStatus:
-          Eliminazione del file "cmTC_7186f.dir\\Debug\\cmTC_7186f.tlog\\unsuccessfulbuild" in corso.
-          Aggiornamento timestamp di "cmTC_7186f.dir\\Debug\\cmTC_7186f.tlog\\cmTC_7186f.lastbuildstate".
-        Compilazione progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-we4jeu\\cmTC_7186f.vcxproj" (destinazioni predefinite) completata.
+          Eliminazione del file "cmTC_59c0d.dir\\Debug\\cmTC_59c0d.tlog\\unsuccessfulbuild" in corso.
+          Aggiornamento timestamp di "cmTC_59c0d.dir\\Debug\\cmTC_59c0d.tlog\\cmTC_59c0d.lastbuildstate".
+        Compilazione progetto "C:\\Users\\ruben.bravi\\Documents\\GitHub\\Germany\\Ebilanz2024\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cnndwq\\cmTC_59c0d.vcxproj" (destinazioni predefinite) completata.
         
         Compilazione completata.
             Avvisi: 0
             Errori: 0
         
-        Tempo trascorso 00:00:01.13
+        Tempo trascorso 00:00:01.24
         
       exitCode: 0
 ...

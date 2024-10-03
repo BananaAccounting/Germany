@@ -259,6 +259,23 @@ var AccountingOperation = class AccountingOperation {
             }
         }
     }
+    getAccountingDataEBilanz68KapG(param, contextList) {
+        var initParameterEBilanz68KapG = new InitParameterEBilanz68KapG();
+        for (var i in contextList) {
+            this.checkAccounts(contextList[i], param.accounts);
+        }
+        for (var role in param.taxonomy) {
+            for (var i in contextList) {
+                this.initContext(param.taxonomy[role], contextList[i]['name']);
+                this.loadAmounts(param.taxonomy[role], contextList[i], param.accounts);
+                this.loadNetIncomeLoss(role, contextList[i], param);
+                if (role == 'role_balanceSheet')
+                    initParameterEBilanz68KapG.sum_role_balanceSheet(contextList[i]['name'], param.taxonomy);
+                else if (role == 'role_incomeStatement')
+                    initParameterEBilanz68KapG.sum_role_incomeStatement(contextList[i]['name'], param.taxonomy);
+            }
+        }
+    }
     getAccountsWithXbrlId(xbrlId, accounts) {
         return accounts.filter(function (el) {
             return (el.debit === xbrlId || el.credit === xbrlId);
