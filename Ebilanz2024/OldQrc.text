@@ -1,7 +1,14 @@
 <!DOCTYPE RCC><RCC version="1.0">
    <qresource prefix="/">
     <file>./src/license.txt</file>
-    
+    <file>./5.4/KapG/ch.banana.de.EBilanz54-SKR04-KapG.js</file>
+    <file>./5.4/KapG/ch.banana.de.EBilanz54-SKR04-KapG.manifest.json</file>
+    <file>./5.4/PersG/ch.banana.de.EBilanz54-SKR04-PersG.js</file>
+    <file>./5.4/PersG/ch.banana.de.EBilanz54-SKR04-PersG.manifest.json</file>
+    <file>./5.4/EinzelU/ch.banana.script.EBilanz54-SKR04-EinzelU.js</file>
+    <file>./5.4/EinzelU/ch.banana.script.EBilanz54-SKR04-EinzelU.manifest.json</file>
+    <file>./6.1/ch.banana.de.EBilanz61-SKR04-KapG.js</file>
+    <file>./6.1/ch.banana.de.EBilanz61-SKR04-KapG.manifest.json</file>
     <file>./6.7/ch.banana.de.EBilanz67-SKR04-KapG.js</file>
     <file>./6.7/ch.banana.de.EBilanz67-SKR04-KapG.manifest.json</file>
     <file>./6.7/ch.banana.de.EBilanz67-SKR03-KapG.js</file>
@@ -11,6 +18,10 @@
     <file>manifest.json</file>
     
     <file alias="AccountingOperation.js">./src/AccountingOperation.js</file>
+    <file alias="InitParameterEBilanz54KapG.js">./src/InitParameterEBilanz54KapG.js</file>
+    <file alias="InitParameterEBilanz61KapG.js">./src/InitParameterEBilanz61KapG.js</file>
+    <file alias="InitParameterEBilanz54PersG.js">./src/InitParameterEBilanz54PersG.js</file>
+    <file alias="InitParameterEBilanz54EinzelU.js">./src/InitParameterEBilanz54EinzelU.js</file>
     <file alias="InitParameterEBilanz67SKR03KapG.js">./src/InitParameterEBilanz67SKR03KapG.js</file>
     <file alias="InitParameterEBilanz67SKR04KapG.js">./src/InitParameterEBilanz67SKR04KapG.js</file>
     <file alias="InitParameterEBilanz68KapG.js">./src/InitParameterEBilanz68KapG.js</file>

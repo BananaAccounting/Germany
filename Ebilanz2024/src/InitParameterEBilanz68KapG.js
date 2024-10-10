@@ -1,4 +1,4 @@
-var InitParameterEBilanz68KapG = class InitParameterEBilanz68KapG {
+var InitParameterEBilanz68SKR04KapG = class InitParameterEBilanz68KapG {
     constructor() { }
   
     init_schemarefs() {

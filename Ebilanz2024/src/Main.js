@@ -1,9 +1,7 @@
 //@includejs = AccountingOperation.js
-//@includejs = InitParameterEBilanz54KapG.js
-//@includejs = InitParameterEBilanz61KapG.js
-//@includejs = InitParameterEBilanz54PersG.js
-//@includejs = InitParameterEBilanz54EinzelU.js
-//@includejs = InitParameterEBilanz67KapG.js
+//include version before if we want integrate Ebilanz 5.4,6.1
+//@includejs = InitParameterEBilanz67SKR04KapG.js
+//@includejs = InitParameterEBilanz67SKR03KapG.js
 //@includejs = InitParameterEBilanz68KapG.js
 //@includejs = Report.js
 //@includejs = OpenPropertyEditor.js
@@ -16,7 +14,7 @@ var Main = class Main {
     var accountingData = new AccountingOperation();
     var reportPrint = new Report();
 
-
+    
     var param = initParam.init_param();
     //var param = init_param();
 
@@ -378,7 +376,7 @@ var Main = class Main {
   }
 
   mainExecutionEBilanz67KapG(inData, options, dataCompany, dataLevelCompany) {
-    var initParam = new InitParameterEBilanz67KapG();
+    var initParam = new InitParameterEBilanz68SKR04KapG();
     var accountingData = new AccountingOperation();
     var reportPrint = new Report();
 
@@ -465,8 +463,44 @@ var Main = class Main {
     }
     Banana.Report.preview(report, stylesheet);
   }
-  mainExecutionEBilanz68KapG(inData, options, dataCompany, dataLevelCompany) {
-    var initParam = new InitParameterEBilanz68KapG();
+  mainExecutionEBilanz67SKR03KapG(inData, options, dataCompany, dataLevelCompany) {
+    var initParam = new InitParameterEBilanz68SKR03KapG();
+    var accountingData = new AccountingOperation();
+    var reportPrint = new Report();
+    var param = initParam.init_param();
+    var openingYear = 0;
+    var closureYear = 0;
+    var accountingOpeningDate = Banana.document.startPeriod();
+    var accountingClosureDate = Banana.document.endPeriod();
+    var accountingCurrentYear = '';
+    if (accountingOpeningDate.length >= 10)
+      openingYear = accountingOpeningDate.substring(0, 4);
+    if (accountingClosureDate.length >= 10)
+      closureYear = accountingClosureDate.substring(0, 4);
+    if (openingYear > 0 && openingYear === closureYear)
+      accountingCurrentYear = openingYear;
+    if (accountingCurrentYear.length <= 0)
+      accountingCurrentYear = 'aktjahr';
+
+    var contextList = [
+      {
+        'name': accountingCurrentYear,
+        'startdate': accountingOpeningDate,
+        'enddate': accountingClosureDate,
+        'document': Banana.document
+      }];
+
+    accountingData.getAccountingDataEBilanz67SKR03KapG(param, contextList);
+
+    var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
+    var stylesheet = Banana.Report.newStyleSheet();
+    for (var i in contextList) {
+      reportPrint.printEBilanzReport(report, stylesheet, param, contextList[i], dataCompany, dataLevelCompany);
+    }
+    Banana.Report.preview(report, stylesheet);
+  }
+  mainExecutionEBilanz68SKR04KapG(inData, options, dataCompany, dataLevelCompany) {
+    var initParam = new InitParameterEBilanz68SKR04KapG();
     var accountingData = new AccountingOperation();
     var reportPrint = new Report();
 
@@ -544,7 +578,7 @@ var Main = class Main {
       }
     }*/
 
-    accountingData.getAccountingDataEBilanz68KapG(param, contextList);
+    accountingData.getAccountingDataEBilanz68SKR04KapG(param, contextList);
 
     var report = Banana.Report.newReport("Bilanz / Gewinn- und Verlustrechnung (E-Bilanz)");
     var stylesheet = Banana.Report.newStyleSheet();

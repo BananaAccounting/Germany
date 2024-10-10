@@ -59,7 +59,7 @@ var openPropertyEditor = class openPropertyEditor {
         else if (typeEBilanz === 'EBilanz61KapG') {
             convertedParam = this.createParameterDialog61(param);
         }
-        else if (typeEBilanz === 'EBilanz67KapG') {
+        else if (typeEBilanz === 'EBilanz67KapGSKR03' || typeEBilanz === 'EBilanz67KapGSKR04') {
             convertedParam = this.createParameterDialog67(param);
         }
         else if(typeEBilanz === 'EBilanz68KapG'){

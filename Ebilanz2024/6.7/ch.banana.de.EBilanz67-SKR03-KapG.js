@@ -13,11 +13,11 @@
 // limitations under the License.
 //
 // @api = 1.0
-// @id = ch.banana.script.EBilanz67-SKR04-KapG
+// @id = ch.banana.script.EBilanz67-SKR03-KapG
 // @doctype = *.*
 // @publisher = Banana.ch SA
-// @pubdate = 2024-10-08
-// @description = E-Bilanz Taxonomie 6.7 SKR04 Kapitalgesellschaften
+// @pubdate = 2024-09-24
+// @description = E-Bilanz Taxonomie 6.7 SKR03 Kapitalgesellschaften
 // @task = app.command
 // @inputdatasource = none
 // @encoding = utf-8
@@ -29,7 +29,7 @@ function exec(inData, options) {
     var main = new Main();
     var openEditor = new openPropertyEditor();
     
-    if(!openEditor.settingsDialog('EBilanz67KapGSKR04')){
+    if(!openEditor.settingsDialog('EBilanz67KapGSKR03')){
       return '@Cancel';
     }
     openEditor.initParam();
