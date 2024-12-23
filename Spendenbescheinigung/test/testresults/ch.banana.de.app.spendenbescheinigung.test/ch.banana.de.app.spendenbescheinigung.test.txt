@@ -18,7 +18,7 @@
 \newenvironment{testcase}[1]{\section*{Test: #1}}{\newpage}
 \newenvironment{test}[1]{\section*{Test case: #1}}{}
 %Begin test data
-%%SCRIPT{/Users/ivan/Documents/GitHub/BananaAccounting/Germany/Spendenbescheinigung/test/ch.banana.de.app.spendenbescheinigung.test.js}
+%%SCRIPT{/Users/ivan/GitHub/BananaAccounting/Germany/Spendenbescheinigung/test/ch.banana.de.app.spendenbescheinigung.test.js}
 %
 \begin{testcase}{ReportTest}
 \begin{test}{testBananaApp}
@@ -93,14 +93,6 @@ Gesamtsumme: 12'000.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione1  & 01.01.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 2  & donazione1  & 01.02.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 3  & donazione1  & 01.03.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
@@ -113,20 +105,6 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 10  & donazione1  & 01.10.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 11  & donazione1  & 01.11.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 12  & donazione1  & 01.12.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 12'000.00  & \\
 \end{longtable}
   \\
@@ -201,31 +179,6 @@ Gesamtsumme: 960.75 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione1  & 01.04.2018  & Ditta SA  & 60.00  & Nein \\
 2  & donazione2  & 01.05.2018  & Ditta SA  & 150.00  & Nein \\
 3  & donazione3  & 01.06.2018  & Ditta SA  & 150.00  & Nein \\
@@ -233,8 +186,6 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 5  & donazione5  & 01.08.2018  & Ditta SA  & 210.00  & Nein \\
 6  & donazione6  & 01.09.2018  & Ditta SA  & 100.00  & Nein \\
 7  & donazione7  & 01.10.2018  & Ditta SA  & 90.75  & Nein \\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 960.75  & \\
 \end{longtable}
   \\
@@ -309,40 +260,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -417,40 +334,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -527,40 +410,9 @@ Gesamtsumme: 3'000.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione1  & 01.01.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 2  & donazione1  & 01.02.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 3  & donazione1  & 01.03.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 3'000.00  & \\
 \end{longtable}
   \\
@@ -635,40 +487,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -743,40 +561,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -851,40 +635,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -961,40 +711,12 @@ Gesamtsumme: 6'000.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione1  & 01.07.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 2  & donazione1  & 01.08.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 3  & donazione1  & 01.09.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 4  & donazione1  & 01.10.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 5  & donazione1  & 01.11.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 6  & donazione1  & 01.12.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 6'000.00  & \\
 \end{longtable}
   \\
@@ -1069,40 +791,10 @@ Gesamtsumme: 600.75 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione4  & 01.07.2018  & Ditta SA  & 200.00  & Nein \\
 2  & donazione5  & 01.08.2018  & Ditta SA  & 210.00  & Nein \\
 3  & donazione6  & 01.09.2018  & Ditta SA  & 100.00  & Nein \\
 4  & donazione7  & 01.10.2018  & Ditta SA  & 90.75  & Nein \\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 600.75  & \\
 \end{longtable}
   \\
@@ -1177,40 +869,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -1285,40 +943,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -1395,40 +1019,7 @@ Gesamtsumme: 1'000.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione1  & 01.01.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 1'000.00  & \\
 \end{longtable}
   \\
@@ -1503,40 +1094,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -1611,40 +1168,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -1719,40 +1242,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -1830,14 +1319,6 @@ Gesamtsumme: 12'000.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione1  & 01.01.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 2  & donazione1  & 01.02.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 3  & donazione1  & 01.03.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
@@ -1850,20 +1331,6 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 10  & donazione1  & 01.10.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 11  & donazione1  & 01.11.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 12  & donazione1  & 01.12.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 12'000.00  & \\
 \end{longtable}
   \\
@@ -1940,40 +1407,9 @@ Gesamtsumme: 3'000.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione1  & 01.01.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 2  & donazione1  & 01.02.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 3  & donazione1  & 01.03.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 3'000.00  & \\
 \end{longtable}
   \\
@@ -2050,40 +1486,12 @@ Gesamtsumme: 6'000.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione1  & 01.07.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 2  & donazione1  & 01.08.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 3  & donazione1  & 01.09.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 4  & donazione1  & 01.10.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 5  & donazione1  & 01.11.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
 6  & donazione1  & 01.12.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 6'000.00  & \\
 \end{longtable}
   \\
@@ -2160,40 +1568,7 @@ Gesamtsumme: 1'000.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & donazione1  & 01.01.2018  & Aaaa Bbbb  & 1'000.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 1'000.00  & \\
 \end{longtable}
   \\
@@ -2272,13 +1647,6 @@ Gesamtsumme: 1'200.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & Spende gennaio  & 01.01.2018  & Klaus Meyer  & 100.00  & Nein \\
 2  & Spende febbraio  & 01.02.2018  & Klaus Meyer  & 100.00  & Nein \\
 3  & Spende marzo  & 01.03.2018  & Klaus Meyer  & 100.00  & Nein \\
@@ -2367,24 +1735,7 @@ Gesamtsumme: 700.35 EUR \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 1  & Spende2  & 30.03.2018  & Karin Schulze  & 500.35  & Nein \\
-\\
-\\
 2  & Spende4  & 01.07.2018  & Karin Schulze  & 200.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 700.35  & \\
 \end{longtable}
   \\
@@ -2460,25 +1811,8 @@ Gesamtsumme: 270.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
 1  & Spende1  & 01.04.2018  & Jörg Bartusch  & 60.00  & Nein \\
-\\
-\\
 2  & Spende5  & 01.08.2018  & Jörg Bartusch  & 210.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 270.00  & \\
 \end{longtable}
   \\
@@ -2554,25 +1888,8 @@ Gesamtsumme: 250.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
 1  & Spende2  & 01.05.2018  & Voit Ulrich  & 150.00  & Nein \\
-\\
-\\
 2  & Spende6  & 01.09.2018  & Voit Ulrich  & 100.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 250.00  & \\
 \end{longtable}
   \\
@@ -2650,25 +1967,9 @@ Gesamtsumme: 300.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & Spende gennaio  & 01.01.2018  & Klaus Meyer  & 100.00  & Nein \\
 2  & Spende febbraio  & 01.02.2018  & Klaus Meyer  & 100.00  & Nein \\
 3  & Spende marzo  & 01.03.2018  & Klaus Meyer  & 100.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 300.00  & \\
 \end{longtable}
   \\
@@ -2745,24 +2046,6 @@ Gesamtsumme: 500.35 EUR \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 1  & Spende2  & 30.03.2018  & Karin Schulze  & 500.35  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 500.35  & \\
 \end{longtable}
   \\
@@ -2838,25 +2121,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -2932,25 +2196,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -3028,19 +2273,6 @@ Gesamtsumme: 600.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & Spende luglio  & 01.07.2018  & Klaus Meyer  & 100.00  & Nein \\
 2  & Spende agosto  & 01.08.2018  & Klaus Meyer  & 100.00  & Nein \\
 3  & Spende settembre  & 01.09.2018  & Klaus Meyer  & 100.00  & Nein \\
@@ -3122,25 +2354,7 @@ Gesamtsumme: 200.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
 1  & Spende4  & 01.07.2018  & Karin Schulze  & 200.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 200.00  & \\
 \end{longtable}
   \\
@@ -3216,25 +2430,7 @@ Gesamtsumme: 210.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
 1  & Spende5  & 01.08.2018  & Jörg Bartusch  & 210.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 210.00  & \\
 \end{longtable}
   \\
@@ -3310,25 +2506,7 @@ Gesamtsumme: 100.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
 1  & Spende6  & 01.09.2018  & Voit Ulrich  & 100.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 100.00  & \\
 \end{longtable}
   \\
@@ -3406,25 +2584,7 @@ Gesamtsumme: 100.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & Spende gennaio  & 01.01.2018  & Klaus Meyer  & 100.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 100.00  & \\
 \end{longtable}
   \\
@@ -3500,25 +2660,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -3594,25 +2735,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -3688,25 +2810,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -3776,13 +2879,6 @@ Gesamtsumme: 1'200.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & Spende gennaio  & 01.01.2018  & Klaus Meyer  & 100.00  & Nein \\
 2  & Spende febbraio  & 01.02.2018  & Klaus Meyer  & 100.00  & Nein \\
 3  & Spende marzo  & 01.03.2018  & Klaus Meyer  & 100.00  & Nein \\
@@ -3862,24 +2958,7 @@ Gesamtsumme: 700.35 EUR \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 1  & Spende2  & 30.03.2018  & Karin Schulze  & 500.35  & Nein \\
-\\
-\\
 2  & Spende4  & 01.07.2018  & Karin Schulze  & 200.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 700.35  & \\
 \end{longtable}
   \\
@@ -3946,25 +3025,8 @@ Gesamtsumme: 270.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
 1  & Spende1  & 01.04.2018  & Jörg Bartusch  & 60.00  & Nein \\
-\\
-\\
 2  & Spende5  & 01.08.2018  & Jörg Bartusch  & 210.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 270.00  & \\
 \end{longtable}
   \\
@@ -4031,25 +3093,8 @@ Gesamtsumme: 250.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
 1  & Spende2  & 01.05.2018  & Voit Ulrich  & 150.00  & Nein \\
-\\
-\\
 2  & Spende6  & 01.09.2018  & Voit Ulrich  & 100.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 250.00  & \\
 \end{longtable}
   \\
@@ -4118,25 +3163,9 @@ Gesamtsumme: 300.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & Spende gennaio  & 01.01.2018  & Klaus Meyer  & 100.00  & Nein \\
 2  & Spende febbraio  & 01.02.2018  & Klaus Meyer  & 100.00  & Nein \\
 3  & Spende marzo  & 01.03.2018  & Klaus Meyer  & 100.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 300.00  & \\
 \end{longtable}
   \\
@@ -4204,24 +3233,6 @@ Gesamtsumme: 500.35 EUR \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 1  & Spende2  & 30.03.2018  & Karin Schulze  & 500.35  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 500.35  & \\
 \end{longtable}
   \\
@@ -4288,25 +3299,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -4373,25 +3365,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -4460,19 +3433,6 @@ Gesamtsumme: 600.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & Spende luglio  & 01.07.2018  & Klaus Meyer  & 100.00  & Nein \\
 2  & Spende agosto  & 01.08.2018  & Klaus Meyer  & 100.00  & Nein \\
 3  & Spende settembre  & 01.09.2018  & Klaus Meyer  & 100.00  & Nein \\
@@ -4545,25 +3505,7 @@ Gesamtsumme: 200.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
 1  & Spende4  & 01.07.2018  & Karin Schulze  & 200.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 200.00  & \\
 \end{longtable}
   \\
@@ -4630,25 +3572,7 @@ Gesamtsumme: 210.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
 1  & Spende5  & 01.08.2018  & Jörg Bartusch  & 210.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 210.00  & \\
 \end{longtable}
   \\
@@ -4715,25 +3639,7 @@ Gesamtsumme: 100.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
 1  & Spende6  & 01.09.2018  & Voit Ulrich  & 100.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 100.00  & \\
 \end{longtable}
   \\
@@ -4802,25 +3708,7 @@ Gesamtsumme: 100.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 1  & Spende gennaio  & 01.01.2018  & Klaus Meyer  & 100.00  & Nein \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 100.00  & \\
 \end{longtable}
   \\
@@ -4887,25 +3775,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -4972,25 +3841,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\
@@ -5057,25 +3907,6 @@ Gesamtsumme: 0.00 EUR \\
   \\
 \begin{longtable}[l]{ l  l  l  l  l  l }
 LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
   \\

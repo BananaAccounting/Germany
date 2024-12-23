@@ -1,4 +1,4 @@
-// Copyright [2021] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2024] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.test
 // @api = 1.0
-// @pubdate = 2021-12-10
+// @pubdate = 2024-12-23
 // @publisher = Banana.ch SA
 // @description = <TEST ch.banana.de.app.spendenbescheinigung.js>
 // @task = app.command
@@ -66,6 +66,7 @@ ReportTest.prototype.testBananaApp = function() {
   // Test #1
   Test.logger.addComment("****************************************************************************** TEST #1 ******************************************************************************");
   userParam.costcenter = ";S001,;S002,;S003,;S004";
+  userParam.minimumAmount = "";
   userParam.printAccount = true;
   userParam.address = '';
   userParam.addressText1 = 'Aaa Bbb SA';
@@ -95,6 +96,7 @@ ReportTest.prototype.testBananaApp = function() {
   // Test #2
   Test.logger.addComment("****************************************************************************** TEST #2 ******************************************************************************");
   userParam.costcenter = "S001";
+  userParam.minimumAmount = "";
   userParam.printAccount = true;
   userParam.address = '';
   userParam.addressText1 = 'Aaa Bbb SA';
@@ -124,6 +126,7 @@ ReportTest.prototype.testBananaApp = function() {
   // Test #3
   Test.logger.addComment("****************************************************************************** TEST #3 ******************************************************************************");
   userParam.costcenter = "MEYER,10001,;BARTUSCH,VOIT";
+  userParam.minimumAmount = "";
   userParam.printAccount = false;
   userParam.address = '';
   userParam.addressText1 = "Gemeinnütziger Sportverein 'MUSTER'";
@@ -153,6 +156,7 @@ ReportTest.prototype.testBananaApp = function() {
   // Test #4
   Test.logger.addComment("****************************************************************************** TEST #4 ******************************************************************************");
   userParam.costcenter = ""; //empty: all cc3 accounts are taken
+  userParam.minimumAmount = "";
   userParam.printAccount = true;
   userParam.address = '';
   userParam.addressText1 = 'xxxx';
@@ -182,6 +186,10 @@ ReportTest.prototype.testBananaApp = function() {
 
 //Function that create the report for the test
 ReportTest.prototype.report_test = function(banDoc, startDate, endDate, userParam, reportName) {
+  userParam.selectionStartDate = startDate;
+  userParam.selectionEndDate = endDate;
+  userParam.transactions = [];
+  fillTransactionStructure(banDoc, userParam);
   var report = createReport(banDoc, startDate, endDate, userParam);
   Test.logger.addReport(reportName, report);
 }
