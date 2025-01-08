@@ -1,4 +1,4 @@
-// Copyright [2024] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2025] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.test
 // @api = 1.0
-// @pubdate = 2024-12-23
+// @pubdate = 2025-01-08
 // @publisher = Banana.ch SA
 // @description = <TEST ch.banana.de.app.spendenbescheinigung.js>
 // @task = app.command
@@ -190,7 +190,8 @@ ReportTest.prototype.report_test = function(banDoc, startDate, endDate, userPara
   userParam.selectionEndDate = endDate;
   userParam.transactions = [];
   fillTransactionStructure(banDoc, userParam);
-  var report = createReport(banDoc, startDate, endDate, userParam);
+  var accounts = getListOfAccountsToPrint(userParam);
+  var report = createReport(banDoc, userParam, accounts);
   Test.logger.addReport(reportName, report);
 }
 
