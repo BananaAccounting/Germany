@@ -19,7 +19,7 @@
 // @description = Spendenbescheinigung für Vereine in Deutschland
 // @description.de = Spendenbescheinigung für Vereine in Deutschland
 // @description.en = Statement of donation for Associations in Germany
-// @doctype = *
+// @doctype = 100.*;110.*;130.*
 // @task = app.command
 // @timeout = -1
 
