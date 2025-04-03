@@ -1,0 +1,7 @@
+﻿"Girokonto";"DE111111111111111111"
+"Zeitraum:";"31.03.2025 - 31.03.2025"
+"Kontostand vom 31.03.2025:";"1.361,16 €"
+""
+"Buchungsdatum";"Wertstellung";"Status";"Zahlungspflichtige*r";"Zahlungsempfänger*in";"Verwendungszweck";"Umsatztyp";"IBAN";"Betrag (€)";"Gläubiger-ID";"Mandatsreferenz";"Kundenreferenz"
+"31.03.25";"31.03.25";"Gebucht";"ISSUER";"test";"VISA Debitkartenumsatz";"Ausgang";"DE22222222222222222222";"-15,18";;;"123456"
+"31.03.25";"31.03.25";"Gebucht";"ISSUER";"test";"VISA Debitkartenumsatz";"Ausgang";"DE22222222222222222222";"-71,16";;;"123456"

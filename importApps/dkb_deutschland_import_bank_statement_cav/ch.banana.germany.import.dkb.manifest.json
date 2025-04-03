@@ -1,0 +1,19 @@
+{
+    "category": "import",
+    "country": "germany",
+    "countryCode": "de",
+    "description": "DKB Deutschland - Import account statement .csv (Banana+ Advanced)",
+    "description.en": "DKB Deutschland - Import account statement .csv (Banana+ Advanced)",
+    "description.de": "DKB Deutschland - Bewegungen importieren .csv (Banana+ Advanced)",
+    "description.fr": "DKB Deutschland - Importer mouvements .csv (Banana+ Advanced)",
+    "description.it": "DKB Deutschland - Importa movimenti .csv (Banana+ Advanced)",
+    "id": "ch.banana.germany.import.dkbdeutschland",
+    "language": "de",
+    "publisher": "Banana.ch",
+    "title": "DKB Deutschland - Import account statement .csv (Banana+ Advanced)",
+    "title.en": "DKB Deutschland - Import account statement .csv (Banana+ Advanced)",
+    "title.de": "DKB Deutschland - Bewegungen importieren .csv (Banana+ Advanced)",
+    "title.fr": "DKB Deutschland - Importer mouvements .csv (Banana+ Advanced)",
+    "title.it": "DKB Deutschland - Importa movimenti .csv (Banana+ Advanced)",
+    "version": "1.0"
+}
