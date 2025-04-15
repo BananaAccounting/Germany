@@ -1,0 +1,10 @@
+﻿Umsätze
+Konto;Filial-/Kontonummer;IBAN;Währung
+Postbank Business Giro;408 2767614 00;DE51600100700936754701;EUR
+
+1.3.2025 - 1.4.2025
+Letzter Kontostand;;;;2.123,8;EUR
+Vorgemerkte und noch nicht gebuchte Umsätze sind nicht Bestandteil dieser Übersicht.
+Buchungstag;Wert;Umsatzart;Begünstigter / Auftraggeber;Verwendungszweck;IBAN / Kontonummer;BIC;Kundenreferenz;Mandatsreferenz;Gläubiger ID;Fremde Gebühren;Betrag;Abweichender Empfänger;Anzahl der Aufträge;Anzahl der Schecks;Soll;Haben;Währung
+1.3.2025;1.3.2025;Kontoabrechnung;;Test;;;;;;;-12,9;;;;-12,9;;EUR
+Kontostand;1.4.2025;;;2.110,9;EUR

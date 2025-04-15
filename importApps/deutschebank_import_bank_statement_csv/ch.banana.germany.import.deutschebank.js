@@ -1,4 +1,4 @@
-// Copyright [2024] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2025] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 // @id = ch.banana.germany.import.deutschebank
 // @api = 1.0
-// @pubdate = 2024-02-08
+// @pubdate = 2025-04-14
 // @publisher = Banana.ch SA
 // @description = Deutsche Bank - Import account statement .csv (Banana+ Advanced)
 // @description.en = Deutsche Bank - Import account statement .csv (Banana+ Advanced)
@@ -41,13 +41,24 @@ function exec(string, isTest) {
   if (isTest !== true && !importUtilities.verifyBananaAdvancedVersion())
     return "";
 
-  let convertionParam = defineConversionParam(string);
-
   var transactions = Banana.Converter.csvToArray(string, ';', '"');
-  let transactionsData = getFormattedData(transactions, convertionParam, importUtilities);
+
+  let convertionParam = "";
+  let transactionsData = [];
+
+  // Format 5
+  var format5 = new DBFormat5();
+  convertionParam = format5.defineConversionParam(string);
+  transactionsData = format5.getFormattedData(transactions, convertionParam, importUtilities);
+  if (format5.match(transactionsData)) {
+    transactions = format5.convert(transactionsData);
+    return Banana.Converter.arrayToTsv(transactions);
+  }
 
   // Format 4 (Maybe Credit Card format ?), use the headers names
   var format4 = new DBFormat4();
+  convertionParam = format4.defineConversionParam(string);
+  transactionsData = format4.getFormattedData(transactions, convertionParam, importUtilities);
   if (format4.match(transactionsData)) {
     transactions = format4.convert(transactionsData);
     return Banana.Converter.arrayToTsv(transactions);
@@ -55,6 +66,8 @@ function exec(string, isTest) {
 
   // Format 3, use the headers names
   var format3 = new DBFormat3();
+  convertionParam = format3.defineConversionParam(string);
+  transactionsData = format3.getFormattedData(transactions, convertionParam, importUtilities);
   if (format3.match(transactionsData)) {
     transactions = format3.convert(transactionsData);
     return Banana.Converter.arrayToTsv(transactions);
@@ -81,7 +94,143 @@ function exec(string, isTest) {
 
 }
 
+function DBFormat5() {
+
+  this.defineConversionParam = function (inData) {
+
+    var inData = Banana.Converter.csvToArray(inData, ';', '"');
+    var header = String(inData[0]);
+    var convertionParam = {};
+    /** SPECIFY THE SEPARATOR AND THE TEXT DELIMITER USED IN THE CSV FILE */
+    convertionParam.format = "csv"; // available formats are "csv", "html"
+    //get text delimiter
+    convertionParam.textDelim = '"';
+    // get separator
+    if (header.indexOf(';') >= 0) {
+      convertionParam.separator = ';';
+    } else {
+      convertionParam.separator = ',';
+    }
+
+    /** SPECIFY AT WHICH ROW OF THE CSV FILE IS THE HEADER (COLUMN TITLES)
+    We suppose the data will always begin right away after the header line */
+    convertionParam.headerLineStart = 7;
+    convertionParam.dataLineStart = 8;
+    return convertionParam;
+  }
+
+  this.getFormattedData = function (transactions, convertionParam, importUtilities) {
+    const transactionsCopy = JSON.parse(JSON.stringify(transactions)); // Copy the transactions array
+    var columns = importUtilities.getHeaderData(transactionsCopy, convertionParam.headerLineStart); //array
+    var rows = importUtilities.getRowData(transactionsCopy, convertionParam.dataLineStart); //array of array
+    let form = [];
+    //Load the form with data taken from the array. Create objects
+    importUtilities.loadForm(form, columns, rows);
+    return form;
+  }
+
+  /** Return true if the transactions match this format */
+  this.match = function (transactionsData) {
+    if (transactionsData.length === 0)
+      return false;
+
+    for (var i = 0; i < transactionsData.length; i++) {
+      var transaction = transactionsData[i];
+      var formatMatched = true;
+
+      if (formatMatched && transaction["Buchungstag"] && transaction["Buchungstag"].length >= 8 &&
+        transaction["Buchungstag"].match(/[0-9\.\-\/]+/g))
+        formatMatched = true;
+      else
+        formatMatched = false;
+
+      if (formatMatched && transaction["Wert"] && transaction["Wert"].length >= 8 &&
+        transaction["Wert"].match(/[0-9\.\-\/]+/g))
+        formatMatched = true;
+      else
+        formatMatched = false;
+
+      if (formatMatched)
+        return true;
+    }
+
+    return false;
+  }
+
+  this.convert = function (transactionsData) {
+    var transactionsToImport = [];
+
+    for (var i = 0; i < transactionsData.length; i++) {
+      if (transactionsData[i]["Betrag"]) {
+        transactionsToImport.push(this.mapTransaction(transactionsData[i]));
+      }
+    }
+
+    // Sort rows by date
+    transactionsToImport = transactionsToImport.reverse();
+
+    // Add header and return
+    var header = [["Date", "DateValue", "Description", "Income", "Expenses", "Notes"]];
+    return header.concat(transactionsToImport);
+  }
+
+  this.mapTransaction = function (element) {
+    var mappedLine = [];
+    var amountConverter = new AmountConverter('.', ',');
+
+    mappedLine.push(Banana.Converter.toInternalDateFormat(element["Buchungstag"], "dd.mm.yyyy"));
+    mappedLine.push(Banana.Converter.toInternalDateFormat(element["Wert"], "dd.mm.yyyy"));
+    // i want to replace double spaces with a single space
+    let description = element["Verwendungszweck"].replace(/\s+/g, ' ').trim();
+    mappedLine.push(description);
+
+    if (element["Betrag"].charAt(0) === '-') {
+      mappedLine.push("");
+      mappedLine.push(amountConverter.toInternalFormat(element["Betrag"].substr(1)));
+    } else {
+      mappedLine.push(amountConverter.toInternalFormat(element["Betrag"]));
+      mappedLine.push("");
+    }
+    mappedLine.push(element["Umsatzart"]);
+
+    return mappedLine;
+  }
+}
+
 function DBFormat4() {
+
+  this.defineConversionParam = function (inData) {
+
+    var inData = Banana.Converter.csvToArray(inData, ';', '"');
+    var header = String(inData[0]);
+    var convertionParam = {};
+    /** SPECIFY THE SEPARATOR AND THE TEXT DELIMITER USED IN THE CSV FILE */
+    convertionParam.format = "csv"; // available formats are "csv", "html"
+    //get text delimiter
+    convertionParam.textDelim = '"';
+    // get separator
+    if (header.indexOf(';') >= 0) {
+      convertionParam.separator = ';';
+    } else {
+      convertionParam.separator = ',';
+    }
+
+    /** SPECIFY AT WHICH ROW OF THE CSV FILE IS THE HEADER (COLUMN TITLES)
+    We suppose the data will always begin right away after the header line */
+    convertionParam.headerLineStart = 0;
+    convertionParam.dataLineStart = 1;
+    return convertionParam;
+  }
+
+  this.getFormattedData = function (transactions, convertionParam, importUtilities) {
+    const transactionsCopy = JSON.parse(JSON.stringify(transactions)); // Copy the transactions array
+    var columns = importUtilities.getHeaderData(transactionsCopy, convertionParam.headerLineStart); //array
+    var rows = importUtilities.getRowData(transactionsCopy, convertionParam.dataLineStart); //array of array
+    let form = [];
+    //Load the form with data taken from the array. Create objects
+    importUtilities.loadForm(form, columns, rows);
+    return form;
+  }
 
   /** Return true if the transactions match this format */
   this.match = function (transactionsData) {
@@ -152,6 +301,63 @@ function DBFormat4() {
  * 06.11.2023;06.11.2023;"Audactinsemus";;agite holus//Nate/BY 73-14-3757T76:43:51 Expagnis. 4740534234636241;;;;;;;;;;;;-79,90;;EUR
  */
 function DBFormat3() {
+
+  this.defineConversionParam = function (inData) {
+
+    var inData = Banana.Converter.csvToArray(inData, ';', '"');
+    var header = String(inData[0]);
+    var convertionParam = {};
+    /** SPECIFY THE SEPARATOR AND THE TEXT DELIMITER USED IN THE CSV FILE */
+    convertionParam.format = "csv"; // available formats are "csv", "html"
+    //get text delimiter
+    convertionParam.textDelim = '"';
+    // get separator
+    if (header.indexOf(';') >= 0) {
+      convertionParam.separator = ';';
+    } else {
+      convertionParam.separator = ',';
+    }
+
+    /** SPECIFY AT WHICH ROW OF THE CSV FILE IS THE HEADER (COLUMN TITLES)
+    We suppose the data will always begin right away after the header line */
+    convertionParam.headerLineStart = this.getHeaderLineStart(inData);
+    convertionParam.headerLineStart == 0 ? convertionParam.dataLineStart = 1 : convertionParam.dataLineStart = 5;
+    return convertionParam;
+  }
+
+  this.getHeaderLineStart = function (inData) {
+    /** Actually we have two options:
+     * - 1) Header starts at 0 (format 4)
+     * - 2) Header starts at 4 (format 1,2 and 3)
+     * To define the case, we check if the dates in the second and third row are valid,
+     * if we find a valid date, then we are working with the first option, otherwise with 
+     * the second option.
+     * For more information see the test cases.
+     * */
+    if (inData.length > 0) {
+
+      let secondRowDate = inData[1][0]; // Date column in the second row.
+      let thirdRowDate = inData[2][0]; // Date column in the third row.
+
+      let date1 = Banana.Converter.toDate(secondRowDate);
+      let date2 = Banana.Converter.toDate(thirdRowDate);
+
+      if (date1 && date2) {
+        return 0
+      }
+      return 4
+    }
+  }
+
+  this.getFormattedData = function (transactions, convertionParam, importUtilities) {
+    const transactionsCopy = JSON.parse(JSON.stringify(transactions)); // Copy the transactions array
+    var columns = importUtilities.getHeaderData(transactionsCopy, convertionParam.headerLineStart); //array
+    var rows = importUtilities.getRowData(transactionsCopy, convertionParam.dataLineStart); //array of array
+    let form = [];
+    //Load the form with data taken from the array. Create objects
+    importUtilities.loadForm(form, columns, rows);
+    return form;
+  }
 
   /** Return true if the transactions match this format */
   this.match = function (transactionsData) {
@@ -448,60 +654,4 @@ function AmountConverter(groupSeparator, decimalSeparator) {
   this.toInternalFormat = function (amount) {
     return amount.replace(this.groupSeparator, '').replace(this.decimalSeparator, '.');
   }
-}
-
-function defineConversionParam(inData) {
-
-  var inData = Banana.Converter.csvToArray(inData, ';', '"');
-  var header = String(inData[0]);
-  var convertionParam = {};
-  /** SPECIFY THE SEPARATOR AND THE TEXT DELIMITER USED IN THE CSV FILE */
-  convertionParam.format = "csv"; // available formats are "csv", "html"
-  //get text delimiter
-  convertionParam.textDelim = '"';
-  // get separator
-  if (header.indexOf(';') >= 0) {
-    convertionParam.separator = ';';
-  } else {
-    convertionParam.separator = ',';
-  }
-
-  /** SPECIFY AT WHICH ROW OF THE CSV FILE IS THE HEADER (COLUMN TITLES)
-  We suppose the data will always begin right away after the header line */
-  convertionParam.headerLineStart = getHeaderLineStart(inData);
-  convertionParam.headerLineStart == 0 ? convertionParam.dataLineStart = 1 : convertionParam.dataLineStart = 5;
-  return convertionParam;
-}
-
-function getHeaderLineStart(inData) {
-  /** Actually we have two options:
-   * - 1) Header starts at 0 (format 4)
-   * - 2) Header starts at 4 (format 1,2 and 3)
-   * To define the case, we check if the dates in the second and third row are valid,
-   * if we find a valid date, then we are working with the first option, otherwise with 
-   * the second option.
-   * For more information see the test cases.
-   * */
-  if (inData.length > 0) {
-
-    let secondRowDate = inData[1][0]; // Date column in the second row.
-    let thirdRowDate = inData[2][0]; // Date column in the third row.
-
-    let date1 = Banana.Converter.toDate(secondRowDate);
-    let date2 = Banana.Converter.toDate(thirdRowDate);
-
-    if (date1 && date2) {
-      return 0
-    }
-    return 4
-  }
-}
-
-function getFormattedData(inData, convertionParam, importUtilities) {
-  var columns = importUtilities.getHeaderData(inData, convertionParam.headerLineStart); //array
-  var rows = importUtilities.getRowData(inData, convertionParam.dataLineStart); //array of array
-  let form = [];
-  //Load the form with data taken from the array. Create objects
-  importUtilities.loadForm(form, columns, rows);
-  return form;
 }
