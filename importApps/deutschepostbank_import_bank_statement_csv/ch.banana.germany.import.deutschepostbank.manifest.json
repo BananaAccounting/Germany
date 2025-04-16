@@ -1,0 +1,19 @@
+{
+    "category": "import",
+    "country": "germany",
+    "countryCode": "de",
+    "description": "Postbank - Import account statement .csv (Banana+ Advanced)",
+    "description.en": "Deutsche Postbank - Import account statement .csv (Banana+ Advanced)",
+    "description.de": "Deutsche Postbank - Bewegungen importieren .csv (Banana+ Advanced)",
+    "description.fr": "Deutsche Postbank - Importer mouvements .csv (Banana+ Advanced)",
+    "description.it": "Deutsche Postbank - Importa movimenti .csv (Banana+ Advanced)",
+    "id": "ch.banana.germany.import.deutschepostbank",
+    "language": "de",
+    "publisher": "Banana.ch",
+    "title": "Deutsche Postbank - Import account statement .csv (Banana+ Advanced)",
+    "title.en": "Deutsche Postbank - Import account statement .csv (Banana+ Advanced)",
+    "title.de": "Deutsche Postbank - Bewegungen importieren .csv (Banana+ Advanced)",
+    "title.fr": "Deutsche Postbank - Importer mouvements .csv (Banana+ Advanced)",
+    "title.it": "Deutsche Postbank - Importa movimenti .csv (Banana+ Advanced)",
+    "version": "1.0"
+}
