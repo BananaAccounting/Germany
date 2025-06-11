@@ -1,0 +1,98 @@
+%%info_test_name{UStVoranmeldung.test}
+\documentclass{report}
+\usepackage{longtable}
+\usepackage{color}
+\usepackage{listings}
+\usepackage[margin=1cm]{geometry}
+\begin{document}
+\newenvironment{tablevalue}[2]{\textbf{Table: #1}\begin{longtable}[l]{#2}}{\end{longtable}}
+\newenvironment{reportvalue}[1]{\textbf{Report: #1}\\}{}
+\lstnewenvironment{jsonvalue}[1]{\textbf{Json: #1}\lstset{language=Java}}{}
+\lstnewenvironment{xmlvalue}[1]{\textbf{Xml: #1}\lstset{language=Xml}}{}
+\newcommand{\info}[2]{\textit{#1: #2}\\}
+\newcommand{\fatalerror}[1]{\textbf{\textcolor[rgb]{1,0,0}{Fatal error: #1}}\\}
+\newcommand{\keyvalue}[2]{\textbf{Keyvalue: #1} #2\\}
+\newcommand{\textvalue}[1]{#1\\}
+\newcommand{\excltest}[1]{\\Excluded from compare: #1}
+\newcommand{\lognewpage}{\newpage}
+\newenvironment{testcase}[1]{\section*{Test: #1}}{\newpage}
+\newenvironment{test}[1]{\section*{Test case: #1}}{}
+%Begin test data
+%%SCRIPT{C:/p/GitHub/BananaAccounting/Germany/ElsterReports/USt-2019/test/UStVoranmeldung.test.js}
+%
+\begin{testcase}{ReportTest}
+\begin{test}{test1}
+%**** test #1 reverse charge transactions ****
+\begin{reportvalue}{Whole year report}
+  \\
+Elster Umsatzsteuer-Voranmeldung \\
+Firma ABC \\
+Periode: 01.08.2024 - 31.08.2024 \\
+  \\
+\begin{longtable}[l]{ l  l  l  l  l }
+Beschreibung  & Kz.  & Bemessungs-grundlage (Euro)  & Kz.  & Steuer (Euro, Cent) \\
+\multicolumn{5}{l}{Steuerfreie Umsätze mit Vorsteuerabzug }\\
+IgL (§ 4 Nr. 1b UStG) an Abnehmer mit USt-ID (ZM)  & 41  & 0.00  &  & 0.00 \\
+IgL (§ 4 Nr. 1b UStG) neuer Fahrzeuge an Abnehmer ohne USt-ID  & 44  & 0.00  &  & 0.00 \\
+IgL (§ 4 Nr. 1b UStG) neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG)  & 49  & 0.00  &  & 0.00 \\
+\multicolumn{5}{l}{Weitere steuerfreie Umsätze mit Vorsteuerabzug }\\
+z. B. Ausfuhrlieferungen, Umsätze nach § 4 Nr. 2 bis 7 UStG  & 43  & 0.00  &  & 0.00 \\
+\multicolumn{5}{l}{Steuerfreie Umsätze ohne Vorsteuerabzug }\\
+z. B. Umsätze nach § 4 Nr. 8 bis 28 UStG  & 48  & 0.00  &  & 0.00 \\
+\multicolumn{5}{l}{Steuerpflichtige Umsätze }\\
+zum Steuersatz von 19\%  & 81  & 0.00  & 81  & 0.00 \\
+zum Steuersatz von 7\%  & 86  & 0.00  & 86  & 0.00 \\
+zu anderen Steuersätzen  & 35  & 0.00  & 36  & 0.00 \\
+\multicolumn{5}{l}{Steuerfreie IgE }\\
+Erwerbe nach §§ 4b und 25c UStG  & 91  & 0.00  &  & 0.00 \\
+\multicolumn{5}{l}{Steuerpflichtige IgE }\\
+zum Steuersatz von 19\%  & 89  & 1'070.00  & 89  & 203.30 \\
+zum Steuersatz von 7\%  & 93  & 0.00  & 93  & 0.00 \\
+zu anderen Steuersätzen  & 95  & 0.00  & 98  & 0.00 \\
+neuer Fahrzeuge (§ 1b Abs. 2 und 3 UStG) von Lieferern ohne USt-ID zum allgemeinen Steuersatz  & 94  & 0.00  & 96  & 0.00 \\
+\multicolumn{5}{l}{Ergänzende Angaben zu Umsätzen }\\
+Lieferungen des ersten Abnehmers bei innergemeinschaftlichen Dreiecksgeschäften (§ 25b UStG) (ZM)  & 42  & 0.00  &  & 0.00 \\
+Steuerpflichtige Umsätze, für die der Leistungsempfänger die Steuer nach § 13b Abs. 5 UStG schuldet  & 60  & 0.00  &  & 0.00 \\
+Nicht steuerbare sonstige Leistungen gemäß § 18b Satz 1 Nr. 2 UStG (ZM)  & 21  & 0.00  &  & 0.00 \\
+Übrige nicht steuerbare Umsätze (Leistungsort nicht im Inland)  & 45  & 0.00  &  & 0.00 \\
+\multicolumn{5}{l}{Leistungsempfänger als Steuerschuldner (§ 13b UStG) }\\
+Steuerpflichtige sonstige Leistungen eines im übrigen Gemeinschaftsgebiet ansässigen Unternehmers (§ 13b Abs. 1 UStG)  & 46  & 490.00  & 47  & 93.10 \\
+Umsätze, die unter das GrEStG fallen (§ 13b Abs. 2 Nummer 3 UStG)  & 73  & 0.00  & 74  & 0.00 \\
+Andere Leistungen (§ 13b Abs. 2 Nr. 1, 2, 4 bis 11 UStG)  & 84  & 0.00  & 85  & 0.00 \\
+\multicolumn{5}{l}{Vorsteuerbeträge, Einfuhrumsatzsteuer, Berichtigung des Vorsteuerabzugs }\\
+Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen i.S.d. § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)  & 66  & 0.00  &  & 0.00 \\
+Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Absatz 1 Satz 1 Nummer 3 UStG)  & 61  & 0.00  &  & 203.30 \\
+Entstandene Einfuhrumsatzsteuer (§ 15 Absatz 1 Satz 1 Nummer 2 UStG)  & 62  & 0.00  &  & 0.00 \\
+Vorsteuerbeträge aus Leistungen i.S.d. § 13b UStG (§ 15 Abs. 1 Satz 1 Nr. 4 UStG)  & 67  & 0.00  &  & 93.10 \\
+Vorsteuerbeträge, die nach allg. Durchschnittssätzen berechnet sind (§§ 23 und 23a UStG)  & 63  & 0.00  &  & 0.00 \\
+Berichtigung des Vorsteuerabzugs (§ 15a UStG)  & 64  & 0.00  &  & 0.00 \\
+Vorsteuerabzug für IgL neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG) sowie von Kleinunternehmern i.S.d. § 19 Abs. 1 UStG (§ 15 Abs. 4a UStG)  & 59  & 0.00  &  & 0.00 \\
+\end{longtable}
+\begin{longtable}[l]{ l  l  l  l }
+\multicolumn{4}{l}{Berechnungen aus }\\
+ & Kz.  &  & Steuer (Euro, Cent) \\
+(Z30) Steuerpflichtige Umsätze (Summe)  &  &  & 0.00 \\
+(Z36) Innergemeinschaftliche Erwerbe (Summe)  &  & +  & 203.30 \\
+(Z51) Leistungsempfänger geschuldete Umsatzsteuer (Summe)  &  & +  & 93.10 \\
+(Z51) Aufsummierung Umsatzsteuer (Summe)  &  & =  & 296.40 \\
+(Z60) abziehbare Vorsteuer (Summe)  &  & -  & 296.40 \\
+(Z60) verbleibender Betrag (Steuer)  &  & =  & 0.00 \\
+\multicolumn{4}{l}{Andere Steuerbeträge }\\
+ & Kz.  &  & Steuer (Euro, Cent) \\
+Steuer infolge Wechsel der Besteuerungsform sowie Nachsteuer auf verteuerte Anzahlungen und ähnlichem egen Steuersatzänderung  & 65  &  & 0.00 \\
+In Rechnungen unrichtig oder unberechtigt ausgewiesene Seuerbeträge (§ 14c UStG) sowie Steuerbeträge, die nach § 6a Absatz 4 Satz 2, § 17 Absatz 1 Satz 6, § 2rb Absatz 2 UStG oder von einem Auslagerer oder Lagehalter nach § 13a Absatz 1 Nummer 6 UStG geschuldet werden  & 69  & +  & 0.00 \\
+(Z64) Umsatzsteuer-Vorauszahlung / Überschuss (Steuer)  &  & =  & 0.00 \\
+Abzug der festgesetzten Sondervorauszahlung für Dauerverlängerung (in der Regel nur in denr letzten Voranmeldung des Besteuerungszeitraums auszufüllen)  & 39  & -  & 0.00 \\
+\multicolumn{4}{l}{Verbleibende Umsatzsteuer-Vorauszahlung, Verbleibender Überschuss }\\
+ & Kz.  &  & Steuer (Euro, Cent) \\
+(Z66) Verbleibende Umsatzsteuer-Vorauszahlung beziehungsweise verbleibender Überschuss  & 83  & =  & 0.00 \\
+\multicolumn{4}{l}{}\\
+\multicolumn{4}{l}{}\\
+\multicolumn{2}{l}{VAT/Sales tax report in Banana (for checksum) } &  & 0.00 \\
+\multicolumn{2}{l}{Difference } &  & 0.00 \\
+\end{longtable}
+\excltest{11.06.2025 - } \#page-nr \end{reportvalue}
+\keyvalue{Result}{Passed}
+\end{test}
+\end{testcase}
+\end{document}

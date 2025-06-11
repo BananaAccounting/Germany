@@ -1,4 +1,4 @@
-// Copyright [2019] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2025] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.elster_USt_Vornamedlung_ab_2019
 // @api = 1.0
-// @pubdate = 2019-11-12
+// @pubdate = 2025-06-11
 // @publisher = Banana.ch SA
 // @description = Elster Umsatzsteuer Voranmeldung ab 2019
 // @task = app.command
@@ -36,7 +36,7 @@ function exec(inData, options) {
 
         var dateform = null;
         if (options && options.useLastSettings) {
-            dateform = getScriptSettings();
+            dateform = getScriptSettings(Banana.document);
         } else {
             dateform = settingsDialog();
         }
@@ -46,7 +46,7 @@ function exec(inData, options) {
         }
 
         //Create the VAT report
-        var report = createVatReport(dateform.selectionStartDate, dateform.selectionEndDate);
+        var report = createVatReport(Banana.document, dateform.selectionStartDate, dateform.selectionEndDate);
 
         //Add styles and print the report
         var stylesheet = createStyleSheet();
@@ -153,13 +153,16 @@ function createStyleSheet() {
 }
 
 /* Function that creates and prints the report */
-function createVatReport(startDate, endDate) {
+function createVatReport(banDoc, startDate, endDate) {
+
+    if (!banDoc)
+        return null;
 
     /* 1) Load parameters and texts */
-    loadParam(startDate, endDate);
+    loadParam(banDoc, startDate, endDate);
 
     /* 2) Load vat amounts */
-    loadData();
+    loadData(banDoc);
 
     /* 3) Create the report */
     var report = Banana.Report.newReport(param.reportName);
@@ -183,69 +186,69 @@ function createVatReport(startDate, endDate) {
     var title = "Steuerfreie Umsätze mit Vorsteuerabzug";
     table.addRow().addCell(title, "headerRow", 5);
 
-    createVatReportAddRow("41;ZM", "IgL (§ 4 Nr. 1b UStG) an Abnehmer mit USt-ID (ZM)", table, totals);
-    createVatReportAddRow("44", "IgL (§ 4 Nr. 1b UStG) neuer Fahrzeuge an Abnehmer ohne USt-ID", table, totals);
-    createVatReportAddRow("49", "IgL (§ 4 Nr. 1b UStG) neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG)", table, totals);
+    createVatReportAddRow(banDoc, "41;ZM", "IgL (§ 4 Nr. 1b UStG) an Abnehmer mit USt-ID (ZM)", table, totals);
+    createVatReportAddRow(banDoc, "44", "IgL (§ 4 Nr. 1b UStG) neuer Fahrzeuge an Abnehmer ohne USt-ID", table, totals);
+    createVatReportAddRow(banDoc, "49", "IgL (§ 4 Nr. 1b UStG) neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG)", table, totals);
 
 	title = "Weitere steuerfreie Umsätze mit Vorsteuerabzug";
     table.addRow().addCell(title, "headerRow", 5);
 
-    createVatReportAddRow("43", "z. B. Ausfuhrlieferungen, Umsätze nach § 4 Nr. 2 bis 7 UStG", table, totals);
+    createVatReportAddRow(banDoc, "43", "z. B. Ausfuhrlieferungen, Umsätze nach § 4 Nr. 2 bis 7 UStG", table, totals);
 
 	title = "Steuerfreie Umsätze ohne Vorsteuerabzug";
     table.addRow().addCell(title, "headerRow", 5);
 
-    createVatReportAddRow("48", "z. B. Umsätze nach § 4 Nr. 8 bis 28 UStG", table, totals);
+    createVatReportAddRow(banDoc, "48", "z. B. Umsätze nach § 4 Nr. 8 bis 28 UStG", table, totals);
 
 	title = "Steuerpflichtige Umsätze";
     table.addRow().addCell(title, "headerRow", 5);
 
-	createVatReportAddRow("81;81", "zum Steuersatz von 19%", table, totals);
-	createVatReportAddRow("86;86", "zum Steuersatz von 7%", table, totals);
-	createVatReportAddRow("35;36", "zu anderen Steuersätzen", table, totals);
+	createVatReportAddRow(banDoc, "81;81", "zum Steuersatz von 19%", table, totals);
+	createVatReportAddRow(banDoc, "86;86", "zum Steuersatz von 7%", table, totals);
+	createVatReportAddRow(banDoc, "35;36", "zu anderen Steuersätzen", table, totals);
 
     title = "Steuerfreie IgE";
     table.addRow().addCell(title, "headerRow", 5);
 
-	createVatReportAddRow("91", "Erwerbe nach §§ 4b und 25c UStG", table, totals);
+	createVatReportAddRow(banDoc, "91", "Erwerbe nach §§ 4b und 25c UStG", table, totals);
 
     title = "Steuerpflichtige IgE";
     table.addRow().addCell(title, "headerRow", 5);
 
-    createVatReportAddRow("89;89", "zum Steuersatz von 19%", table, totals);
-	createVatReportAddRow("93;93", "zum Steuersatz von 7%", table, totals); 
-	createVatReportAddRow("95;98", "zu anderen Steuersätzen", table, totals);
-	createVatReportAddRow("94;96", "neuer Fahrzeuge (§ 1b Abs. 2 und 3 UStG) von Lieferern ohne USt-ID zum allgemeinen Steuersatz", table, totals); 
+    createVatReportAddRow(banDoc, "89;89", "zum Steuersatz von 19%", table, totals);
+	createVatReportAddRow(banDoc, "93;93", "zum Steuersatz von 7%", table, totals); 
+	createVatReportAddRow(banDoc, "95;98", "zu anderen Steuersätzen", table, totals);
+	createVatReportAddRow(banDoc, "94;96", "neuer Fahrzeuge (§ 1b Abs. 2 und 3 UStG) von Lieferern ohne USt-ID zum allgemeinen Steuersatz", table, totals); 
 
     title = "Ergänzende Angaben zu Umsätzen";
     table.addRow().addCell(title, "headerRow", 5);
 
-    createVatReportAddRow("42;ZM", "Lieferungen des ersten Abnehmers bei innergemeinschaftlichen Dreiecksgeschäften (§ 25b UStG) (ZM)", table, totals);
-	createVatReportAddRow("60", "Steuerpflichtige Umsätze, für die der Leistungsempfänger die Steuer nach § 13b Abs. 5 UStG schuldet", table, totals);
-	createVatReportAddRow("21;ZM", "Nicht steuerbare sonstige Leistungen gemäß § 18b Satz 1 Nr. 2 UStG (ZM)", table, totals);
-	createVatReportAddRow("45", "Übrige nicht steuerbare Umsätze (Leistungsort nicht im Inland)", table, totals);
+    createVatReportAddRow(banDoc, "42;ZM", "Lieferungen des ersten Abnehmers bei innergemeinschaftlichen Dreiecksgeschäften (§ 25b UStG) (ZM)", table, totals);
+	createVatReportAddRow(banDoc, "60", "Steuerpflichtige Umsätze, für die der Leistungsempfänger die Steuer nach § 13b Abs. 5 UStG schuldet", table, totals);
+	createVatReportAddRow(banDoc, "21;ZM", "Nicht steuerbare sonstige Leistungen gemäß § 18b Satz 1 Nr. 2 UStG (ZM)", table, totals);
+	createVatReportAddRow(banDoc, "45", "Übrige nicht steuerbare Umsätze (Leistungsort nicht im Inland)", table, totals);
 
     title = "Leistungsempfänger als Steuerschuldner (§ 13b UStG)";
     table.addRow().addCell(title, "headerRow", 5);
 
-    createVatReportAddRow("46;47", "Steuerpflichtige sonstige Leistungen eines im übrigen Gemeinschaftsgebiet ansässigen Unternehmers (§ 13b Abs. 1 UStG)", table, totals);
-	createVatReportAddRow("73;74", "Umsätze, die unter das GrEStG fallen (§ 13b Abs. 2 Nummer 3 UStG)", table, totals);
-	createVatReportAddRow("84;85", "Andere Leistungen (§ 13b Abs. 2 Nr. 1, 2, 4 bis 11 UStG)", table, totals);
+    createVatReportAddRow(banDoc, "46;47", "Steuerpflichtige sonstige Leistungen eines im übrigen Gemeinschaftsgebiet ansässigen Unternehmers (§ 13b Abs. 1 UStG)", table, totals);
+	createVatReportAddRow(banDoc, "73;74", "Umsätze, die unter das GrEStG fallen (§ 13b Abs. 2 Nummer 3 UStG)", table, totals);
+	createVatReportAddRow(banDoc, "84;85", "Andere Leistungen (§ 13b Abs. 2 Nr. 1, 2, 4 bis 11 UStG)", table, totals);
 
     title = "Vorsteuerbeträge, Einfuhrumsatzsteuer, Berichtigung des Vorsteuerabzugs";
     table.addRow().addCell(title, "headerRow", 5);
 
-    createVatReportAddRow("66", "Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen i.S.d. § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)", table, totals); 
-	createVatReportAddRow("61", "Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Absatz 1 Satz 1 Nummer 3 UStG)", table, totals);
-	createVatReportAddRow("62", "Entstandene Einfuhrumsatzsteuer (§ 15 Absatz 1 Satz 1 Nummer 2 UStG)", table, totals);
-	createVatReportAddRow("67", "Vorsteuerbeträge aus Leistungen i.S.d. § 13b UStG (§ 15 Abs. 1 Satz 1 Nr. 4 UStG)", table, totals);
-	createVatReportAddRow("63", "Vorsteuerbeträge, die nach allg. Durchschnittssätzen berechnet sind (§§ 23 und 23a UStG)", table, totals);
-	createVatReportAddRow("64", "Berichtigung des Vorsteuerabzugs (§ 15a UStG)", table, totals);
-	createVatReportAddRow("59", "Vorsteuerabzug für IgL neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG) sowie von Kleinunternehmern i.S.d. § 19 Abs. 1 UStG (§ 15 Abs. 4a UStG)", table, totals);
+    createVatReportAddRow(banDoc, "66", "Vorsteuerbeträge aus Rechnungen von anderen Unternehmern (§ 15 Abs. 1 Satz 1 Nr. 1 UStG), aus Leistungen i.S.d. § 13a Abs. 1 Nr. 6 UStG (§ 15 Abs. 1 Satz 1 Nr. 5 UStG) und aus innergemeinschaftlichen Dreiecksgeschäften (§ 25b Abs. 5 UStG)", table, totals); 
+	createVatReportAddRow(banDoc, "61", "Vorsteuerbeträge aus dem innergemeinschaftlichen Erwerb von Gegenständen (§ 15 Absatz 1 Satz 1 Nummer 3 UStG)", table, totals);
+	createVatReportAddRow(banDoc, "62", "Entstandene Einfuhrumsatzsteuer (§ 15 Absatz 1 Satz 1 Nummer 2 UStG)", table, totals);
+	createVatReportAddRow(banDoc, "67", "Vorsteuerbeträge aus Leistungen i.S.d. § 13b UStG (§ 15 Abs. 1 Satz 1 Nr. 4 UStG)", table, totals);
+	createVatReportAddRow(banDoc, "63", "Vorsteuerbeträge, die nach allg. Durchschnittssätzen berechnet sind (§§ 23 und 23a UStG)", table, totals);
+	createVatReportAddRow(banDoc, "64", "Berichtigung des Vorsteuerabzugs (§ 15a UStG)", table, totals);
+	createVatReportAddRow(banDoc, "59", "Vorsteuerabzug für IgL neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG) sowie von Kleinunternehmern i.S.d. § 19 Abs. 1 UStG (§ 15 Abs. 4a UStG)", table, totals);
 
 	//Create summary table
 	report.addPageBreak();
-	createVatReportSummary(report, totals);
+	createVatReportSummary(banDoc, report, totals);
     
 	//Add Header and footer
     addHeader(report);
@@ -254,9 +257,9 @@ function createVatReport(startDate, endDate) {
 	return report;
 }
 
-function createVatReportAddRow(code, description, table, totals) {
+function createVatReportAddRow(banDoc, code, description, table, totals) {
 
-    if (code.length<=0)
+    if (!banDoc || code.length<=0)
         return;
 
     var group = "";
@@ -273,8 +276,17 @@ function createVatReportAddRow(code, description, table, totals) {
     gr.push(group);
     var gr2 = [];
     gr2.push(code);
-    var vatCodes = findVatCodes(gr, gr2);
-    var vatAmounts = Banana.document.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
+    var vatCodes = findVatCodes(banDoc, gr, gr2);
+    var vatAmounts = banDoc.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
+    
+    /*var debugPrint = false;
+    if (!Banana.SDecimal.isZero(vatAmounts.vatAmount) || !Banana.SDecimal.isZero(vatAmounts.vatPosted) || !Banana.SDecimal.isZero(vatAmounts.vatTaxable)) {
+        Banana.console.debug("*** gr2: " + gr2.join(", ") + " ***");
+        Banana.console.debug("*** vat codes: " + vatCodes.join(", ") + " ***");
+        Banana.console.debug("vatTaxable: " + vatAmounts.vatTaxable + ", vatPosted: " + vatAmounts.vatPosted + " ,vatAmount: " + vatAmounts.vatAmount + " ,vatNotDeductible: " + vatAmounts.vatNotDeductible);
+        debugPrint = true;
+    }*/
+
     var vatAmountCol1 = "";
     var vatAmountCol2 = "";
     var vatAmountCol3 = "";
@@ -322,7 +334,6 @@ function createVatReportAddRow(code, description, table, totals) {
     totals["_tot_"].vatPosted = Banana.SDecimal.add(totals["_tot_"].vatPosted, totals[group].vatPosted);
     totals["_tot_"].vatZM = Banana.SDecimal.add(totals["_tot_"].vatZM, totals[group].vatZM);
 
-
     var tableRow = table.addRow();
     tableRow.addCell(description, "description", 1);
     tableRow.addCell(code1, "amount");
@@ -330,9 +341,18 @@ function createVatReportAddRow(code, description, table, totals) {
     tableRow.addCell(code2, "amount");
     tableRow.addCell(formatNumber(vatAmountCol2), "amount", 1);
 
+    /*if (debugPrint) {
+        for (var key in totals) { 
+            Banana.console.debug("[" + key + "] vatTaxable: " + totals[key].vatTaxable + " vatPosted: " + totals[key].vatPosted + " vatZM: " + totals[key].vatZM);
+        }
+    }*/
+
 }
 
-function createVatReportSummary(report, totals) {
+function createVatReportSummary(banDoc, report, totals) {
+    if (!banDoc)
+        return;
+
     var table = report.addTable("summary");
     var col1 = table.addColumn("summaryCol1");
     var col2 = table.addColumn("summaryCol2");
@@ -407,8 +427,8 @@ function createVatReportSummary(report, totals) {
 
     //Row 62
     // "5"
-    var vatCodes = findVatCodes([], ["65"]);
-    vatAmounts = Banana.document.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
+    var vatCodes = findVatCodes(banDoc, [], ["65"]);
+    vatAmounts = banDoc.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
     vatAmounts.vatPosted = Banana.SDecimal.invert(vatAmounts.vatPosted);
     sum = Banana.SDecimal.add(sum, vatAmounts.vatPosted);
     tableRow = table.addRow();
@@ -419,8 +439,8 @@ function createVatReportSummary(report, totals) {
 
     //Row 63
     // "5"
-    vatCodes = findVatCodes([], ["69"]);
-    vatAmounts = Banana.document.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
+    vatCodes = findVatCodes(banDoc, [], ["69"]);
+    vatAmounts = banDoc.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
     vatAmounts.vatPosted = Banana.SDecimal.invert(vatAmounts.vatPosted);
     sum = Banana.SDecimal.add(sum, vatAmounts.vatPosted);
     tableRow = table.addRow();
@@ -437,8 +457,8 @@ function createVatReportSummary(report, totals) {
     tableRow.addCell(formatNumber(sum), "amount", 1);
 
     //Row 65
-    vatCodes = findVatCodes([], ["39"]);
-    vatAmounts = Banana.document.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
+    vatCodes = findVatCodes(banDoc, [], ["39"]);
+    vatAmounts = banDoc.vatCurrentBalance(vatCodes.join("|"), param.startDate, param.endDate);
     sum = Banana.SDecimal.subtract(sum, vatAmounts.vatPosted);
     tableRow = table.addRow();
     tableRow.addCell("Abzug der festgesetzten Sondervorauszahlung für Dauerverlängerung (in der Regel nur in denr letzten Voranmeldung des Besteuerungszeitraums auszufüllen)", "description", 1);
@@ -464,8 +484,9 @@ function createVatReportSummary(report, totals) {
     tableRow.addCell("", "amount", 1);*/
 
     //Checksum with banana vatReport and vatcodes that have an amount but they are not printed in this report
+    //Checksum with vatTaxable
     var vatCodesList = [];
-    var tableVatReport = Banana.document.vatReport(param.startDate, param.endDate);
+    var tableVatReport = banDoc.vatReport(param.startDate, param.endDate);
     for (var rowNr = 0; rowNr < tableVatReport.rowCount; rowNr++) {
         var rowValueGroup = tableVatReport.value(rowNr, "Group").toString();
         var rowValueVatPosted = tableVatReport.value(rowNr, "VatPosted").toString();
@@ -522,11 +543,15 @@ function createVatReportSummaryHeader(text, table) {
     tableRow.addCell("Steuer (Euro, Cent)", "bold amount");
 }
 
-function findVatCodes(arrayGr, arrayGr2) {
+function findVatCodes(banDoc, arrayGr, arrayGr2) {
     var vatCodes = [];
-    var tableVatCodes = Banana.document.table("VatCodes");
+    if (!banDoc)
+        return vatCodes;
+
+    var tableVatCodes = banDoc.table("VatCodes");
     if (!tableVatCodes)
         return vatCodes;
+
     if (!arrayGr)
         arrayGr = [];
     if (!arrayGr2)
@@ -548,11 +573,13 @@ function findVatCodes(arrayGr, arrayGr2) {
     return vatCodes;
 }
 
-function getVatGroupDescription(group) {
+function getVatGroupDescription(banDoc, group) {
+    if (!banDoc)
+        return "";
     var description = group;
     if (description.length <= 0)
         return description;
-    var tableVatCodes = Banana.document.table("VatCodes");
+    var tableVatCodes = banDoc.table("VatCodes");
     if (tableVatCodes) {
         var row = tableVatCodes.findRowByValue('Group', group);
         if (row)
@@ -561,8 +588,10 @@ function getVatGroupDescription(group) {
     return description;
 }
 
-function loadData() {
-    var tableVatCodes = Banana.document.table("VatCodes");
+function loadData(banDoc) {
+    if (!banDoc)
+        return;
+    var tableVatCodes = banDoc.table("VatCodes");
     if (!tableVatCodes)
         return;
 
@@ -588,16 +617,16 @@ function loadData() {
 }
 
 /* Function that loads some parameters */
-function loadParam(startDate, endDate) {
+function loadParam(banDoc, startDate, endDate) {
     param = {};
-    if (Banana.document) {
+    if (banDoc) {
         param = {
             "scriptVersion": "20180529",
-            "headerLeft": Banana.document.info("Base", "HeaderLeft"),
-            "vatNumber": Banana.document.info("AccountingDataBase", "VatNumber"),
-            "company": Banana.document.info("AccountingDataBase", "Company"),
-            "name": Banana.document.info("AccountingDataBase", "Name"),
-            "familyName": Banana.document.info("AccountingDataBase", "FamilyName"),
+            "headerLeft": banDoc.info("Base", "HeaderLeft"),
+            "vatNumber": banDoc.info("AccountingDataBase", "VatNumber"),
+            "company": banDoc.info("AccountingDataBase", "Company"),
+            "name": banDoc.info("AccountingDataBase", "Name"),
+            "familyName": banDoc.info("AccountingDataBase", "FamilyName"),
             "startDate": startDate,
             "endDate": endDate,
             "grColumn": "Gr1",
@@ -627,20 +656,21 @@ function formatNumber(amount, convZero) {
     return Banana.Converter.toLocaleNumberFormat(amount, 2, convZero);
 }
 
-function getScriptSettings() {
-    var data = Banana.document.getScriptSettings();
-    //Check if there are previously saved settings and read them
-    if (data.length > 0) {
-        try {
-            var readSettings = JSON.parse(data);
-            //We check if "readSettings" is not null, then we fill the formeters with the values just read
-            if (readSettings) {
-                return readSettings;
+function getScriptSettings(banDoc) {
+    if (banDoc) {
+        var data = banDoc.getScriptSettings();
+        //Check if there are previously saved settings and read them
+        if (data.length > 0) {
+            try {
+                var readSettings = JSON.parse(data);
+                //We check if "readSettings" is not null, then we fill the formeters with the values just read
+                if (readSettings) {
+                    return readSettings;
+                }
+            } catch (e) {
             }
-        } catch (e) {
         }
     }
-
     return {
         "selectionStartDate": "",
         "selectionEndDate": "",
@@ -651,9 +681,11 @@ function getScriptSettings() {
 /* The main purpose of this function is to allow the user to enter the accounting period desired and saving it for the next time the script is run
    Every time the user runs of the script he has the possibility to change the date of the accounting period */
 function settingsDialog() {
+    if (!Banana.document)
+        return null;
 
     //The formeters of the period that we need
-    var scriptform = getScriptSettings();
+    var scriptform = getScriptSettings(Banana.document);
 
     //We take the accounting "starting date" and "ending date" from the document. These will be used as default dates
     var docStartDate = Banana.document.startPeriod();
