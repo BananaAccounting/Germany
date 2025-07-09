@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2025-01-08
+// @pubdate = 2025-07-09
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung für Vereine in Deutschland
 // @description.de = Spendenbescheinigung für Vereine in Deutschland
@@ -134,7 +134,7 @@ function createReport(banDoc, userParam, accounts) {
         createReportAddressMember(report, userParam, accounts[k], modifiedAccount, address);
         createReportDonorReceiver(banDoc, report, userParam, accounts[k], address);
         createReportTableAddressMember(report, userParam, accounts[k], modifiedAccount, address);
-        createReportAccountingDataDonation(report, userParam, total, amountInWords);
+        createReportAccountingDataDonation(report, userParam, accounts[k], total, amountInWords);
         createReportTexts(banDoc, report, userParam, accounts[k], address);
         createReportSignature(report, userParam);
         createReportTextFooter(report);
@@ -155,45 +155,47 @@ function createReport(banDoc, userParam, accounts) {
 
 function createReportAddressSender(banDoc, report, senderAddress) {
 
+    var p = report.addParagraph("","addressSenderTop");
     if (senderAddress.name && senderAddress.familyName && senderAddress.company) {
-        report.addParagraph(senderAddress.company + ", " + senderAddress.name + " " + senderAddress.familyName, "addressSenderTop");
+        p.addText(senderAddress.company + ", " + senderAddress.name + " " + senderAddress.familyName, "");
     } else if (senderAddress.name && senderAddress.familyName && !senderAddress.company) {
-        report.addParagraph(senderAddress.name + " " + senderAddress.familyName, "addressSenderTop");
+        p.addText(senderAddress.name + " " + senderAddress.familyName, "");
     } else if (!senderAddress.name && !senderAddress.familyName && senderAddress.company) {
-        report.addParagraph(senderAddress.company, "addressSenderTop");
+        p.addText(senderAddress.company, "");
     }
 
     if (senderAddress.address1 && senderAddress.zip && senderAddress.city) {
-        report.addParagraph(senderAddress.address1 + ", " + senderAddress.zip + " " + senderAddress.city, "");
+        p.addText("\n"+senderAddress.address1 + ", " + senderAddress.zip + " " + senderAddress.city, "");
     }
     else if (!senderAddress.address1 && senderAddress.zip && senderAddress.city) {
-        report.addParagraph(senderAddress.zip + " " + senderAddress.city, "");
+        p.addText("\n"+senderAddress.zip + " " + senderAddress.city, "");
     }
     else if (!senderAddress.address1 && !senderAddress.zip && senderAddress.city) {
-        report.addParagraph(senderAddress.city, "");
+        p.addText("\n"+senderAddress.city, "");
     }
 }
 
 function createReportAddressMember(report, userParam, account, modifiedAccount, address) {
 
+    var p = report.addParagraph("","address");
     if (address.firstname && address.familyname && userParam.printAccount) {
-        report.addParagraph(address.firstname + " " + address.familyname + "                                                             Mitgliedskonto: " + modifiedAccount, "address");
+        p.addText(address.firstname + " " + address.familyname + "                                                             Mitgliedskonto: " + modifiedAccount, "");
     }
     else if (address.firstname && address.familyname && !userParam.printAccount) {
-        report.addParagraph(address.firstname + " " + address.familyname, "address");
+        p.addText(address.firstname + " " + address.familyname, "");
     }
     else if (!address.firstname && address.familyname && userParam.printAccount) {
-        report.addParagraph(address.familyname + "                                                             Mitgliedskonto: " + modifiedAccount, "address");
+        p.addText(address.familyname + "                                                             Mitgliedskonto: " + modifiedAccount, "");
     }
     else if (!address.firstname && address.familyname && !userParam.printAccount) {
-        report.addParagraph(address.familyname, "address");
+        p.addText(address.familyname, "");
     }
 
     if (address.street) {
-        report.addParagraph(address.street, "address");
+        p.addText("\n"+address.street, "");
     }
     if (address.postalcode && address.locality) {
-        report.addParagraph(address.postalcode + " " + address.locality, "address");
+        p.addText("\n"+address.postalcode + " " + address.locality, "");
     }
 }
 
@@ -253,7 +255,7 @@ function createReportTableAddressMember(report, userParam, account, modifiedAcco
     }
 }
 
-function createReportAccountingDataDonation(report, userParam, total, amountInWords) {
+function createReportAccountingDataDonation(report, userParam, account, total, amountInWords) {
 
     var table = report.addTable("table03");
     var tableRow = table.addRow();
@@ -279,9 +281,20 @@ function createReportAccountingDataDonation(report, userParam, total, amountInWo
     cell2.addParagraph(amountInWords + " " + c1 + c2 + "/100", "bold");
 
     /* Date of the donation */
+    var data = userParam.transactions; //array with all the transactions
+    var accountOnly = data.filter(entry => entry.cc3 === account.substring(1)); //array with transactions filtered for the given account
+
     var cell3 = tableRow.addCell("","");
     cell3.addParagraph("Tag der Zuwendung: ", "");
-    cell3.addParagraph(Banana.Converter.toLocaleDateFormat(userParam.selectionStartDate) + " - " + Banana.Converter.toLocaleDateFormat(userParam.selectionEndDate), "bold");
+    if ( !userParam.printSingle || (userParam.printSingle && accountOnly.length > 1) ) {
+        // for multiple transactions of donations we print the whole period
+        cell3.addParagraph(Banana.Converter.toLocaleDateFormat(userParam.selectionStartDate) + " - " + Banana.Converter.toLocaleDateFormat(userParam.selectionEndDate), "bold");
+    }
+    else {
+        // for a single transaction when the userParam.printSingle is true, we print the transaction date
+        var date = accountOnly[0].date; //there is only one element in the array
+        cell3.addParagraph(Banana.Converter.toLocaleDateFormat(date), "bold");
+    }
 }
 
 function createReportTexts(banDoc, report, userParam, account, address) {
@@ -340,107 +353,114 @@ function createReportTextFooter(report) {
 
 function createReportTransactionsDetails(banDoc, report, userParam, account, modifiedAccount, address, total, amountInWords) {
 
-    report.addPageBreak();
+    var data = userParam.transactions; //array with all the transactions
+    var accountOnly = data.filter(entry => entry.cc3 === account.substring(1)); //array with transactions filtered for the given account
 
-    var text1 = "Anlage zur Sammelbestätigung";
-    var text2 = "Gesamtsumme";
-    var strAddress = "";
-    var strName = "";
-    var rowCnt = 0;
-    account = account.substring(1); //remove first character ";"
+    if ( !userParam.printSingle || (userParam.printSingle && accountOnly.length > 1) ) {
+        
+        report.addPageBreak();
 
-    if (address.firstname && address.familyname) {
-        strName = address.firstname + " " + address.familyname;
-    } else {
-        strName = address.familyname;
-    }
+        var text1 = "Anlage zur Sammelbestätigung";
+        var text2 = "Gesamtsumme";
+        var strAddress = "";
+        var strName = "";
+        var rowCnt = 0;
+        account = account.substring(1); //remove first character ";"
 
-    strAddress += modifiedAccount + ": " + strName;
+        if (address.firstname && address.familyname) {
+            strName = address.firstname + " " + address.familyname;
+        } else {
+            strName = address.familyname;
+        }
 
-    if (address.street || address.postalcode || address.locality) {
-        strAddress += ", ";
-    }
-    if (address.street) {
-        strAddress += address.street;
-    }
-    if (address.postalcode || address.locality) {
-        if (address.street) {
+        strAddress += modifiedAccount + ": " + strName;
+
+        if (address.street || address.postalcode || address.locality) {
             strAddress += ", ";
         }
-    }
-    if (address.postalcode) {
-        strAddress += address.postalcode;
-    }
-    if (address.locality) {
+        if (address.street) {
+            strAddress += address.street;
+        }
+        if (address.postalcode || address.locality) {
+            if (address.street) {
+                strAddress += ", ";
+            }
+        }
         if (address.postalcode) {
-            strAddress += " ";
+            strAddress += address.postalcode;
         }
-        strAddress += address.locality;
-    }
-
-    report.addParagraph(text1, "bold");
-    report.addParagraph(strAddress, "");
-    report.addParagraph(text2 + ": " + Banana.Converter.toLocaleNumberFormat(total) + " " + banDoc.info("AccountingDataBase", "BasicCurrency"), "bold textParagraphTop");
-
-    //Print all the transactions details
-    var table = report.addTable("table02");
-    var t2col1 = table.addColumn("t2col1");
-    var t2col2 = table.addColumn("t2col2");
-    var t2col3 = table.addColumn("t2col3");
-    var t2col4 = table.addColumn("t2col4");
-    var t2col5 = table.addColumn("t2col5");
-    var t2col6 = table.addColumn("t2col6");
-
-    tableRow = table.addRow();
-    tableRow.addCell("LfdNr", "bold headerStyle borderRight borderTop borderBottom", 1);
-    tableRow.addCell("Konto", "bold headerStyle borderRight borderTop borderBottom", 1);
-    tableRow.addCell("Datum", "bold headerStyle borderRight borderTop borderBottom", 1);
-    tableRow.addCell("Bezeichnung", "bold headerStyle borderRight borderTop borderBottom", 1);
-    tableRow.addCell("Betrag " + banDoc.info("AccountingDataBase", "BasicCurrency"), "bold headerStyle borderRight borderTop borderBottom", 1);
-    tableRow.addCell("Verzicht", "bold headerStyle borderRight borderTop borderBottom", 1);
-
-    var transactionsLength = userParam.transactions.length;
-    for (var i = 0; i < transactionsLength; i++) {
-
-        var cc3 = userParam.transactions[i].cc3;
-        var date = userParam.transactions[i].date;
-        var desc = userParam.transactions[i].description;
-        var amount = userParam.transactions[i].amount;
-        
-        if (account && account === cc3 && total) {
-            rowCnt++;
-            tableRow = table.addRow();
-            tableRow.addCell(rowCnt, "borderRight", 1); //sequencial numbers
-            tableRow.addCell(desc, "borderRight", 1);
-            tableRow.addCell(Banana.Converter.toLocaleDateFormat(date), "borderRight", 1);
-            tableRow.addCell(strName, "borderRight", 1);
-            tableRow.addCell(Banana.Converter.toLocaleNumberFormat(amount), "right borderRight", 1);
-            tableRow.addCell(address.verzicht, "center borderRight", 1);
+        if (address.locality) {
+            if (address.postalcode) {
+                strAddress += " ";
+            }
+            strAddress += address.locality;
         }
-    }
 
-    // Total row of the table
-    tableRow = table.addRow();
-    tableRow.addCell("", "borderTop borderBottom", 3);
-    tableRow.addCell("Summe", "bold right borderTop borderBottom", 1);
-    tableRow.addCell(Banana.Converter.toLocaleNumberFormat(total), "bold right borderTop borderBottom", 1);
-    tableRow.addCell("", "bold right borderTop borderBottom", 1);
+        report.addParagraph(text1, "bold");
+        report.addParagraph(strAddress, "");
+        report.addParagraph(text2 + ": " + Banana.Converter.toLocaleNumberFormat(total) + " " + banDoc.info("AccountingDataBase", "BasicCurrency"), "bold textParagraphTop");
 
+        //Print all the transactions details
+        var table = report.addTable("table02");
+        var t2col1 = table.addColumn("t2col1");
+        var t2col2 = table.addColumn("t2col2");
+        var t2col3 = table.addColumn("t2col3");
+        var t2col4 = table.addColumn("t2col4");
+        var t2col5 = table.addColumn("t2col5");
+        var t2col6 = table.addColumn("t2col6");
 
-    // Retrieves the cents from the amount
-    var digits = [];
-    var number = Banana.Converter.toLocaleNumberFormat(total);
-    var numberString = number.toString();
-    var c1,c2 = '';
-    for (var i = 0; i < numberString.length; i++) {
-        if (!isNaN(numberString[i])) {
-            digits.push(numberString[i]);
+        tableRow = table.addRow();
+        tableRow.addCell("LfdNr", "bold headerStyle borderRight borderTop borderBottom", 1);
+        tableRow.addCell("Konto", "bold headerStyle borderRight borderTop borderBottom", 1);
+        tableRow.addCell("Datum", "bold headerStyle borderRight borderTop borderBottom", 1);
+        tableRow.addCell("Bezeichnung", "bold headerStyle borderRight borderTop borderBottom", 1);
+        tableRow.addCell("Betrag " + banDoc.info("AccountingDataBase", "BasicCurrency"), "bold headerStyle borderRight borderTop borderBottom", 1);
+        tableRow.addCell("Verzicht", "bold headerStyle borderRight borderTop borderBottom", 1);
+
+        var transactionsLength = userParam.transactions.length;
+        for (var i = 0; i < transactionsLength; i++) {
+
+            var cc3 = userParam.transactions[i].cc3;
+            var date = userParam.transactions[i].date;
+            var desc = userParam.transactions[i].description;
+            var amount = userParam.transactions[i].amount;
+            
+            if (account && account === cc3 && total) {
+                rowCnt++;
+                tableRow = table.addRow();
+                tableRow.addCell(rowCnt, "borderRight", 1); //sequencial numbers
+                tableRow.addCell(desc, "borderRight", 1);
+                tableRow.addCell(Banana.Converter.toLocaleDateFormat(date), "borderRight", 1);
+                tableRow.addCell(strName, "borderRight", 1);
+                tableRow.addCell(Banana.Converter.toLocaleNumberFormat(amount), "right borderRight", 1);
+                tableRow.addCell(address.verzicht, "center borderRight", 1);
+            }
         }
-    }
-    c1 = digits[digits.length-2]; //es. x.3x
-    c2 = digits[digits.length-1]; //es. x.x5 => x.35
 
-    report.addParagraph("Summe in Worten (" + amountInWords + " " + c1 + c2 + "/100)", "bold textParagraphTop");
+        // Total row of the table
+        tableRow = table.addRow();
+        tableRow.addCell("", "borderTop borderBottom", 3);
+        tableRow.addCell("Summe", "bold right borderTop borderBottom", 1);
+        tableRow.addCell(Banana.Converter.toLocaleNumberFormat(total), "bold right borderTop borderBottom", 1);
+        tableRow.addCell("", "bold right borderTop borderBottom", 1);
+
+
+        // Retrieves the cents from the amount
+        var digits = [];
+        var number = Banana.Converter.toLocaleNumberFormat(total);
+        var numberString = number.toString();
+        var c1,c2 = '';
+        for (var i = 0; i < numberString.length; i++) {
+            if (!isNaN(numberString[i])) {
+                digits.push(numberString[i]);
+            }
+        }
+        c1 = digits[digits.length-2]; //es. x.3x
+        c2 = digits[digits.length-1]; //es. x.x5 => x.35
+
+        report.addParagraph("Summe in Worten (" + amountInWords + " " + c1 + c2 + "/100)", "bold textParagraphTop");
+    
+    }
 }
 
 /* This function fill the data structure with the transactions data taken with getTransactionsData() */
@@ -852,6 +872,17 @@ function convertParam(userParam) {
     }
     convertedParam.data.push(currentParam);
 
+    // print single donation without transaction details when there is only one transaction
+    var currentParam = {};
+    currentParam.name = 'printSingle';
+    currentParam.title = 'Einzelspende ohne Seite 2 mit Details';
+    currentParam.type = 'bool';
+    currentParam.value = userParam.printSingle ? true : false;
+    currentParam.readValue = function() {
+        userParam.printSingle = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
     // Function to print account number
     var currentParam = {};
     currentParam.name = 'accountMethod';
@@ -863,7 +894,40 @@ function convertParam(userParam) {
     }
     convertedParam.data.push(currentParam);
 
-    // Address
+    // Address of the donor
+    var currentParam = {};
+    currentParam.name = 'addressDonor';
+    currentParam.title = 'Mitgliedsadresse';
+    currentParam.type = 'string';
+    currentParam.value = userParam.addressDonor ? userParam.addressDonor : '';
+    currentParam.readValue = function() {
+        userParam.addressDonor = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    var currentParam = {};
+    currentParam.name = 'addressPositionDX';
+    currentParam.parentObject = 'addressDonor';
+    currentParam.title = 'Horizontal verschieben +/- (in cm, Voreinstellung 0)';
+    currentParam.type = 'number';
+    currentParam.value = userParam.addressPositionDX ? userParam.addressPositionDX : '0';
+    currentParam.readValue = function() {
+        userParam.addressPositionDX = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    var currentParam = {};
+    currentParam.name = 'addressPositionDY';
+    currentParam.parentObject = 'addressDonor';
+    currentParam.title = 'Vertikal verschieben +/- (in cm, Voreinstellung 0)';
+    currentParam.type = 'number';
+    currentParam.value = userParam.addressPositionDY ? userParam.addressPositionDY : '0';
+    currentParam.readValue = function() {
+        userParam.addressPositionDY = this.value;
+    }
+    convertedParam.data.push(currentParam);
+
+    // Address Aussteller
     var currentParam = {};
     currentParam.name = 'address';
     currentParam.title = 'Aussteller';
@@ -1093,7 +1157,10 @@ function initUserParam() {
     userParam.costcenter = '';
     userParam.minimumAmount = '';
     userParam.printAccount = true;
+    userParam.printSingle = false;
     userParam.accountMethod = '';
+    userParam.addressPositionDX = '0';
+    userParam.addressPositionDY = '0';
     userParam.address = '';
     userParam.addressText1 = '';
     userParam.addressText2 = '';
@@ -1199,11 +1266,20 @@ function createStyleSheet(userParam) {
     stylesheet.addStyle(".center", "text-align:center;");
     stylesheet.addStyle(".headerStyle", "background-color:#E0EFF6; text-align:center; font-weight:bold;");
     stylesheet.addStyle(".padding", "padding-bottom:2px; padding-top:3px; padding-left:2px; padding-right:2px;");
-    stylesheet.addStyle(".address", "font-size:11pt");
-    stylesheet.addStyle(".addressSenderTop", "margin-top:2.4cm");
     stylesheet.addStyle(".textParagraphBottom", "margin-bottom:0.15cm");
     stylesheet.addStyle(".textParagraphTop", "margin-top:0.6cm");
-    
+
+    // Donor address
+    if (!userParam.addressPositionDX) {
+        userParam.addressPositionDX = '0';
+    }
+    if (!userParam.addressPositionDY) {
+        userParam.addressPositionDY = '0';
+    }
+    var addressSenderMarginTop = parseFloat(2.4)+parseFloat(userParam.addressPositionDY);
+    var addressMarginLeft = parseFloat(0.0)+parseFloat(userParam.addressPositionDX);
+    stylesheet.addStyle(".addressSenderTop", "margin-top:"+addressSenderMarginTop+"cm; margin-left:"+addressMarginLeft+"cm");
+    stylesheet.addStyle(".address", "margin-top:0cm; margin-left:"+addressMarginLeft+"cm; font-size:11pt");
 
     /* table01 */
     var tableStyle = stylesheet.addStyle(".table01");
