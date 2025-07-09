@@ -165,19 +165,24 @@ function createReportAddressSender(banDoc, report, senderAddress) {
     }
 
     if (senderAddress.address1 && senderAddress.zip && senderAddress.city) {
-        p.addText("\n"+senderAddress.address1 + ", " + senderAddress.zip + " " + senderAddress.city, "");
+        p.addText("\n"+senderAddress.address1 + ", " + senderAddress.zip + " " + senderAddress.city + "\n", "");
     }
     else if (!senderAddress.address1 && senderAddress.zip && senderAddress.city) {
-        p.addText("\n"+senderAddress.zip + " " + senderAddress.city, "");
+        p.addText("\n"+senderAddress.zip + " " + senderAddress.city + "\n", "");
     }
     else if (!senderAddress.address1 && !senderAddress.zip && senderAddress.city) {
-        p.addText("\n"+senderAddress.city, "");
+        p.addText("\n"+senderAddress.city + "\n", "");
     }
+    p.addText(" ","");
 }
 
 function createReportAddressMember(report, userParam, account, modifiedAccount, address) {
 
     var p = report.addParagraph("","address");
+    if (address.nameprefix) {
+        p.addText(address.nameprefix+"\n", "");
+    }
+
     if (address.firstname && address.familyname && userParam.printAccount) {
         p.addText(address.firstname + " " + address.familyname + "                                                             Mitgliedskonto: " + modifiedAccount, "");
     }
@@ -811,6 +816,7 @@ function addMdParagraph(reportElement, text) {
 
 function getAddress(banDoc, accountNumber) {
     var address = {};
+    address.nameprefix = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('NamePrefix');
     address.firstname = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('FirstName');
     address.familyname = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('FamilyName');
     address.street = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('Street');

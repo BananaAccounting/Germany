@@ -24,7 +24,7 @@
 \begin{test}{testBananaApp}
 %****************************************************************************** TEST #1 ******************************************************************************
 \begin{reportvalue}{Whole year report}
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \P Via AaBb 12 \P 6963 Pregassona \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -73,7 +73,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 12'000.00  & \\
 \end{longtable}
 Summe in Worten (zwölftausend 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Ditta SA                                                             Mitgliedskonto: S002 \P Via Def 12 \P 6900 Lugano \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -117,7 +117,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 960.75  & \\
 \end{longtable}
 Summe in Worten (neunhundertsechzig 75/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \P Via Ij 34 \P 6962 Viganello \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -154,7 +154,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \P Via Pqrs \P 6901 Lugano \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -193,7 +193,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten ( 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{1. Quarter report}
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \P Via AaBb 12 \P 6963 Pregassona \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -233,7 +233,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 3'000.00  & \\
 \end{longtable}
 Summe in Worten (dreitausend 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Ditta SA                                                             Mitgliedskonto: S002 \P Via Def 12 \P 6900 Lugano \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -270,7 +270,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \P Via Ij 34 \P 6962 Viganello \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -307,7 +307,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \P Via Pqrs \P 6901 Lugano \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -346,7 +346,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten ( 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{2. Semester report}
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \P Via AaBb 12 \P 6963 Pregassona \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -389,7 +389,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 6'000.00  & \\
 \end{longtable}
 Summe in Worten (sechstausend 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Ditta SA                                                             Mitgliedskonto: S002 \P Via Def 12 \P 6900 Lugano \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -430,7 +430,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 600.75  & \\
 \end{longtable}
 Summe in Worten (sechshundert 75/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \P Via Ij 34 \P 6962 Viganello \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -467,7 +467,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \P Via Pqrs \P 6901 Lugano \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -506,7 +506,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten ( 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{January report}
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \P Via AaBb 12 \P 6963 Pregassona \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -544,7 +544,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 1'000.00  & \\
 \end{longtable}
 Summe in Worten (eintausend 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Ditta SA                                                             Mitgliedskonto: S002 \P Via Def 12 \P 6900 Lugano \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -581,7 +581,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Ggg Hhh                                                             Mitgliedskonto: S003 \P Via Ij 34 \P 6962 Viganello \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -618,7 +618,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Mmm Nnn                                                             Mitgliedskonto: S004 \P Via Pqrs \P 6901 Lugano \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -658,7 +658,7 @@ Summe in Worten ( 00/100) \\
 \#page-nr \end{reportvalue}
 %****************************************************************************** TEST #2 ******************************************************************************
 \begin{reportvalue}{Whole year report}
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \P Via AaBb 12 \P 6963 Pregassona \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -709,7 +709,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten (zwölftausend 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{1. Quarter report}
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \P Via AaBb 12 \P 6963 Pregassona \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -751,7 +751,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten (dreitausend 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{2. Semester report}
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \P Via AaBb 12 \P 6963 Pregassona \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -796,7 +796,7 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten (sechstausend 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{January report}
-Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
+Banana.ch SA, Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
 Aaaa Bbbb                                                             Mitgliedskonto: S001 \P Via AaBb 12 \P 6963 Pregassona \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Aaa Bbb SA \newline Via Boschetto 3 \newline 6500 Bellinzona \newline \\
@@ -837,8 +837,8 @@ Summe in Worten (eintausend 00/100) \\
 \#page-nr \end{reportvalue}
 %****************************************************************************** TEST #3 ******************************************************************************
 \begin{reportvalue}{Whole year report}
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Klaus Meyer \P Borholmerstr. 24 \P 10439 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Klaus Meyer \P Borholmerstr. 24 \P 10439 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -887,8 +887,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 1'200.00  & \\
 \end{longtable}
 Summe in Worten (eintausendzweihundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Karin Schulze \P Goethestr. 5 \P 12207 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Frau\P  Karin Schulze \P Goethestr. 5 \P 12207 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -927,8 +927,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 700.35  & \\
 \end{longtable}
 Summe in Worten (siebenhundert 35/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Jörg Bartusch \P Mühlenstraße \P 10243 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Jörg Bartusch \P Mühlenstraße \P 10243 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -967,8 +967,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 270.00  & \\
 \end{longtable}
 Summe in Worten (zweihundertsiebzig 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Voit Ulrich \P Dorfstr. 12 \P 13187 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Voit Ulrich \P Dorfstr. 12 \P 13187 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1009,8 +1009,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten (zweihundertfünfzig 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{1. Quarter report}
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Klaus Meyer \P Borholmerstr. 24 \P 10439 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Klaus Meyer \P Borholmerstr. 24 \P 10439 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1050,8 +1050,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 300.00  & \\
 \end{longtable}
 Summe in Worten (dreihundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Karin Schulze \P Goethestr. 5 \P 12207 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Frau\P  Karin Schulze \P Goethestr. 5 \P 12207 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1089,8 +1089,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 500.35  & \\
 \end{longtable}
 Summe in Worten (fünfhundert 35/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Jörg Bartusch \P Mühlenstraße \P 10243 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Jörg Bartusch \P Mühlenstraße \P 10243 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1127,8 +1127,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Voit Ulrich \P Dorfstr. 12 \P 13187 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Voit Ulrich \P Dorfstr. 12 \P 13187 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1167,8 +1167,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten ( 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{2. Semester report}
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Klaus Meyer \P Borholmerstr. 24 \P 10439 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Klaus Meyer \P Borholmerstr. 24 \P 10439 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1211,8 +1211,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 600.00  & \\
 \end{longtable}
 Summe in Worten (sechshundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Karin Schulze \P Goethestr. 5 \P 12207 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Frau\P  Karin Schulze \P Goethestr. 5 \P 12207 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1250,8 +1250,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 200.00  & \\
 \end{longtable}
 Summe in Worten (zweihundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Jörg Bartusch \P Mühlenstraße \P 10243 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Jörg Bartusch \P Mühlenstraße \P 10243 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1289,8 +1289,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 210.00  & \\
 \end{longtable}
 Summe in Worten (zweihundertzehn 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Voit Ulrich \P Dorfstr. 12 \P 13187 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Voit Ulrich \P Dorfstr. 12 \P 13187 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1330,8 +1330,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten (einhundert 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{January report}
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Klaus Meyer \P Borholmerstr. 24 \P 10439 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Klaus Meyer \P Borholmerstr. 24 \P 10439 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1369,8 +1369,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 100.00  & \\
 \end{longtable}
 Summe in Worten (einhundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Karin Schulze \P Goethestr. 5 \P 12207 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Frau\P  Karin Schulze \P Goethestr. 5 \P 12207 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1407,8 +1407,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Jörg Bartusch \P Mühlenstraße \P 10243 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Jörg Bartusch \P Mühlenstraße \P 10243 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1445,8 +1445,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Voit Ulrich \P Dorfstr. 12 \P 13187 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Voit Ulrich \P Dorfstr. 12 \P 13187 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline Gemeinnütziger Sportverein 'MUSTER' \newline Sportstrasse 52 \newline 10439 Berlin \newline \\
 \end{longtable}
@@ -1486,8 +1486,8 @@ Summe in Worten ( 00/100) \\
 \#page-nr \end{reportvalue}
 %****************************************************************************** TEST #4 ******************************************************************************
 \begin{reportvalue}{Whole year report}
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Klaus Meyer                                                             Mitgliedskonto: MEYER \P Borholmerstr. 24 \P 10439 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Klaus Meyer                                                             Mitgliedskonto: MEYER \P Borholmerstr. 24 \P 10439 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1529,8 +1529,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 1'200.00  & \\
 \end{longtable}
 Summe in Worten (eintausendzweihundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Karin Schulze                                                             Mitgliedskonto: 10001 \P Goethestr. 5 \P 12207 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Frau\P  Karin Schulze                                                             Mitgliedskonto: 10001 \P Goethestr. 5 \P 12207 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1562,8 +1562,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 700.35  & \\
 \end{longtable}
 Summe in Worten (siebenhundert 35/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \P Mühlenstraße \P 10243 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \P Mühlenstraße \P 10243 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1595,8 +1595,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 270.00  & \\
 \end{longtable}
 Summe in Worten (zweihundertsiebzig 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Voit Ulrich                                                             Mitgliedskonto: VOIT \P Dorfstr. 12 \P 13187 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Voit Ulrich                                                             Mitgliedskonto: VOIT \P Dorfstr. 12 \P 13187 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1630,8 +1630,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten (zweihundertfünfzig 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{1. Quarter report}
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Klaus Meyer                                                             Mitgliedskonto: MEYER \P Borholmerstr. 24 \P 10439 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Klaus Meyer                                                             Mitgliedskonto: MEYER \P Borholmerstr. 24 \P 10439 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1664,8 +1664,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 300.00  & \\
 \end{longtable}
 Summe in Worten (dreihundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Karin Schulze                                                             Mitgliedskonto: 10001 \P Goethestr. 5 \P 12207 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Frau\P  Karin Schulze                                                             Mitgliedskonto: 10001 \P Goethestr. 5 \P 12207 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1696,8 +1696,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 500.35  & \\
 \end{longtable}
 Summe in Worten (fünfhundert 35/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \P Mühlenstraße \P 10243 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \P Mühlenstraße \P 10243 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1727,8 +1727,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Voit Ulrich                                                             Mitgliedskonto: VOIT \P Dorfstr. 12 \P 13187 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Voit Ulrich                                                             Mitgliedskonto: VOIT \P Dorfstr. 12 \P 13187 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1760,8 +1760,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten ( 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{2. Semester report}
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Klaus Meyer                                                             Mitgliedskonto: MEYER \P Borholmerstr. 24 \P 10439 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Klaus Meyer                                                             Mitgliedskonto: MEYER \P Borholmerstr. 24 \P 10439 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1797,8 +1797,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 600.00  & \\
 \end{longtable}
 Summe in Worten (sechshundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Karin Schulze                                                             Mitgliedskonto: 10001 \P Goethestr. 5 \P 12207 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Frau\P  Karin Schulze                                                             Mitgliedskonto: 10001 \P Goethestr. 5 \P 12207 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1829,8 +1829,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 200.00  & \\
 \end{longtable}
 Summe in Worten (zweihundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \P Mühlenstraße \P 10243 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \P Mühlenstraße \P 10243 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1861,8 +1861,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 210.00  & \\
 \end{longtable}
 Summe in Worten (zweihundertzehn 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Voit Ulrich                                                             Mitgliedskonto: VOIT \P Dorfstr. 12 \P 13187 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Voit Ulrich                                                             Mitgliedskonto: VOIT \P Dorfstr. 12 \P 13187 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1895,8 +1895,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 Summe in Worten (einhundert 00/100) \\
 \#page-nr \end{reportvalue}
 \begin{reportvalue}{January report}
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Klaus Meyer                                                             Mitgliedskonto: MEYER \P Borholmerstr. 24 \P 10439 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Klaus Meyer                                                             Mitgliedskonto: MEYER \P Borholmerstr. 24 \P 10439 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1927,8 +1927,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 100.00  & \\
 \end{longtable}
 Summe in Worten (einhundert 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Karin Schulze                                                             Mitgliedskonto: 10001 \P Goethestr. 5 \P 12207 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Frau\P  Karin Schulze                                                             Mitgliedskonto: 10001 \P Goethestr. 5 \P 12207 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1958,8 +1958,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \P Mühlenstraße \P 10243 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Jörg Bartusch                                                             Mitgliedskonto: BARTUSCH \P Mühlenstraße \P 10243 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
@@ -1989,8 +1989,8 @@ LfdNr  & Konto  & Datum  & Bezeichnung  & Betrag EUR  & Verzicht \\
 \multicolumn{3}{l}{} & Summe  & 0.00  & \\
 \end{longtable}
 Summe in Worten ( 00/100) \\
-Pinco Pallino \P Via La Santa 7, 6962 Viganello \\
-Voit Ulrich                                                             Mitgliedskonto: VOIT \P Dorfstr. 12 \P 13187 Berlin \\
+Pinco Pallino \P Via La Santa 7, 6962 Viganello\P    \\
+Herrn\P  Voit Ulrich                                                             Mitgliedskonto: VOIT \P Dorfstr. 12 \P 13187 Berlin \\
 \begin{longtable}[l]{ l }
 Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung) \newline xxxx \newline yyyy \newline zzzz \newline \\
 \end{longtable}
