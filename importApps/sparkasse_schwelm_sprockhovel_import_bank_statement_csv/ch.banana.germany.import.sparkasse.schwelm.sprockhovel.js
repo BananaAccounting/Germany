@@ -136,7 +136,9 @@ function SparkasseSchwelmFormat1() {
       mappedLine.push(Banana.Converter.toInternalDateFormat("", "dd.mm.yyyy"));
       mappedLine.push("");
       mappedLine.push("");
-      mappedLine.push(this.getDescription(transaction));
+      let completeDescr = this.getDescription(transaction);
+      completeDescr = completeDescr.replace(/\s+/g, ' ');
+      mappedLine.push(completeDescr);
       if (transaction["Amount"].match(/^[0-9]/))
          mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"], ','));
       else
