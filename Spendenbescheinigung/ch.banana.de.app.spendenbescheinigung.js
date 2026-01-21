@@ -1,4 +1,4 @@
-// Copyright [2025] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2026] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.de.app.spendenbescheinigung.js
 // @api = 1.0
-// @pubdate = 2025-07-09
+// @pubdate = 2026-01-21
 // @publisher = Banana.ch SA
 // @description = Spendenbescheinigung für Vereine in Deutschland
 // @description.de = Spendenbescheinigung für Vereine in Deutschland
@@ -89,6 +89,7 @@ function createReport(banDoc, userParam, accounts) {
     senderAddress.name = banDoc.info("AccountingDataBase","Name");
     senderAddress.familyName = banDoc.info("AccountingDataBase","FamilyName");
     senderAddress.address1 = banDoc.info("AccountingDataBase","Address1");
+    senderAddress.buildingnumber = banDoc.info("AccountingDataBase","BuildingNumber");
     senderAddress.zip = banDoc.info("AccountingDataBase","Zip");
     senderAddress.city = banDoc.info("AccountingDataBase","City");
     senderAddress.country = banDoc.info("AccountingDataBase","Country");
@@ -165,7 +166,11 @@ function createReportAddressSender(banDoc, report, senderAddress) {
     }
 
     if (senderAddress.address1 && senderAddress.zip && senderAddress.city) {
-        p.addText("\n"+senderAddress.address1 + ", " + senderAddress.zip + " " + senderAddress.city + "\n", "");
+        if (senderAddress.buildingnumber) {
+            p.addText("\n"+senderAddress.address1 + " " + senderAddress.buildingnumber + ", " + senderAddress.zip + " " + senderAddress.city + "\n", "");
+        } else {
+            p.addText("\n"+senderAddress.address1 + ", " + senderAddress.zip + " " + senderAddress.city + "\n", "");
+        }
     }
     else if (!senderAddress.address1 && senderAddress.zip && senderAddress.city) {
         p.addText("\n"+senderAddress.zip + " " + senderAddress.city + "\n", "");
@@ -197,7 +202,11 @@ function createReportAddressMember(report, userParam, account, modifiedAccount, 
     }
 
     if (address.street) {
-        p.addText("\n"+address.street, "");
+        if (address.buildingnumber) {
+            p.addText("\n"+address.street + " " + address.buildingnumber, "");
+        } else {
+            p.addText("\n"+address.street, "");
+        }
     }
     if (address.postalcode && address.locality) {
         p.addText("\n"+address.postalcode + " " + address.locality, "");
@@ -241,7 +250,11 @@ function createReportTableAddressMember(report, userParam, account, modifiedAcco
     paragraph.addParagraph(strName, "bold");
 
     if (address.street) {
-        strAddress += address.street;
+        if (address.buildingnumber) {
+            strAddress += address.street + " " + address.buildingnumber; 
+        } else {
+            strAddress += address.street;
+        }
         strAddress += ", ";
     }
     if (address.postalcode) {
@@ -384,7 +397,11 @@ function createReportTransactionsDetails(banDoc, report, userParam, account, mod
             strAddress += ", ";
         }
         if (address.street) {
-            strAddress += address.street;
+            if (address.buildingnumber) {
+                strAddress += address.street + " " + address.buildingnumber;
+            } else {
+                strAddress += address.street;
+            }
         }
         if (address.postalcode || address.locality) {
             if (address.street) {
@@ -746,7 +763,11 @@ function convertFields(banDoc, userParam, account, address, text) {
         text = text.replace(/<FamilyName>/g,familyname);
     }    
     if (text.indexOf("<Address>") > -1) {
-        var address = address.street + ", " + address.postalcode + " " + address.locality;
+        if (address.buildingnumber) {
+            var address = address.street + " " + address.buildingnumber + ", " + address.postalcode + " " + address.locality;
+        } else {
+            var address = address.street + ", " + address.postalcode + " " + address.locality;
+        }
         text = text.replace(/<Address>/g,address);
     }
     if (text.indexOf("<StartDate>") > -1) {
@@ -820,6 +841,7 @@ function getAddress(banDoc, accountNumber) {
     address.firstname = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('FirstName');
     address.familyname = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('FamilyName');
     address.street = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('Street');
+    address.buildingnumber = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('BuildingNumber');
     address.postalcode = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('PostalCode');
     address.locality = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('Locality');
     address.verzicht = banDoc.table('Accounts').findRowByValue('Account', accountNumber).value('Verzicht') ? "Ja" : "Nein";
