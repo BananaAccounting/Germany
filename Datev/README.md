@@ -4,6 +4,11 @@ BananaApp that export from a Banana Accounting file to Datev format.
 
 For more information see [web page on www.banana.ch](https://www.banana.ch/apps/de/node/8801))
 
+## Log Changes
+### 2026-02-03
+Published beta release
+- Added option **"Sachkontenlänge"** in DATEV export (Buchungsdaten – Erweiterung)
+
 ## DATEV Developer Documentation 
 ### Subscription for technical information
 - [DATEV Developer Portal](https://www.datev.de/web/de/datev-shop/zusatzangebote/datev-developer-portal/) to have technical information on the Schnittstelle. Cost EUR 25 Monthly.

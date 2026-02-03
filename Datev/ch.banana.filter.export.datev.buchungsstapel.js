@@ -21,7 +21,7 @@
 // @exportfilename = EXTF_Buchungstapel_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2023-09-06
+// @pubdate = 2026-02-03
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
@@ -160,6 +160,7 @@ function settingsDialog() {
    dialog.beraterLineEdit.text = datevBuchungsstapel.param["berater"];
    dialog.beraterLineEdit.cursorPosition = 0;
    dialog.beraterLabelError.text = "";
+   dialog.sachKontenLaengeSpinBox.setValue(datevBuchungsstapel.param["sachkontenlaenge"]);
    if (datevBuchungsstapel.param["kontenzuordnungSelected"] == "true")
       dialog.kontenzuordnungCheckBox.checked = true;
    else
@@ -207,6 +208,7 @@ function settingsDialog() {
    /*Reading data from dialog*/
    datevBuchungsstapel.param["mandanten"] = dialog.mandantenLineEdit.text;
    datevBuchungsstapel.param["berater"] = dialog.beraterLineEdit.text;
+   datevBuchungsstapel.param["sachkontenlaenge"] = dialog.sachKontenLaengeSpinBox.value.toString();
    if (dialog.kontenzuordnungCheckBox.checked)
       datevBuchungsstapel.param["kontenzuordnungSelected"] = "true";
    else
@@ -554,6 +556,7 @@ DatevBuchungsstapel.prototype.initParam = function () {
    this.param = {};
    this.param.mandanten = '';
    this.param.berater = '';
+   this.param.sachkontenlaenge = '5';
    this.param.kontenzuordnungSelected = false;
    this.param.wirtschaftsjahrSelected = true;
    this.param.quartalSelected = false;
@@ -1092,7 +1095,7 @@ DatevBuchungsstapel.prototype.loadDataHeader = function (accountingData) {
    // Länge: 1 Typ:Zahl
    // Kleinste Sachkontenlänge = 4, Grösste Sachkontenlänge = 8
    // TODO: Dialog param
-   var field14 = "5";
+   var field14 = this.param["sachkontenlaenge"];
 
    // Headr-Feld Nr. 15 Datum vom
    // Länge: 8 Typ:Zahl
@@ -1366,6 +1369,8 @@ DatevBuchungsstapel.prototype.verifyParam = function () {
       this.param.mandanten = '';
    if (!this.param.berater)
       this.param.berater = '';
+   if (!this.param.sachkontenlaenge)
+      this.param.sachkontenlaenge = '5';
    if (!this.param.kontenzuordnungSelected)
       this.param.kontenzuordnungSelected = false;
    if (!this.param.wirtschaftsjahrSelected)
