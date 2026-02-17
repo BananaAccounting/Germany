@@ -1,4 +1,4 @@
-﻿// Copyright [2019] [Banana.ch SA - Lugano Switzerland]
+﻿// Copyright [2026] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 // @api = 1.0
 // @id = ch.banana.filter.export.datev.kontenbeschriftungen
 // @description = DATEV Export / Sachkontenbeschriftungen
-// @doctype = *.*
+// @doctype = 100.*;110.*;130.*
 // @encoding = Windows-1252
 // @exportfilename = EXTF_Kontenbeschriftungen_<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2019-01-10
+// @pubdate = 2026-02-17
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1

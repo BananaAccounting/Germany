@@ -1,4 +1,4 @@
-// Copyright [2019] [Banana.ch SA - Lugano Switzerland]
+// Copyright [2026] [Banana.ch SA - Lugano Switzerland]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 //
 // @id = ch.banana.filter.import.datev.transactions.js
 // @api = 1.0
-// @pubdate = 2023-01-12
+// @pubdate = 2026-02-17
 // @publisher = Banana.ch SA
 // @description = DATEV Import Buchungsstapel (*.csv)
 // @task = import.transactions
