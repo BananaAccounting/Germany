@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+ <qresource>
+   <file>ch.banana.germany.ebilanzplus.manifest.json</file>
+   <file>ch.banana.germany.ebilanzplus.js</file>
+ </qresource>
+ </RCC>
