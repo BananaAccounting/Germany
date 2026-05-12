@@ -21,24 +21,21 @@
 // @exportfilename = companyname-ebilanzplus-<Date>
 // @exportfiletype = csv
 // @inputdatasource = none
-// @pubdate = 2026-04-07
+// @pubdate = 2026-05-12
 // @publisher = Banana.ch SA
 // @task = export.file
 // @timeout = -1
 
 function exec() {
-    
     if (!Banana.document) {
         return "@Cancel";
     }
 
-    //Checks Banana version and license
-    var isCurrentBananaVersionSupported = bananaRequiredVersion("10.1");
-    if (!isCurrentBananaVersionSupported) {
+    var exporter = new EBilanzExporter(Banana.document);
+    if (!exporter.verifyBananaVersion()) {
         return "@Cancel";
     }
 
-    var exporter = new EBilanzExporter(Banana.document);
     var header = exporter.getHeader();
     var rows = exporter.getRows();
     var csvContent = exporter.tableToCsv([header].concat(rows));
@@ -102,6 +99,8 @@ function EBilanzExporter(banDocument) {
     if (this.banDocument === undefined)
         this.banDocument = Banana.document;
     this.separator = ";";
+    this.ID_ERR_BANANA_VERSION_NOTVALID = "ID_ERR_BANANA_VERSION_NOTVALID";
+    this.ID_ERR_LICENSE_NOTVALID = "ID_ERR_LICENSE_NOTVALID";
 }
 
 EBilanzExporter.prototype.getAccounts = function () {
@@ -253,3 +252,71 @@ EBilanzExporter.prototype.escapeValue = function(value) {
 
     return value;
 };
+
+EBilanzExporter.prototype.getErrorMessage = function (errorId, lang) {
+    var lang = "en";
+    if (this.banDocument && this.banDocument.locale) {
+        lang = this.banDocument.locale;
+    }
+    if (lang.length > 2) {
+        lang = lang.substr(0, 2);
+    }
+    switch (errorId) {
+        case this.ID_ERR_BANANA_VERSION_NOTVALID:
+            if (lang === 'it')
+                return "L'estensione richiede Banana Contabilità+ versione minima %1.\n" +
+                    "Per aggiornare o per maggiori informazioni cliccare su Aiuto";
+            else if (lang === 'fr')
+                return "L'extension nécessite Banana Comptabilité+ version minimale %1.\n" +
+                    "Pour mettre à jour ou pour plus d'informations, cliquez sur Aide";
+            else if (lang === 'de')
+                return "Die Erweiterung erfordert Banana Buchhaltung+ Mindestversion %1.\n" +
+                    "Zum Aktualisieren oder für weitere Informationen klicken Sie auf Hilfe";
+            else
+                return "The extension requires Banana Accounting+ minimum version %1.\n" +
+                    "To update or for more information click Help";
+        case this.ID_ERR_LICENSE_NOTVALID:
+            if (lang === 'it')
+                return "Questa estensione richiede Banana Contabilità+ Advanced o Professional.\nPer aggiornare o per maggiori informazioni cliccare su Aiuto";
+            else if (lang === 'fr')
+                return "Cette extension nécessite Banana Comptabilité+ Advanced ou Professional.\nPour mettre à jour ou pour plus d'informations, cliquez sur Aide";
+            else if (lang === 'de')
+                return "Diese Erweiterung erfordert Banana Accounting+ Advanced oder Professional.\nKlicken Sie auf Hilfe, um zu aktualisieren oder weitere Informationen zu bekommen";
+            else
+                return "This extension requires Banana Accounting+ Advanced or Professoinal.\nTo update or for more information click on Help";
+
+    }
+};
+
+EBilanzExporter.prototype.verifyBananaVersion = function () {
+    if (!this.banDocument)
+        return false;
+
+    var requiredVersion = "10.1";
+    if (Banana.compareVersion && Banana.compareVersion(Banana.application.version, requiredVersion) < 0) {
+        var msg = this.getErrorMessage(this.ID_ERR_BANANA_VERSION_NOTVALID);
+        msg = msg.replace("%1", requiredVersion);
+        this.banDocument.addMessage(msg, this.ID_ERR_BANANA_VERSION_NOTVALID);
+        return false;
+    }
+
+    // License
+    var license = Banana.application.license;
+    if (license) {
+        if (license.licenseType === "advanced") {
+            return true;
+        }
+        else if (license.licenseType === "professional") {
+            return true;
+        }
+        else if (license.isWithinMaxFreeLines) {
+            return true;
+        }
+    }
+
+    //the license is not valid
+    var msg = this.getErrorMessage(this.ID_ERR_LICENSE_NOTVALID);
+    this.banDocument.addMessage(msg, this.ID_ERR_LICENSE_NOTVALID);
+    return false;
+
+}
