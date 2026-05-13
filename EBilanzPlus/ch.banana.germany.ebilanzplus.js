@@ -16,6 +16,9 @@
 // @api = 1.0
 // @id = ch.banana.germany.ebilanzplus
 // @description = Export to eBilanz+ (CSV)
+// @description.de = eBilanz+ exportieren (CSV)
+// @description.fr = Exporter eBilanz+ (CSV)
+// @description.it = Esporta eBilanz+ (CSV)
 // @doctype = 100.*;110.*;130.*
 // @encoding = Windows-1252
 // @exportfilename = companyname-ebilanzplus-<Date>
@@ -31,13 +34,31 @@ function exec() {
         return "@Cancel";
     }
 
+    var language = "en";
+    if (Banana.application && Banana.application.locale) {
+        language = Banana.application.locale;
+        if (language.length > 2) {
+            language = language.substr(0, 2);
+        }
+    }
+
     var exporter = new EBilanzExporter(Banana.document);
     if (!exporter.verifyBananaVersion()) {
         return "@Cancel";
     }
 
     var parameters = exporter.initParams();
-    var datePeriod = Banana.Ui.getPeriod('Choose period', parameters.startDate, parameters.endDate)
+    var dialogTitle = 'Choose period';
+    if (language == 'de') {
+        dialogTitle = 'Zeitraum auswählen';
+    }
+    else if (language == 'fr') {
+        dialogTitle = 'Choisir la période';
+    }
+    else if (language == 'fr') {
+        dialogTitle = 'Scegli periodo';
+    }
+    var datePeriod = Banana.Ui.getPeriod(dialogTitle, parameters.startDate, parameters.endDate)
     if (!datePeriod || typeof datePeriod.startDate === "undefined")
         return;
     parameters.startDate = datePeriod.startDate;
@@ -55,12 +76,12 @@ function bananaRequiredVersion(requiredVersion) {
     if (!Banana.document)
         return false;
     
-    var language = "";
-    if (Banana.document.locale) {
-        language = Banana.document.locale;
-    }
-    if (language && language.length > 2) {
-        language = language.substr(0, 2);
+    var language = "en";
+    if (Banana.application && Banana.application.locale) {
+        language = Banana.application.locale;
+        if (language.length > 2) {
+            language = language.substr(0, 2);
+        }
     }
 
     var msg = "";
