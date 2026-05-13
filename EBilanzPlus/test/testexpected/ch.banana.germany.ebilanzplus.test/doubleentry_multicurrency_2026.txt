@@ -1,0 +1,161 @@
+%%info_test_name{doubleentry_multicurrency_2026}
+\documentclass{report}
+\usepackage{longtable}
+\usepackage{color}
+\usepackage{listings}
+\usepackage[margin=1cm]{geometry}
+\begin{document}
+\newenvironment{tablevalue}[2]{\textbf{Table: #1}\begin{longtable}[l]{#2}}{\end{longtable}}
+\newenvironment{reportvalue}[1]{\textbf{Report: #1}\\}{}
+\lstnewenvironment{jsonvalue}[1]{\textbf{Json: #1}\lstset{language=Java}}{}
+\lstnewenvironment{xmlvalue}[1]{\textbf{Xml: #1}\lstset{language=Xml}}{}
+\newcommand{\info}[2]{\textit{#1: #2}\\}
+\newcommand{\fatalerror}[1]{\textbf{\textcolor[rgb]{1,0,0}{Fatal error: #1}}\\}
+\newcommand{\keyvalue}[2]{\textbf{Keyvalue: #1} #2\\}
+\newcommand{\textvalue}[1]{#1\\}
+\newcommand{\excltest}[1]{\\Excluded from compare: #1}
+\newcommand{\lognewpage}{\newpage}
+\newenvironment{testcase}[1]{\section*{Test: #1}}{\newpage}
+\newenvironment{test}[1]{\section*{Test case: #1}}{}
+%Begin test data
+\keyvalue{Row\_1\_Konto}{0027}
+\keyvalue{Row\_1\_Beschreibung}{EDV-Software}
+\keyvalue{Row\_1\_Soll}{}
+\keyvalue{Row\_1\_Haben}{}
+\keyvalue{Row\_1\_Balance}{100.00}
+\keyvalue{Row\_2\_Konto}{0400}
+\keyvalue{Row\_2\_Beschreibung}{Betriebsaustattung}
+\keyvalue{Row\_2\_Soll}{5747.90}
+\keyvalue{Row\_2\_Haben}{5747.90}
+\keyvalue{Row\_2\_Balance}{}
+\keyvalue{Row\_3\_Konto}{0480}
+\keyvalue{Row\_3\_Beschreibung}{GWG}
+\keyvalue{Row\_3\_Soll}{974.78}
+\keyvalue{Row\_3\_Haben}{}
+\keyvalue{Row\_3\_Balance}{974.78}
+\keyvalue{Row\_4\_Konto}{1570}
+\keyvalue{Row\_4\_Beschreibung}{Vorsteuer}
+\keyvalue{Row\_4\_Soll}{3251.04}
+\keyvalue{Row\_4\_Haben}{1092.10}
+\keyvalue{Row\_4\_Balance}{2158.94}
+\keyvalue{Row\_5\_Konto}{1410}
+\keyvalue{Row\_5\_Beschreibung}{Forderungen ohne Kontokorrent}
+\keyvalue{Row\_5\_Soll}{1000.00}
+\keyvalue{Row\_5\_Haben}{1128.68}
+\keyvalue{Row\_5\_Balance}{-128.68}
+\keyvalue{Row\_6\_Konto}{1000}
+\keyvalue{Row\_6\_Beschreibung}{Kasse}
+\keyvalue{Row\_6\_Soll}{7948.26}
+\keyvalue{Row\_6\_Haben}{5210.04}
+\keyvalue{Row\_6\_Balance}{2738.22}
+\keyvalue{Row\_7\_Konto}{1200}
+\keyvalue{Row\_7\_Beschreibung}{Bank}
+\keyvalue{Row\_7\_Soll}{50922.72}
+\keyvalue{Row\_7\_Haben}{41540.40}
+\keyvalue{Row\_7\_Balance}{9382.32}
+\keyvalue{Row\_8\_Konto}{0800}
+\keyvalue{Row\_8\_Beschreibung}{Eigenkapital}
+\keyvalue{Row\_8\_Soll}{}
+\keyvalue{Row\_8\_Haben}{}
+\keyvalue{Row\_8\_Balance}{-100.00}
+\keyvalue{Row\_9\_Konto}{1800}
+\keyvalue{Row\_9\_Beschreibung}{Privatentnahmen}
+\keyvalue{Row\_9\_Soll}{2820.00}
+\keyvalue{Row\_9\_Haben}{}
+\keyvalue{Row\_9\_Balance}{2820.00}
+\keyvalue{Row\_10\_Konto}{1705}
+\keyvalue{Row\_10\_Beschreibung}{Darlehen}
+\keyvalue{Row\_10\_Soll}{}
+\keyvalue{Row\_10\_Haben}{7000.00}
+\keyvalue{Row\_10\_Balance}{-7000.00}
+\keyvalue{Row\_11\_Konto}{1740}
+\keyvalue{Row\_11\_Beschreibung}{Verbindlichkeiten Löhne und Gehälter}
+\keyvalue{Row\_11\_Soll}{2000.00}
+\keyvalue{Row\_11\_Haben}{}
+\keyvalue{Row\_11\_Balance}{2000.00}
+\keyvalue{Row\_12\_Konto}{1770}
+\keyvalue{Row\_12\_Beschreibung}{Umsatzsteuer}
+\keyvalue{Row\_12\_Soll}{57.48}
+\keyvalue{Row\_12\_Haben}{6021.56}
+\keyvalue{Row\_12\_Balance}{-5964.08}
+\keyvalue{Row\_13\_Konto}{3100}
+\keyvalue{Row\_13\_Beschreibung}{Fremdarbeiten}
+\keyvalue{Row\_13\_Soll}{600.00}
+\keyvalue{Row\_13\_Haben}{}
+\keyvalue{Row\_13\_Balance}{600.00}
+\keyvalue{Row\_14\_Konto}{4110}
+\keyvalue{Row\_14\_Beschreibung}{Löhne}
+\keyvalue{Row\_14\_Soll}{2473.48}
+\keyvalue{Row\_14\_Haben}{}
+\keyvalue{Row\_14\_Balance}{2473.48}
+\keyvalue{Row\_15\_Konto}{4130}
+\keyvalue{Row\_15\_Beschreibung}{Sozialversicherung}
+\keyvalue{Row\_15\_Soll}{10071.20}
+\keyvalue{Row\_15\_Haben}{}
+\keyvalue{Row\_15\_Balance}{10071.20}
+\keyvalue{Row\_16\_Konto}{4210}
+\keyvalue{Row\_16\_Beschreibung}{Miete}
+\keyvalue{Row\_16\_Soll}{8805.24}
+\keyvalue{Row\_16\_Haben}{}
+\keyvalue{Row\_16\_Balance}{8805.24}
+\keyvalue{Row\_17\_Konto}{4240}
+\keyvalue{Row\_17\_Beschreibung}{Gas, Strom, Wasser}
+\keyvalue{Row\_17\_Soll}{1092.44}
+\keyvalue{Row\_17\_Haben}{}
+\keyvalue{Row\_17\_Balance}{1092.44}
+\keyvalue{Row\_18\_Konto}{4360}
+\keyvalue{Row\_18\_Beschreibung}{Versicherung}
+\keyvalue{Row\_18\_Soll}{300.00}
+\keyvalue{Row\_18\_Haben}{}
+\keyvalue{Row\_18\_Balance}{300.00}
+\keyvalue{Row\_19\_Konto}{4380}
+\keyvalue{Row\_19\_Beschreibung}{Beiträge und Gebühren}
+\keyvalue{Row\_19\_Soll}{128.68}
+\keyvalue{Row\_19\_Haben}{}
+\keyvalue{Row\_19\_Balance}{128.68}
+\keyvalue{Row\_20\_Konto}{4610}
+\keyvalue{Row\_20\_Beschreibung}{Werbung}
+\keyvalue{Row\_20\_Soll}{2400.00}
+\keyvalue{Row\_20\_Haben}{}
+\keyvalue{Row\_20\_Balance}{2400.00}
+\keyvalue{Row\_21\_Konto}{4640}
+\keyvalue{Row\_21\_Beschreibung}{Repräsentationkosten}
+\keyvalue{Row\_21\_Soll}{134.46}
+\keyvalue{Row\_21\_Haben}{}
+\keyvalue{Row\_21\_Balance}{134.46}
+\keyvalue{Row\_22\_Konto}{4900}
+\keyvalue{Row\_22\_Beschreibung}{Sonstige Kosten}
+\keyvalue{Row\_22\_Soll}{790.72}
+\keyvalue{Row\_22\_Haben}{}
+\keyvalue{Row\_22\_Balance}{790.72}
+\keyvalue{Row\_23\_Konto}{4910}
+\keyvalue{Row\_23\_Beschreibung}{Porto}
+\keyvalue{Row\_23\_Soll}{36.76}
+\keyvalue{Row\_23\_Haben}{}
+\keyvalue{Row\_23\_Balance}{36.76}
+\keyvalue{Row\_24\_Konto}{4920}
+\keyvalue{Row\_24\_Beschreibung}{Telefon}
+\keyvalue{Row\_24\_Soll}{227.22}
+\keyvalue{Row\_24\_Haben}{}
+\keyvalue{Row\_24\_Balance}{227.22}
+\keyvalue{Row\_25\_Konto}{4930}
+\keyvalue{Row\_25\_Beschreibung}{Bürobedarf}
+\keyvalue{Row\_25\_Soll}{51.44}
+\keyvalue{Row\_25\_Haben}{}
+\keyvalue{Row\_25\_Balance}{51.44}
+\keyvalue{Row\_26\_Konto}{4970}
+\keyvalue{Row\_26\_Beschreibung}{Nebenkosten des Geldverkehrs}
+\keyvalue{Row\_26\_Soll}{56.76}
+\keyvalue{Row\_26\_Haben}{}
+\keyvalue{Row\_26\_Balance}{56.76}
+\keyvalue{Row\_27\_Konto}{8200}
+\keyvalue{Row\_27\_Beschreibung}{Erlöse }
+\keyvalue{Row\_27\_Soll}{302.52}
+\keyvalue{Row\_27\_Haben}{32052.42}
+\keyvalue{Row\_27\_Balance}{-31749.90}
+\keyvalue{Row\_28\_Konto}{2700}
+\keyvalue{Row\_28\_Beschreibung}{Sonstige Erträge}
+\keyvalue{Row\_28\_Soll}{}
+\keyvalue{Row\_28\_Haben}{2400.00}
+\keyvalue{Row\_28\_Balance}{-2400.00}
+\end{document}
