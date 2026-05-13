@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
-project(datev)
-set(EXTENSION_ID "datev")
+project(ebilanzplus)
+set(EXTENSION_ID "ch.banana.germany.ebilanzplus")
 # CMake options
 # Create a file .vscode/settings.json with the following content to set the options,
 # adapt the path to your environment

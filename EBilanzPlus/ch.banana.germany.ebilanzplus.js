@@ -36,8 +36,15 @@ function exec() {
         return "@Cancel";
     }
 
+    var parameters = exporter.initParams();
+    var datePeriod = Banana.Ui.getPeriod('Choose period', parameters.startDate, parameters.endDate)
+    if (!datePeriod || typeof datePeriod.startDate === "undefined")
+        return;
+    parameters.startDate = datePeriod.startDate;
+    parameters.endDate = datePeriod.endDate;
+
     var header = exporter.getHeader();
-    var rows = exporter.getRows();
+    var rows = exporter.getRows(parameters);
     var csvContent = exporter.tableToCsv([header].concat(rows));
     return csvContent;
 }
@@ -103,9 +110,9 @@ function EBilanzExporter(banDocument) {
     this.ID_ERR_LICENSE_NOTVALID = "ID_ERR_LICENSE_NOTVALID";
 }
 
-EBilanzExporter.prototype.getAccounts = function () {
+EBilanzExporter.prototype.getAccounts = function (parameters) {
     var result = [];
-    if (!this.banDocument)
+    if (!this.banDocument || !parameters)
         return result;
 
     let isIncomeExpensesAccounting = false;
@@ -138,12 +145,16 @@ EBilanzExporter.prototype.getAccounts = function () {
                         acceptRow = false;
 
                     if (acceptRow) {
+                        var currentBalance = this.banDocument.currentBalance(row.value("Account"),parameters.startDate,parameters.endDate);
                         result.push({
                             account: row.value("Account"),
                             description: row.value("Description"),
-                            debit: row.value(debitColumnName),
+                            /*debit: row.value(debitColumnName),
                             credit: row.value(creditColumnName),
-                            balance: row.value(balanceColumnName)
+                            balance: row.value(balanceColumnName)*/
+                            debit: currentBalance.debit,
+                            credit: currentBalance.credit,
+                            balance: currentBalance.balance
                         });
                     }
                 }
@@ -197,10 +208,15 @@ EBilanzExporter.prototype.getHeader = function () {
     return fields;
 }
 
-EBilanzExporter.prototype.getRows = function () {
+EBilanzExporter.prototype.getRows = function (parameters) {
     let rows = [];
+    let params = parameters;
+    if (!params)
+        params = this.initParams();
+    if (!this.verifyParams(params))
+        return rows;
 
-    let accounts = this.getAccounts();
+    let accounts = this.getAccounts(params);
     for (var i = 0; i < accounts.length; i++) {
         var row = [];
         row.push(accounts[i].account);
@@ -213,6 +229,18 @@ EBilanzExporter.prototype.getRows = function () {
 
     return rows;
 };
+
+EBilanzExporter.prototype.initParams = function () {
+    var parameters = {};
+
+    if (!this.banDocument)
+        return parameters;
+
+    parameters.selectedPeriod = false;
+    parameters.startDate = this.banDocument.startPeriod();
+    parameters.endDate = this.banDocument.endPeriod();
+    return parameters;
+}
 
 /**
  * Converts an array of rows to a CSV string.
@@ -319,4 +347,13 @@ EBilanzExporter.prototype.verifyBananaVersion = function () {
     this.banDocument.addMessage(msg, this.ID_ERR_LICENSE_NOTVALID);
     return false;
 
+}
+
+EBilanzExporter.prototype.verifyParams = function (param) {
+    if (param === "undefined")
+        return false;
+    if (param.startDate === "undefined" || param.endDate === "undefined") {
+        return false;
+    }
+    return true;
 }

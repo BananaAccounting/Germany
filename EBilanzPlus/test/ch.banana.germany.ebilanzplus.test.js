@@ -103,17 +103,12 @@ EBilanzPlusTest.prototype.test1 = function () {
       var banDocument = Banana.application.openDocument(fileName);
       if (banDocument) {
          var param = this.getParams();
-         //imposta anno nei parametri
-         /*var nAnno = banDocument.info("AccountingDataBase", "OpeningDate");
-         if (nAnno != banDocument.info("AccountingDataBase", "ClosureDate"))
-            nAnno = banDocument.info("AccountingDataBase", "ClosureDate");
-         if (nAnno.length >= 10)
-            nAnno = nAnno.substring(0, 4);*/
          var exporter = new EBilanzExporter(banDocument);
-         //var paramString = JSON.stringify(param);
-         //exporter.setParam(paramString);
+         var params = exporter.initParams();
+         params.startDate = banDocument.info("AccountingDataBase", "OpeningDate");
+         params.endDate = banDocument.info("AccountingDataBase", "ClosureDate");
          var header = exporter.getHeader();
-         var rows = exporter.getRows();
+         var rows = exporter.getRows(params);
          var csvContent = exporter.tableToCsv([header].concat(rows));
          this.outputData(fileName, csvContent);
 
